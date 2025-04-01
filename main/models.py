@@ -38,9 +38,9 @@ class Championship(models.Model):
     name = models.CharField(max_length=100)
     date = models.DateField(null=False)
     last_date_registration = models.DateField(null=False)
-    participants = models.ManyToManyField(User, related_name='participants_championship')
-    judges = models.ManyToManyField(User, related_name='judges_championship')
-    marks = models.ManyToManyField(Mark)
+    participants = models.ManyToManyField(User, blank=True, related_name='participants_championship')
+    judges = models.ManyToManyField(User, blank=True, related_name='judges_championship')
+    marks = models.ManyToManyField(Mark, blank=True)
     criteries = models.TextField()
 
     def __str__(self):
