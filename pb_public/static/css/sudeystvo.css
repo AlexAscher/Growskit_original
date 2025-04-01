@@ -1,0 +1,120 @@
+.list {
+  margin-top: 5%;
+}
+.sudya-self {
+  position: relative;
+}
+.category h2 {
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: black;
+}
+.category {
+  background: #fd84dc;
+  border-radius: 10px;
+  padding: 16px;
+  width: max-content;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.name-and-info {
+  display: flex;
+  gap: 16px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  align-items: center;
+}
+.info {
+  margin-bottom: 2px;
+}
+.name {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.name h3 {
+  font-family: Gilroy;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #efdaed;
+}
+.name h4 {
+  font-family: Gilroy;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #efdaed;
+}
+.sudya-self {
+  margin-bottom: 48px;
+}
+.sud-forma {
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+.sud-forma h2 {
+  font-family: Kreadon;
+  font-weight: 500;
+  font-size: 38px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: white;
+}
+.sud-forma h3 {
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: right;
+  vertical-align: middle;
+  color: white;
+  text-align: right;
+  margin-bottom: 50px;
+}
+input {
+  margin-bottom: 16px;
+  padding: 18px !important;
+}
+textarea {
+  margin-top: 0 !important;
+}
+.bottom-sud-form {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 10px;
+}
+.bottom-sud-form button {
+  font-family: Gilroy;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #0e0e10;
+  border-radius: 30px;
+  background: #ffffff;
+  padding: 16px 40px;
+}
+.bottom-sud-form h6 {
+  font-family: Gilroy;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #ffffff99;
+}

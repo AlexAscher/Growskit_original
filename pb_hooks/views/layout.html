@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YT7ZQMZDL4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-YT7ZQMZDL4');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pairton Space</title>
+    <link rel="stylesheet" href="/static/css/reset.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <script src="/static/js/app.js"></script>
+</head>
+<body>
+    <header id="headerElement">
+        <div class="hamburger-menu">
+            <input id="menu__toggle" type="checkbox"/>
+            <label class="menu__btn" for="menu__toggle">
+              <span></span>
+            </label>
+
+            <ul class="menu__box" id="menu__box">
+                   <select name="" id="">
+                       <option value="Language">Language</option>
+                       <option value="English">English</option>
+                       <option value="Russian">Russian</option>
+                   </select>
+                   <div class="d-inline-block menu_content">
+                        <div class="d-flex align-items-center mt-3" style="justify-content: space-between;">
+                            <img src="/static/img/vibr_phone.png" alt="">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="">
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mt-3" style="justify-content: space-between;">
+                            <img src="/static/img/sound.png" alt="">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="">
+                            </div>
+                        </div>   
+                        <div class="d-flex align-items-center mt-3" style="justify-content: space-between;">
+                            <img src="/static/img/tg.png" alt="">
+                            <p>Channel</p>
+                        </div>  
+                        <div class="d-flex align-items-center mt-3" style="justify-content: space-between;">
+                            <img src="/static/img/headphones.png" alt="">
+                            <p>Support</p>
+                        </div> 
+                        <div class="d-flex align-items-center mt-3" style="justify-content: space-between;">
+                            <img src="/static/img/eye.png" alt="">
+                            <p>Intro</p>
+                        </div>  
+                        <div class="d-flex align-items-center mt-3" style="justify-content: space-between;">
+                            <img src="/static/img/info.png" alt="">
+                            <p>Info</p>
+                        </div>               
+                   </div>
+            </ul>
+        
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <div class="circle-container">
+                        <button data-bs-toggle="modal" data-bs-target="#exampleModal1" ><img src="/static/img/avata.svg" alt="" class="avata_img"></button>
+                    </div>
+                </div>
+                <div class="col-6 top_status">
+                    <div class="row">
+                        <div class="col-6">
+                            <!--<div class="one_position">
+                                <p>{{ .userstate.psars }}</p>
+                                <img src="/static/img/star.png" alt="">
+                            </div>-->
+                            <div class="one_position">
+                                <p>{{ .userstate.coins }}</p>
+                                <img src="/static/img/coin.png" alt="">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="one_position one_position_left">
+                                <img src="/static/img/ticket.png" alt="">
+                                <p>{{ .userstate.tickets }}</p>
+                            </div>
+                            <!--<div class="one_position one_position_left">
+                                <img src="/static/img/diamod.png" alt="">
+                                <p>{{ .userstate.gems }}</p>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 text-center top_opacity">
+                    <h2>SEASON 1</h2>
+                    <h3>League:</h3>
+                    <button data-bs-toggle="modal" data-bs-target="#ligamodal"><h4 id="top_opacity_h1" style="text-transform: uppercase;">{{ .userstate.league.name }}</h4></button>
+                </div>
+            </div>
+        </div>
+        <div class="header_bottom_border active_header_bottom_border toggle-button" id="">
+            <div class="hidden-content" id="hiddenContent">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="load_line">
+                                {{ .userstate.leagueexp }}/{{ .userstate.league.maxexp }}
+                            </div>
+                            <script>
+                                // Получаем элемент
+                                const loadLine = document.querySelector('.load_line');
+                                const circle_container = document.querySelector('.circle-container');
+
+                                // Получаем текст внутри элемента
+                                const loadText = loadLine.textContent;
+
+                                // Извлекаем значения из текста
+                                const [currentValueNew, maxValueNew] = loadText.split('/').map(Number);
+
+                                // Рассчитываем процент заполнения
+                                const percentage = (currentValueNew / maxValueNew) * 100;
+
+                                // Обновляем стиль фона в зависимости от процента
+                                loadLine.style.background = `linear-gradient(to right, rgb(176, 62, 214) ${percentage}%, #575757 ${percentage}%)`;
+                                circle_container.style.background = `linear-gradient(to right, rgb(176, 62, 214) ${percentage}%, #fff ${percentage}%)`;
+                            </script>
+                            <div class="header-wrapper">
+                                <div class="header-left-content">
+                                    <!--<p>Stars: {{ .userstate.psars }} <button>Buy</button></p>-->
+                                    <p>Coins: {{ .userstate.coins }} ({{ .userstate.coins_h }}/h)</p>
+                                    <p>Tickets: {{ .userstate.tickets }}</p>
+                                    <!--<p>Diamonds: {{ .userstate.gems }}</p>-->
+                                </div>
+                                <div class="header-right-content">
+                                    <div id="ton-connect"></div>
+                                    <script type="module">
+                                        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+                                            manifestUrl: 'https://pairton.space/tonconnect-manifest.json',
+                                            buttonRootId: 'ton-connect'
+                                        });
+                                        tonConnectUI.uiOptions = {
+                                            twaReturnUrl: 'https://t.me/Pairton_bot'
+                                        };
+                                    </script>
+                                    <div class="daily_present">
+                                        <div class="one_daily_present one_daily_present_header achiev-1"data-bs-toggle="tooltip" data-bs-placement="bottom" title="Вы в 100% игроков">
+                                            <img src="/static/img/achievements/RubberDuck.png" style="height: 38px" alt="">
+                                        </div>
+                                        <div class="one_daily_present one_daily_present_header achiev-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Вы в 35.78% игроков">
+                                            <img src="/static/img/achievements/TeddyBear.png" style="height: 38px" alt="">
+                                        </div>
+                                        <div class="one_daily_present one_daily_present_header one_daily_present_disabled achiev-3">
+                                            <img src="/static/img/achievements/Ferrari.png" style="width: 38px" alt="">
+                                        </div>
+                                        <div class="one_daily_present one_daily_present_header one_daily_present_disabled achiev-4">
+                                            <img src="/static/img/achievements/Rocket.png" style="height: 38px" alt="">
+                                        </div>
+                                        <div class="one_daily_present one_daily_present_header one_daily_present_disabled achiev-5">
+                                            <img src="/static/img/achievements/Moon.png" style="height: 38px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="center w-100" id="toggleButton">
+                <div class="header_minus active_header_minus">
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="modal fade" id="ligamodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Welcome to your league</h5>
+              <button type="button" class="" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;"><img src="/static/img/close.png" alt="" style="width: 28px;"></button>
+            </div>
+            <div class="modal-body ligamodal">
+                <div class="row">
+                    <div class="col-12">
+                        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="0" data-bs-touch="true">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-4 offset-4 mb-3">
+                                            <img src="/static/img/main_img.svg" alt="" class="w-100">
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="your_place">
+                                                <table class="table table-dark table-striped">
+                                                    <tbody>
+                                                      <tr>
+                                                        <th scope="row">{{ .userstate.rank }}</th>
+                                                        <td id="userInfo">You</td>
+                                                        <td class="right">{{ .userstate.leagueexp }}</td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                            </div> 
+                                            <h4 style="text-transform: uppercase;">{{ .userstate.league.name }} LEAGUE</h4>
+                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, deleniti.</p>
+                                            <table class="table table-dark table-striped mt-3" id="liga_table">
+                                                <tbody>
+                                                {{ range $topLeagues := .topLeagues }}
+                                                    <tr>
+                                                      <th scope="row">{{ $topLeagues.rank }}</th>
+                                                      <td>{{ $topLeagues.user_id }}</td>
+                                                      <td class="right">{{ $topLeagues.leagueexp }}</td>
+                                                    </tr>
+                                                  {{ end }}
+                                                </tbody>
+                                              </table>
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        <div class="col-4 offset-4 mb-3">
+                                            <img src="/static/img/main_img.svg" alt="" class="w-100">
+                                        </div>
+                                        <div class="col-12">
+                                            <h4 style="color: aqua;">Legend LEAGUE</h4>
+                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, deleniti.</p>
+                                            <table class="table table-dark table-striped mt-3" id="liga_table">
+                                                <tbody>
+                                                  <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">2</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">3</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">4</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">5</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">6</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">7</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">8</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">9</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">10</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">11</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">12</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">13</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">14</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th scope="row">15</th>
+                                                    <td>Mark</td>
+                                                    <td class="right">281348$</td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!--<div id="preloader">
+        <div class="spinner"></div>
+    </div>
+    <div id="content" style="display: none;">-->
+    {{block "content" .}}
+    {{end}}
+    <!--</div>
+    <style>
+
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff; /* Цвет фона прелоадера */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Убедитесь, что прелоадер выше всего остального контента */
+        }
+
+        .spinner {
+            border: 16px solid #f3f3f3; /* Светлый цвет */
+            border-top: 16px solid #3498db; /* Цвет спиннера */
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            window.addEventListener('load', () => {
+                const preloader = document.getElementById('preloader');
+                const content = document.getElementById('content');
+                
+                preloader.style.display = 'none';
+                content.style.display = 'block';
+            });
+        });
+    </script>-->
+</body>
+</html>
