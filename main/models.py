@@ -1,36 +1,34 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.exceptions import BadRequest
 
-# Profile. Разделяем авторизацию и информацию о пользователях, для упращения разработки
+def user_directory_path(instance, filename):
+    championship = Championship.objects.filter(participants=instance.user, last_date_registration__gte=datetime.date.today()).first()
+    if not championship:
+        raise BadRequest('User not in championship')
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.jpg', upload_to='photo')
+    return f'media/main/championships/{championship.id}/{instance.user.id}/{filename}'
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
-
-# end Profile
+# Фотографии пользоваталя. Django неявно создаст ManyToMany связь
+class PhotoList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to=user_directory_path)
 
 # Комманда
 class Team(models.Model):
+    championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
-    leader = models.ForeignKey(User, on_delete=models.CASCADE, related_name='leader_team')
+    leader = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tu_leader')
     members = models.ManyToManyField(User)
-
 
 # Оценка судьи
 class Mark(models.Model):
-    Judge = models.ForeignKey(User, on_delete=models.CASCADE, related_name='judge_marks')
-    User = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_marks')
+    judge = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mu_judge', null=True)
+    participant = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mu_participant', null=True)
     mark = models.FloatField()
 
 # Чемпионат
@@ -38,8 +36,8 @@ class Championship(models.Model):
     name = models.CharField(max_length=100)
     date = models.DateField(null=False)
     last_date_registration = models.DateField(null=False)
-    participants = models.ManyToManyField(User, blank=True, related_name='participants_championship')
-    judges = models.ManyToManyField(User, blank=True, related_name='judges_championship')
+    participants = models.ManyToManyField(User, blank=True, related_name='cu_participants')
+    judges = models.ManyToManyField(User, blank=True, related_name='cu_judges')
     marks = models.ManyToManyField(Mark, blank=True)
     criteries = models.TextField()
 
