@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profileparticipant',
             name='photo',
-            field=models.ImageField(upload_to=main.models.user_directory_path_without_championship),
+            field=models.ImageField(upload_to=main.models.user_directory_path),
         ),
         migrations.AlterField(
             model_name='profileparticipant',

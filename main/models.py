@@ -21,16 +21,25 @@ from django.core.exceptions import BadRequest
 есть два поля даты - дата самого чемпионата и дата окончания регистрации
 """
 
-def user_directory_path(instance, filename):
+def user_directory_path_championship(instance, filename):
     championship = Championship.objects.filter(participants=instance.user, last_date_registration__gte=datetime.date.today()).first()
     if not championship:
-        raise BadRequest('User not in championship')
+        championship = Championship.objects.filter(judges=instance.user, last_date_registration__gte=datetime.date.today()).first()
+        if not championship:
+            raise BadRequest('User not in championship')
 
     return f'media/main/championships/{championship.id}/{instance.user.id}/{filename}'
 
 
-def user_directory_path_without_championship(instance, filename):
-    return f'media/main/participants/{instance.user.id}/{filename}'
+def user_directory_path(instance, filename):
+    return f'media/main/users/{instance.user.id}/{filename}'
+
+# Фотографии/проекты пользоваталя. Django неявно создаст ManyToMany связь
+class PhotoList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
+    photo = models.ImageField(upload_to=user_directory_path_championship)
+
 
 class ProfileParticipant(models.Model):
     CATEGORY_PARTICIPANT = (
@@ -41,7 +50,7 @@ class ProfileParticipant(models.Model):
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to=user_directory_path_without_championship)
+    photo = models.ImageField(upload_to=user_directory_path)
 
     fio = models.CharField(max_length=150)
     city = models.CharField(max_length=150)
@@ -56,11 +65,38 @@ class ProfileParticipant(models.Model):
     bio = models.TextField()
     count_work = models.IntegerField()
 
-# Фотографии/проекты пользоваталя. Django неявно создаст ManyToMany связь
-class PhotoList(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
+
+class ProfileJudge(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=user_directory_path)
+
+    fio = models.CharField(max_length=150)
+    phone = models.CharField(max_length=150)
+    email = models.EmailField()
+    address = models.CharField(max_length=150)
+    address_sdek = models.CharField(max_length=150)
+    vk = models.URLField(null=True, blank=True)
+    telegram = models.URLField(null=True, blank=True)
+    bio = models.TextField()
+
+class ProfileSponsor(models.Model):
+    CATEGORY_PARTICIPANT = (
+        ("individual", "Индивидуальный участник"),
+        ("team-leader", "Руководитель команды")
+    )
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    fio = models.CharField(max_length=150)
+    participant = models.CharField(max_length=150, choices=CATEGORY_PARTICIPANT)
+    phone = models.CharField(max_length=150)
+    email = models.EmailField()
+    address = models.CharField(max_length=150)
+    address_sdek = models.CharField(max_length=150)
+    vk = models.URLField(null=True, blank=True)
+    telegram = models.URLField(null=True, blank=True)
+    bio = models.TextField()
+    need_mark_and_dogovor = models.BooleanField()
 
 # Комманда
 class Team(models.Model):

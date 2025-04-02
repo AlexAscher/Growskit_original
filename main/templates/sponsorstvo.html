@@ -106,10 +106,11 @@
               Заполните форму, и наши организаторы обязательно с вами свяжутся
             </h2>
 
-            <form class="sponsor-form">
+            <form class="sponsor-form" action="" method="post">
+              {% csrf_token %}
               <div class="row">
                 <div class="col-lg-5">
-                  <input type="text" placeholder="Фамилия Имя Отчество" />
+                  <input type="text" placeholder="Фамилия Имя Отчество" name="fio" required />
                   <div class="forradio">
                     <label class="radio">
                       <input
@@ -132,20 +133,20 @@
                     </label>
                   </div>
                   <div class="telmail">
-                    <input type="text" placeholder="Телефон" />
-                    <input type="text" placeholder="Почта" />
+                    <input type="text" placeholder="Телефон" name="phone"  required/>
+                    <input type="text" placeholder="Почта" name="email" required />
                   </div>
 
-                  <input type="text" placeholder="Почтовый адрес" />
-                  <input type="text" placeholder="Адрес ближайшего СДЭК" />
+                  <input type="text" placeholder="Почтовый адрес" required name="address"  />
+                  <input type="text" placeholder="Адрес ближайшего СДЭК" required name="address_sdek" />
                   <div class="fortg">
-                    <input type="text" placeholder="Ссылка на BK" />
-                    <input type="text" placeholder="Ссылка на Telegram" />
+                    <input type="text" placeholder="Ссылка на BK" name="vk" />
+                    <input type="text" placeholder="Ссылка на Telegram" name="telegram" />
                   </div>
                 </div>
                 <div class="col-lg-7">
-                  <input type="text" placeholder="Ссылка на сайт" />
-                  <textarea
+                  <input type="text" placeholder="Ссылка на сайт" name="site" />
+                  <textarea name="bio" required
                     placeholder="Расскажите о вашем опыте спонсорства"
                   ></textarea>
 
@@ -157,10 +158,10 @@
                       <li>QR-код, ведущий на покупку основного товара</li>
                     </ul>
                   </div>
-                  <input type="text" placeholder="Ссылка на диск" />
+                  <input type="text" placeholder="Ссылка на диск" name="disk" />
                   <div class="fornizh">
                     <label class="custom-checkbox">
-                      <input type="checkbox" />
+                      <input type="checkbox" name="need_mark_and_dogovor" />
                       <span class="checkmark"></span>
                     </label>
                     <span

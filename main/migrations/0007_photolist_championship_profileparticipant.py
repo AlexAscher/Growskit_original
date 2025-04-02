@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
             name='ProfileParticipant',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('photo', models.ImageField(null=True, upload_to=main.models.user_directory_path)),
+                ('photo', models.ImageField(null=True, upload_to=main.models.user_directory_path_championship)),
                 ('fio', models.CharField(max_length=150)),
                 ('city', models.CharField(max_length=150)),
                 ('category_participant', models.CharField(choices=[('individual', 'Индивидуальный участник'), ('team-leader', 'Руководитель команды'), ('junior', 'Юниор'), ('professional', 'Профессионал')], max_length=150)),
