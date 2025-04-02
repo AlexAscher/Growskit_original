@@ -6,3 +6,5 @@ admin.site.register(Championship)
 admin.site.register(Mark)
 admin.site.register(Team)
 admin.site.register(PhotoList)
+admin.site.register(ProfileParticipant)
+

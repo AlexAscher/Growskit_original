@@ -76,7 +76,7 @@
   padding: 24px;
   margin-top: 32px;
 }
-input[type="text"],
+input[type="text"], input[type="number"],
 textarea,
 input[type="email"] {
   font-family: Gilroy;

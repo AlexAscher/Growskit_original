@@ -6,6 +6,21 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import BadRequest
 
+
+"""
+БД:
+
+участник (ProfileParticipant) включая его фото, и количество работ на последний чемпионат (то есть участник может участвовать только в одном сразу)
+отдельно есть список его фото/проектов (PhotoList) в конкретном чемпионате
+
+есть команды (Team) - это просто лидер и участники в конкретном чемпионате
+
+оценки (Mark) - каждого судьи на конкретного участника
+
+чемпионат (Championship) - это список участников, список судий, список оценок и критерии для этого чемпионата
+есть два поля даты - дата самого чемпионата и дата окончания регистрации
+"""
+
 def user_directory_path(instance, filename):
     championship = Championship.objects.filter(participants=instance.user, last_date_registration__gte=datetime.date.today()).first()
     if not championship:
@@ -13,9 +28,38 @@ def user_directory_path(instance, filename):
 
     return f'media/main/championships/{championship.id}/{instance.user.id}/{filename}'
 
-# Фотографии пользоваталя. Django неявно создаст ManyToMany связь
+
+def user_directory_path_without_championship(instance, filename):
+    return f'media/main/participants/{instance.user.id}/{filename}'
+
+class ProfileParticipant(models.Model):
+    CATEGORY_PARTICIPANT = (
+        ("individual", "Индивидуальный участник"),
+        ("team-leader", "Руководитель команды"),
+        ("junior", "Юниор"),
+        ("professional", "Профессионал"),
+    )
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to=user_directory_path_without_championship)
+
+    fio = models.CharField(max_length=150)
+    city = models.CharField(max_length=150)
+    category_participant = models.CharField(max_length=150, choices=CATEGORY_PARTICIPANT)
+    fio_trainer = models.CharField(max_length=150)
+    phone = models.CharField(max_length=150)
+    email = models.EmailField()
+    vk = models.URLField(null=True, blank=True)
+    telegram = models.URLField(null=True, blank=True)
+    address = models.CharField(max_length=150)
+    address_sdek = models.CharField(max_length=150)
+    bio = models.TextField()
+    count_work = models.IntegerField()
+
+# Фотографии/проекты пользоваталя. Django неявно создаст ManyToMany связь
 class PhotoList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
     photo = models.ImageField(upload_to=user_directory_path)
 
 # Комманда
@@ -28,7 +72,7 @@ class Team(models.Model):
 # Оценка судьи
 class Mark(models.Model):
     judge = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mu_judge', null=True)
-    participant = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mu_participant', null=True)
+    participant = models.ForeignKey(ProfileParticipant, on_delete=models.CASCADE, related_name='mu_participant', null=True)
     mark = models.FloatField()
 
 # Чемпионат
@@ -36,7 +80,7 @@ class Championship(models.Model):
     name = models.CharField(max_length=100)
     date = models.DateField(null=False)
     last_date_registration = models.DateField(null=False)
-    participants = models.ManyToManyField(User, blank=True, related_name='cu_participants')
+    participants = models.ManyToManyField(ProfileParticipant, blank=True)
     judges = models.ManyToManyField(User, blank=True, related_name='cu_judges')
     marks = models.ManyToManyField(Mark, blank=True)
     criteries = models.TextField()

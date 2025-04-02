@@ -1,87 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/static/css/header.css" />
-    <link rel="stylesheet" href="/static/css/footer.css" />
-    <link rel="stylesheet" href="/static/css/uchastie.css" />
-    <link rel="stylesheet" href="/static/css/forma.css" />
-    <link rel="stylesheet" href="/static/css/reset.css" />
-  </head>
-  <body>
-    <header class="header">
-      <div class="logo"><img src="/static/img/headerlogo.png" alt="" /></div>
-      <nav class="nav">
-        <a href="/">Чемпионат </a>
-        <a href="/premiya/">Премия</a>
-        <a href="/magazine/">Журнал</a>
-        <a href="/sponsorstvo/">Спонсорство</a>
-        <a href="/sudeystvo/">Судейство</a>
-        <a href="/participants/">Участники</a>
-      </nav>
-      <div class="buttons">
-        <a href="/uchastie/"><button class="header-second-btn">Принять участие</button></a>
-      </div>
-    </header>
-    <section class="main">
-      <div class="container firstcontainer">
-        <div class="regoplata">
-          <div class="reg">
-            <h2>Регистрация</h2>
-          </div>
-          <img src="/static/img/liniyavpravo.png" alt="" />
-          <div class="oplata">
-            <h2>Оплата участия</h2>
-          </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/header.css" />
+  <link rel="stylesheet" href="/static/css/footer.css" />
+  <link rel="stylesheet" href="/static/css/uchastie.css" />
+  <link rel="stylesheet" href="/static/css/forma.css" />
+  <link rel="stylesheet" href="/static/css/reset.css" />
+</head>
+
+<body>
+  <header class="header">
+    <div class="logo"><img src="/static/img/headerlogo.png" alt="" /></div>
+    <nav class="nav">
+      <a href="/">Чемпионат </a>
+      <a href="/premiya/">Премия</a>
+      <a href="/magazine/">Журнал</a>
+      <a href="/sponsorstvo/">Спонсорство</a>
+      <a href="/sudeystvo/">Судейство</a>
+      <a href="/participants/">Участники</a>
+    </nav>
+    <div class="buttons">
+      <a href="/uchastie/"><button class="header-second-btn">Принять участие</button></a>
+    </div>
+  </header>
+  <section class="main">
+    <div class="container firstcontainer">
+      <div class="regoplata">
+        <div class="reg">
+          <h2>Регистрация</h2>
+        </div>
+        <img src="/static/img/liniyavpravo.png" alt="" />
+        <div class="oplata">
+          <h2>Оплата участия</h2>
         </div>
       </div>
-      <div class="container">
-        <div class="radio-group">
-          <h3>Вы</h3>
-          <div class="forradio">
-            <label class="radio">
-              <input
-                type="radio"
-                name="participant"
-                value="individual"
-                checked
-              />
-              <span class="radio-custom"></span> Индивидуальный участник
-            </label>
-            <label class="radio">
-              <input type="radio" name="participant" value="team-leader" />
-              <span class="radio-custom"></span> Руководитель команды
-            </label>
-          </div>
+    </div>
+    <div class="container">
+      <div class="radio-group">
+        <h3>Вы</h3>
+        <div class="forradio">
+          <label class="radio">
+            <input type="radio" name="participant" value="individual" checked />
+            <span class="radio-custom"></span> Индивидуальный участник
+          </label>
+          <label class="radio">
+            <input type="radio" name="participant" value="team-leader" />
+            <span class="radio-custom"></span> Руководитель команды
+          </label>
         </div>
       </div>
-      <div class="container form" id="individual-form">
+    </div>
+    <div class="container form" id="individual-form">
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <div class="big-forma">
           <div class="row">
             <h2>Информация об участнике</h2>
             <div class="col-lg-8">
               <div class="row">
                 <div class="col-lg-6">
-                  <input type="text" placeholder="Фамилия Имя Отчество" />
+                  <input type="text" placeholder="Фамилия Имя Отчество" name="fio" required />
                 </div>
                 <div class="col-lg-6">
-                  <input type="text" placeholder="Город страна" />
+                  <input type="text" placeholder="Город страна" name="city" required />
                 </div>
                 <div class="col-lg-6">
-                  <div
-                    class="row align-items-center"
-                    style="--bs-gutter-x: 8px"
-                  >
+                  <div class="row align-items-center" style="--bs-gutter-x: 8px">
                     <div class="col-lg-11">
-                      <select>
-                        <option>Категория участника</option>
-                        <option>Индивидуальный участник</option>
-                        <option>Руководитель команды</option>
-                        <option>Юниор</option>
-                        <option>Профессионал</option>
+                      <select name="category_participant" required>
+                        <option value="">Категория участника</option>
+                        <option value="individual">Индивидуальный участник</option>
+                        <option value="team-leader">Руководитель команды</option>
+                        <option value="junior">Юниор</option>
+                        <option value="professional">Профессионал</option>
                       </select>
                     </div>
                     <div class="col-lg-1">
@@ -90,44 +86,36 @@
                   </div>
                 </div>
                 <div class="col-lg-6">
-                  <input type="text" placeholder="ФИО тренера (если есть)" />
+                  <input type="text" placeholder="ФИО тренера (если есть)" name="fio_trainer" />
                 </div>
 
                 <div class="col-lg-6" style="margin-top: 30px">
-                  <input type="text" placeholder="Телефон" />
+                  <input type="text" placeholder="Телефон" name="phone" required />
                 </div>
                 <div class="col-lg-6" style="margin-top: 30px">
-                  <input type="email" placeholder="Почта" />
+                  <input type="email" placeholder="Почта" name="email" required />
                 </div>
                 <div class="col-lg-6">
-                  <input type="text" placeholder="Ссылка на профиль ВК" />
+                  <input type="text" placeholder="Ссылка на профиль ВК" name="vk" />
                 </div>
                 <div class="col-lg-6">
-                  <input type="text" placeholder="Ссылка на профиль Telegram" />
+                  <input type="text" placeholder="Ссылка на профиль Telegram" name="telegram" />
                 </div>
                 <div class="col-lg-6">
-                  <input type="text" placeholder="Почтовый адрес" />
+                  <input type="text" placeholder="Почтовый адрес" name="address" required />
                 </div>
                 <div class="col-lg-6">
-                  <input type="text" placeholder="Адрес ближайшего СДЭК" />
+                  <input type="text" placeholder="Адрес ближайшего СДЭК" name="address_sdek" required />
                 </div>
                 <div class="col-12">
-                  <textarea
-                    name=""
-                    id=""
-                    placeholder="Вкратце расскажите о своих достижениях и регалиях"
-                  ></textarea>
+                  <textarea name="bio" id="" placeholder="Вкратце расскажите о своих достижениях и регалиях" required></textarea>
                 </div>
                 <div class="col-lg-6 kolvo">
                   <h3>Количество подаваемых работ</h3>
                 </div>
                 <div class="col-lg-6"></div>
                 <div class="col-lg-6">
-                  <input
-                    type="text"
-                    placeholder="Количество работ"
-                    class="raboti"
-                  />
+                  <input type="number" placeholder="Количество работ" class="raboti" name="count_work" required />
                 </div>
                 <div class="col-lg-6">
                   <div class="nomin">
@@ -145,7 +133,7 @@
             <div class="col-lg-4 rightside">
               <div class="file-upload">
                 <h4>Личное фото</h4>
-                <input type="file" id="fileInput" hidden />
+                <input type="file" id="fileInput" hidden name="photo" required />
                 <label for="fileInput" class="upload-btn">Выбрать</label>
                 <h5>или перетащите файлы сюда</h5>
               </div>
@@ -167,406 +155,397 @@
             <h4>Итого</h4>
             <h5>11.500 ₽</h5>
           </div>
-          <button>К оплате</button>
+          <button type="submit">К оплате</button>
         </div>
-      </div>
-      <div class="container form hidden" id="team-leader-form">
-        <div class="big-forma">
-          <h2>Информация о команде</h2>
-          <div class="row">
-            <div class="col-lg-8">
-              <input type="text" placeholder="Название команды" />
-              <div class="row" style="margin-top: 15px">
-                <div class="col-lg-4">
-                  <input type="text" placeholder="Количество участников" />
-                </div>
-                <div class="col-lg-8">
-                  <input type="text" placeholder="ФИО тренера (если есть)" />
-                </div>
+      </form>
+    </div>
+    <div class="container form hidden" id="team-leader-form">
+      <div class="big-forma">
+        <h2>Информация о команде</h2>
+        <div class="row">
+          <div class="col-lg-8">
+            <input type="text" placeholder="Название команды" />
+            <div class="row" style="margin-top: 15px">
+              <div class="col-lg-4">
+                <input type="text" placeholder="Количество участников" />
+              </div>
+              <div class="col-lg-8">
+                <input type="text" placeholder="ФИО тренера (если есть)" />
               </div>
             </div>
           </div>
         </div>
-        <div class="big-forma">
-          <div class="row">
-            
-            <div class="col-lg-8">
-              <h2 class="secondh2">Информация о руководителе</h2>
-              <div class="row">
-                <div class="col-lg-6">
-                  <input type="text" placeholder="Фамилия Имя Отчество" />
-                </div>
-                <div class="col-lg-6">
-                  <input type="text" placeholder="Город страна" />
-                </div>
+      </div>
+      <div class="big-forma">
+        <div class="row">
 
-                <div class="col-lg-6">
-                  <input type="text" placeholder="Телефон" />
-                </div>
-                <div class="col-lg-6">
-                  <input type="email" placeholder="Почта" />
-                </div>
-                <div class="col-lg-6">
-                  <input type="text" placeholder="Ссылка на профиль ВК" />
-                </div>
-                <div class="col-lg-6">
-                  <input type="text" placeholder="Ссылка на профиль Telegram" />
-                </div>
-                <div class="col-lg-6">
-                  <input type="text" placeholder="Почтовый адрес" />
-                </div>
-                <div class="col-lg-6">
-                  <input type="text" placeholder="Адрес ближайшего СДЭК" />
-                </div>
-                <div class="col-12">
-                  <textarea class="second-text-area"
-                    name=""
-                    id=""
-                    placeholder="Вкратце расскажите о своих достижениях и регалиях"
-                  ></textarea>
-                
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 rightside">
-              <div class="file-upload">
-                <h4>Личное фото</h4>
-                <input type="file" id="fileInput" hidden />
-                <label for="fileInput" class="upload-btn">Выбрать</label>
-                <h5>или перетащите файлы сюда</h5>
-              </div>
-              <ul>
-                <li>Вокруг вашего силуэта должен быть воздух</li>
-                <li>Задний фон не имеет значения</li>
-                <li>Ваш взгляд направлен в камеру</li>
-                <li>Фотография должна быть в хорошем качестве</li>
-              </ul>
-              <p>
-                Ваши личные фото будут использоваться для оформления визитки
-                участника в соц.сетях чемпионата и на сайте
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="big-forma">
-          <div class="row">
-            <div class="topform">
-              <h2 style="margin-bottom: 0;">Информация об участнике</h2>
-              <img src="/static/img/arrowForSelect.svg" alt="">
-            </div>
-            <div class="form-content">
-              <div class="row">
-                <div class="col-lg-8">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Фамилия Имя Отчество" />
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Город страна" />
-                    </div>
-                    <div class="col-lg-6">
-                      <div
-                        class="row align-items-center"
-                        style="--bs-gutter-x: 8px"
-                      >
-                        <div class="col-lg-11">
-                          <select>
-                            <option>Категория участника</option>
-                            <option>Индивидуальный участник</option>
-                            <option>Руководитель команды</option>
-                            <option>Юниор</option>
-                            <option>Профессионал</option>
-                          </select>
-                        </div>
-                        <div class="col-lg-1">
-                          <img src="/static/img/question.svg" alt="" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="ФИО тренера (если есть)" />
-                    </div>
-    
-                    <div class="col-lg-6" style="margin-top: 30px">
-                      <input type="text" placeholder="Телефон" />
-                    </div>
-                    <div class="col-lg-6" style="margin-top: 30px">
-                      <input type="email" placeholder="Почта" />
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Ссылка на профиль ВК" />
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Ссылка на профиль Telegram" />
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Почтовый адрес" />
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Адрес ближайшего СДЭК" />
-                    </div>
-                    <div class="col-12">
-                      <textarea
-                        name=""
-                        id=""
-                        placeholder="Вкратце расскажите о своих достижениях и регалиях"
-                      ></textarea>
-                    </div>
-                    <div class="col-lg-6 kolvo">
-                      <h3>Количество подаваемых работ</h3>
-                    </div>
-                    <div class="col-lg-6"></div>
-                    <div class="col-lg-6">
-                      <input
-                        type="text"
-                        placeholder="Количество работ"
-                        class="raboti"
-                      />
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="nomin">
-                        <p>1 номинация</p>
-                        <h5>6000 ₽</h5>
-                      </div>
-                      <div class="lin"></div>
-                      <div class="nomin">
-                        <p>каждая следующая номинация</p>
-                        <h5>5500 ₽</h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 rightside">
-                  <div class="file-upload">
-                    <h4>Личное фото</h4>
-                    <input type="file" id="fileInput" hidden />
-                    <label for="fileInput" class="upload-btn">Выбрать</label>
-                    <h5>или перетащите файлы сюда</h5>
-                  </div>
-                  <ul>
-                    <li>Вокруг вашего силуэта должен быть воздух</li>
-                    <li>Задний фон не имеет значения</li>
-                    <li>Ваш взгляд направлен в камеру</li>
-                    <li>Фотография должна быть в хорошем качестве</li>
-                  </ul>
-                  <p>
-                    Ваши личные фото будут использоваться для оформления визитки
-                    участника в соц.сетях чемпионата и на сайте
-                  </p>
-                </div>
-              </div>
-              
-            </div>
-            
-          </div>
-        </div>
-        <div class="big-forma">
-          <div class="row">
-            <div class="topform marginzero">
-              <h2 style="margin-bottom: 0;">Информация об участнике</h2>
-              <img src="/static/img/arrowForSelect.svg" alt="" class="rotated">
-            </div>
-            <div class="form-content hidden">
-              <div class="row">
-                <div class="col-lg-8">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Фамилия Имя Отчество" />
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Город страна" />
-                    </div>
-                    <div class="col-lg-6">
-                      <div
-                        class="row align-items-center"
-                        style="--bs-gutter-x: 8px"
-                      >
-                        <div class="col-lg-11">
-                          <select>
-                            <option>Категория участника</option>
-                            <option>Индивидуальный участник</option>
-                            <option>Руководитель команды</option>
-                            <option>Юниор</option>
-                            <option>Профессионал</option>
-                          </select>
-                        </div>
-                        <div class="col-lg-1">
-                          <img src="/static/img/question.svg" alt="" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="ФИО тренера (если есть)" />
-                    </div>
-    
-                    <div class="col-lg-6" style="margin-top: 30px">
-                      <input type="text" placeholder="Телефон" />
-                    </div>
-                    <div class="col-lg-6" style="margin-top: 30px">
-                      <input type="email" placeholder="Почта" />
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Ссылка на профиль ВК" />
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Ссылка на профиль Telegram" />
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Почтовый адрес" />
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Адрес ближайшего СДЭК" />
-                    </div>
-                    <div class="col-12">
-                      <textarea
-                        name=""
-                        id=""
-                        placeholder="Вкратце расскажите о своих достижениях и регалиях"
-                      ></textarea>
-                    </div>
-                    <div class="col-lg-6 kolvo">
-                      <h3>Количество подаваемых работ</h3>
-                    </div>
-                    <div class="col-lg-6"></div>
-                    <div class="col-lg-6">
-                      <input
-                        type="text"
-                        placeholder="Количество работ"
-                        class="raboti"
-                      />
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="nomin">
-                        <p>1 номинация</p>
-                        <h5>6000 ₽</h5>
-                      </div>
-                      <div class="lin"></div>
-                      <div class="nomin">
-                        <p>каждая следующая номинация</p>
-                        <h5>5500 ₽</h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 rightside">
-                  <div class="file-upload">
-                    <h4>Личное фото</h4>
-                    <input type="file" id="fileInput" hidden />
-                    <label for="fileInput" class="upload-btn">Выбрать</label>
-                    <h5>или перетащите файлы сюда</h5>
-                  </div>
-                  <ul>
-                    <li>Вокруг вашего силуэта должен быть воздух</li>
-                    <li>Задний фон не имеет значения</li>
-                    <li>Ваш взгляд направлен в камеру</li>
-                    <li>Фотография должна быть в хорошем качестве</li>
-                  </ul>
-                  <p>
-                    Ваши личные фото будут использоваться для оформления визитки
-                    участника в соц.сетях чемпионата и на сайте
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="formContainer"></div>
-        <div class="container" style="padding-right: 0; padding-left: 0; margin-top: 30px; margin-bottom: 30px;">
-          <button class="add-form-btn" onclick="addForm()"><img src="/static/img/plusone.png" alt=""></button>
-        </div>
-        <div class="nizh-after-form">
-          <div class="row">
-            <div class="offset-lg-5 col-lg-7">
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="sale">
-                    <h3>Скидка</h3>
-                    <h4><span>3</span> х 1000 ₽</h4>
-                    <p>Руководителям команд предоставляется скидка 1000 ₽ за каждого участника команды</p>
-                  </div>
-                </div>
-                <div class="col-lg-5 forjustify">
-                  <div class="itogo">
-                    <h3>Итого</h3>
-                    <div class="prices">
-                      <h4>18.000 ₽</h4>
-                    <p>15.000 ₽</p>
-                    </div>
-                    
-                  </div>
-                </div>
-                <div class="col-lg-3">
-                  <button class="oplata-button">К оплате</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-      </div>
-      </div>
-    </section>
-    <section class="footer">
-      <div class="container-fluid">
-        <div class="row footpad">
-          <div class="col-lg-6">
-            <img src="/static/img/footgrowskit.png" alt="" />
-            <img src="/static/img/lotus.png" alt="" style="margin-top: 20px" />
-          </div>
-          <div class="col-lg-6">
+          <div class="col-lg-8">
+            <h2 class="secondh2">Информация о руководителе</h2>
             <div class="row">
-              <div class="col-lg-2 offset-lg-1">
-                <a href="/"><h2>Чемпионат</h2></a>
-                <a href="/premiya/"><h2>Премия</h2></a>
-                <a href="/magazine/"><h2>Журнал</h2></a>
-                <a href="/sponsorstvo/"><h2>Спонсорство</h2></a>
-                <a href="/sudeystvo/"><h2>Судейство</h2></a>
-                <a href="/participants/"><h2>Участники</h2></a>
+              <div class="col-lg-6">
+                <input type="text" placeholder="Фамилия Имя Отчество" />
               </div>
-              <div class="offset-lg-1 col-lg-5">
-                <h3>Контакты</h3>
-                <div class="contacts">
-                  <h4 style="margin-right: 8px">+7 (999) 999-99-99</h4>
-                  <h4>Ирина</h4>
+              <div class="col-lg-6">
+                <input type="text" placeholder="Город страна" />
+              </div>
+
+              <div class="col-lg-6">
+                <input type="text" placeholder="Телефон" />
+              </div>
+              <div class="col-lg-6">
+                <input type="email" placeholder="Почта" />
+              </div>
+              <div class="col-lg-6">
+                <input type="text" placeholder="Ссылка на профиль ВК" />
+              </div>
+              <div class="col-lg-6">
+                <input type="text" placeholder="Ссылка на профиль Telegram" />
+              </div>
+              <div class="col-lg-6">
+                <input type="text" placeholder="Почтовый адрес" />
+              </div>
+              <div class="col-lg-6">
+                <input type="text" placeholder="Адрес ближайшего СДЭК" />
+              </div>
+              <div class="col-12">
+                <textarea class="second-text-area" name="" id=""
+                  placeholder="Вкратце расскажите о своих достижениях и регалиях"></textarea>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 rightside">
+            <div class="file-upload">
+              <h4>Личное фото</h4>
+              <input type="file" id="fileInput" hidden />
+              <label for="fileInput" class="upload-btn">Выбрать</label>
+              <h5>или перетащите файлы сюда</h5>
+            </div>
+            <ul>
+              <li>Вокруг вашего силуэта должен быть воздух</li>
+              <li>Задний фон не имеет значения</li>
+              <li>Ваш взгляд направлен в камеру</li>
+              <li>Фотография должна быть в хорошем качестве</li>
+            </ul>
+            <p>
+              Ваши личные фото будут использоваться для оформления визитки
+              участника в соц.сетях чемпионата и на сайте
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="big-forma">
+        <div class="row">
+          <div class="topform">
+            <h2 style="margin-bottom: 0;">Информация об участнике</h2>
+            <img src="/static/img/arrowForSelect.svg" alt="">
+          </div>
+          <div class="form-content">
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Фамилия Имя Отчество" />
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Город страна" />
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="row align-items-center" style="--bs-gutter-x: 8px">
+                      <div class="col-lg-11">
+                        <select>
+                          <option>Категория участника</option>
+                          <option>Индивидуальный участник</option>
+                          <option>Руководитель команды</option>
+                          <option>Юниор</option>
+                          <option>Профессионал</option>
+                        </select>
+                      </div>
+                      <div class="col-lg-1">
+                        <img src="/static/img/question.svg" alt="" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="ФИО тренера (если есть)" />
+                  </div>
+
+                  <div class="col-lg-6" style="margin-top: 30px">
+                    <input type="text" placeholder="Телефон" />
+                  </div>
+                  <div class="col-lg-6" style="margin-top: 30px">
+                    <input type="email" placeholder="Почта" />
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Ссылка на профиль ВК" />
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Ссылка на профиль Telegram" />
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Почтовый адрес" />
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Адрес ближайшего СДЭК" />
+                  </div>
+                  <div class="col-12">
+                    <textarea name="" id="" placeholder="Вкратце расскажите о своих достижениях и регалиях"></textarea>
+                  </div>
+                  <div class="col-lg-6 kolvo">
+                    <h3>Количество подаваемых работ</h3>
+                  </div>
+                  <div class="col-lg-6"></div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Количество работ" class="raboti" />
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="nomin">
+                      <p>1 номинация</p>
+                      <h5>6000 ₽</h5>
+                    </div>
+                    <div class="lin"></div>
+                    <div class="nomin">
+                      <p>каждая следующая номинация</p>
+                      <h5>5500 ₽</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 rightside">
+                <div class="file-upload">
+                  <h4>Личное фото</h4>
+                  <input type="file" id="fileInput" hidden />
+                  <label for="fileInput" class="upload-btn">Выбрать</label>
+                  <h5>или перетащите файлы сюда</h5>
+                </div>
+                <ul>
+                  <li>Вокруг вашего силуэта должен быть воздух</li>
+                  <li>Задний фон не имеет значения</li>
+                  <li>Ваш взгляд направлен в камеру</li>
+                  <li>Фотография должна быть в хорошем качестве</li>
+                </ul>
+                <p>
+                  Ваши личные фото будут использоваться для оформления визитки
+                  участника в соц.сетях чемпионата и на сайте
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="big-forma">
+        <div class="row">
+          <div class="topform marginzero">
+            <h2 style="margin-bottom: 0;">Информация об участнике</h2>
+            <img src="/static/img/arrowForSelect.svg" alt="" class="rotated">
+          </div>
+          <div class="form-content hidden">
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Фамилия Имя Отчество" />
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Город страна" />
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="row align-items-center" style="--bs-gutter-x: 8px">
+                      <div class="col-lg-11">
+                        <select>
+                          <option>Категория участника</option>
+                          <option>Индивидуальный участник</option>
+                          <option>Руководитель команды</option>
+                          <option>Юниор</option>
+                          <option>Профессионал</option>
+                        </select>
+                      </div>
+                      <div class="col-lg-1">
+                        <img src="/static/img/question.svg" alt="" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="ФИО тренера (если есть)" />
+                  </div>
+
+                  <div class="col-lg-6" style="margin-top: 30px">
+                    <input type="text" placeholder="Телефон" />
+                  </div>
+                  <div class="col-lg-6" style="margin-top: 30px">
+                    <input type="email" placeholder="Почта" />
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Ссылка на профиль ВК" />
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Ссылка на профиль Telegram" />
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Почтовый адрес" />
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Адрес ближайшего СДЭК" />
+                  </div>
+                  <div class="col-12">
+                    <textarea name="" id="" placeholder="Вкратце расскажите о своих достижениях и регалиях"></textarea>
+                  </div>
+                  <div class="col-lg-6 kolvo">
+                    <h3>Количество подаваемых работ</h3>
+                  </div>
+                  <div class="col-lg-6"></div>
+                  <div class="col-lg-6">
+                    <input type="text" placeholder="Количество работ" class="raboti" />
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="nomin">
+                      <p>1 номинация</p>
+                      <h5>6000 ₽</h5>
+                    </div>
+                    <div class="lin"></div>
+                    <div class="nomin">
+                      <p>каждая следующая номинация</p>
+                      <h5>5500 ₽</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 rightside">
+                <div class="file-upload">
+                  <h4>Личное фото</h4>
+                  <input type="file" id="fileInput" hidden />
+                  <label for="fileInput" class="upload-btn">Выбрать</label>
+                  <h5>или перетащите файлы сюда</h5>
+                </div>
+                <ul>
+                  <li>Вокруг вашего силуэта должен быть воздух</li>
+                  <li>Задний фон не имеет значения</li>
+                  <li>Ваш взгляд направлен в камеру</li>
+                  <li>Фотография должна быть в хорошем качестве</li>
+                </ul>
+                <p>
+                  Ваши личные фото будут использоваться для оформления визитки
+                  участника в соц.сетях чемпионата и на сайте
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="formContainer"></div>
+      <div class="container" style="padding-right: 0; padding-left: 0; margin-top: 30px; margin-bottom: 30px;">
+        <button class="add-form-btn" onclick="addForm()"><img src="/static/img/plusone.png" alt=""></button>
+      </div>
+      <div class="nizh-after-form">
+        <div class="row">
+          <div class="offset-lg-5 col-lg-7">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="sale">
+                  <h3>Скидка</h3>
+                  <h4><span>3</span> х 1000 ₽</h4>
+                  <p>Руководителям команд предоставляется скидка 1000 ₽ за каждого участника команды</p>
+                </div>
+              </div>
+              <div class="col-lg-5 forjustify">
+                <div class="itogo">
+                  <h3>Итого</h3>
+                  <div class="prices">
+                    <h4>18.000 ₽</h4>
+                    <p>15.000 ₽</p>
+                  </div>
+
                 </div>
               </div>
               <div class="col-lg-3">
-                <h3>Мы в соц.сетях</h3>
-                <div class="telegram">
-                  <img src="/static/img/telegram.svg" alt="" />
-                  <h5>Telegram</h5>
-                </div>
-                <div class="telegram">
-                  <img src="/static/img/vkontakte.svg" alt="" />
-                  <h5>VK</h5>
-                </div>
-                <div class="telegram">
-                  <img src="/static/img/whatsapp.svg" alt="" />
-                  <h5>WhatsApp</h5>
-                </div>
+                <button class="oplata-button">К оплате</button>
               </div>
             </div>
           </div>
         </div>
-        <div class="footlin"></div>
-        <div class="row">
-          <div class="forfootik">
-            <div class="grow2025">
-              <h6>© 2025 GROWSKIT</h6>
+
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+  <section class="footer">
+    <div class="container-fluid">
+      <div class="row footpad">
+        <div class="col-lg-6">
+          <img src="/static/img/footgrowskit.png" alt="" />
+          <img src="/static/img/lotus.png" alt="" style="margin-top: 20px" />
+        </div>
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-lg-2 offset-lg-1">
+              <a href="/">
+                <h2>Чемпионат</h2>
+              </a>
+              <a href="/premiya/">
+                <h2>Премия</h2>
+              </a>
+              <a href="/magazine/">
+                <h2>Журнал</h2>
+              </a>
+              <a href="/sponsorstvo/">
+                <h2>Спонсорство</h2>
+              </a>
+              <a href="/sudeystvo/">
+                <h2>Судейство</h2>
+              </a>
+              <a href="/participants/">
+                <h2>Участники</h2>
+              </a>
             </div>
-            <div class="rightfoot">
-              <a href=""
-                ><h6 style="text-decoration: underline">
-                  Политика конфиденциальности
-                </h6></a
-              >
-              <a href=""><h6 style="text-decoration: underline">Оферта</h6></a>
+            <div class="offset-lg-1 col-lg-5">
+              <h3>Контакты</h3>
+              <div class="contacts">
+                <h4 style="margin-right: 8px">+7 (999) 999-99-99</h4>
+                <h4>Ирина</h4>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <h3>Мы в соц.сетях</h3>
+              <div class="telegram">
+                <img src="/static/img/telegram.svg" alt="" />
+                <h5>Telegram</h5>
+              </div>
+              <div class="telegram">
+                <img src="/static/img/vkontakte.svg" alt="" />
+                <h5>VK</h5>
+              </div>
+              <div class="telegram">
+                <img src="/static/img/whatsapp.svg" alt="" />
+                <h5>WhatsApp</h5>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-    <script src="/static/script/uchastie.js"></script>
-  </body>
+      <div class="footlin"></div>
+      <div class="row">
+        <div class="forfootik">
+          <div class="grow2025">
+            <h6>© 2025 GROWSKIT</h6>
+          </div>
+          <div class="rightfoot">
+            <a href="">
+              <h6 style="text-decoration: underline">
+                Политика конфиденциальности
+              </h6>
+            </a>
+            <a href="">
+              <h6 style="text-decoration: underline">Оферта</h6>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="/static/script/uchastie.js"></script>
+</body>
+
 </html>
