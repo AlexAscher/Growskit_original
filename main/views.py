@@ -9,6 +9,9 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import BadRequest
 from django.contrib.auth.models import User, Group
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 
 from .forms import *
 from .models import *
@@ -91,3 +94,22 @@ def uchastie(request):
         return redirect('index') # TODO: redirect to profile participant
 
     return render(request, 'uchastie.html')
+
+class CustomLoginView(LoginView):
+    template_name = 'login.html'
+    redirect_authenticated_user = True
+
+# Проверка: пользователь должен быть администратором
+def is_admin(user):
+    return user.is_superuser
+
+@login_required
+def custom_redirect(request):
+    if request.user.is_superuser:
+        return redirect('/participants_list/')  # Для администраторов
+    return redirect('/')  # Для остальных пользователей
+
+@user_passes_test(is_admin)
+def participants_list(request):
+    participants = ProfileParticipant.objects.all()
+    return render(request, 'admin/participants_list.html', {'participants': participants})

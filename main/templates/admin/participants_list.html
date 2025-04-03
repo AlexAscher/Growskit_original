@@ -1,0 +1,31 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Список участников{% endblock %}
+
+{% block content %}
+<h1>Список участников</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>ФИО</th>
+            <th>Город</th>
+            <th>Категория</th>
+            <th>Телефон</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for participant in participants %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ participant.fio }}</td>
+            <td>{{ participant.city }}</td>
+            <td>{{ participant.get_category_participant_display }}</td>
+            <td>{{ participant.phone }}</td>
+            <td>{{ participant.email }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
