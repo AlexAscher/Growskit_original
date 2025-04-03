@@ -1,0 +1,177 @@
+a {
+  cursor: pointer;
+}
+.login-form h2 {
+  font-family: Kreadon;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+  margin-bottom: 40px;
+}
+.login-form {
+  background: #282828;
+  padding: 64px 127px;
+  max-width: 700px;
+  min-width: 320px;
+}
+.login-form input {
+  margin-bottom: 16px;
+  border: 1px solid #ffffff80;
+  padding: 24px;
+  background-color: transparent;
+  width: 100%;
+  border-radius: 20px;
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #ffffff;
+}
+.login-form input::placeholder {
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #ffffff;
+}
+.checkbox1 {
+  margin-top: 20px;
+}
+.custom-checkbox {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkmark {
+  width: 21px;
+  height: 21px;
+  border-radius: 6px;
+  background-color: white;
+  box-shadow: 0px 3.24px 5.4px 0px rgba(46, 46, 66, 0.08);
+  border: 2.16px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.checkmark::after {
+  content: "";
+  display: none;
+  width: 10px;
+  height: 16px;
+  margin-bottom: 2px;
+  border: solid #df70bc;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+/* .custom-checkbox input:checked + .checkmark {
+    border-color: #df70bc;
+  } */
+
+.custom-checkbox input:checked + .checkmark::after {
+  display: block;
+}
+.fornizh {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.fornizh span {
+  font-family: Gilroy;
+  font-weight: 400;
+  font-size: 14px;
+
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #efdaed;
+}
+.firstA {
+  font-family: Gilroy;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #efdaed;
+  text-decoration: none;
+}
+.for-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 33px;
+  margin-bottom: 32px;
+}
+.login-form button {
+  background: #ffffff;
+  padding: 22px 32px;
+  border-radius: 20px;
+  font-family: Gilroy;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  color: #000000;
+  width: 100%;
+  cursor: pointer;
+}
+.login-form h3 {
+  font-family: Gilroy;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: white;
+}
+.forbottomlogin {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 40px;
+  justify-content: center;
+}
+.forbottomlogin a {
+  font-family: Gilroy;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #ffa0e5;
+  text-decoration: none;
+}
+@media (max-width: 768px) {
+  .login-form {
+    padding: 64px 41px;
+  }
+}
+@media (max-width: 410px) {
+  .for-text {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 10px;
+    margin-bottom: 26px;
+  }
+}
