@@ -65,6 +65,9 @@ class ProfileParticipant(models.Model):
     bio = models.TextField()
     count_work = models.IntegerField()
 
+    def __str__(self):
+        return self.fio
+
 
 class ProfileJudge(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -78,6 +81,9 @@ class ProfileJudge(models.Model):
     vk = models.URLField(null=True, blank=True)
     telegram = models.URLField(null=True, blank=True)
     bio = models.TextField()
+
+    def __str__(self):
+        return 'Судья ' + self.fio
 
 class ProfileSponsor(models.Model):
     CATEGORY_PARTICIPANT = (
@@ -98,18 +104,46 @@ class ProfileSponsor(models.Model):
     bio = models.TextField()
     need_mark_and_dogovor = models.BooleanField()
 
+    def __str__(self):
+        return 'Спонсор ' + self.fio
+
+
+# Руководитель команды
+class ProfileLeader(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to=user_directory_path)
+
+    fio = models.CharField(max_length=150)
+    city = models.CharField(max_length=150)
+    phone = models.CharField(max_length=150)
+    email = models.EmailField()
+    vk = models.URLField(null=True, blank=True)
+    telegram = models.URLField(null=True, blank=True)
+    address = models.CharField(max_length=150)
+    address_sdek = models.CharField(max_length=150)
+    bio = models.TextField()
+
+    def __str__(self):
+        return 'Руководитель ' + self.fio
+
 # Комманда
 class Team(models.Model):
     championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=100)
-    leader = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tu_leader')
-    members = models.ManyToManyField(User)
+    name = models.CharField(max_length=100, unique=True)
+    leader = models.ForeignKey(ProfileLeader, on_delete=models.CASCADE, null=True)
+    members = models.ManyToManyField(ProfileParticipant)
+
+    def __str__(self):
+        return self.name
 
 # Оценка судьи
 class Mark(models.Model):
-    judge = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mu_judge', null=True)
+    judge = models.ForeignKey(ProfileJudge, on_delete=models.CASCADE, related_name='mu_judge', null=True)
     participant = models.ForeignKey(ProfileParticipant, on_delete=models.CASCADE, related_name='mu_participant', null=True)
     mark = models.FloatField()
+
+    def __str__(self):
+        return f'({self.mark:.2f}) {self.participant} ({self.judge})'
 
 # Чемпионат
 class Championship(models.Model):
@@ -122,7 +156,7 @@ class Championship(models.Model):
     criteries = models.TextField()
 
     def __str__(self):
-        return self.name
+        return self.name + ' ' + str(self.date)
     
     # Получение списка средних оценок по пользователям
     def get_marks_average(self, user: User | None = None) -> list[dict[str, float]]: #  [{'user': user.email, 'average': average}]

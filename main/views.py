@@ -4,7 +4,7 @@ import string
 from typing import Literal
 
 from django.conf import settings
-from django.http import Http404, HttpRequest
+from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.core.exceptions import BadRequest
 from django.contrib.auth.models import User, Group
@@ -16,47 +16,80 @@ from django.contrib.auth.views import LoginView
 from .forms import *
 from .models import *
 
+TYPE_USER = Literal['participant', 'judge', 'sponsor']
 
 def get_random_string(length):
     return ''.join([random.choice(string.ascii_letters + string.digits) for n in range(length)])
 
-def save_with_new_user(request: HttpRequest, cls: forms.ModelForm, type_user: Literal['participant', 'judge', 'sponsor'], check_championship=False, need_send_mail=False):
+def create_user(email, type_user: TYPE_USER):
+    user = User.objects.filter(email=email).first()
+    if user:
+        return user, 'Ранее вы участвали в чемпионате. Проверьте почту или восстановите пароль'
+
+    password = get_random_string(10)
+    user = User.objects.create_user(
+        username=email,
+        email=email,
+        password=password,
+    )
+
+    group = Group.objects.get(name=type_user+'s')
+    if group:
+        user.groups.add(group)
+        user.save()
+    
+    return user, password
+
+def notify_new_user(email, password):
+    send_mail(
+        "Заявка на чемпионат",
+        "Ваша заявка на чемпионат принята!\n\nИспользуйте для входа:\n"
+        f"логин: {email}\nпароль: {password}",
+        settings.EMAIL_HOST_USER,
+        [email],
+        fail_silently=True,
+    )
+    
+def get_or_404_active_championship():
+    championship = Championship.objects.filter(last_date_registration__gte=datetime.date.today()).first()
+    if not championship:
+        raise Http404('Championship is not active')
+
+    return championship
+
+def get_or_create(model, user, data):
+    obj = model.objects.filter(user=user).first()
+    if obj:
+        return obj, False
+
+    obj = model(user=user, **data)
+    obj.save()
+    return obj, True
+
+def add_user_to_championship(championship: Championship, user, type_user: TYPE_USER):
+    championship.__getattribute__(type_user+'s').add(user)
+    championship.save()
+
+def save_with_new_user(request: HttpRequest, cls: forms.ModelForm, type_user: TYPE_USER, check_championship=False, need_send_mail=False):
     championship: Championship = None
     if check_championship:
-        championship = Championship.objects.filter(last_date_registration__gte=datetime.date.today()).first()
-        if not championship:
-            raise Http404('Championship is not active')
+        championship = get_or_404_active_championship()
 
     form = cls(request.POST, request.FILES)
     if not form.is_valid():
         raise BadRequest(form.errors.as_text())
     
-    password = get_random_string(10)
-    user = User.objects.create_user(
-        username=form.cleaned_data['email'],
-        email=form.cleaned_data['email'],
-        password=password,
-    )
-    user.groups.add(Group.objects.get(name=type_user+'s'))
-    user.save()
+    user, password = create_user(form.cleaned_data['email'], type_user)
 
     model = form.save(commit=False)
     model.user = user
     model.save()
 
     if championship:
-        championship.__getattribute__(type_user+'s').add(user)
-        championship.save()
+        add_user_to_championship(championship, user)
 
     if need_send_mail:
-        send_mail(
-            "Заявка на чемпионат",
-            "Ваша заявка на чемпионат принята!\n\nИспользуйте для входа:\n"
-            f"логин: {form.cleaned_data['email']}\nпароль: {password}",
-            settings.EMAIL_HOST_USER,
-            [form.cleaned_data['email']],
-            fail_silently=False,
-        )
+        notify_new_user(form.cleaned_data['email'], password)
 
 
 def index(request):
@@ -90,8 +123,37 @@ def sudeystvo(request):
 
 def uchastie(request):
     if request.method == 'POST':
-        save_with_new_user(request, UchastieForm, 'participant', check_championship=True, need_send_mail=True)
-        return redirect('index') # TODO: redirect to profile participant
+        if not request.POST['is_team']:
+            save_with_new_user(request, UchastieForm, 'participant', check_championship=True, need_send_mail=True)
+            return redirect('index') # TODO: redirect to profile participant
+        
+        form = UchastieTeamForm(request.POST, request.FILES)
+        if not form.is_valid():
+            raise BadRequest(form.errors.as_text())
+        
+        championship = get_or_404_active_championship()
+        
+        user, password = create_user(form.cleaned_data['leader']['email'], 'leader')
+        print(form.cleaned_data['leader'])
+        leader, _ = get_or_create(ProfileLeader, user, form.cleaned_data['leader'])
+        team = Team.objects.create(name=form.cleaned_data['team_name'], leader=leader, championship=championship)
+        team.leader = leader
+
+        new_users = []
+        for participant_data in form.cleaned_data['participants']:
+            user, password = create_user(participant_data['email'], 'participant')
+            new_users.append([participant_data['email'], password])
+            participant, _ = get_or_create(ProfileParticipant, user, participant_data)
+            team.members.add(participant)
+            add_user_to_championship(championship, participant, 'participant')
+
+        team.save()
+
+        notify_new_user(form.cleaned_data['leader']['email'], password)
+        for user in new_users:
+            notify_new_user(user[0], user[1])
+
+        return redirect('index') # TODO: redirect to profile team
 
     return render(request, 'uchastie.html')
 

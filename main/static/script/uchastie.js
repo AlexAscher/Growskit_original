@@ -1,107 +1,114 @@
+var index_photo = 5;
+
 document.addEventListener("DOMContentLoaded", function () {
   const formContainer = document.getElementById("formContainer");
   const addFormBtn = document.querySelector(".add-form-btn");
 
   addFormBtn.addEventListener("click", function () {
+    index_photo += 1;
     const newForm = document.createElement("div");
     newForm.classList.add("big-forma");
     newForm.innerHTML = `
-        <div class="row">
-          <div class="topform marginzero">
-            <h2 style="margin-bottom: 0;">Информация об участнике</h2>
-            <img src="/static/img/arrowForSelect.svg" alt="" class="rotated">
-          </div>
-          <div class="form-content hidden">
-            <div class="row">
-              <div class="col-lg-8">
-                <div class="row">
-                  <div class="col-lg-6">
-                    <input type="text" placeholder="Фамилия Имя Отчество" class="name-input" />
-                  </div>
-                  <div class="col-lg-6">
-                    <input type="text" placeholder="Город страна" />
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="row align-items-center" style="--bs-gutter-x: 8px">
-                      <div class="col-lg-11">
-                        <select>
-                          <option>Категория участника</option>
-                          <option>Индивидуальный участник</option>
-                          <option>Руководитель команды</option>
-                          <option>Юниор</option>
-                          <option>Профессионал</option>
-                        </select>
-                      </div>
-                      <div class="col-lg-1">
-                        <img src="/static/img/question.svg" alt="" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <input type="text" placeholder="ФИО тренера (если есть)" />
-                  </div>
-                  <div class="col-lg-6" style="margin-top: 30px">
-                    <input type="text" placeholder="Телефон" />
-                  </div>
-                  <div class="col-lg-6" style="margin-top: 30px">
-                    <input type="email" placeholder="Почта" />
-                  </div>
-                  <div class="col-lg-6">
-                    <input type="text" placeholder="Ссылка на профиль ВК" />
-                  </div>
-                  <div class="col-lg-6">
-                    <input type="text" placeholder="Ссылка на профиль Telegram" />
-                  </div>
-                  <div class="col-lg-6">
-                    <input type="text" placeholder="Почтовый адрес" />
-                  </div>
-                  <div class="col-lg-6">
-                    <input type="text" placeholder="Адрес ближайшего СДЭК" />
-                  </div>
-                  <div class="col-12">
-                    <textarea placeholder="Вкратце расскажите о своих достижениях и регалиях"></textarea>
-                  </div>
-                  <div class="col-lg-6 kolvo">
-                    <h3>Количество подаваемых работ</h3>
-                  </div>
-                  <div class="col-lg-6"></div>
-                  <div class="col-lg-6">
-                    <input type="text" placeholder="Количество работ" class="raboti" />
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="nomin">
-                      <p>1 номинация</p>
-                      <h5>6000 ₽</h5>
-                    </div>
-                    <div class="lin"></div>
-                    <div class="nomin">
-                      <p>каждая следующая номинация</p>
-                      <h5>5500 ₽</h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4 rightside">
-                <div class="file-upload">
-                  <h4>Личное фото</h4>
-                  <input type="file" hidden />
-                  <label class="upload-btn">Выбрать</label>
-                  <h5>или перетащите файлы сюда</h5>
-                </div>
-                <ul>
-                  <li>Вокруг вашего силуэта должен быть воздух</li>
-                  <li>Задний фон не имеет значения</li>
-                  <li>Ваш взгляд направлен в камеру</li>
-                  <li>Фотография должна быть в хорошем качестве</li>
-                </ul>
-                <p>
-                  Ваши личные фото будут использоваться для оформления визитки
-                  участника в соц.сетях чемпионата и на сайте
-                </p>
-              </div>
+          <div class="row">
+            <div class="topform">
+              <h2 style="margin-bottom: 0;">Информация об участнике</h2>
+              <img src="/static/img/arrowForSelect.svg" alt="">
             </div>
+            <div class="form-content">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <input type="text" placeholder="Фамилия Имя Отчество" required name="fio" />
+                    </div>
+                    <div class="col-lg-6">
+                      <input type="text" placeholder="Город страна" required name="city" />
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="row align-items-center" style="--bs-gutter-x: 8px">
+                        <div class="col-lg-11">
+                          <select name="category_participant" required>
+                            <option value="">Категория участника</option>
+                            <option value="individual" >Индивидуальный участник</option>
+                            <option value="team-leader">Руководитель команды</option>
+                            <option value="junior" >Юниор</option>
+                            <option value="professional">Профессионал</option>
+                          </select>
+                        </div>
+                        <div class="col-lg-1">
+                          <img src="/static/img/question.svg" alt="" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <input type="text" placeholder="ФИО тренера (если есть)" name="fio_trainer" />
+                    </div>
+
+                    <div class="col-lg-6" style="margin-top: 30px">
+                      <input type="text" placeholder="Телефон" required name="phone" />
+                    </div>
+                    <div class="col-lg-6" style="margin-top: 30px">
+                      <input type="email" placeholder="Почта" required name="email" />
+                    </div>
+                    <div class="col-lg-6">
+                      <input type="text" placeholder="Ссылка на профиль ВК" name="vk" />
+                    </div>
+                    <div class="col-lg-6">
+                      <input type="text" placeholder="Ссылка на профиль Telegram" name="telegram" />
+                    </div>
+                    <div class="col-lg-6">
+                      <input type="text" placeholder="Почтовый адрес" required name="address" />
+                    </div>
+                    <div class="col-lg-6">
+                      <input type="text" placeholder="Адрес ближайшего СДЭК" required name="address_sdek" />
+                    </div>
+                    <div class="col-12">
+                      <textarea name="bio" id="" required
+                        placeholder="Вкратце расскажите о своих достижениях и регалиях"></textarea>
+                    </div>
+                    <div class="col-lg-6 kolvo">
+                      <h3>Количество подаваемых работ</h3>
+                    </div>
+                    <div class="col-lg-6"></div>
+                    <div class="col-lg-6">
+                      <input type="text" placeholder="Количество работ" class="raboti" required name="count_work" />
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="nomin">
+                        <p>1 номинация</p>
+                        <h5>6000 ₽</h5>
+                      </div>
+                      <div class="lin"></div>
+                      <div class="nomin">
+                        <p>каждая следующая номинация</p>
+                        <h5>5500 ₽</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 rightside">
+                  <div class="file-upload">
+                    <h4>Личное фото</h4>
+                    <input type="file" id="fileInput${index_photo}" hidden name="photo" required />
+                    <label for="fileInput${index_photo}" class="upload-btn">Выбрать</label>
+                    <h5>или перетащите файлы сюда</h5>
+                  </div>
+                  <ul>
+                    <li>Вокруг вашего силуэта должен быть воздух</li>
+                    <li>Задний фон не имеет значения</li>
+                    <li>Ваш взгляд направлен в камеру</li>
+                    <li>Фотография должна быть в хорошем качестве</li>
+                  </ul>
+                  <p>
+                    Ваши личные фото будут использоваться для оформления визитки
+                    участника в соц.сетях чемпионата и на сайте
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
           </div>
-        </div>
       `;
 
     formContainer.appendChild(newForm);
