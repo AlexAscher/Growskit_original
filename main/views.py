@@ -41,13 +41,21 @@ def create_user(email, type_user: TYPE_USER):
     
     return user, password
 
-def notify_new_user(email, password):
+def notify_user(subject, message, recipient, fail_silently=False):
     send_mail(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,
+        recipient if isinstance(recipient, list) else [recipient],
+        fail_silently=fail_silently,
+    )
+
+def notify_new_user(email, password):
+    notify_user(
         "Заявка на чемпионат",
         "Ваша заявка на чемпионат принята!\n\nИспользуйте для входа:\n"
         f"логин: {email}\nпароль: {password}",
-        settings.EMAIL_HOST_USER,
-        [email],
+        email,
         fail_silently=True,
     )
     
@@ -169,13 +177,23 @@ def uchastie(request: HttpRequest):
 
     return render(request, 'uchastie.html')
 
-def manager(request: HttpRequest):
+
+def api_manager(request: HttpRequest):
     if request.method == 'POST':
         if not request.POST.get('referal_key'):
             request.POST.setdefault('referal_key', get_random_string(100))
         save_with_new_user(request, ManagerForm, 'manager', check_championship=False, need_send_mail=False)
 
-    return redirect('index')
+    raise BadRequest
+
+def api_notify_user(request: HttpRequest):
+    if request.method == 'POST':
+        recipient = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        notify_user(subject, message, recipient)
+    
+    raise BadRequest
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'

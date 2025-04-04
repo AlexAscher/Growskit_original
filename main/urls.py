@@ -16,4 +16,7 @@ urlpatterns = [
     path('redirect/', views.custom_redirect, name='custom_redirect'),
     path('login/', views.CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+
+    path('lapi/manager', views.api_manager, name='api_manager'),
+    path('lapi/notify_user', views.api_notify_user, name='api_notify_user'),
 ]
