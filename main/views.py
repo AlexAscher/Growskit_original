@@ -169,6 +169,14 @@ def uchastie(request: HttpRequest):
 
     return render(request, 'uchastie.html')
 
+def manager(request: HttpRequest):
+    if request.method == 'POST':
+        if not request.POST.get('referal_key'):
+            request.POST.setdefault('referal_key', get_random_string(100))
+        save_with_new_user(request, ManagerForm, 'manager', check_championship=False, need_send_mail=False)
+
+    return redirect('index')
+
 class CustomLoginView(LoginView):
     template_name = 'login.html'
     redirect_authenticated_user = True

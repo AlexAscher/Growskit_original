@@ -112,3 +112,11 @@ class UchastieTeamForm(forms.Form):
         }
 
         return team_data
+
+class ManagerForm(forms.ModelForm):
+    class Meta:
+        model = ProfileManager
+        fields = [
+            'fio',
+            'referal_key',
+        ]
