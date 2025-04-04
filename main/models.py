@@ -125,6 +125,16 @@ class ProfileLeader(models.Model):
 
     def __str__(self):
         return 'Руководитель ' + self.fio
+    
+class ProfileManager(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    referal_key = models.CharField(unique=True, max_length=150)
+    fio = models.CharField(max_length=150)
+    referals = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'Менеджер {self.fio} ({self.referals} рефералов)'
 
 # Комманда
 class Team(models.Model):

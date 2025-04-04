@@ -57,6 +57,14 @@
     </div>
     <div class="container form" id="individual-form">
       <form action="" method="post" enctype="multipart/form-data">
+        <script>
+          // add refer from get-params to cookies
+          var urlParams = new URLSearchParams(window.location.search);
+          var refer = urlParams.get('refer');
+          if (refer) {
+            document.cookie = `refer=${refer}; path=/ ; max-age=86400`
+          }
+        </script>
         {% csrf_token %}
         <div class="big-forma">
           <div class="row">

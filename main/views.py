@@ -4,7 +4,7 @@ import string
 from typing import Literal
 
 from django.conf import settings
-from django.http import Http404, HttpRequest, HttpResponse
+from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.core.exceptions import BadRequest
 from django.contrib.auth.models import User, Group
@@ -12,6 +12,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
+from django.urls import reverse
 
 from .forms import *
 from .models import *
@@ -82,11 +83,14 @@ def save_with_new_user(request: HttpRequest, cls: forms.ModelForm, type_user: TY
     user, password = create_user(form.cleaned_data['email'], type_user)
 
     model = form.save(commit=False)
+    exited_model = model.__class__.objects.filter(user=user).first()
+    if exited_model:
+        model.id = exited_model.id
     model.user = user
     model.save()
 
     if championship:
-        add_user_to_championship(championship, user)
+        add_user_to_championship(championship, model, type_user)
 
     if need_send_mail:
         notify_new_user(form.cleaned_data['email'], password)
@@ -121,11 +125,20 @@ def sudeystvo(request):
 
     return render(request, 'sudeystvo.html')
 
-def uchastie(request):
+def uchastie(request: HttpRequest):
     if request.method == 'POST':
-        if not request.POST['is_team']:
+        if not request.POST.get('is_team'):
             save_with_new_user(request, UchastieForm, 'participant', check_championship=True, need_send_mail=True)
-            return redirect('index') # TODO: redirect to profile participant
+                
+            if request.COOKIES.get('refer'):
+                refer = ProfileManager.objects.filter(referal_key=request.COOKIES['refer']).first()
+                if refer:
+                    refer.referals += 1
+                    refer.save()
+        
+            resp_redirect = HttpResponseRedirect(reverse('index')) # TODO: redirect to profile participant
+            resp_redirect.delete_cookie('refer')
+            return resp_redirect
         
         form = UchastieTeamForm(request.POST, request.FILES)
         if not form.is_valid():
@@ -134,7 +147,6 @@ def uchastie(request):
         championship = get_or_404_active_championship()
         
         user, password = create_user(form.cleaned_data['leader']['email'], 'leader')
-        print(form.cleaned_data['leader'])
         leader, _ = get_or_create(ProfileLeader, user, form.cleaned_data['leader'])
         team = Team.objects.create(name=form.cleaned_data['team_name'], leader=leader, championship=championship)
         team.leader = leader
