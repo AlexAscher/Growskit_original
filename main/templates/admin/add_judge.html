@@ -1,0 +1,13 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Список участников{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Добавить судью</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Сохранить</button>
+        <a href="{% url 'judges_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+{% endblock %}

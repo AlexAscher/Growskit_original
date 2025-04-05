@@ -55,7 +55,7 @@ class ProfileParticipant(models.Model):
     fio = models.CharField(max_length=150)
     city = models.CharField(max_length=150)
     category_participant = models.CharField(max_length=150, choices=CATEGORY_PARTICIPANT)
-    fio_trainer = models.CharField(max_length=150)
+    fio_trainer = models.CharField(max_length=150, null=True, blank=True)
     phone = models.CharField(max_length=150)
     email = models.EmailField()
     vk = models.URLField(null=True, blank=True)
@@ -102,7 +102,7 @@ class ProfileSponsor(models.Model):
     vk = models.URLField(null=True, blank=True)
     telegram = models.URLField(null=True, blank=True)
     bio = models.TextField()
-    need_mark_and_dogovor = models.BooleanField()
+    need_mark_and_dogovor = models.BooleanField(default=False)
 
     def __str__(self):
         return 'Спонсор ' + self.fio

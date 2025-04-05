@@ -16,7 +16,13 @@ urlpatterns = [
     path('redirect/', views.custom_redirect, name='custom_redirect'),
     path('login/', views.CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-
+    path("judges/", views.judges_list, name="judges_list"),
     path('lapi/manager', views.api_manager, name='api_manager'),
     path('lapi/notify_user', views.api_notify_user, name='api_notify_user'),
+    path("judges/add/", views.add_judge, name="add_judge"),
+    path("sponsors/", views.sponsors_list, name="sponsors_list"),
+    path("sponsors/add/", views.add_sponsor, name="add_sponsor"),
+    path("managers/", views.managers_list, name="managers_list"),
+    path("managers/add/", views.add_manager, name="add_manager"),
+    path("championship/", views.championship_admin, name="championship_admin"),
 ]

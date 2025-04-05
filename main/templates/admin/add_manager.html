@@ -1,0 +1,30 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Список участников{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Добавить менеджера</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.fio.label_tag }}
+            {{ form.fio }}
+        </div>
+        <div class="mb-3">
+            {{ form.referal_key.label_tag }}
+            <div class="input-group">
+                {{ form.referal_key }}
+                <button type="button" class="btn btn-secondary" id="generate-key">Сгенерировать</button>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Сохранить</button>
+        <a href="{% url 'managers_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+<script>
+    document.getElementById('generate-key').addEventListener('click', function () {
+        const keyField = document.getElementById('id_referal_key');
+        const randomKey = 'key_' + Math.random().toString(36).substr(2, 10); // Генерация случайного ключа
+        keyField.value = randomKey;
+    });
+</script>
+{% endblock %}

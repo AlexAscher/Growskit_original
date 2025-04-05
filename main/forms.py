@@ -120,3 +120,46 @@ class ManagerForm(forms.ModelForm):
             'fio',
             'referal_key',
         ]
+
+class AddJudgeForm(forms.ModelForm):
+    class Meta:
+        model = ProfileJudge
+        fields = ['fio', 'phone', 'email']
+        widgets = {
+            'fio': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите ФИО'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите телефон'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Введите email'}),
+        }
+        labels = {
+            'fio': 'ФИО',
+            'phone': 'Телефон',
+            'email': 'Email',
+        }
+
+class AddSponsorForm(forms.ModelForm):
+    class Meta:
+        model = ProfileSponsor
+        fields = ['fio', 'phone', 'email']
+        widgets = {
+            'fio': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите ФИО'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите телефон'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Введите email'}),
+        }
+        labels = {
+            'fio': 'ФИО',
+            'phone': 'Телефон',
+            'email': 'Email',
+        }
+
+class AddManagerForm(forms.ModelForm):
+    class Meta:
+        model = ProfileManager
+        fields = ['fio', 'referal_key']
+        widgets = {
+            'fio': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите ФИО'}),
+            'referal_key': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите реферальный ключ'}),
+        }
+        labels = {
+            'fio': 'ФИО',
+            'referal_key': 'Реферальный ключ',
+        }
