@@ -14,7 +14,6 @@
                 <th>Телефон</th>
                 <th>Email</th>
                 <th>Логин</th>
-                <th>Удалить</th>
             </tr>
         </thead>
         <tbody>
@@ -25,13 +24,6 @@
                 <td>{{ judge.phone }}</td>
                 <td>{{ judge.email }}</td>
                 <td><button class="btn btn-primary">Выслать логин</button></td>
-                <td>
-                    <form method="post" style="display: inline;">
-                        {% csrf_token %}
-                        <input type="hidden" name="judge_id" value="{{ judge.id }}">
-                        <button type="submit" name="delete_judge" class="btn btn-danger">Удалить</button>
-                    </form>
-                </td>
             </tr>
             {% empty %}
             <tr>
