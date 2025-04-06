@@ -7,5 +7,5 @@ class MainConfig(AppConfig):
     name = 'main'
 
     def ready(self):
-        from .signals import create_groups, add_time_fields
+        from .signals import create_groups
         post_migrate.connect(create_groups, sender=self)

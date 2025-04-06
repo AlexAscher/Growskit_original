@@ -1,9 +1,8 @@
 import datetime
+import logging
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.core.exceptions import BadRequest
 
 
@@ -21,24 +20,23 @@ from django.core.exceptions import BadRequest
 есть два поля даты - дата самого чемпионата и дата окончания регистрации
 """
 
-"""
-# пусть пока будет, ищу другие варианты
+# TODO: есть вариант добавить логирование запросов через django-request
+
+def items_key_key(dict: dict):
+    return [(key, key) for key in dict if key != 'NOTSET']
+
 class Log(models.Model):
-    STATUSES = (
-        ('info', 'info'),
-        ('debug', 'debug'),
-        ('warning', 'warning'),
-        ('error', 'error'),
-        ('critical', 'critical'),
-    )
+    STATUSES = items_key_key(logging.getLevelNamesMapping())
+
+    created = models.DateTimeField(default=datetime.datetime.now)
     status = models.CharField(max_length=20, choices=STATUSES)
     message = models.TextField()
     description = models.TextField(null=True, blank=True)
+    src = models.TextField(null=True, blank=True)
     context = models.JSONField(null=True, blank=True)
 
     def __str__(self):
-        return f'{self.status}: {self.message}'
-"""
+        return f'{self.created} - {self.status}: {self.message}'
 
 
 def user_directory_path_championship(instance, filename):
