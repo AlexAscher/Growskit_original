@@ -1252,3 +1252,141 @@ input[type="radio"]:checked + label .firstpacket {
   justify-content: end;
   margin-top: 32px;
 }
+.nomin-item {
+  border: 1px solid #efdaed;
+  padding: 16px 16px 16px 90px;
+  border-radius: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Центрирование по вертикали */
+  height: 100%; /* Нужно, чтобы блок занимал всю доступную высоту */
+  padding: 16px 16px 16px 90px; /* Слева 16px, справа 90px */
+}
+.nomin-item h3 {
+  font-family: Gilroy;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 5%;
+  vertical-align: middle;
+  color: white;
+  margin-bottom: 16px;
+}
+.nomin-item h4 {
+  font-family: Gilroy;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: white;
+}
+.nomin-item img {
+  position: absolute;
+  top: -10px;
+  left: -24px;
+  width: 100px;
+}
+.nomin-item1 {
+  border: 1px solid #efdaed;
+  padding: 16px 16px 16px 90px;
+  border-radius: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Центрирование по вертикали */
+  height: 100%; /* Нужно, чтобы блок занимал всю доступную высоту */
+  padding: 16px 16px 16px 90px; /* Слева 16px, справа 90px */
+}
+.nomin-item1 h3 {
+  font-family: Gilroy;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 5%;
+  vertical-align: middle;
+  color: white;
+  margin-bottom: 16px;
+}
+.nomin-item1 h4 {
+  font-family: Gilroy;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: white;
+}
+.nomin-item1 img {
+  position: absolute;
+  top: -14px;
+  left: -47px;
+  width: 130px;
+}
+.forgap1 {
+  --bs-gutter-x: 67px;
+  --bs-gutter-y: 67px;
+}
+.nominations1 {
+  margin-bottom: 10%;
+}
+@media (max-width: 1200px) {
+  .trophy {
+    left: -41px;
+  }
+}
+@media (max-width: 992px) {
+  .nomin-item img {
+    top: 10px;
+  }
+  .nomin-item1 img {
+    top: 5px;
+  }
+  .formarginzero {
+    margin-left: 0 !important;
+  }
+  .forwidth100 {
+    width: 100% !important;
+  }
+  .awards {
+    margin-left: 0;
+  }
+  .participate-btn {
+    font-size: 21px;
+    margin-top: 10px;
+  }
+  .trophy {
+    display: none;
+  }
+  .leftside {
+    margin-top: 0 !important;
+    margin-bottom: 50px;
+  }
+  .stoimost {
+    margin-bottom: 20px;
+  }
+  .stante h2 {
+    margin-bottom: 5px;
+  }
+}
+@media (max-width: 768px) {
+  .nomin-item img {
+    top: -10px;
+  }
+  .nomin-item1 img {
+    top: -14px;
+  }
+  .forgap1 {
+    --bs-gutter-y: 30px;
+  }
+  .arrowgrow {
+    width: 30px;
+  }
+  .participate-btn {
+    font-size: 17px;
+  }
+  .participate-btn {
+    padding: 17px;
+  }
+}

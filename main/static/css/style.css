@@ -4,6 +4,7 @@ body {
 a {
   text-decoration: none !important;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/static/fonts/Gilroy-Light.ttf");
@@ -97,7 +98,42 @@ nav button {
   position: relative;
   background: url(/static/img/hologirl.png) no-repeat;
   background-position: center 30px;
+  background-size: contain;
   padding-bottom: 100px;
+}
+.main1 {
+  margin-top: 47px;
+  overflow-x: clip;
+  position: relative;
+  background-position: center 30px;
+  background-size: contain;
+  padding-bottom: 100px;
+}
+.main1 .bigellipse {
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: -20%;
+  width: 600px;
+}
+.hologirlmobile {
+  position: absolute;
+  width: 338px;
+  top: 15%;
+}
+@media (max-width: 576px) {
+  .hologirlmobile {
+    width: 250px;
+    top: 22%;
+  }
+  .main1 .bigellipse {
+    width: 436px;
+    top: 4px;
+  }
+  .secondmain h2 {
+    margin-right: 0 !important;
+    font-size: 24px !important;
+  }
 }
 .rotliniya {
   border: 1px solid #efdaed4d;
@@ -107,6 +143,25 @@ nav button {
   position: absolute;
   z-index: -1;
   left: -5%;
+}
+.rotliniya1 {
+  border: 1px solid #efdaed4d;
+  transform: rotate(-16.8deg);
+  width: 170%;
+  top: 570px;
+  position: absolute;
+  z-index: -1;
+  left: -5%;
+}
+.for-end {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 100px;
+}
+@media (max-width: 992px) {
+  .rotliniya {
+    top: 350px;
+  }
 }
 .secondmain h2 {
   color: white;
@@ -118,12 +173,56 @@ nav button {
 .underrot {
   margin-top: 95px;
 }
+
 .underrot h3 {
   color: #efdaed;
   font-family: Kreadon;
   font-weight: 500;
   font-size: 32px;
   line-height: 41.6px;
+}
+@media (max-width: 992px) {
+  .underrot {
+    margin-top: 250px;
+  }
+  .underrot h3 {
+    text-align: right;
+  }
+}
+@media (max-width: 576px) {
+  .underrot h3 {
+    font-size: 16px;
+    line-height: 20.6px;
+  }
+  .underrot {
+    margin-top: 320px;
+  }
+}
+@media (max-width: 500px) {
+  .hologirlmobile {
+    width: 168px;
+    top: 31%;
+  }
+  .main1 .bigellipse {
+    width: 277px;
+    top: 183px;
+  }
+  .rotliniya {
+    top: 210px;
+  }
+  .hologirlmobile {
+    top: 13%;
+    width: 205px;
+  }
+  .main1 .bigellipse {
+    top: 0;
+  }
+  .underrot {
+    margin-top: 165px;
+  }
+  .rotliniya1 {
+    top: 369px;
+  }
 }
 .date {
   display: flex;
@@ -138,6 +237,22 @@ nav button {
   letter-spacing: 5%;
   margin-left: 10px;
   margin-top: 5px;
+}
+@media (max-width: 992px) {
+  .date h4 {
+    font-size: 24.59px;
+  }
+  .date {
+    justify-content: end;
+  }
+}
+@media (max-width: 576px) {
+  .date h4 {
+    font-size: 13.59px;
+  }
+  .date img {
+    width: 30px;
+  }
 }
 .lomanaya {
   margin-top: 30px;
@@ -258,6 +373,9 @@ nav button {
   vertical-align: middle;
   color: white;
   margin-bottom: 20px;
+}
+.about {
+  margin-top: 5%;
 }
 .about-leftside {
   display: flex;
@@ -773,6 +891,7 @@ nav button {
   background: url(/static/img/zavituchka.png) no-repeat;
   background-position: center 30px;
   min-height: 1000px;
+  background-size: contain;
 }
 .fullgradi > .gradi:nth-child(1) {
   left: 5%;
@@ -830,6 +949,7 @@ nav button {
   font-size: 23.25px;
   color: white;
 }
+
 .gradi h6 {
   font-family: Gilroy;
   font-size: 45.79px;
@@ -846,6 +966,7 @@ nav button {
   margin-right: 12px;
   margin-left: 12px;
 }
+
 .price {
   margin-top: 140px;
 }
@@ -1180,6 +1301,7 @@ nav button {
   height: 3px;
   background-color: white; /* Цвет кружочка */
   border-radius: 50%;
+  transform: translateY(-50%); /* Выравниваем по вертикали */
 }
 .zakoruchka {
   position: absolute;
@@ -1190,6 +1312,7 @@ nav button {
   display: flex;
   flex-direction: column;
   align-items: center; /* Центрируем элементы */
+  margin-bottom: 40px;
 }
 
 .vk,
@@ -1226,7 +1349,7 @@ nav button {
 }
 .kasach {
   margin-top: 26%;
-  margin-bottom: 57px !important;
+  margin-bottom: 42px !important;
   margin-left: 20px;
 }
 .kacashul {
@@ -1423,6 +1546,11 @@ nav button {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1.5px solid #ffffff;
+}
+.forsmalldivs:hover {
+  background: #ffffff33;
+  border: 1.5px solid #efdaed;
 }
 .faq h2 {
   font-family: Kreadon;
@@ -1592,6 +1720,7 @@ nav button {
 .sidebar.active {
   transform: translateX(0);
 }
+
 .secondsidebar {
   position: absolute;
   right: 0;
@@ -1648,4 +1777,413 @@ nav button {
   right: 0;
   width: 290px;
   height: 440px;
+}
+.tenthslidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 290px;
+  height: 440px;
+}
+.eleventhslidebar {
+  position: absolute;
+  top: 36px;
+  right: 0;
+  width: 290px;
+  height: 440px;
+}
+@media (max-width: 1400px) {
+  .rightkrug {
+    width: 400px;
+  }
+  .orgi h5 {
+    margin-bottom: 3px;
+  }
+}
+@media (max-width: 1200px) {
+  .opis li {
+    line-height: 18.6px;
+  }
+  .imgirina img {
+    width: 300px;
+  }
+  .irina {
+    align-items: center;
+  }
+}
+.irina1 {
+  background: #1515151a;
+  border: 1px solid #ffffff;
+  backdrop-filter: blur(30px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+}
+
+.socseti1 h4 {
+  font-family: Kreadon;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 23.4px;
+  color: #cf8ece;
+}
+.for-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.imgirina1 {
+  width: 400px;
+}
+.for-opises {
+  display: flex;
+  gap: 16px;
+}
+.opis1 ul {
+  list-style: none; /* Убираем стандартные маркеры */
+  padding-left: 16px; /* Немного отступа для маркеров */
+  width: 86%;
+}
+
+.opis1 li {
+  font-family: Kreadon;
+  font-weight: 500;
+  line-height: 21.6px; /* Уменьшаем межстрочный интервал, чтобы текст выглядел ровнее */
+  font-size: 18px;
+  color: white;
+  position: relative; /* Нужно для правильного позиционирования ::before */
+  padding-left: 12px; /* Отступ слева для текста, чтобы не наезжал на кружок */
+}
+
+.opis1 li::before {
+  content: "";
+  position: absolute;
+  left: 0; /* Размещаем кружок слева */
+  top: 10px; /* Подгоняем кружок к первой строке */
+  width: 3px; /* Увеличиваем размер кружочка для лучшей видимости */
+  height: 3px;
+  background-color: white; /* Цвет кружочка */
+  border-radius: 50%;
+  transform: translateY(-50%); /* Выравниваем по вертикали */
+}
+.imgcube img {
+  max-width: 100%;
+}
+@media (max-width: 1400px) {
+  .etopromenya {
+    width: 153px;
+  }
+}
+@media (max-width: 1200px) {
+  .reg-blocks img {
+    width: 200px;
+  }
+  .reg-blocks1 h2 {
+    font-size: 37.21px;
+  }
+  .reg-blocks1 img {
+    width: 105px;
+  }
+  .reg-blocks h3 {
+    font-size: 37.21px;
+  }
+  .blocks h3 {
+    font-size: 14px;
+  }
+  .etopromenya {
+    width: 168px;
+  }
+  .w20 {
+    width: 33.33%;
+    margin-bottom: 30px;
+  }
+  .w45 {
+    width: 50% !important;
+  }
+  .tl27 {
+    right: 10%;
+  }
+}
+@media (max-width: 991px) {
+  .reg-blocks img {
+    width: 260px;
+  }
+  .reg-blocks h3 {
+    font-size: 49.21px;
+  }
+  .reg-blocks1 img {
+    width: 160px;
+  }
+  .reg-blocks1 h2 {
+    font-size: 49.21px;
+  }
+  .reg-blocks {
+    margin-bottom: 10%;
+  }
+  .blocks h3 {
+    font-size: 19px;
+  }
+  .topcateg {
+    margin-bottom: 30px;
+  }
+}
+@media (max-width: 768px) {
+  .forsmalldivs {
+    width: 48% !important;
+  }
+  .forlastrow {
+    width: 98% !important;
+  }
+  .leftnom {
+    margin-bottom: 15px !important;
+  }
+  .w20 {
+    width: 100%;
+  }
+  .tl17 {
+    right: 5%;
+  }
+}
+@media (max-width: 1200px) {
+  .fullgradi > .gradi:nth-child(2) {
+    top: 227px;
+  }
+  .fullgradi > .gradi:nth-child(1) {
+    top: -5%;
+  }
+  .fullgradi > .gradi:nth-child(4) {
+    right: 51%;
+  }
+  .fullgradi > .gradi:nth-child(3) {
+    top: 534px;
+    right: 3%;
+  }
+  .fullgradi > .gradi:nth-child(5) {
+    width: 455px;
+    top: 600px;
+    left: -1%;
+  }
+  .price h2 {
+    margin-bottom: 10px;
+  }
+  .price h3 {
+    margin-bottom: 30px;
+  }
+  .sale span {
+    font-size: 18px;
+  }
+  .price {
+    margin-top: 0px;
+  }
+  .magazines {
+    width: 600px;
+    top: 40%;
+  }
+}
+@media (max-width: 992px) {
+  .fullgradi > .gradi:nth-child(1) {
+    top: -4%;
+    left: 12%;
+  }
+  .fullgradi > .gradi:nth-child(2) {
+    width: 544px;
+    left: 12%;
+  }
+  .fullgradi > .gradi:nth-child(4) {
+    width: 544px;
+    left: 12%;
+    top: 52%;
+  }
+  .fullgradi > .gradi:nth-child(3) {
+    width: 544px;
+    left: 12%;
+    top: 77%;
+  }
+  .fullgradi > .gradi:nth-child(5) {
+    width: 544px;
+    left: 12%;
+    top: 105%;
+  }
+  .price {
+    margin-top: 40%;
+  }
+  .uchastie h2 {
+    margin-bottom: 85px;
+  }
+  .pod {
+    margin-top: 5px;
+  }
+  .sale span {
+    margin-left: 0;
+  }
+  .magazines {
+    width: 720px;
+    top: 80%;
+  }
+  .magazine {
+    margin-bottom: 56%;
+    height: 500px;
+  }
+  .skitluxe {
+    width: 80%;
+  }
+  .formargin {
+    height: 34%;
+  }
+  .dnone-top {
+    margin-top: 20px !important;
+    width: 80%;
+  }
+  .prizes h2 {
+    margin-bottom: 0px;
+  }
+  .bigkubok {
+    transform: translateX(6%);
+  }
+  .main {
+    background-size: 50%;
+  }
+}
+@media (max-width: 992px) {
+  .rightkrug {
+    width: 350px;
+  }
+  .verhkrug {
+    width: 350px;
+  }
+  .imgsmile {
+    width: 300px;
+  }
+  .leftnom {
+    margin-bottom: 0 !important;
+  }
+}
+@media (max-width: 768px) {
+  .fullgradi > .gradi:nth-child(2),
+  .fullgradi > .gradi:nth-child(1),
+  .fullgradi > .gradi:nth-child(3),
+  .fullgradi > .gradi:nth-child(4),
+  .fullgradi > .gradi:nth-child(5) {
+    width: 480px;
+    left: 4%;
+  }
+  .fullgradi > .gradi:nth-child(1) {
+    top: -6%;
+  }
+  .price {
+    margin-top: 50%;
+  }
+  .rightkrug {
+    display: none;
+  }
+  .magazine {
+    margin-bottom: 65%;
+  }
+}
+@media (max-width: 680px) {
+  .price {
+    margin-top: 60%;
+  }
+}
+@media (max-width: 768px) {
+  .forlin {
+    display: none !important;
+  }
+  .vznos {
+    margin-bottom: 30px;
+  }
+  .sale {
+    height: 169px;
+  }
+  .sale span {
+    margin-left: 10px;
+  }
+  .magazines {
+    width: 600px;
+  }
+  .reg-blocks {
+    gap: 14.28px;
+  }
+}
+@media (max-width: 598px) {
+  .magazines {
+    width: 400px;
+    top: 100%;
+  }
+}
+@media (max-width: 576px) {
+  .participate-btn {
+    font-size: 18px;
+  }
+  .participate-btn img {
+    width: 25px;
+  }
+  .smile h2 {
+    font-size: 27px;
+  }
+  .galaxy img {
+    width: 73px;
+  }
+  .galaxy h5 {
+    font-size: 17px;
+  }
+  .purplearrow {
+    width: 39px !important;
+  }
+  .ninereg {
+    width: 78px !important;
+  }
+  .one71 {
+    width: 152px !important;
+  }
+  .reg-blocks1 h2 {
+    font-size: 25.29px;
+    margin-bottom: 0;
+  }
+  .reg-blocks h3 {
+    font-size: 25.29px;
+    margin-bottom: 10px;
+  }
+  .categ {
+    margin-bottom: 30px;
+  }
+  .tl6 {
+    right: 10%;
+  }
+}
+@media (max-width: 360px) {
+  .underrot {
+    margin-top: 182px;
+  }
+}
+
+@media (max-width: 475px) {
+  .about-buttons-bottom {
+    flex-direction: column;
+  }
+  .about-buttons-bottom .prinyat {
+    width: 100%;
+  }
+  .about-buttons-bottom a {
+    width: 76%;
+    display: flex;
+    justify-content: center;
+  }
+  .uchastniki {
+    font-size: 15px;
+  }
+}
+@media (max-width: 440px) {
+  .blocks h3 {
+    font-size: 13px;
+  }
+}
+@media (max-width: 992px) {
+  .beg_stroka_parent1 {
+    top: -135px;
+  }
+  .beg_stroka_parent {
+    top: -150px;
+  }
 }

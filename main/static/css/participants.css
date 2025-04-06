@@ -75,11 +75,12 @@
   padding: 12px 16px;
 }
 .item {
-  background: url(/static/img/holoback.png) center no-repeat;
+  background: url(/static/img/holoback.png) center/cover no-repeat;
   padding: 12px 10px;
   height: 445.62762451171875px;
   position: relative;
   margin-bottom: 32px;
+  border-radius: 20px;
 }
 .participantimg {
   position: absolute;
@@ -122,4 +123,32 @@
   letter-spacing: 0%;
   vertical-align: middle;
   color: black;
+}
+@media (max-width: 1400px) {
+  .forgap {
+    --bs-gutter-x: 50px;
+  }
+  .item {
+    margin-bottom: 50px;
+    height: 500px;
+  }
+  .participantimg {
+    left: 20%;
+  }
+}
+@media (max-width: 992px) {
+  .participantimg {
+    left: 7%;
+  }
+  .item {
+    height: 450px;
+  }
+  .glav-ne-upusti {
+    flex-direction: column;
+  }
+}
+@media (max-width: 768px) {
+  .participantimg {
+    left: 20%;
+  }
 }

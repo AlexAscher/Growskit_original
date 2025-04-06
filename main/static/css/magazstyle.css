@@ -825,3 +825,90 @@ body {
 .rasskazat {
   margin-bottom: 5%;
 }
+@media (max-width: 1400px) {
+  .magazines {
+    width: 600px;
+    right: 3%;
+  }
+  .magazine {
+    height: 574px;
+    padding: 0 40px;
+  }
+  .glanets {
+    margin-top: 15px;
+  }
+}
+@media (max-width: 1200px) {
+  .magazines {
+    width: 500px;
+  }
+}
+@media (max-width: 992px) {
+  .magazine {
+    height: 746px;
+    margin-bottom: 55%;
+  }
+  .magazines {
+    width: 750px;
+    top: 56%;
+    right: -2%;
+  }
+  .skitluxe {
+    width: 60%;
+  }
+  .obmen {
+    left: -0%;
+    top: -52px;
+  }
+  .pair {
+    left: 5%;
+  }
+  .oppor {
+    top: -121px;
+    left: 59%;
+  }
+  .kontakt {
+    right: -2%;
+  }
+  .heart h2 {
+    margin-bottom: 30%;
+  }
+  .prestizh {
+    bottom: -130px;
+  }
+  .positive {
+    bottom: -108px;
+    right: 8%;
+  }
+  .packet {
+    margin-bottom: 30px;
+  }
+  .krugifonnomin {
+    top: 34% !important;
+  }
+}
+@media (max-width: 768px) {
+  .skitluxe {
+    width: 100%;
+  }
+  .magazines {
+    width: 500px;
+  }
+  .oppor {
+    top: -146px;
+  }
+  .povish {
+    top: -90px;
+  }
+  .delov {
+    left: 0%;
+    bottom: -60px;
+  }
+  .positive {
+    bottom: -30px;
+  }
+  .prestizh {
+    left: 56%;
+    bottom: -100px;
+  }
+}
