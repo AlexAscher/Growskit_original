@@ -36,10 +36,25 @@ def user_directory_path(instance, filename):
 
 # Фотографии/проекты пользоваталя. Django неявно создаст ManyToMany связь
 class PhotoList(models.Model):
+    CHAMPIONSHIP_NOMINATIONS = (
+        ("hand_painted_nails", "художественная роспись. типсы"),
+        ("salon_designs", "салонные дизайны на типсах"),
+        ("pedicure_designs", "дизайн на педикюрных типсах"),
+        ("object_designs", "дизайн на предмете"),
+        ("clothing_designs", "дизайн одежды/обуви/головных уборов"),
+        ("free_style", "свободный стиль"),
+        ("mannequin_hand", "манекен-рука"),
+        ("modeling", "моделирование"),
+        ("poster", "постер"),
+    )
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
-    photo = models.ImageField(upload_to=user_directory_path_championship)
+    photo = models.FileField(upload_to=user_directory_path_championship) # фото или видео
+    nomination = models.CharField(max_length=150, choices=CHAMPIONSHIP_NOMINATIONS, null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.user.username} ({self.championship}) {self.photo.name} - {self.nomination}'
 
 class ProfileParticipant(models.Model):
     CATEGORY_PARTICIPANT = (
@@ -69,6 +84,12 @@ class ProfileParticipant(models.Model):
         return self.fio
 
 
+STATUS_APPROVED = (
+    ("approved", "Одобрено"),
+    ("refused", "Отказано"),
+    ("wait", "На рассмотрении")
+)
+
 class ProfileJudge(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=user_directory_path)
@@ -81,6 +102,7 @@ class ProfileJudge(models.Model):
     vk = models.URLField(null=True, blank=True)
     telegram = models.URLField(null=True, blank=True)
     bio = models.TextField()
+    approved = models.CharField(max_length=150, choices=STATUS_APPROVED, default='wait')
 
     def __str__(self):
         return 'Судья ' + self.fio
@@ -103,6 +125,7 @@ class ProfileSponsor(models.Model):
     telegram = models.URLField(null=True, blank=True)
     bio = models.TextField()
     need_mark_and_dogovor = models.BooleanField(default=False)
+    approved = models.CharField(max_length=150, choices=STATUS_APPROVED, default='wait')
 
     def __str__(self):
         return 'Спонсор ' + self.fio
@@ -180,3 +203,60 @@ class Championship(models.Model):
             return [{'user': user.email, 'average': average(user)}]
 
         return [{'user': user.email, 'average': average(user)} for user in self.participants.all()]
+    
+class AwardRequest(models.Model):
+    AWARD_NOMINATIONS = (
+        ("best_company", "Лучшая компания"),
+        ("best_entrepreneur", "Лучший предприниматель"),
+        ("innovation_of_the_year", "Инновация года"),
+        ("startup_of_the_year", "Стартап года"),
+        ("leader_of_the_year", "Лидер года"),
+        ("best_brand", "Лучший бренд"),
+        ("best_beauty_product", "Лучший бьюти продукт"),
+        ("best_salon", "Лучший салон"),
+        ("best_eco_initiative", "Лучшая эко-инициатива"),
+        ("best_instructor", "Лучший инструктор"),
+        ("best_master", "Лучший мастер"),
+        ("best_beauty_blogger", "Лучший бьюти-блогер"),
+        ("legend_of_the_year", "Легенда года"),
+        ("best_speaker", "Лучший спикер"),
+        ("best_expert", "Лучший эксперт"),
+        ("best_trainer", "Лучший тренер"),
+        ("best_beauty_project", "Лучший бьюти проект"),
+        ("best_sponsor", "Лучший спонсор"),
+        ("best_online_offline_school", "Лучшая онлайн/оффлайн школа"),
+        ("growskit_growth_agility", "GROWSKIT ловкость роста"),
+        ("growing_business_awards", "GROWING BUSINESS AWARDS"),
+    )
+    fio = models.CharField(max_length=150)
+    email = models.EmailField()
+    phone = models.CharField(max_length=150)
+    address = models.CharField(max_length=150)
+    address_sdek = models.CharField(max_length=150)
+    vk = models.URLField(null=True, blank=True)
+    telegram = models.URLField(null=True, blank=True)
+    photo = models.ImageField(upload_to=user_directory_path)
+    bio = models.TextField()
+    nomination = models.CharField(max_length=150, choices=AWARD_NOMINATIONS)
+    from_journal = models.ForeignKey('JournalRequest', on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f'Award {self.fio} - {self.nomination}'
+
+class JournalRequest(models.Model):
+    fio = models.CharField(max_length=150)
+    email = models.EmailField()
+    phone = models.CharField(max_length=150)
+    address = models.CharField(max_length=150)
+    address_sdek = models.CharField(max_length=150)
+    vk = models.URLField(null=True, blank=True)
+    telegram = models.URLField(null=True, blank=True)
+    photo = models.ImageField(upload_to=user_directory_path)
+
+    count_pages = models.IntegerField()
+    need_instance = models.BooleanField(default=False)
+    need_nomination = models.BooleanField(default=False)
+    need_cup_and_elite = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'Journal {self.fio}'

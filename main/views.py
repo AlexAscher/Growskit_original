@@ -107,7 +107,19 @@ def save_with_new_user(request: HttpRequest, cls: forms.ModelForm, type_user: TY
 def index(request):
     return render(request, 'index.html')
 
-def magazine(request):
+def magazine(request: HttpRequest):
+    if request.method == 'POST':
+        form = JournaRequestForm(request.POST, request.FILES)
+        if not form.is_valid():
+            raise BadRequest(form.errors.as_text())
+    
+        model = form.save()
+        if model.need_nomination:
+            request.POST.setdefault('from_journal', model.id)
+            request.POST.setdefault('nomination', 'growing_business_awards')
+            request.POST.setdefault('bio', "<Созданно автоматически>")
+            premiya(request)
+
     return render(request, 'magazine.html')
 
 def participants(request):
@@ -117,6 +129,16 @@ def popup(request):
     return render(request, 'popup.html')
 
 def premiya(request):
+    if request.method == 'POST':
+        form = AwardRequestForm(request.POST, request.FILES)
+        if not form.is_valid():
+            raise BadRequest(form.errors.as_text())
+    
+        form.save()
+
+        if request.POST.get('from_journal'):
+            return redirect('magazine')
+    
     return render(request, 'premiya.html')
 
 def sponsorstvo(request):
@@ -170,8 +192,8 @@ def uchastie(request: HttpRequest):
         team.save()
 
         notify_new_user(form.cleaned_data['leader']['email'], password)
-        for user in new_users:
-            notify_new_user(user[0], user[1])
+        # for user in new_users: # не отправлять доступ участникам
+        #    notify_new_user(user[0], user[1])
 
         return redirect('index') # TODO: redirect to profile team
 

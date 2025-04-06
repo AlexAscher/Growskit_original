@@ -121,6 +121,43 @@ class ManagerForm(forms.ModelForm):
             'referal_key',
         ]
 
+class AwardRequestForm(forms.ModelForm):
+    class Meta:
+        model = AwardRequest
+        fields = [
+            'fio',
+            'email',
+            'phone',
+            'address',
+            'address_sdek',
+            'vk',
+            'telegram',
+            'photo',
+            'bio',
+
+            'nomination',
+            'from_journal',
+        ]
+
+class JournaRequestForm(forms.ModelForm):
+    class Meta:
+        model = JournalRequest
+        fields = [
+            'fio',
+            'email',
+            'phone',
+            'address',
+            'address_sdek',
+            'vk',
+            'telegram',
+            'photo',
+
+            'count_pages',
+            'need_instance',
+            'need_nomination',
+            'need_cup_and_elite',
+        ]
+
 class AddJudgeForm(forms.ModelForm):
     class Meta:
         model = ProfileJudge
