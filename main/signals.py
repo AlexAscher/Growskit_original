@@ -1,7 +1,7 @@
 from django.apps import apps
-from .apps import MainConfig
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
+
 
 def create_groups(sender, **kwargs):
     GROUPS_PERMISSIONS: dict[str, list[str]] = {

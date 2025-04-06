@@ -23,7 +23,7 @@
                 <td>{{ judge.fio }}</td>
                 <td>{{ judge.phone }}</td>
                 <td>{{ judge.email }}</td>
-                <td><button class="btn btn-primary">Выслать логин</button></td>
+                <td><button class="btn btn-primary" onclick="sendAuth('{{ judge.email }}', this)">Выслать логин</button></td>
             </tr>
             {% empty %}
             <tr>
@@ -54,4 +54,22 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+    async function sendAuth(judgeId, btn) {
+        let url = "{% url 'send_auth' %}";
+        let resp = await fetch(url, { method: 'POST', body: `{"judge_id": "${judgeId}"}`, headers: { 'X-CSRFToken': '{{ csrf_token }}' }});
+        let data = await resp.json();
+        if (data.status == 'OK') {
+            btn.innerHTML = 'Выслано';
+        } else {
+            let short = data.short? data.short : `${resp.status}`;
+            btn.innerHTML = `Ошибка (${short})`;
+            console.log(data.message);
+        }
+    }
+</script>
 {% endblock %}

@@ -1,10 +1,11 @@
 import datetime
+import itertools
 import random
 import string
 from typing import Literal
 
 from django.conf import settings
-from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import BadRequest
 from django.contrib.auth.models import User, Group
@@ -13,6 +14,8 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
+
+from main.bot import bot
 
 from .forms import *
 from .models import *
@@ -41,7 +44,11 @@ def create_user(email, type_user: TYPE_USER):
     
     return user, password
 
-def notify_user(subject, message, recipient, fail_silently=False):
+def notify_user_tg(subject: str, message: str, tg: str, fail_silently=False):
+    # bot.callfunc(bot.bot.send_message, bot.clear_user(tg), f'{subject}\n\n{message}', fail_silently=fail_silently)
+    print("notify_user_tg: Not implemented")
+
+def notify_user(subject: str, message: str, recipient: list[str] | str, fail_silently=False, tg=""):
     send_mail(
         subject,
         message,
@@ -49,15 +56,13 @@ def notify_user(subject, message, recipient, fail_silently=False):
         recipient if isinstance(recipient, list) else [recipient],
         fail_silently=fail_silently,
     )
+    if tg:
+        notify_user_tg(subject, message, tg, fail_silently=fail_silently)
 
-def notify_new_user(email, password):
-    notify_user(
-        "Заявка на чемпионат",
-        "Ваша заявка на чемпионат принята!\n\nИспользуйте для входа:\n"
-        f"логин: {email}\nпароль: {password}",
-        email,
-        fail_silently=True,
-    )
+def notify_new_user(email: str, password: str, tg=""):
+    subject = "Заявка на Чемпионат"
+    message = f"Ваша заявка на чемпионат принята!\n\nИспользуйте для входа:\nЛогин: {email}\nПароль: {password}",
+    notify_user(subject, message, email, fail_silently=True, tg=tg)
     
 def get_or_404_active_championship():
     championship = Championship.objects.filter(last_date_registration__gte=datetime.date.today()).first()
@@ -101,7 +106,7 @@ def save_with_new_user(request: HttpRequest, cls: forms.ModelForm, type_user: TY
         add_user_to_championship(championship, model, type_user)
 
     if need_send_mail:
-        notify_new_user(form.cleaned_data['email'], password)
+        notify_new_user(form.cleaned_data['email'], password, tg=form.cleaned_data.get('tg'))
 
 
 def index(request):
@@ -184,36 +189,52 @@ def uchastie(request: HttpRequest):
         new_users = []
         for participant_data in form.cleaned_data['participants']:
             user, password = create_user(participant_data['email'], 'participant')
-            new_users.append([participant_data['email'], password])
+            new_users.append([participant_data['email'], password, participant_data['tg']])
             participant, _ = get_or_create(ProfileParticipant, user, participant_data)
             team.members.add(participant)
             add_user_to_championship(championship, participant, 'participant')
 
         team.save()
 
-        notify_new_user(form.cleaned_data['leader']['email'], password)
+        notify_new_user(form.cleaned_data['leader']['email'], password, tg=form.cleaned_data['leader']['tg'])
         # for user in new_users: # не отправлять доступ участникам
-        #    notify_new_user(user[0], user[1])
+        #    notify_new_user(user[0], user[1], tg=user['tg'])
 
         return redirect('index') # TODO: redirect to profile team
 
     return render(request, 'uchastie.html')
 
 
-def api_manager(request: HttpRequest):
+def send_auth(request: HttpRequest):
     if request.method == 'POST':
-        if not request.POST.get('referal_key'):
-            request.POST.setdefault('referal_key', get_random_string(100))
-        save_with_new_user(request, ManagerForm, 'manager', check_championship=False, need_send_mail=False)
+        user = get_object_or_404(User, email=request.POST.get('email'))
+        password = get_random_string(10)
+        user.set_password(password)
+        user.save()
 
+        subject = 'Доступ к ЛК Чемпионата'
+        message = f'Вам предоставлен доступ к ЛК Чемпионата.\nЛогин: {user.username}\nПароль: {password}'
+        notify_user(subject, message, user.email, tg=request.POST.get('tg'))
+        return HttpResponse('{"status": "OK"}')
+    
     raise BadRequest
 
-def api_notify_user(request: HttpRequest):
+def send_notify_of_days_left_registration(request: HttpRequest):
     if request.method == 'POST':
-        recipient = request.POST.get('email')
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
-        notify_user(subject, message, recipient)
+        championship = get_object_or_404(Championship, id=request.POST.get('championship_id'))
+        
+        members = championship.participants.all()
+        for member in members:
+            subject = 'Чемпионат ' + championship.name
+            days = championship.get_days_left()
+            if days == 0:
+                message = 'Сегодня последний день регистрации'
+            else:
+                message = f'До конца регистрации осталось {days} дней'
+            notify_user(subject, message, member.email, tg=member.tg)
+
+        return JsonResponse({'status': 'OK', 'notified': members.count()})
+
     
     raise BadRequest
 

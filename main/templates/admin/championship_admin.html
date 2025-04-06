@@ -44,7 +44,7 @@
                 <td>{{ championship.last_date_registration }}</td>
                 <td>{{ championship.criteries }}</td>
                 <td>
-                    <button class="btn btn-warning btn-sm">Разослать напоминание</button>
+                    <button class="btn btn-warning btn-sm" onclick="sendNotify('{{ championship.id }}')">Разослать напоминание</button>
                 </td>
             </tr>
             {% empty %}
@@ -55,3 +55,17 @@
         </tbody>
     </table>
 {% endblock %}
+
+{% block extra_js %}
+<script>
+    async function sendNotify(championshipId) {
+        let url = "{% url 'send_notify_of_days_left_registration' %}";
+        let resp = await fetch(url, { method: 'POST', body: `{"championship_id": "${championshipId}"}`, headers: { 'X-CSRFToken': '{{ csrf_token }}' }});
+        let data = await resp.json();
+        if (data.status == 'OK') {
+            alert(`Напоминание отправлено. Было уведомлено ${data.notified} участников.`);
+        } else {
+            alert(`Произошла ошибка: (${resp.status}) ${data.message}`);
+        }
+    }
+</script>

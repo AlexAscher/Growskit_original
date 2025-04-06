@@ -21,6 +21,26 @@ from django.core.exceptions import BadRequest
 есть два поля даты - дата самого чемпионата и дата окончания регистрации
 """
 
+"""
+# пусть пока будет, ищу другие варианты
+class Log(models.Model):
+    STATUSES = (
+        ('info', 'info'),
+        ('debug', 'debug'),
+        ('warning', 'warning'),
+        ('error', 'error'),
+        ('critical', 'critical'),
+    )
+    status = models.CharField(max_length=20, choices=STATUSES)
+    message = models.TextField()
+    description = models.TextField(null=True, blank=True)
+    context = models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.status}: {self.message}'
+"""
+
+
 def user_directory_path_championship(instance, filename):
     championship = Championship.objects.filter(participants=instance.user, last_date_registration__gte=datetime.date.today()).first()
     if not championship:
@@ -56,6 +76,15 @@ class PhotoList(models.Model):
     def __str__(self):
         return f'{self.user.username} ({self.championship}) {self.photo.name} - {self.nomination}'
 
+
+STATUS_APPROVED = (
+    ("approved", "Одобрено"),
+    ("refused", "Отказано"),
+    ("wait", "На рассмотрении"),
+    ("blocked", "Заблокировано")
+)
+
+
 class ProfileParticipant(models.Model):
     CATEGORY_PARTICIPANT = (
         ("individual", "Индивидуальный участник"),
@@ -79,16 +108,11 @@ class ProfileParticipant(models.Model):
     address_sdek = models.CharField(max_length=150)
     bio = models.TextField()
     count_work = models.IntegerField()
+    approved = models.CharField(max_length=150, choices=STATUS_APPROVED, default='approved')
 
     def __str__(self):
         return self.fio
-
-
-STATUS_APPROVED = (
-    ("approved", "Одобрено"),
-    ("refused", "Отказано"),
-    ("wait", "На рассмотрении")
-)
+    
 
 class ProfileJudge(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -203,6 +227,9 @@ class Championship(models.Model):
             return [{'user': user.email, 'average': average(user)}]
 
         return [{'user': user.email, 'average': average(user)} for user in self.participants.all()]
+    
+    def get_days_left(self):
+        return (self.last_date_registration - datetime.date.today()).days
     
 class AwardRequest(models.Model):
     AWARD_NOMINATIONS = (
