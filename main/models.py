@@ -22,12 +22,9 @@ from django.core.exceptions import BadRequest
 
 # TODO: есть вариант добавить логирование запросов через django-request
 
-def items_key_key(dict: dict):
-    return [(key, key) for key in dict if key != 'NOTSET']
-
 class Log(models.Model):
-    STATUSES = items_key_key(logging.getLevelNamesMapping())
-
+    STATUSES = [(key, key) for key in logging.getLevelNamesMapping() if key != logging.getLevelName(logging.NOTSET)]
+    
     created = models.DateTimeField(default=datetime.datetime.now)
     status = models.CharField(max_length=20, choices=STATUSES)
     message = models.TextField()
