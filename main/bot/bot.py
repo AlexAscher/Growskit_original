@@ -1,22 +1,44 @@
+import subprocess
+import telebot
+import os
+
+from dotenv import load_dotenv
+load_dotenv()
+
+TGBOT_TOKEN = os.getenv('TGBOT_TOKEN')
+
+class Handler(telebot.ExceptionHandler):
+    def handle(self, exception):
+        if isinstance(exception, telebot.apihelper.ApiTelegramException) and exception.error_code == 409:
+            print('Bot is already running. Exiting...')
+            os.kill(os.getpid(), 9)
+        return True
+
+bot = None if not TGBOT_TOKEN else telebot.TeleBot(TGBOT_TOKEN, exception_handler=Handler())
+
+def check_bot(func):
+    def wrapper(*args, **kwargs):
+        if not bot:
+            return None
+        return func(*args, **kwargs)
+    return wrapper
+
 def callfunc(func, *args, fail_silently=False, **kwargs):
     try:
         return func(*args, **kwargs)
     except Exception as e:
         if not fail_silently:
             raise
-        print(f'${func.__module__}.{func.__name__} Exception: {e}')
+        print(f'${func.__module__}.{func.__name__} ({args}) Exception: {e}')
 
-def get_chat_id(tg_link: str):
-    if 't.me/' in tg_link:
-        return tg_link.split('t.me/')[1].split('/')[0]
-    return tg_link
+if bot:
+    @bot.message_handler(commands=['start'])
+    def start(message):
+        print(message.chat.id)
+        bot.send_message(message.chat.id, 'Hello!')
 
-def clear_user(tg: str):
-    if not tg:
-        return ""
-    
-    chat_id = get_chat_id(tg)
-    if not chat_id.isdigit():
-        chat_id = '@' + chat_id
-
-    return chat_id
+    if __name__ == '__main__':
+        bot.infinity_polling()
+    else:
+        proc = subprocess.Popen(['python', os.path.join(os.path.dirname(__file__), 'bot.py')], shell=True,
+            stdin=None, stdout=None, stderr=None, close_fds=True)

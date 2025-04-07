@@ -4,6 +4,8 @@ import logging
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import BadRequest
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 """
@@ -92,6 +94,14 @@ STATUS_APPROVED = (
     ("blocked", "Заблокировано")
 )
 
+class ProfileAdmin(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, limit_choices_to={'is_superuser': True})
+    telegram = models.CharField(max_length=150, null=True, blank=True)
+
+@receiver(post_save, sender=User)
+def create_admin_profile(sender, instance, created, **kwargs):
+    if created:
+        ProfileAdmin.objects.get_or_create(user=instance)
 
 class ProfileParticipant(models.Model):
     CATEGORY_PARTICIPANT = (

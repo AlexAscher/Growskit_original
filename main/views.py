@@ -1,5 +1,4 @@
 import datetime
-import itertools
 import random
 import string
 from typing import Literal
@@ -46,29 +45,58 @@ def create_user(email, type_user: TYPE_USER):
     
     return user, password
 
-def notify_user_tg(subject: str, message: str, tg: str, fail_silently=False):
-    # bot.callfunc(bot.bot.send_message, bot.clear_user(tg), f'{subject}\n\n{message}', fail_silently=fail_silently)
-    print("notify_user_tg: Not implemented")
+@bot.check_bot
+def notify_user_tg(subject: str, message: str, tg: list[str] | str, fail_silently=False):
+    print(tg)
+    if isinstance(tg, str):
+        tg = [tg]
+    for t in list(set(tg)):
+        t = t.strip()
+        if '/' in t:
+            t = t.split('/')[-1]
+            while t.endswith('/'):
+                t = t[:-1]
+        if not t[1:].isnumeric() and not t.startswith('@') and not t.startswith('+'):
+            t = '@'+t
+        bot.callfunc(bot.bot.send_message, t, f'{subject}\n\n{message}', fail_silently=fail_silently)
 
-def notify_user(subject: str, message: str, recipient: list[str] | str, fail_silently=False, tg=""):
-    send_mail(
-        subject,
-        message,
-        settings.EMAIL_HOST_USER,
-        recipient if isinstance(recipient, list) else [recipient],
-        fail_silently=fail_silently,
-    )
+def get_group_tg():
+    users = User.objects.filter(is_superuser=True)
+    return list(set([user.profileadmin.telegram for user in users]))
+
+def notify_user(subject: str, message: str, recipient: list[str] | str, fail_silently=False, tg: list[str] | str =""):
+    if len(recipient) > 0:
+        if isinstance(recipient, list):
+            recipient = list(set(recipient))
+        send_mail(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            recipient if isinstance(recipient, list) else [recipient],
+            fail_silently=fail_silently,
+        )
     if tg:
         notify_user_tg(subject, message, tg, fail_silently=fail_silently)
 
-def notify_admin(subject: str, message: str, email: str | Literal['All'], fail_silently=False, tg=""):
-    recipients = [email] if email != 'All' else list(User.objects.filter(is_superuser=True).values_list('email', flat=True))
-    notify_user(subject, message, recipients, fail_silently=fail_silently, tg=tg)
+def notify_admin(subject: str, message: str, recipient: list[str] | str | Literal['All'], fail_silently=True, tg: list[str] | str | Literal['ALL'] =""):
+    need_tg = isinstance(tg, str) and tg == 'ALL'
+    tgs = [] if need_tg else (tg if isinstance(tg, list) else [tg])
+    
+    if isinstance(recipient, str) and recipient == 'ALL':
+       recipient = []
+       users = User.objects.filter(is_superuser=True)
+       for user in users:
+            if need_tg:
+                tgs.append(user.profile_admin.telegram)
+            recipient.append(user.email)
 
-def notify_new_user(email: str, password: str, fail_silently=False, tg=""):
+
+    notify_user(subject, message, recipient, fail_silently, tg=tgs)
+
+def notify_new_user(email: str, password: str, fail_silently=False, tg: str =""):
     subject = "Заявка на Чемпионат"
-    message = f"Ваша заявка на чемпионат принята!\n\nИспользуйте для входа:\nЛогин: {email}\nПароль: {password}",
-    notify_user(subject, message, email, fail_silently=fail_silently, tg=tg)
+    message = f"Ваша заявка на чемпионат принята!\n\nИспользуйте для входа:\nЛогин: {email}\nПароль: {password}"
+    notify_user(subject, message, email, fail_silently=fail_silently) #, tg=tg)
     
 def get_or_404_active_championship():
     championship = Championship.objects.filter(last_date_registration__gte=datetime.date.today()).first()
@@ -90,7 +118,7 @@ def add_user_to_championship(championship: Championship, user, type_user: TYPE_U
     championship.__getattribute__(type_user+'s').add(user)
     championship.save()
 
-def save_with_new_user(request: HttpRequest, cls: forms.ModelForm, type_user: TYPE_USER, check_championship=False, need_send_mail=False):
+def save_with_new_user(request: HttpRequest, cls: forms.ModelForm, type_user: TYPE_USER, check_championship=False, need_notify=False):
     championship: Championship = None
     if check_championship:
         championship = get_or_404_active_championship()
@@ -111,10 +139,10 @@ def save_with_new_user(request: HttpRequest, cls: forms.ModelForm, type_user: TY
     if championship:
         add_user_to_championship(championship, model, type_user)
 
-    if need_send_mail:
-        notify_new_user(form.cleaned_data['email'], password, tg=form.cleaned_data.get('tg'))
+    if need_notify:
+        notify_new_user(form.cleaned_data['email'], password) #, tg=form.cleaned_data.get('telegram'))
     
-    return password != MSG_OF_NOT_NEW_USER
+    return model, password != MSG_OF_NOT_NEW_USER
 
 
 def index(request):
@@ -136,6 +164,8 @@ def magazine(request: HttpRequest):
         notify_admin(
             'Заявка на место в журнале',
             f'{model}' + '\nПодробности в личном кабинете',
+            'ALL',
+            tg=get_group_tg(),
         )
 
 
@@ -161,20 +191,38 @@ def premiya(request):
         notify_admin(
             'Заявка на премию',
             f'{model}' + '\nПодробности в личном кабинете',
+            'ALL',
+            tg=get_group_tg(),
         )
     
     return render(request, 'premiya.html')
 
 def sponsorstvo(request):
     if request.method == 'POST':
-        save_with_new_user(request, SponsorstvoForm, 'sponsor', check_championship=False, need_send_mail=False)
+        model, created = save_with_new_user(request, SponsorstvoForm, 'sponsor', check_championship=False, need_notify=False)
+        
+        if created: 
+            notify_admin(
+                'Заявка на спонсорство',
+                f'{model}' + '\nПодробности в личном кабинете',
+                'ALL',
+                tg=get_group_tg(),
+            )
         return redirect('index') # TODO: redirect to profile sponsor
 
     return render(request, 'sponsorstvo.html')
 
 def sudeystvo(request):
     if request.method == 'POST':
-        save_with_new_user(request, SudeystvoForm, 'judge', check_championship=False, need_send_mail=True)
+        model, created = save_with_new_user(request, SudeystvoForm, 'judge', check_championship=False, need_notify=True)
+        
+        if created: 
+            notify_admin(
+                'Заявка на судью',
+                f'{model}' + '\nПодробности в личном кабинете',
+                'ALL',
+                tg=get_group_tg(),
+            )
         return redirect('index') # TODO: redirect to profile judge
 
     return render(request, 'sudeystvo.html')
@@ -182,13 +230,21 @@ def sudeystvo(request):
 def uchastie(request: HttpRequest):
     if request.method == 'POST':
         if not request.POST.get('is_team'):
-            created = save_with_new_user(request, UchastieForm, 'participant', check_championship=True, need_send_mail=True)
+            model, created = save_with_new_user(request, UchastieForm, 'participant', check_championship=True, need_notify=True)
                 
             if request.COOKIES.get('refer') and created:
                 refer = ProfileManager.objects.filter(referal_key=request.COOKIES['refer']).first()
                 if refer:
                     refer.referals += 1
                     refer.save()
+            
+            if created: 
+                notify_admin(
+                    'Заявка на участие',
+                    f'{model}' + '\nПодробности в личном кабинете',
+                    'ALL',
+                    tg=get_group_tg(),
+                )
         
             resp_redirect = HttpResponseRedirect(reverse('index')) # TODO: redirect to profile participant
             resp_redirect.delete_cookie('refer')
@@ -206,27 +262,34 @@ def uchastie(request: HttpRequest):
         team.leader = leader
 
         new_users = []
-        count_real_new = 0
+        real_new = []
         for participant_data in form.cleaned_data['participants']:
             user, password = create_user(participant_data['email'], 'participant')
-            if password != MSG_OF_NOT_NEW_USER:
-                count_real_new += 1
             new_users.append([participant_data['email'], password, participant_data['tg']])
-            participant, _ = get_or_create(ProfileParticipant, user, participant_data)
+            participant, created = get_or_create(ProfileParticipant, user, participant_data)
             team.members.add(participant)
+            if created:
+                real_new.append(participant)
             add_user_to_championship(championship, participant, 'participant')
 
         team.save()
 
-        notify_new_user(form.cleaned_data['leader']['email'], password, tg=form.cleaned_data['leader']['tg'])
+        notify_new_user(form.cleaned_data['leader']['email'], password) #, tg=form.cleaned_data['leader']['tg'])
         # for user in new_users: # не отправлять доступ участникам
         #    notify_new_user(user[0], user[1], tg=user['tg'])
 
         if request.COOKIES.get('refer'):
             refer = ProfileManager.objects.filter(referal_key=request.COOKIES['refer']).first()
             if refer:
-                refer.referals += len(new_users)
+                refer.referals += len(real_new)
                 refer.save()
+        
+        notify_admin(
+            'Заявка на участие',
+            f'Команда: {team}\n'+'\n'.join(real_new) + '\nПодробности в личном кабинете' + msg,
+            'ALL',
+            tg=get_group_tg(),
+        )
 
         return redirect('index') # TODO: redirect to profile team
 
@@ -242,7 +305,7 @@ def send_auth(request: HttpRequest):
 
         subject = 'Доступ к ЛК Чемпионата'
         message = f'Вам предоставлен доступ к ЛК Чемпионата.\nЛогин: {user.username}\nПароль: {password}'
-        notify_user(subject, message, user.email, tg=request.POST.get('tg'))
+        notify_user(subject, message, user.email) #, tg=request.POST.get('telegram'))
         return HttpResponse('{"status": "OK"}')
     
     raise BadRequest
@@ -259,11 +322,17 @@ def send_notify_of_days_left_registration(request: HttpRequest):
                 message = 'Сегодня последний день регистрации'
             else:
                 message = f'До конца регистрации осталось {days} дней'
-            notify_user(subject, message, member.email, tg=member.tg)
+            notify_user(subject, message, member.email) #, tg=member.tg)
+
+        notify_admin(
+            'Чемпионат ' + championship.name,
+            f'До конца регистрации осталось {days} дней',
+            'ALL',
+            tg=get_group_tg(),
+        )
 
         return JsonResponse({'status': 'OK', 'notified': members.count()})
 
-    
     raise BadRequest
 
 class CustomLoginView(LoginView):
