@@ -158,6 +158,16 @@ class JournaRequestForm(forms.ModelForm):
             'need_cup_and_elite',
         ]
 
+class SertificateForm(forms.ModelForm):
+    class Meta:
+        model = Sertificate
+        fields = [
+            'user',
+            'championship',
+            'file',
+        ]
+
+
 class AddJudgeForm(forms.ModelForm):
     class Meta:
         model = ProfileJudge

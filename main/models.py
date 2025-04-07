@@ -46,6 +46,10 @@ def user_directory_path_championship(instance, filename):
     return f'media/main/championships/{championship.id}/{instance.user.id}/{filename}'
 
 
+def championship_directory_path(instance, filename):
+    return f'media/main/championships/{instance.id}/{filename}'
+
+
 def user_directory_path(instance, filename):
     return f'media/main/users/{instance.user.id}/{filename}'
 
@@ -70,6 +74,15 @@ class PhotoList(models.Model):
 
     def __str__(self):
         return f'{self.user.username} ({self.championship}) {self.photo.name} - {self.nomination}'
+
+
+class Sertificate(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    championship = models.ForeignKey('Championship', on_delete=models.CASCADE)
+    file = models.FileField(upload_to=user_directory_path_championship)
+
+    def __str__(self):
+        return f'Sertificate {self.user.username} ({self.championship}) {self.file.name}'
 
 
 STATUS_APPROVED = (
@@ -133,6 +146,7 @@ class ProfileSponsor(models.Model):
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
 
     fio = models.CharField(max_length=150)
     participant = models.CharField(max_length=150, choices=CATEGORY_PARTICIPANT)
@@ -193,6 +207,7 @@ class Mark(models.Model):
     judge = models.ForeignKey(ProfileJudge, on_delete=models.CASCADE, related_name='mu_judge', null=True)
     participant = models.ForeignKey(ProfileParticipant, on_delete=models.CASCADE, related_name='mu_participant', null=True)
     mark = models.FloatField()
+    comment = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f'({self.mark:.2f}) {self.participant} ({self.judge})'
@@ -205,7 +220,7 @@ class Championship(models.Model):
     participants = models.ManyToManyField(ProfileParticipant, blank=True)
     judges = models.ManyToManyField(User, blank=True, related_name='cu_judges')
     marks = models.ManyToManyField(Mark, blank=True)
-    criteries = models.TextField()
+    criteries = models.FileField(upload_to=championship_directory_path, null=True, blank=True)
 
     def __str__(self):
         return self.name + ' ' + str(self.date)
@@ -225,6 +240,7 @@ class Championship(models.Model):
     
     def get_days_left(self):
         return (self.last_date_registration - datetime.date.today()).days
+    
     
 class AwardRequest(models.Model):
     AWARD_NOMINATIONS = (

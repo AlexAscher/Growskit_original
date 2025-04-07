@@ -25,10 +25,12 @@ TYPE_USER = Literal['participant', 'judge', 'sponsor']
 def get_random_string(length):
     return ''.join([random.choice(string.ascii_letters + string.digits) for n in range(length)])
 
+MSG_OF_NOT_NEW_USER = 'Ранее вы участвали в чемпионате. Проверьте почту или восстановите пароль'
+
 def create_user(email, type_user: TYPE_USER):
     user = User.objects.filter(email=email).first()
     if user:
-        return user, 'Ранее вы участвали в чемпионате. Проверьте почту или восстановите пароль'
+        return user, MSG_OF_NOT_NEW_USER
 
     password = get_random_string(10)
     user = User.objects.create_user(
@@ -59,10 +61,14 @@ def notify_user(subject: str, message: str, recipient: list[str] | str, fail_sil
     if tg:
         notify_user_tg(subject, message, tg, fail_silently=fail_silently)
 
-def notify_new_user(email: str, password: str, tg=""):
+def notify_admin(subject: str, message: str, email: str | Literal['All'], fail_silently=False, tg=""):
+    recipients = [email] if email != 'All' else list(User.objects.filter(is_superuser=True).values_list('email', flat=True))
+    notify_user(subject, message, recipients, fail_silently=fail_silently, tg=tg)
+
+def notify_new_user(email: str, password: str, fail_silently=False, tg=""):
     subject = "Заявка на Чемпионат"
     message = f"Ваша заявка на чемпионат принята!\n\nИспользуйте для входа:\nЛогин: {email}\nПароль: {password}",
-    notify_user(subject, message, email, fail_silently=True, tg=tg)
+    notify_user(subject, message, email, fail_silently=fail_silently, tg=tg)
     
 def get_or_404_active_championship():
     championship = Championship.objects.filter(last_date_registration__gte=datetime.date.today()).first()
@@ -107,6 +113,8 @@ def save_with_new_user(request: HttpRequest, cls: forms.ModelForm, type_user: TY
 
     if need_send_mail:
         notify_new_user(form.cleaned_data['email'], password, tg=form.cleaned_data.get('tg'))
+    
+    return password != MSG_OF_NOT_NEW_USER
 
 
 def index(request):
@@ -124,6 +132,12 @@ def magazine(request: HttpRequest):
             request.POST.setdefault('nomination', 'growing_business_awards')
             request.POST.setdefault('bio', "<Созданно автоматически>")
             premiya(request)
+        
+        notify_admin(
+            'Заявка на место в журнале',
+            f'{model}' + '\nПодробности в личном кабинете',
+        )
+
 
     return render(request, 'magazine.html')
 
@@ -139,10 +153,15 @@ def premiya(request):
         if not form.is_valid():
             raise BadRequest(form.errors.as_text())
     
-        form.save()
+        model = form.save()
 
         if request.POST.get('from_journal'):
             return redirect('magazine')
+
+        notify_admin(
+            'Заявка на премию',
+            f'{model}' + '\nПодробности в личном кабинете',
+        )
     
     return render(request, 'premiya.html')
 
@@ -163,9 +182,9 @@ def sudeystvo(request):
 def uchastie(request: HttpRequest):
     if request.method == 'POST':
         if not request.POST.get('is_team'):
-            save_with_new_user(request, UchastieForm, 'participant', check_championship=True, need_send_mail=True)
+            created = save_with_new_user(request, UchastieForm, 'participant', check_championship=True, need_send_mail=True)
                 
-            if request.COOKIES.get('refer'):
+            if request.COOKIES.get('refer') and created:
                 refer = ProfileManager.objects.filter(referal_key=request.COOKIES['refer']).first()
                 if refer:
                     refer.referals += 1
@@ -187,8 +206,11 @@ def uchastie(request: HttpRequest):
         team.leader = leader
 
         new_users = []
+        count_real_new = 0
         for participant_data in form.cleaned_data['participants']:
             user, password = create_user(participant_data['email'], 'participant')
+            if password != MSG_OF_NOT_NEW_USER:
+                count_real_new += 1
             new_users.append([participant_data['email'], password, participant_data['tg']])
             participant, _ = get_or_create(ProfileParticipant, user, participant_data)
             team.members.add(participant)
@@ -199,6 +221,12 @@ def uchastie(request: HttpRequest):
         notify_new_user(form.cleaned_data['leader']['email'], password, tg=form.cleaned_data['leader']['tg'])
         # for user in new_users: # не отправлять доступ участникам
         #    notify_new_user(user[0], user[1], tg=user['tg'])
+
+        if request.COOKIES.get('refer'):
+            refer = ProfileManager.objects.filter(referal_key=request.COOKIES['refer']).first()
+            if refer:
+                refer.referals += len(new_users)
+                refer.save()
 
         return redirect('index') # TODO: redirect to profile team
 
@@ -260,10 +288,10 @@ def participants_list(request):
 @user_passes_test(is_admin)
 def judges_list(request):
     judges = ProfileJudge.objects.all()
-    latest_championship = Championship.objects.order_by('-id').first()
+    latest_championship = Championship.objects.filter(date__gte=datetime.date.today()).first()
 
-    if request.method == "POST" and "update_criteries" in request.POST:
-        criteries = request.POST.get("criteries")
+    if request.method == "POST" and "update_criteries" in request.FILES:
+        criteries = request.FILES.get("criteries")
         if latest_championship:
             latest_championship.criteries = criteries
             latest_championship.save()
@@ -375,7 +403,6 @@ def championship_admin(request):
                 name=name,
                 date=date,
                 last_date_registration=last_date_registration,
-                criteries="Критерии пока не указаны"
             )
             return redirect("championship_admin")
 
