@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/static/css/reset.css" />
   </head>
   <body>
-    <header class="header">
+    <header class="header d-none d-xxl-flex">
       <div class="logo"><img src="/static/img/headerlogo.png" alt="" /></div>
       <nav class="nav">
         <a href="/">Чемпионат</a>
@@ -35,9 +35,31 @@
         <a href="#magazform">
           <button class="header-first-btn" style="color: white;">Опубликоваться в журнале</button>
         </a>
-        
+
         <a href="/uchastie/"><button class="header-second-btn">Принять участие</button></a>
       </div>
+    </header>
+    <header class="d-block d-xxl-flex">
+      <div class="hamburger-menu">
+        <div class="logo"><img src="/static/img/headerlogo.png" alt="" /></div>
+            <input id="menu__toggle" type="checkbox"/>
+            <label class="menu__btn" for="menu__toggle">
+              <span></span>
+            </label>
+
+            <ul class="menu__box">
+                <li><a class="menu_item1" href="#ab" style="padding-right: 0px;">О продукте</a></li>
+                <li class="mt-2"><a class="menu_item1" href="#adv" style="padding-right: 0px;">Преимущества</a></li>
+                <li class="mt-2"><a class="menu_item1" href="#gal" style="padding-right: 0px;">Галерея</a></li>
+                <li class="mt-2"><a class="menu_item1" href="#clients" style="padding-right: 0px;">Партнёры</a></li>
+                <li class="mt-2"><a class="menu_item1" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" style="padding-right: 0px;">Бронирование техники</a></li>
+                <li class="mt-2"><a class="menu_item1" href="#con" style="padding-right: 0px;">Контакты</a></li>
+                <a href="https://t.me/Edian1"><img src="img/tg.svg" alt="" class="img_footer"></a>
+        <a href="https://wa.me/79502922999"><img src="img/wh.svg" class="wh_footer img_footer" alt=""></a>
+            </ul>
+
+      </div>
+
     </header>
     <section class="magazine">
       <div class="formargin"></div>

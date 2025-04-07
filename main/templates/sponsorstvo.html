@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/reset.css" />
   </head>
   <body>
-    <header class="header">
+    <header class="header d-none d-xxl-flex">
       <div class="logo"><img src="/static/img/headerlogo.png" alt="" /></div>
       <nav class="nav">
         <a href="/">Чемпионат</a>
@@ -183,16 +183,27 @@
         </div>
       </div>
     </section>
-    <section class="footer">
-      <div class="container-fluid">
+    <section class="footer" id="footer">
+      <div class="container">
         <div class="row footpad">
-          <div class="col-lg-6">
+          <div class="col-xl-6 col-sm-12 first-part-footer">
             <img src="/static/img/footgrowskit.png" alt="" />
-            <img src="/static/img/lotus.png" alt="" style="margin-top: 20px" />
+            <div class="bottom-plashki">
+              <img
+                src="/static/img/lotus.png"
+                alt=""
+                style="margin-top: 20px"
+              />
+              <img
+                src="/static/img/lunailbottom.png"
+                alt=""
+                style="margin-top: 20px"
+              />
+            </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-xl-6 col-sm-12">
             <div class="row">
-              <div class="col-lg-2 offset-lg-1">
+              <div class="col-xl-2 offset-xl-1 col-sm-4">
                 <a href="/"><h2>Чемпионат</h2></a>
                 <a href="/premiya/"><h2>Премия</h2></a>
                 <a href="/magazine/"><h2>Журнал</h2></a>
@@ -200,24 +211,37 @@
                 <a href="/sudeystvo/"><h2>Судейство</h2></a>
                 <a href="/participants/"><h2>Участники</h2></a>
               </div>
-              <div class="offset-lg-1 col-lg-5">
+              <div class="offset-xl-1 col-xl-5 col-sm-4 forcontacts">
                 <h3>Контакты</h3>
                 <div class="contacts">
-                  <h4 style="margin-right: 8px">+7 (999) 999-99-99</h4>
+                  <h4 style="margin-right: 8px">+7 (978) 708-99-20</h4>
                   <h4>Ирина</h4>
                 </div>
+                <div class="contacts">
+                  <h4 style="margin-right: 8px">‪+7 (978) 757-41-55‬</h4>
+                  <h4>Татьяна</h4>
+                </div>
               </div>
-              <div class="col-lg-3">
+              <div class="col-xl-3 col-sm-4  forlinks">
                 <h3>Мы в соц.сетях</h3>
-                <div class="telegram">
+                <div
+                  class="telegram"
+                  onclick="window.location.href='https://t.me/sidorovanailsart'"
+                >
                   <img src="/static/img/telegram.svg" alt="" />
                   <h5>Telegram</h5>
                 </div>
-                <div class="telegram">
+                <div
+                  class="telegram"
+                  onclick="window.location.href='https://vk.com/sidorovanailsart'"
+                >
                   <img src="/static/img/vkontakte.svg" alt="" />
                   <h5>VK</h5>
                 </div>
-                <div class="telegram">
+                <div
+                  class="telegram"
+                  onclick="window.location.href='https://wa.me/79787089920'"
+                >
                   <img src="/static/img/whatsapp.svg" alt="" />
                   <h5>WhatsApp</h5>
                 </div>
@@ -242,7 +266,9 @@
           </div>
         </div>
       </div>
-    </section>
+  </div>
+
+  </section>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {

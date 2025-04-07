@@ -168,3 +168,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+// Получаем элемент sidebar
+// Получаем элементы
+const openSidebarButton = document.querySelector(".openSidebar");
+const sidebar = document.getElementById("sidebar11");
+
+// Добавляем обработчик события на кнопку для открытия/закрытия сайдбара
+openSidebarButton.addEventListener("click", () => {
+  // Переключаем класс 'active' у сайдбара
+  sidebar.classList.toggle("active");
+
+  // Проверяем, есть ли класс 'active' у сайдбара
+  if (sidebar.classList.contains("active")) {
+    // Отключаем скролл страницы
+    document.body.style.overflow = "hidden";
+  } else {
+    // Восстанавливаем скролл страницы
+    document.body.style.overflow = "";
+  }
+});
