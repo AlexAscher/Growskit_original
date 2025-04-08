@@ -369,27 +369,6 @@ def judges_list(request):
     return render(request, "admin/judges_list.html", {"judges": judges, "latest_championship": latest_championship})
 
 @user_passes_test(is_admin)
-def add_judge(request):
-    if request.method == "POST":
-        form = AddJudgeForm(request.POST)
-        if form.is_valid():
-            # Создаем временного пользователя
-            temp_user = User.objects.create_user(
-                username=f"temp_{User.objects.count() + 1}",  # Уникальное имя пользователя
-                email=form.cleaned_data['email'],
-                password="temporarypassword123"  # Временный пароль
-            )
-            # Сохраняем судью с привязкой к созданному пользователю
-            judge = form.save(commit=False)
-            judge.user = temp_user
-            judge.save()
-            return redirect("judges_list")
-    else:
-        form = AddJudgeForm()
-
-    return render(request, "admin/add_judge.html", {"form": form})
-
-@user_passes_test(is_admin)
 def sponsors_list(request):
     sponsors = ProfileSponsor.objects.all()
 
@@ -401,27 +380,6 @@ def sponsors_list(request):
         return redirect("sponsors_list")
 
     return render(request, "admin/sponsors_list.html", {"sponsors": sponsors})
-
-@user_passes_test(is_admin)
-def add_sponsor(request):
-    if request.method == "POST":
-        form = AddSponsorForm(request.POST)
-        if form.is_valid():
-            # Создаем временного пользователя
-            temp_user = User.objects.create_user(
-                username=f"temp_sponsor_{User.objects.count() + 1}",  # Уникальное имя пользователя
-                email=form.cleaned_data['email'],
-                password="temporarypassword123"  # Временный пароль
-            )
-            # Сохраняем спонсора с привязкой к созданному пользователю
-            sponsor = form.save(commit=False)
-            sponsor.user = temp_user
-            sponsor.save()
-            return redirect("sponsors_list")
-    else:
-        form = AddSponsorForm()
-
-    return render(request, "admin/add_sponsor.html", {"form": form})
 
 @user_passes_test(is_admin)
 def managers_list(request):
