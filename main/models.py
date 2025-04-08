@@ -38,6 +38,10 @@ class Log(models.Model):
         return f'{self.created} - {self.status}: {self.message}'
 
 
+def user_directory_path(instance, filename):
+    return f'media/main/users/{instance.user.id}/{filename}'
+
+
 def user_directory_path_championship(instance, filename):
     championship = Championship.objects.filter(participants=instance.user, last_date_registration__gte=datetime.date.today()).first()
     if not championship:
@@ -50,10 +54,6 @@ def user_directory_path_championship(instance, filename):
 
 def championship_directory_path(instance, filename):
     return f'media/main/championships/{instance.id}/{filename}'
-
-
-def user_directory_path(instance, filename):
-    return f'media/main/users/{instance.user.id}/{filename}'
 
 # Фотографии/проекты пользоваталя. Django неявно создаст ManyToMany связь
 class PhotoList(models.Model):
