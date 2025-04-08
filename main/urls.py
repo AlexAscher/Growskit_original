@@ -27,6 +27,8 @@ urlpatterns = [
     path('participant/upload_work/', views.upload_work, name='upload_work'),
     path('participant/upload_work/add_work_count/', views.update_work_count, name='update_work_count'),
     path('leader/participant_list/', views.leader_participant_list, name='leader_participant_list'),
+    path('journals/', views.journal_list, name='journal_list'),
+    path('awards/', views.award_list, name='award_list'),
 
     path('api/send_notify_of_days_left_registration/', views.send_notify_of_days_left_registration, name='send_notify_of_days_left_registration'),
     path("api/send_auth/", views.send_auth, name="send_auth"),

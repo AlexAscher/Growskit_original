@@ -24,8 +24,13 @@
             <td>{{ participant.phone }}</td>
             <td>{{ participant.email }}</td>
             <td>
+                <!-- Кнопка для открытия модального окна с информацией -->
                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#participantModal{{ participant.id }}">
                     Подробнее
+                </button>
+                <!-- Кнопка для открытия модального окна с работами -->
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#participantWorksModal{{ participant.id }}">
+                    Работы
                 </button>
             </td>
         </tr>
@@ -54,19 +59,50 @@
                         <p><strong>Биография:</strong> {{ participant.bio }}</p>
                         <p><strong>Количество работ:</strong> {{ participant.count_work }}</p>
                         <p><strong>Статус:</strong>
-
                             <select name="" id="" class="form-select mt-3">
-
-                            <option value="test1">test1</option>
-
-                            <option value="test2">test2</option>
-
+                                <option value="test1">test1</option>
+                                <option value="test2">test2</option>
                             </select>
                         </p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger">Заблокировать</button>
                         <button type="button" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="modal fade" id="participantWorksModal{{ participant.id }}" tabindex="-1" aria-labelledby="participantWorksModalLabel{{ participant.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="participantWorksModalLabel{{ participant.id }}">Работы участника: {{ participant.fio }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body">
+                                              {% if participant.id in works_by_participant %}
+                        <h2 class="mb-4">Работы</h2>
+                        <div class="list-group">
+                            {% for work_id, work in works_by_participant.participant.id.items %}
+                            <div class="list-group-item">
+                                <h5>{{ work.nomination }}</h5>
+                                <div class="d-flex flex-wrap">
+                                    {% for photo in work.photos %}
+                                    <div class="me-2 mb-2">
+                                        <img src="{{ photo.photo.url }}" alt="Фото работы" class="img-thumbnail" style="width: 150px; height: 150px;">
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p>Работы не найдены.</p>
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </div>

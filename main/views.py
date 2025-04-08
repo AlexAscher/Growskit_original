@@ -377,7 +377,24 @@ def custom_redirect(request):
 @user_passes_test(is_admin)
 def participants_list(request):
     participants = ProfileParticipant.objects.all()
-    return render(request, 'admin/participants_list.html', {'participants': participants})
+    works_by_participant = {}
+
+    for participant in participants:
+        works = PhotoList.objects.filter(user=participant.user).order_by('work_id')
+        grouped_works = {}
+        for work in works:
+            if work.work_id not in grouped_works:
+                grouped_works[work.work_id] = {
+                    'nomination': work.nomination,
+                    'photos': []
+                }
+            grouped_works[work.work_id]['photos'].append(work)
+        works_by_participant[participant.id] = grouped_works
+
+    return render(request, 'admin/participants_list.html', {
+        'participants': participants,
+        'works_by_participant': works_by_participant,
+    })
 
 @user_passes_test(is_admin)
 def judges_list(request):
@@ -454,6 +471,16 @@ def championship_admin(request):
 
     return render(request, "admin/championship_admin.html", {"championships": championships, "form": form})
 
+@user_passes_test(is_admin)
+def journal_list(request):
+    journals = JournalRequest.objects.all()
+    return render(request, 'admin/journal_list.html', {'journals': journals})
+
+@user_passes_test(is_admin)
+def award_list(request):
+    awards = AwardRequest.objects.all()
+    return render(request, 'admin/award_list.html', {'awards': awards})
+
 @login_required
 def participant_dashboard(request):
     if not request.COOKIES.get('participant_id'):
@@ -481,7 +508,7 @@ def upload_work(request):
     except ProfileParticipant.DoesNotExist:
         messages.error(request, 'Вы не являетесь участником.')
         return redirect('participant_dashboard')
-    
+
 
     user = request.user
     if request.COOKIES.get('participant_id'):

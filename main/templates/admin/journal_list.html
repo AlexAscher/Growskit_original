@@ -1,0 +1,67 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Список участников журнала{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Список участников журнала</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>ФИО</th>
+            <th>Email</th>
+            <th>Телефон</th>
+            <th>Адрес</th>
+            <th>Адрес СДЭК</th>
+            <th>VK</th>
+            <th>Telegram</th>
+            <th>Фото</th>
+            <th>Количество страниц</th>
+            <th>Нужен экземпляр</th>
+            <th>Нужна номинация</th>
+            <th>Нужен кубок и элита</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for journal in journals %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ journal.fio }}</td>
+            <td>{{ journal.email }}</td>
+            <td>{{ journal.phone }}</td>
+            <td>{{ journal.address }}</td>
+            <td>{{ journal.address_sdek }}</td>
+            <td>
+                {% if journal.vk %}
+                <a href="{{ journal.vk }}" target="_blank">Ссылка</a>
+                {% else %}
+                Не указано
+                {% endif %}
+            </td>
+            <td>
+                {% if journal.telegram %}
+                <a href="{{ journal.telegram }}" target="_blank">Ссылка</a>
+                {% else %}
+                Не указано
+                {% endif %}
+            </td>
+            <td>
+                {% if journal.photo %}
+                <img src="{{ journal.photo.url }}" alt="Фото" class="img-thumbnail" style="width: 100px; height: auto;">
+                {% else %}
+                Не загружено
+                {% endif %}
+            </td>
+            <td>{{ journal.count_pages }}</td>
+            <td>{{ journal.need_instance|yesno:"Да,Нет" }}</td>
+            <td>{{ journal.need_nomination|yesno:"Да,Нет" }}</td>
+            <td>{{ journal.need_cup_and_elite|yesno:"Да,Нет" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="13" class="text-center">Журналы не найдены</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
