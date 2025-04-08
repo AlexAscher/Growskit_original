@@ -12,6 +12,7 @@
                 <th>Телефон</th>
                 <th>Email</th>
                 <th>Удалить</th>
+                <th>Статус</th>
             </tr>
         </thead>
         <tbody>
@@ -28,7 +29,36 @@
                         <button type="submit" name="delete_sponsor" class="btn btn-danger">Удалить</button>
                     </form>
                 </td>
+                <td>
+                    <!-- Кнопка для открытия модального окна -->
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editSponsorModal{{ sponsor.id }}">Изменить</button>
+                </td>
             </tr>
+            <div class="modal fade" id="editSponsorModal{{ judge.id }}" tabindex="-1" aria-labelledby="editJudgeModalLabel{{ sponsor.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editSponsorModalLabel{{ sponsor.id }}">Изменить статус судьи</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="status{{ sponsor.id }}">Выберите статус:</label>
+                            <select name="status" id="status{{ sponsor.id }}" class="form-select mt-2">
+                                <option value="test1">test1</option>
+                                <option value="test2">test2</option>
+                                <option value="test3">test3</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
             {% empty %}
             <tr>
                 <td colspan="6" class="text-center">Спонсоры не найдены</td>
