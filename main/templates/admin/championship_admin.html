@@ -5,7 +5,14 @@
 
 {% block content %}
     <h1 class="mb-4">Чемпионаты</h1>
-
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <input type="text" name="name" class="form-control" placeholder="Ссылка на группу ТГ" required>
+        </div>
+        <div class="col-md-8 mb-4">
+            <button type="submit" name="add_date" class="btn btn-primary">Добавить</button>
+        </div>
+    </div>
     <!-- Форма для добавления новой даты чемпионата -->
     <form method="post" class="mb-4">
         {% csrf_token %}
@@ -54,8 +61,40 @@
                 </td>
                 <td>
                     <button class="btn btn-warning btn-sm" onclick="sendNotify('{{ championship.id }}')">Разослать напоминание</button>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editChampionshipModal{{ championship.id }}">Изменить</button>
                 </td>
             </tr>
+                    <div class="modal fade" id="editChampionshipModal{{ championship.id }}" tabindex="-1" aria-labelledby="editChampionshipModalLabel{{ championship.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editChampionshipModalLabel{{ championship.id }}">Изменить данные чемпионата</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="name{{ championship.id }}" class="form-label">Название чемпионата</label>
+                                <input type="text" name="name" id="name{{ championship.id }}" class="form-control" value="{{ championship.name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="date{{ championship.id }}" class="form-label">Дата проведения</label>
+                                <input type="date" name="date" id="date{{ championship.id }}" class="form-control" value="{{ championship.date }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="last_date_registration{{ championship.id }}" class="form-label">Дата окончания регистрации</label>
+                                <input type="date" name="last_date_registration" id="last_date_registration{{ championship.id }}" class="form-control" value="{{ championship.last_date_registration }}" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
             {% empty %}
             <tr>
                 <td colspan="6" class="text-center">Чемпионаты не найдены</td>

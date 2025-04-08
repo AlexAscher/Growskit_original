@@ -510,3 +510,4 @@ def upload_work(request):
         'grouped_works': grouped_works,
         'nominations': PhotoList.CHAMPIONSHIP_NOMINATIONS
     })
+
