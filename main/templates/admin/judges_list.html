@@ -60,9 +60,9 @@
 
 {% block extra_js %}
 <script>
-    async function sendAuth(judgeId, btn) {
+    async function sendAuth(email, btn) {
         let url = "{% url 'send_auth' %}";
-        let resp = await fetch(url, { method: 'POST', body: `{"judge_id": "${judgeId}"}`, headers: { 'X-CSRFToken': '{{ csrf_token }}' }});
+        let resp = await fetch(url, { method: 'POST', body: `{"email": "${email}"}`, headers: { 'X-CSRFToken': '{{ csrf_token }}' }});
         let data = await resp.json();
         if (data.status == 'OK') {
             btn.innerHTML = 'Выслано';
