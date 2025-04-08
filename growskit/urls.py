@@ -28,5 +28,5 @@ urlpatterns = [
 ]
 
 #if settings.DEBUG:
-# break django (now we can get data from /media/ path):
+# break django (now we can get data from media/ path):
 urlpatterns += [re_path(r"^%s(?P<path>.*)$" % re.escape(settings.MEDIA_URL.lstrip("/")), serve, kwargs={"document_root": settings.MEDIA_ROOT})]
