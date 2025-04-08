@@ -2,7 +2,7 @@ import datetime
 import random
 import string
 from typing import Literal
-
+from django.contrib.auth import authenticate, login
 from django.conf import settings
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -13,6 +13,8 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
+from django.contrib import messages
+import uuid
 
 from main.bot import bot
 
@@ -339,15 +341,32 @@ class CustomLoginView(LoginView):
     template_name = 'login.html'
     redirect_authenticated_user = True
 
+    def get_success_url(self):
+        user = self.request.user
+        if user.is_superuser:
+            return '/participants_list/'  # Перенаправление для администраторов
+        elif hasattr(user, 'profileparticipant'):
+            return '/participant/dashboard/'  # Перенаправление для участников
+        return '/'  # Перенаправление для остальных пользователей
+
 # Проверка: пользователь должен быть администратором
 def is_admin(user):
     return user.is_superuser
 
 @login_required
 def custom_redirect(request):
-    if request.user.is_superuser:
-        return redirect('/participants_list/')  # Для администраторов
-    return redirect('/')  # Для остальных пользователей
+    user = request.user
+
+    # Проверяем, является ли пользователь администратором
+    if user.is_superuser:
+        return redirect('/participants_list/')  # Перенаправляем администраторов
+
+    # Проверяем, является ли пользователь участником
+    if hasattr(user, 'profileparticipant'):
+        return redirect('/participant/dashboard/')  # Перенаправляем участников
+
+    # Если пользователь не попадает ни в одну из категорий
+    return redirect('/')  # Перенаправляем на главную страницу
 
 @user_passes_test(is_admin)
 def participants_list(request):
@@ -434,3 +453,60 @@ def championship_admin(request):
             return redirect("championship_admin")
 
     return render(request, "admin/championship_admin.html", {"championships": championships})
+
+@login_required
+def participant_dashboard(request):
+    participant = ProfileParticipant.objects.get(user=request.user)
+    awards = AwardRequest.objects.filter(email=participant.email)
+    journals = JournalRequest.objects.filter(email=participant.email)
+
+    return render(request, 'participant/dashboard.html', {
+        'participant': participant,
+        'awards': awards,
+        'journals': journals,
+    })
+
+@login_required
+def upload_work(request):
+    try:
+        participant = ProfileParticipant.objects.get(user=request.user)
+    except ProfileParticipant.DoesNotExist:
+        messages.error(request, 'Вы не являетесь участником.')
+        return redirect('participant_dashboard')
+
+    if request.method == 'POST':
+        nomination = request.POST.get('nomination')
+        files = request.FILES.getlist('photos')
+
+        uploaded_works_count = PhotoList.objects.filter(user=request.user).values('work_id').distinct().count()
+        if participant.count_work > uploaded_works_count:
+            work_id = uuid.uuid4()
+            for file in files:
+                PhotoList.objects.create(
+                    user=request.user,
+                    championship=None,
+                    photo=file,
+                    nomination=nomination,
+                    work_id=work_id
+                )
+            messages.success(request, 'Файлы успешно загружены.')
+        else:
+            messages.error(request, 'Превышен лимит работ. Вы не можете загрузить больше работ, чем оплачено.')
+
+        return redirect('upload_work')
+
+    works = PhotoList.objects.filter(user=request.user).order_by('work_id')
+    grouped_works = {}
+    for work in works:
+        if work.work_id not in grouped_works:
+            grouped_works[work.work_id] = {
+                'nomination': work.get_nomination_display(),
+                'photos': []
+            }
+        grouped_works[work.work_id]['photos'].append(work)
+
+    return render(request, 'participant/upload_work.html', {
+        'participant': participant,
+        'grouped_works': grouped_works,
+        'nominations': PhotoList.CHAMPIONSHIP_NOMINATIONS
+    })

@@ -1,6 +1,6 @@
 import datetime
 import logging
-
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import BadRequest
@@ -43,9 +43,19 @@ def user_directory_path(instance, filename):
 
 
 def user_directory_path_championship(instance, filename):
-    championship = Championship.objects.filter(participants=instance.user, last_date_registration__gte=datetime.date.today()).first()
+    if not isinstance(instance.user, User):
+        raise ValueError("instance.user должен быть объектом User")
+
+    championship = Championship.objects.filter(
+        participants=instance.user.profileparticipant,  # Используем связанный ProfileParticipant
+        last_date_registration__gte=datetime.date.today()
+    ).first()
+
     if not championship:
-        championship = Championship.objects.filter(judges=instance.user, last_date_registration__gte=datetime.date.today()).first()
+        championship = Championship.objects.filter(
+            judges=instance.user,
+            last_date_registration__gte=datetime.date.today()
+        ).first()
         if not championship:
             raise BadRequest('User not in championship')
 
@@ -68,15 +78,15 @@ class PhotoList(models.Model):
         ("modeling", "моделирование"),
         ("poster", "постер"),
     )
-    
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
-    photo = models.FileField(upload_to=user_directory_path_championship) # фото или видео
+    photo = models.FileField(upload_to=user_directory_path_championship)  # фото или видео
     nomination = models.CharField(max_length=150, choices=CHAMPIONSHIP_NOMINATIONS, null=True, blank=True)
+    work_id = models.UUIDField(default=uuid.uuid4, editable=False)  # Уникальный идентификатор работы
 
     def __str__(self):
         return f'{self.user.username} ({self.championship}) {self.photo.name} - {self.nomination}'
-
 
 class Sertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
