@@ -156,6 +156,14 @@ textarea {
   vertical-align: middle;
   color: #ffffff99;
 }
+@media (max-width: 992px) {
+  .justCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 @media (max-width: 1400px) {
   .name h4 {
     font-size: 14px;
@@ -256,5 +264,25 @@ textarea {
   }
   .category h2 {
     font-size: 25px;
+  }
+}
+@media (max-width: 576px) {
+  .category {
+    padding: 16px;
+  }
+  .category h2 {
+    font-size: 14px;
+  }
+  .info {
+    width: 40px;
+  }
+  .name h3 {
+    font-size: 16px !important;
+  }
+  .name h4 {
+    font-size: 12px !important;
+  }
+  .glavinfo {
+    width: 40px !important;
   }
 }

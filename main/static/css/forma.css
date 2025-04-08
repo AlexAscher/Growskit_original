@@ -78,7 +78,8 @@
 }
 input[type="text"],
 textarea,
-input[type="email"] {
+input[type="email"],
+input[type="number"] {
   font-family: Gilroy;
   font-weight: 400;
   font-size: 14px;
@@ -94,7 +95,8 @@ input[type="email"] {
 }
 input[type="text"]::placeholder,
 input[type="email"]::placeholder,
-textarea::placeholder {
+textarea::placeholder,
+input[type="number"]::placeholder {
   color: #efdaed;
 }
 select::after {

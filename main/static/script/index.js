@@ -86,10 +86,10 @@ function updateCountdown() {
   const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
   document.querySelector(".textcube h4").innerHTML = `
-    ${days}<span>д</span> ${hours}<span>ч</span> ${minutes}<span>мин</span> ${seconds}<span>с</span>
+    ${days}<span>д</span>${hours}<span>ч</span>${minutes}<span>мин</span>${seconds}<span>с</span>
   `;
   document.querySelector(".gradi h6").innerHTML = `
-    ${days}<span>д</span> ${hours}<span>ч</span> ${minutes}<span>мин</span> ${seconds}<span>с</span>
+    ${days}<span>д</span>${hours}<span>ч</span>${minutes}<span>мин</span>${seconds}<span>с</span>
   `;
 }
 

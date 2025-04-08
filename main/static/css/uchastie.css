@@ -205,6 +205,7 @@ body {
   border-radius: 20px;
   padding: 21px 40px;
   background-color: transparent;
+  touch-action: manipulation;
 }
 .sale h3 {
   font-family: Gilroy;
@@ -294,4 +295,23 @@ body {
 .rotated-180 {
   transform: rotate(180deg);
   transition: transform 0.3s ease;
+}
+@media (max-width: 576px) {
+  .input-margin-top {
+    margin-top: 0 !important;
+  }
+  .forradio {
+    flex-direction: column;
+  }
+  .nomin p {
+    font-size: 15px !important;
+  }
+  .nomin {
+    align-items: center;
+  }
+}
+@media (max-width: 410px) {
+  .nomin p {
+    font-size: 13px !important;
+  }
 }

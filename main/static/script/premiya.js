@@ -52,9 +52,25 @@ function equalizePacketsHeight() {
   });
 }
 
-// Вызываем функцию при загрузке страницы и изменении размера окна
-window.addEventListener("load", equalizePacketsHeight);
-window.addEventListener("resize", equalizePacketsHeight);
+// Функция для проверки ширины окна
+function isScreenWidthGreaterThan576() {
+  return window.innerWidth > 576;
+}
+
+// Вызываем функции только если ширина экрана больше 576px
+window.addEventListener("load", () => {
+  if (isScreenWidthGreaterThan576()) {
+    equalizePacketsHeight();
+    positionPriobrButtons();
+  }
+});
+
+window.addEventListener("resize", () => {
+  if (isScreenWidthGreaterThan576()) {
+    equalizePacketsHeight();
+    positionPriobrButtons();
+  }
+});
 
 function positionPriobrButtons() {
   let packets = document.querySelectorAll(".packet");
@@ -79,7 +95,3 @@ function positionPriobrButtons() {
     }
   });
 }
-
-// Ждём загрузку страницы и меняем при изменении размеров
-window.addEventListener("load", positionPriobrButtons);
-window.addEventListener("resize", positionPriobrButtons);

@@ -225,6 +225,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 51px;
 }
 .sponsors1 {
   padding: 39px 40px;
@@ -648,6 +649,22 @@ textarea::placeholder {
   gap: 24px;
   margin-top: 40px;
 }
+.hotite {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+.hotite h3 {
+  font-family: Kreadon;
+  font-weight: 400;
+  font-size: 35px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: right;
+  vertical-align: middle;
+  color: white;
+}
 @media (max-width: 1200px) {
   .zdes {
     top: 71%;
@@ -675,5 +692,25 @@ textarea::placeholder {
   }
   .bottom-plashki img {
     width: 254px;
+  }
+}
+@media (max-width: 576px) {
+  .zavitka,
+  .zdes {
+    display: none;
+  }
+  .forma h2 {
+    font-size: 14px;
+  }
+  .hotite h3 {
+    font-size: 30px;
+  }
+  .hotite {
+    gap: 35px;
+  }
+}
+@media (max-width: 335px) {
+  .hotite h3 {
+    gap: 10px;
   }
 }

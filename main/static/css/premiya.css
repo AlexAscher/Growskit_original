@@ -1,5 +1,6 @@
 body {
   background-color: black;
+  overflow-x: hidden;
 }
 
 @font-face {
@@ -992,6 +993,13 @@ body {
   padding: 16px 24px;
   border-radius: 30px;
 }
+@media (max-width: 576px) {
+  .next {
+    padding: 16px 10px;
+    font-weight: 500;
+    font-size: 18px;
+  }
+}
 .form-buttons {
   margin-top: 32px;
 }
@@ -1331,6 +1339,14 @@ input[type="radio"]:checked + label .firstpacket {
 .nominations1 {
   margin-bottom: 10%;
 }
+.invalid {
+  border: 2px solid red;
+}
+
+.invalid:focus {
+  outline: none;
+  border-color: red;
+}
 @media (max-width: 1200px) {
   .trophy {
     left: -41px;
@@ -1388,5 +1404,30 @@ input[type="radio"]:checked + label .firstpacket {
   }
   .participate-btn {
     padding: 17px;
+  }
+}
+@media (max-width: 576px) {
+  .form-buttons {
+    gap: 10px;
+  }
+  .superrow {
+    flex-direction: column !important;
+    gap: 0;
+  }
+  .forgap1 {
+    --bs-gutter-x: 0px;
+  }
+  .forgapnearbottom {
+    --bs-gutter-x: 0px !important;
+  }
+  .nomin-item1 img {
+    width: 100px;
+    left: -15px;
+    top: 3px;
+  }
+  .nomin-item img {
+    width: 75px;
+    left: 5px;
+    top: 13px;
   }
 }

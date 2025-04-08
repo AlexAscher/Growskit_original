@@ -121,7 +121,24 @@ nav button {
   width: 338px;
   top: 15%;
 }
+.ostalis {
+  font-family: Gilroy;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: white;
+  margin-bottom: 30px;
+}
 @media (max-width: 576px) {
+  .skitluxe h2 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .skitluxe h3 {
+    font-size: 16px;
+  }
   .hologirlmobile {
     width: 250px;
     top: 22%;
@@ -479,6 +496,11 @@ nav button {
   overflow-x: clip;
   position: relative;
 }
+.smile2 {
+  position: absolute;
+  top: 15%;
+  right: 0;
+}
 .beg_stroka_parent {
   width: 120%;
   height: 72px;
@@ -733,6 +755,11 @@ nav button {
     max-width: 1110px;
   }
 }
+@media (max-width: 992px) {
+  .bigcube {
+    flex-direction: column;
+  }
+}
 .textcube h2 {
   font-family: Gilroy;
   font-weight: 500;
@@ -887,11 +914,12 @@ nav button {
   background-color: white; /* Цвет кружочка */
   border-radius: 50%;
 }
-.fullgradi {
+.uchastie {
   background: url(/static/img/zavituchka.png) no-repeat;
-  background-position: center 30px;
+  background-position: center;
+}
+.fullgradi {
   min-height: 1000px;
-  background-size: contain;
 }
 .fullgradi > .gradi:nth-child(1) {
   left: 5%;
@@ -1054,6 +1082,9 @@ nav button {
   font-size: 18px;
   color: white;
 }
+.sale h6 span {
+  margin-left: 10px;
+}
 .pod {
   font-family: Gilroy;
   line-height: 18.56px;
@@ -1177,6 +1208,61 @@ nav button {
   margin-top: 16px;
   width: 90%;
 }
+.rules1 {
+  margin-top: 71px;
+  position: relative;
+}
+.rules1 h2 {
+  font-family: Kreadon;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #efdaed;
+  margin-bottom: 17px;
+}
+.rules1 h3 {
+  font-family: Gilroy;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: white;
+  margin-bottom: 30px;
+  width: 94%;
+}
+
+.rules1 button {
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: white;
+  border: 2px solid #ffffff;
+  border-radius: 30px;
+  padding: 16px 50px;
+  margin-bottom: 16px;
+  background-color: transparent;
+}
+.rules1 h4 {
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #ffffff80;
+  width: 91%;
+}
+.rakushka2 {
+  position: absolute;
+  bottom: -16px;
+  right: 0;
+}
 .marginreg {
   margin-top: 40px;
 }
@@ -1184,6 +1270,7 @@ nav button {
   position: absolute;
   top: -70%;
   left: 0;
+  z-index: -1;
 }
 .orgi {
   margin-top: 212px;
@@ -1621,7 +1708,7 @@ nav button {
 }
 .bigquestion {
   position: absolute;
-  top: 70px;
+  top: -48px;
   left: -16%;
 }
 .for-offset {
@@ -1801,6 +1888,9 @@ nav button {
   }
 }
 @media (max-width: 1200px) {
+  .bigquestion {
+    left: -27%;
+  }
   .opis li {
     line-height: 18.6px;
   }
@@ -1845,7 +1935,14 @@ nav button {
   padding-left: 16px; /* Немного отступа для маркеров */
   width: 86%;
 }
-
+.sm-liniya {
+  display: flex;
+  justify-content: center;
+}
+.for-sm-liniya {
+  border: 1px solid #efdaed;
+  width: 80%;
+}
 .opis1 li {
   font-family: Kreadon;
   font-weight: 500;
@@ -1869,6 +1966,173 @@ nav button {
 }
 .imgcube img {
   max-width: 100%;
+}
+.forh2Orgi {
+  flex-direction: column;
+}
+.forh2Orgi h2 {
+  font-family: Kreadon;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #efdaed;
+  margin-bottom: 60px;
+}
+.irina1 {
+  background: #1515151a;
+  border: 1.06px solid #ffffff;
+  backdrop-filter: blur(31.677017211914062px);
+  border-radius: 21.24px;
+  padding: 23px 24px;
+}
+.irina1 {
+  font-family: Kreadon;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: white;
+}
+.irina1 h3 {
+  font-family: Kreadon;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: white;
+  margin-bottom: 26px;
+}
+.irina1 ul {
+  list-style: none; /* Убираем стандартные маркеры */
+  padding-left: 16px; /* Немного отступа для маркеров */
+  margin-top: 26px;
+}
+
+.irina1 li {
+  font-family: Kreadon;
+  font-weight: 500;
+  line-height: 21.6px; /* Уменьшаем межстрочный интервал, чтобы текст выглядел ровнее */
+  font-size: 18px;
+  color: white;
+  position: relative; /* Нужно для правильного позиционирования ::before */
+  padding-left: 12px; /* Отступ слева для текста, чтобы не наезжал на кружок */
+}
+
+.irina1 li::before {
+  content: "";
+  position: absolute;
+  left: 0; /* Размещаем кружок слева */
+  top: 12px; /* Подгоняем кружок к первой строке */
+  width: 6px; /* Увеличиваем размер кружочка для лучшей видимости */
+  height: 6px;
+  background-color: white; /* Цвет кружочка */
+  border-radius: 50%;
+  transform: translateY(-50%); /* Выравниваем по вертикали */
+}
+.irina1 h4 {
+  font-family: Gilroy;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 120%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #efdaed;
+  margin-top: 16px;
+  margin-bottom: 80px;
+}
+.vk-orgi1 {
+  border: 0.71px solid #cf8ece;
+  position: absolute;
+  bottom: 24px;
+  left: 23px;
+  padding: 17px;
+  border-radius: 25px;
+  z-index: -3;
+  background-color: black;
+  cursor: pointer;
+}
+.vk-orgi1 h5 {
+  font-family: Kreadon;
+  font-weight: 330;
+  font-size: 12.86px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #cf8ece;
+}
+.tg-orgi1 {
+  border: 0.71px solid #cf8ece;
+  position: absolute;
+  bottom: 24px;
+  left: 64px;
+  padding: 17px;
+  border-radius: 25px;
+  background-color: black;
+  z-index: -2;
+  cursor: pointer;
+}
+.tg-orgi1 h5 {
+  font-family: Kreadon;
+  font-weight: 330;
+  font-size: 12.86px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #cf8ece;
+}
+.wp-orgi1 {
+  border: 0.71px solid #cf8ece;
+  position: absolute;
+  bottom: 24px;
+  left: 108px;
+  padding: 17px;
+  border-radius: 25px;
+  background-color: black;
+  cursor: pointer;
+}
+.wp-orgi1 h5 {
+  font-family: Kreadon;
+  font-weight: 330;
+  font-size: 12.86px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #cf8ece;
+}
+.for-column {
+  flex-direction: column;
+}
+.fortop {
+  margin-top: 48px;
+}
+@media (max-width: 992px) {
+  .bigquestion {
+    width: 200px;
+    top: 71%;
+    left: 0;
+  }
+  .for-offset {
+    margin-left: 0;
+  }
+  .textorgi {
+    align-items: baseline;
+    margin-top: 88px;
+  }
+  .verhniz {
+    margin-top: 32px;
+    margin-bottom: 8px;
+  }
+  .manager {
+    margin-bottom: 24px;
+  }
+  .orgi {
+    margin-top: 40px;
+    margin-bottom: 75px;
+  }
 }
 @media (max-width: 1400px) {
   .etopromenya {
@@ -1929,6 +2193,15 @@ nav button {
   }
 }
 @media (max-width: 768px) {
+  .sidebar img {
+    display: none;
+  }
+  .sidebar {
+    width: 430px;
+  }
+  .lentochka {
+    width: 600px;
+  }
   .forsmalldivs {
     width: 48% !important;
   }
@@ -2006,7 +2279,7 @@ nav button {
     top: 105%;
   }
   .price {
-    margin-top: 40%;
+    margin-top: 45%;
   }
   .uchastie h2 {
     margin-bottom: 85px;
@@ -2018,18 +2291,19 @@ nav button {
     margin-left: 0;
   }
   .magazines {
-    width: 720px;
-    top: 80%;
+    width: 611px;
+    top: -22%;
   }
   .magazine {
-    margin-bottom: 56%;
+    margin-bottom: 20%;
     height: 500px;
   }
   .skitluxe {
     width: 80%;
+    margin-top: 14%;
   }
   .formargin {
-    height: 34%;
+    height: 49%;
   }
   .dnone-top {
     margin-top: 20px !important;
@@ -2100,19 +2374,44 @@ nav button {
     margin-left: 10px;
   }
   .magazines {
-    width: 600px;
+    width: 500px;
+    left: 50%; /* Смещаем левый край элемента к центру родителя */
+    transform: translateX(
+      -50%
+    ); /* Сдвигаем элемент на половину его ширины влево */
+    top: -10%;
   }
   .reg-blocks {
     gap: 14.28px;
   }
 }
-@media (max-width: 598px) {
-  .magazines {
-    width: 400px;
-    top: 100%;
-  }
-}
+
 @media (max-width: 576px) {
+  .sidebar h3 {
+    font-size: 13px;
+  }
+  .sidebar p {
+    font-size: 17px;
+  }
+  .sidebar {
+    width: 302px;
+  }
+  .smile2 {
+    right: -10px;
+  }
+  .magazines {
+    width: 376px;
+    top: 4%;
+  }
+  .skitluxe {
+    margin-left: 17px;
+  }
+  .nizkrug {
+    width: 200px;
+  }
+  .verhkrug {
+    width: 200px;
+  }
   .participate-btn {
     font-size: 18px;
   }
@@ -2151,13 +2450,131 @@ nav button {
   .tl6 {
     right: 10%;
   }
+  .textcube h2 {
+    font-size: 19px;
+    line-height: 25px;
+  }
+  .textcube h3 {
+    font-size: 22px;
+  }
+  .textcube h4 {
+    font-size: 37.62px;
+  }
+  .textcube h4 span {
+    font-size: 22px;
+    margin: 0 10px;
+  }
+  .textcube h5 {
+    font-size: 18px;
+  }
+  .textcube h5 span {
+    font-size: 18px;
+  }
+  .oznak {
+    flex-direction: column-reverse;
+    align-items: baseline;
+  }
+  .omitsa {
+    margin-top: 8px;
+  }
+  .gradi {
+    position: static;
+    width: 96% !important;
+    margin-bottom: 24px;
+  }
+  .fullgradi {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .omitsa h3 {
+    font-size: 15px;
+  }
+  .gradi h4 {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 16.83px;
+  }
+  .gradi li {
+    font-size: 14px;
+  }
+  .gradi li::before {
+    width: 4px;
+    height: 4px;
+  }
+  .uchastie {
+    background: url(/static/img/zavituchka2.png) no-repeat;
+    background-position: center;
+  }
+  .uchastie h2 {
+    margin-bottom: 47px;
+  }
+  .verhkrug {
+    left: -3%;
+  }
+  .gradi h6 {
+    font-size: 27px;
+  }
+  .gradi h6 span {
+    font-size: 27px;
+    margin: 0 10px;
+  }
+  .price {
+    margin-top: 6%;
+  }
+  .price h2 {
+    font-size: 22px;
+    line-height: 24.5px;
+  }
+  .price h3 {
+    font-size: 14px;
+  }
+  .nomin h5 {
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .nomin p {
+    font-size: 13px;
+  }
+  .nomin {
+    align-items: center;
+  }
+  .vznos h4 {
+    margin-bottom: 16px;
+  }
+
+  .sale span {
+    font-weight: 500;
+    margin-left: 20px;
+  }
+  .pod {
+    font-size: 14px;
+  }
 }
 @media (max-width: 360px) {
   .underrot {
     margin-top: 182px;
   }
 }
-
+@media (max-width: 992px) {
+  .vznos {
+    border-top: 1px solid #efdaed;
+    border-right: 1px solid #efdaed;
+    border-left: 1px solid #efdaed;
+    border-bottom: none;
+  }
+  .sale {
+    border-bottom: 1px solid #efdaed;
+    border-right: 1px solid #efdaed;
+    border-left: 1px solid #efdaed;
+    border-top: none;
+    margin-top: 16px;
+  }
+  .vznos {
+    margin-bottom: 16px;
+  }
+}
 @media (max-width: 475px) {
   .about-buttons-bottom {
     flex-direction: column;
@@ -2185,5 +2602,43 @@ nav button {
   }
   .beg_stroka_parent {
     top: -150px;
+  }
+}
+@media (max-width: 630px) {
+  .lentochka {
+    width: 450px;
+  }
+}
+@media (max-width: 470px) {
+  .lentochka {
+    width: 300px;
+    top: 70%;
+  }
+}
+@media (max-width: 400px) {
+  .magazines {
+    width: 300px;
+    top: 14%;
+  }
+  .orgi {
+    margin-bottom: 0;
+  }
+  .bigquestion {
+    left: -13%;
+  }
+  .faq-tg h5 {
+    font-size: 20px;
+  }
+  .smile h2 {
+    font-size: 24px;
+  }
+  .sidebar p {
+    font-size: 14px;
+  }
+  .sidebar h3 {
+    font-size: 13px;
+  }
+  .sidebar {
+    width: 260px;
   }
 }

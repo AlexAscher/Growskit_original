@@ -151,4 +151,15 @@
   .participantimg {
     left: 20%;
   }
+  .forgap {
+    --bs-gutter-x: 0;
+  }
+  .ne-upusti {
+    padding: 0 15px;
+  }
+}
+@media (max-width: 380px) {
+  .participantimg {
+    left: 10%;
+  }
 }

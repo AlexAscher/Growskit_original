@@ -3,6 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const addFormBtn = document.querySelector(".add-form-btn");
 
   addFormBtn.addEventListener("click", function () {
+    // Сохраняем текущую позицию скролла
+    const scrollPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+
+    // Создаем новую форму
     const newForm = document.createElement("div");
     newForm.classList.add("big-forma");
     newForm.innerHTML = `
@@ -26,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         class="row align-items-center"
                         style="--bs-gutter-x: 8px"
                       >
-                        <div class="col-sm-11">
+                        <div class="col-11">
                           <select>
                             <option>Категория участника</option>
                             <option>Индивидуальный участник</option>
@@ -35,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <option>Профессионал</option>
                           </select>
                         </div>
-                        <div class="col-sm-1">
+                        <div class="col-1">
                           <img src="/static/img/question.svg" alt="" />
                         </div>
                       </div>
@@ -116,8 +121,16 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
       `;
 
+    // Добавляем новую форму в контейнер
     formContainer.appendChild(newForm);
+
+    // Присоединяем обработчики событий к новой форме
     attachEventListeners(newForm);
+
+    // Возвращаемся к сохраненной позиции скролла
+    setTimeout(() => {
+      window.scrollTo(0, scrollPosition);
+    }, 0);
   });
 
   function attachEventListeners(form) {
