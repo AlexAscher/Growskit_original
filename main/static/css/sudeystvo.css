@@ -1,3 +1,41 @@
+.sud-main h2 {
+  font-family: Kreadon;
+  font-weight: 500;
+  font-size: 35px;
+  line-height: 130%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  color: #efdaed;
+  position: relative;
+  text-align: center;
+}
+.sud-main {
+  width: 200px;
+  display: flex;
+  margin: 0 auto;
+  margin-bottom: 80px;
+}
+.star {
+  position: absolute;
+  z-index: -2;
+  transform: translateY(-50%); /* Выравниваем по вертикали */
+  top: 45px;
+  right: 5px;
+}
+.self {
+  max-width: 100%;
+}
+.glavs h2 {
+  font-family: Kreadon;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: white;
+  margin-bottom: 36px;
+}
 .list {
   margin-top: 5%;
 }
@@ -117,4 +155,134 @@ textarea {
   letter-spacing: 0%;
   vertical-align: middle;
   color: #ffffff99;
+}
+@media (max-width: 992px) {
+  .justCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 1400px) {
+  .name h4 {
+    font-size: 14px;
+  }
+  .self {
+    width: 100% !important;
+  }
+  .category {
+    padding: 25px;
+  }
+  .info {
+    width: 70px;
+  }
+  .name h3 {
+    font-size: 32px;
+  }
+  .name h4 {
+    font-size: 22px;
+  }
+  .glavh3 {
+    font-size: 26px !important;
+  }
+  .glavh4 {
+    font-size: 20px !important;
+  }
+  .category h2 {
+    font-size: 25px;
+  }
+}
+@media (max-width: 1200px) {
+  .name h3 {
+    font-size: 23px;
+  }
+  .name h4 {
+    font-size: 18px;
+  }
+  .info {
+    width: 50px;
+  }
+  .glavh3 {
+    font-size: 22px !important;
+  }
+  .glavh4 {
+    font-size: 17px !important;
+  }
+  .category {
+    padding: 22px;
+  }
+  .category h2 {
+    font-size: 20px;
+  }
+}
+@media (max-width: 992px) {
+  .glavs h2 {
+    font-size: 40px;
+  }
+  .glavinfo {
+    width: 100px !important;
+  }
+  .glavh3 {
+    font-size: 40px !important;
+  }
+  .glavh4 {
+    font-size: 28px !important;
+  }
+  .category {
+    padding: 15px;
+  }
+  .name h3 {
+    font-size: 19px;
+  }
+  .name h4 {
+    font-size: 12px;
+  }
+  .category h2 {
+    font-size: 16px;
+  }
+  .sud-forma h2 {
+    font-size: 35px;
+    margin-bottom: 20px;
+  }
+  textarea {
+    margin-bottom: 16px;
+  }
+}
+@media (max-width: 768px) {
+  .name h3 {
+    font-size: 27px !important;
+  }
+  .name h4 {
+    font-size: 20px !important;
+  }
+  .glavinfo {
+    width: 75px !important;
+  }
+  .category {
+    padding: 23px;
+  }
+  .category h2 {
+    font-size: 25px;
+  }
+}
+@media (max-width: 576px) {
+  .category {
+    padding: 16px;
+  }
+  .category h2 {
+    font-size: 14px;
+  }
+  .info {
+    width: 40px;
+  }
+  .name h3 {
+    font-size: 16px !important;
+  }
+  .name h4 {
+    font-size: 12px !important;
+  }
+  .glavinfo {
+    width: 40px !important;
+  }
 }

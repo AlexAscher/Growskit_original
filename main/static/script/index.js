@@ -86,10 +86,10 @@ function updateCountdown() {
   const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
   document.querySelector(".textcube h4").innerHTML = `
-    ${days}<span>д</span> ${hours}<span>ч</span> ${minutes}<span>мин</span> ${seconds}<span>с</span>
+    ${days}<span>д</span>${hours}<span>ч</span>${minutes}<span>мин</span>${seconds}<span>с</span>
   `;
   document.querySelector(".gradi h6").innerHTML = `
-    ${days}<span>д</span> ${hours}<span>ч</span> ${minutes}<span>мин</span> ${seconds}<span>с</span>
+    ${days}<span>д</span>${hours}<span>ч</span>${minutes}<span>мин</span>${seconds}<span>с</span>
   `;
 }
 
@@ -167,4 +167,24 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+});
+
+// Получаем элемент sidebar
+// Получаем элементы
+const openSidebarButton = document.querySelector(".openSidebar");
+const sidebar = document.getElementById("sidebar11");
+
+// Добавляем обработчик события на кнопку для открытия/закрытия сайдбара
+openSidebarButton.addEventListener("click", () => {
+  // Переключаем класс 'active' у сайдбара
+  sidebar.classList.toggle("active");
+
+  // Проверяем, есть ли класс 'active' у сайдбара
+  if (sidebar.classList.contains("active")) {
+    // Отключаем скролл страницы
+    document.body.style.overflow = "hidden";
+  } else {
+    // Восстанавливаем скролл страницы
+    document.body.style.overflow = "";
+  }
 });

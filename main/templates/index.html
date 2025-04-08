@@ -12,40 +12,54 @@
   </head>
   <body>
     <div class="overlay">
-      <header class="header">
-        <div class="logo"><img src="/static/img/headerlogo.png" alt="" /></div>
+      <header class="header d-none d-xxl-flex">
+        <div class="logo"><img src="/static/img/headerlogo.png" alt=""></div>
         <nav class="nav">
-          <a href="/" style="color: #cf8ece; position: relative"
-            >Чемпионат
-            <img
-              src="/static/img/headertochka.png"
-              alt=""
-              style="
-                position: absolute;
-                top: -10px;
-                left: 50%;
-                transform: translateX(-50%);
-              "
-          /></a>
-          <a href="/premiya/">Премия</a>
+          <a href="/" style="color: #cf8ece; position: relative">Чемпионат<img
+            src="/static/img/headertochka.png"
+            alt=""
+            style="
+              position: absolute;
+              top: -10px;
+              left: 50%;
+              transform: translateX(-50%);
+            "
+        /></a>
+          <a href="/premiya/">Премия </a>
           <a href="/magazine/">Журнал</a>
           <a href="/sponsorstvo/">Спонсорство</a>
           <a href="/sudeystvo/">Судейство</a>
           <a href="/participants/">Участники</a>
         </nav>
         <div class="buttons">
-          <a href="/uchastie/"
-            ><button
-              class="header-first-btn"
-              style="background-color: transparent; color: white"
-            >
-              Принять участие
-            </button></a
-          >
+            <button class="header-first-btn" onclick="window.location.href='/premiya/' ">Номинироваться на премию</button>
+            <a href="/uchastie/"><button class="header-second-btn">Принять участие</button></a>
         </div>
-      </header>
-      <img src="/static/img/rightellipse.png" alt="" class="rightellipse" />
-      <section class="main">
+
+    </header>
+    <header class="d-block d-xxl-flex">
+      <div class="hamburger-menu">
+        <div class="logo"><img src="/static/img/headerlogo.png" alt="" style="width: 70px;"/></div>
+            <input id="menu__toggle" type="checkbox"/>
+            <label class="menu__btn" for="menu__toggle">
+              <span></span>
+            </label>
+
+            <ul class="menu__box">
+                <li><a class="menu_item1" href="/" style="padding-right: 0px;">Чемпионат</a></li>
+                <li class="mt-2"><a class="menu_item1" href="/premiya/" style="padding-right: 0px;">Премия</a></li>
+                <li class="mt-2"><a class="menu_item1" href="/magazine/" style="padding-right: 0px;">Журнал</a></li>
+                <li class="mt-2"><a class="menu_item1" href="/sponsorstvo/" style="padding-right: 0px;">Спонсорство</a></li>
+                <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal" data-bs-target="#exampleModal" style="padding-right: 0px;">Судейство</a></li>
+                <li class="mt-2"><a class="menu_item1" href="/participants/" style="padding-right: 0px;">Участники</a></li>
+                <li class="mt-2"><a class="menu_item1" href="/uchastie/" style="padding-right: 0px;">Принять участие</a></li>
+            </ul>
+
+      </div>
+
+    </header>
+      <img src="/static/img/rightellipse.png" alt="" class="rightellipse d-none d-lg-block" />
+      <section class="main d-none d-lg-block">
         <div class="rotliniya"></div>
         <img src="/static/img/leftmainellipse.png" alt="" class="leftmain" />
         <!-- <img src="./img/hologirl.png" alt="" class="hologirl" /> -->
@@ -89,7 +103,7 @@
                     <p>широкий простор для профессионального роста</p>
                   </div>
                 </div>
-  
+
                 <div class="offset-lg-6 col-6" style="margin-top: 50px">
                   <h5 class="god">2025</h5>
                 </div>
@@ -101,7 +115,46 @@
           </div>
         </div>
       </section>
-      <section class="about">
+      <section class="main1 d-block d-lg-none">
+        <img src="/static/img/hologirlmobile.png" alt="" class="hologirlmobile">
+        <div class="container">
+          <div class="rotliniya"></div>
+        <img src="/static/img/bigellipse.png" alt="" class="bigellipse" />
+        <!-- <img src="./img/hologirl.png" alt="" class="hologirl" /> -->
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 center">
+              <img src="/static/img/growskitbig.png" alt="" class="biggrow" />
+            </div>
+            <div class="col-md-12 right secondmain">
+              <h2>КУБОК КРЫМА</h2>
+            </div>
+          </div>
+        </div>
+        <div class="container underrot">
+          <div class="offset-7 col-5">
+            <h3>Онлайн бьюти чемпионат</h3>
+              <div class="date">
+                <img src="/static/icons/calendar.png" alt="" />
+                <h4>07.06.2025</h4>
+              </div>
+
+          </div>
+          <div class="rotliniya1"></div>
+          <div class="offset-sm-4 col-sm-8 col-12 for-end">
+            <div>
+              <a href="/uchastie/">
+                <button class="participate-btn">
+                  Принять участие
+                  <img src="/static/img/Arrow 1.svg" alt="" />
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+      <section class="about d-none d-lg-block">
         <div class="container">
           <div class="row">
             <div class="col-lg-6">
@@ -181,7 +234,93 @@
           </div>
         </div>
       </section>
+      <section class="about d-block d-lg-none">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="about-rightside">
+                <h2>GROWSKIT</h2>
+                  <h3>Чемпионат о котором невозможно молчать</h3>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="about-leftside">
+                <div class="reg-blocks1">
+                  <img src="/static/img/ninereg.png" alt="" class="ninereg"/>
+                  <h2>
+                    блоков<br />
+                    регламента
+                  </h2>
+                </div>
+                <div class="reg-blocks">
+                  <img src="/static/img/one71.png" alt="" class="one71"/>
+                  <h3>номинация участия</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="about-rightside">
+                <h4>
+                  Добро пожаловать на бьюти чемпионат GROWSKIT — место, где
+                  ловкость роста становится доступной для каждого участника! 
+                  Здесь вы сможете воплотить свои мечты и реализовать амбиции в
+                  мире красоты и стиля.
+                </h4>
+                <h4>
+                  GROWSKIT — это уникальная платформа, объединяющая талантливых и
+                  амбициозных мастеров индустрии красоты.
+                </h4>
+                <h4>
+                  Наш чемпионат предоставляет возможность продемонстрировать свои
+                  навыки, обменяться опытом и вдохновиться новыми идеями.
+                  Соревнуйтесь, побеждайте, подтверждайте свой статус и
+                  мастерство!
+                </h4>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="about-bottom">
+                      <img src="/static/img/listok.svg" alt="" />
+                      <div class="vlozh-bottom">
+                        <h5>Авторский регламент</h5>
+                        <h6>
+                          Наши эксклюзивные номинации сделают ваш опыт участия в
+                          бьюти-чемпионате поистине незабываемым
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="about-bottom">
+                      <img src="/static/img/aboutchel.png" alt="" />
+                      <div class="vlozh-bottom">
+                        <h5>Онлайн-судейство</h5>
+                        <h6>
+                          Чемпионат полностью автоматизирован: все этапы, включая
+                          судейство, проходят через наш сайт
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="about-buttons-bottom">
+                  <a href="/uchastie/">
+                    <button class="prinyat">Принять участие</button>
+                  </a>
+                  <a href="/participants/">
+                    <button class="uchastniki">
+                      Участники сезона 2025
+                      <img src="/static/img/aboutbottomarrow.svg" alt="" />
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section class="smile">
+        <img src="/static/img/smile2.png" alt="" class="smile2">
         <div class="beg_stroka_parent">
           <div class="beg_stroka" id="beg_stroka">
             <p>design</p>
@@ -237,10 +376,10 @@
             <p>GROWSKIT BEAUTY CHAMPIONSHIP</p>
           </div>
         </div>
-        <div class="container" style="position: relative">
+        <div class="container d-lg-block d-none" style="position: relative">
           <div class="row">
             <div class="col-lg-6 leftnom" style="margin-bottom: 85px">
-              <h2>Номинации этого сезона</h2>
+
               <div class="row" style="gap: 12px">
                 <div class="col-md-6 blocks forsmalldivs" style="width: 48%">
                   <h3 data-target="sidebar1" class="openSidebar">
@@ -254,24 +393,24 @@
                 </div>
               </div>
               <div class="row" style="gap: 12px; margin-top: 15px">
-                <div class="col-md-6 blocks forsmalldivs" style="width: 46%">
+                <div class="col-md-6 blocks forsmalldivs col-sm-7" style="width: 46%">
                   <h3 data-target="sidebar3" class="openSidebar">
                     дизайн на педикюрных типсах
                   </h3>
                 </div>
-                <div class="col-md-4 blocks forsmalldivs">
+                <div class="col-md-4 col-sm-5 blocks forsmalldivs">
                   <h3 data-target="sidebar4" class="openSidebar">
                     дизайн на предмете
                   </h3>
                 </div>
               </div>
               <div class="row" style="gap: 12px; margin-top: 15px">
-                <div class="col-md-7 blocks forsmalldivs">
+                <div class="col-md-7 col-sm-7 blocks forsmalldivs">
                   <h3 data-target="sidebar5" class="openSidebar">
                     дизайн одежды/обуви/головных уборов
                   </h3>
                 </div>
-                <div class="col-md-4 blocks forsmalldivs">
+                <div class="col-md-4 col-sm-5 blocks forsmalldivs">
                   <h3 data-target="sidebar6" class="openSidebar">
                     свободный стиль
                   </h3>
@@ -286,15 +425,21 @@
                     моделирование
                   </h3>
                 </div>
-                <div class="col-md-2 blocks forsmalldivs">
+                <div class="col-md-2 blocks forsmalldivs forlastrow">
                   <h3 data-target="sidebar9" class="openSidebar">постер</h3>
+                </div>
+                <div class="col-md-3 blocks forsmalldivs forlastrow">
+                  <h3 data-target="sidebar10" class="openSidebar">педикюр</h3>
+                </div>
+                <div class="col-md-4 blocks forsmalldivs forlastrow">
+                  <h3 data-target="sidebar11" class="openSidebar">титановые ногти</h3>
                 </div>
               </div>
               <div class="galaxy" style="margin-left: -25px">
                 <img src="/static/img/galaxy.png" alt="" />
                 <a href="/uchastie/" style="display: flex; align-items: center">
                   <h5>Принять участие</h5>
-  
+
                   <img
                     src="/static/img/purplearrow.svg"
                     alt=""
@@ -452,6 +597,7 @@
             <h3>4.16 Инкрустация предмета + MIX-техник</h3>
             <h3>4.17 Инкрустация предмета + роспись</h3>
             <h3>4.18 Объёмная инкрустация</h3>
+            <h3>4.19 Стэмпинг на предмете</h3>
           </div>
           <div class="sidebar" id="sidebar5">
             <img
@@ -481,13 +627,15 @@
             <h3>6.5 Ювелирное украшение/браслет</h3>
             <h3>6.6 Ювелирное украшение/брошь</h3>
             <h3>6.7 Ювелирное украшение/диадема</h3>
-            <h3>6.8 Ювелирное украшение/заколка</h3>
-            <h3>6.9 Ювелирное украшение/колье</h3>
-            <h3>6.10 Ювелирное украшение/кольцо</h3>
-            <h3>6.11 Ювелирное украшение/комплект 3 предмета</h3>
-            <h3>6.12 Ювелирное украшение/кулон</h3>
-            <h3>6.13 Ювелирное украшение/серьги</h3>
-            <h3>6.14 Яйцо Фаберже</h3>
+            <h3>6.8 Ювелирное украшение/корона</h3>
+            <h3>6.9 Ювелирное украшение/заколка</h3>
+            <h3>6.10 Ювелирное украшение/колье</h3>
+            <h3>6.11 Ювелирное украшение/кольцо</h3>
+            <h3>6.12 Ювелирное украшение/комплект 3 предмета</h3>
+            <h3>6.13 Ювелирное украшение/кулон</h3>
+            <h3>6.14 Ювелирное украшение/серьги</h3>
+            <h3>6.15 Ювелирное украшение/тема свободная</h3>
+            <h3>6.16 Яйцо Фаберже</h3>
           </div>
           <div class="sidebar" id="sidebar7">
             <img
@@ -527,67 +675,489 @@
             <h2>номинации блока</h2>
             <p>9. Постер</p>
             <h3>9.1 Выкладной (смоделированный) French</h3>
-            <h3>9.2 Готический женский образ</h3>
-            <h3>9.3 Женский деловой образ</h3>
-            <h3>9.4 Креативный, нестандартный женский образ</h3>
-            <h3>9.5 Крупный план - French</h3>
-            <h3>9.6 Крупный план - French одна рука</h3>
-            <h3>9.7 Маникюр – крупный план одна рука однотонное покрытие</h3>
-            <h3>9.8 Маникюр – крупный план одна рука салонный дизайн</h3>
-            <h3>
-              9.9 Маникюр – крупный план одна рука художественная роспись тема
-              свободная
-            </h3>
-            <h3>9.10 Маникюр – крупный план две руки однотонное покрытие</h3>
-            <h3>9.11 Маникюр – крупный план две руки салонный дизайн</h3>
-            <h3>
-              9.12 Маникюр – крупный план две руки художественная роспись тема
-              свободная
-            </h3>
-            <h3>9.13 Мужской маникюр – с салонным дизайном две руки</h3>
-            <h3>9.14 Мужской маникюр – с салонным дизайном одна рука</h3>
-            <h3>9.15 Мужской образ</h3>
-            <h3>9.16 Педикюр – крупный план French</h3>
-            <h3>9.17 Педикюр – крупный план однотонное покрытие</h3>
-            <h3>9.18 Педикюр – крупный план салонный дизайн</h3>
-            <h3>9.19 Педикюр – крупный план художественная роспись</h3>
-            <h3>9.20 Педикюр с использованием плёнок</h3>
-            <h3>9.21 Постер «Руки + ноги» однотонное покрытие</h3>
-            <h3>9.22 Постер «Руки + ноги» салонный дизайн</h3>
-            <h3>9.23 Постер «Руки + ноги» художественная роспись</h3>
-            <h3>
-              9.24 Постер в стиле чемпионата GROWSKIT (для рекламных креативов
-              чемпионата и баннера)
-            </h3>
-            <h3>9.25 Постер тема Свободная</h3>
-            <h3>9.26 Постер Реклама салона</h3>
-            <h3>9.27 Постер Реклама гель-лака</h3>
-            <h3>
-              9.28 Постер Руки с обложки - арочное моделирование на верхние формы
-            </h3>
-            <h3>
-              9.29 Постер Руки с обложки - арочное моделирование на нижние формы
-            </h3>
-            <h3>
-              9.30 Постер Руки с обложки - креативное моделирование на нижние
-              формы
-            </h3>
-            <h3>
-              9.31 Постер Руки с обложки – салонное моделирование на верхние формы
-            </h3>
-            <h3>
-              9.32 Постер Руки с обложки – салонное моделирование на нижние формы
-            </h3>
-            <h3>9.33 Салонный маникюр классика French+красный гель-лак</h3>
-            <h3>9.34 Свадебный маникюр</h3>
-            <h3>9.35 Свадебный маникюр одна рука</h3>
-            <h3>9.36 Свадебный образ</h3>
-            <h3>9.37 Фантазийный образ</h3>
-            <h3>9.38 Этно- Etno (принадлежащий какой-то культуре)</h3>
+<h3>9.2 Готический женский образ</h3>
+<h3>9.3 Женский деловой образ</h3>
+<h3>9.4 Креативный, нестандартный женский образ</h3>
+<h3>9.5 Маникюр - крупный план - French</h3>
+<h3>9.6 Маникюр - крупный план - French одна рука</h3>
+<h3>9.7 Маникюр – крупный план одна рука однотонное покрытие</h3>
+<h3>9.8 Маникюр – крупный план одна рука салонный дизайн</h3>
+<h3>9.9 Маникюр – крупный план одна рука художественная роспись тема свободная</h3>
+<h3>9.10 Маникюр – крупный план одна рука стемпинг</h3>
+<h3>9.11 Маникюр – крупный план одна рука градиент</h3>
+<h3>9.12 Маникюр – крупный план две руки однотонное покрытие</h3>
+<h3>9.13 Маникюр – крупный план две руки салонный дизайн</h3>
+<h3>9.14 Маникюр – крупный план две руки художественная роспись тема свободная</h3>
+<h3>9.15 Маникюр – крупный план две руки стемпинг</h3>
+<h3>9.16 Маникюр – крупный план две руки градиент</h3>
+<h3>9.17 Маникюр – крупный план, тема свободная</h3>
+<h3>9.18 Мужской маникюр – с салонным дизайном две руки</h3>
+<h3>9.19 Мужской маникюр – с салонным дизайном одна рука</h3>
+<h3>9.20 Мужской маникюр – без покрытия две руки</h3>
+<h3>9.21 Мужской маникюр – без покрытия одна рука</h3>
+<h3>9.22 Мужской образ</h3>
+<h3>9.23 Педикюр – крупный план French</h3>
+<h3>9.24 Педикюр – крупный план однотонное покрытие</h3>
+<h3>9.25 Педикюр – крупный план стемпинг</h3>
+<h3>9.26 Педикюр – крупный план градиент</h3>
+<h3>9.27 Педикюр – крупный план салонный дизайн</h3>
+<h3>9.28 Педикюр – крупный план художественная роспись</h3>
+<h3>9.29 Педикюр - крупный план, тема свободная</h3>
+<h3>9.30 Педикюр с использованием плёнок</h3>
+<h3>9.31 Постер «Руки + ноги» однотонное покрытие</h3>
+<h3>9.32 Постер «Руки + ноги» салонный дизайн</h3>
+<h3>9.33 Постер «Руки + ноги» художественная роспись</h3>
+<h3>9.34 Постер в стиле чемпионата GROWSKIT (для рекламных креативов чемпионата и баннера)</h3>
+<h3>9.35 Постер тема Свободная</h3>
+<h3>9.36 Постер Реклама салона</h3>
+<h3>9.37 Постер Реклама гель-лака</h3>
+<h3>9.38 Постер Руки с обложки - арочное моделирование на верхние формы</h3>
+<h3>9.39 Постер Руки с обложки - арочное моделирование на нижние формы</h3>
+<h3>9.40 Постер Руки с обложки - креативное моделирование на нижние формы</h3>
+<h3>9.41 Постер Руки с обложки – салонное моделирование на верхние формы</h3>
+<h3>9.42 Постер Руки с обложки – салонное моделирование на нижние формы</h3>
+<h3>9.43 Салонный маникюр классика French+красный гель-лак</h3>
+<h3>9.44 Свадебный маникюр</h3>
+<h3>9.45 Свадебный маникюр одна рука</h3>
+<h3>9.46 Свадебный образ</h3>
+<h3>9.47 Фантазийный образ</h3>
+<h3>9.48 Этно- Etno (принадлежащий какой-то культуре)</h3>
+          </div>
+          <div class="sidebar" id="sidebar10">
+            <img
+              src="/static/img/tenthslidebar.png"
+              alt=""
+              class="tenthslidebar"
+            />
+            <h2>номинации блока</h2>
+            <p>10. Педикюр</p>
+            <h3>10.1 Педикюр «ДО/ПОСЛЕ» эстетика</h3>
+<h3>10.2 Мужской педикюр «ДО/ПОСЛЕ»</h3>
+<h3>10.3 Педикюр «ДО/ПОСЛЕ» сложная стопа</h3>
+<h3>10.4 Обработка трещин на пятках «ДО/ПОСЛЕ»</h3>
+<h3>10.5 Установка «Титановой нити»</h3>
+          </div>
+          <div class="sidebar" id="sidebar11">
+            <img
+              src="/static/img/eleventhslidebar.png"
+              alt=""
+              class="eleventhslidebar"
+            />
+            <h2>номинации блока</h2>
+            <p>11. Титановые ногти</p>
+            <h3>11.1 Маникюр+Титановые ногти однотонное покрытие «ДО/ПОСЛЕ»</h3>
+<h3>11.2 Титановые ногти+салонный дизайн</h3>
+<h3>11.3 Титановые ногти French</h3>
+<h3>11.4 Наращивание Титановые ногти. Любым способом</h3>
           </div>
         </div>
+        <div class="container d-block d-lg-none">
+          <h2>Номинации этого сезона</h2>
+          <div class="row" style="gap: 12px;">
+            <div class="col-10">
+              <div class="forsmalldivs1 blocks">
+                <h3 data-target="sidebar12" class="openSidebar">
+                  художественная роспись. типсы
+                </h3>
+              </div>
+            </div>
+            <div class="col-9">
+              <div class="forsmalldivs1 blocks">
+                <h3 data-target="sidebar13" class="openSidebar">
+                  салонные дизайны на типсах
+                </h3>
+              </div>
+            </div>
+            <div class="col-10">
+              <div class="forsmalldivs1 blocks">
+                <h3 data-target="sidebar14" class="openSidebar">
+                  дизайн на педикюрных типсах
+                </h3>
+              </div>
+            </div>
+            <div class="col-7">
+              <div class="forsmalldivs1 blocks">
+                <h3 data-target="sidebar15" class="openSidebar">
+                  дизайн на предмете
+                </h3>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="forsmalldivs1 blocks">
+                <h3 data-target="sidebar16" class="openSidebar">
+                  дизайн одежды/обуви/головных уборов
+                </h3>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="row" style="display: flex;">
+                <div class="col-6">
+                  <div class="forsmalldivs1 blocks">
+                    <h3 data-target="sidebar17" class="openSidebar">
+                      свободный стиль
+                    </h3>
+                  </div>
+                </div>
+                <div class="col-5" style="padding-left: 0;">
+                  <div class="forsmalldivs1 blocks">
+                    <h3 data-target="sidebar18" class="openSidebar">
+                      манекен-рука
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="row" style="display: flex;">
+                <div class="col-6">
+                  <div class="forsmalldivs1 blocks">
+                    <h3 data-target="sidebar19" class="openSidebar">
+                      моделирование
+                    </h3>
+                </div>
+              </div>
+              <div class="col-4" style="padding-left: 0;">
+                <div class="forsmalldivs1 blocks">
+                  <h3 data-target="sidebar20" class="openSidebar">
+                    постер
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col-5">
+                <div class="forsmalldivs1 blocks">
+                  <h3 data-target="sidebar21" class="openSidebar">
+                    педикюр
+                  </h3>
+
+              </div>
+            </div>
+            <div class="col-6" style="padding-left: 0;">
+              <div class="forsmalldivs1 blocks" >
+                <h3 data-target="sidebar22" class="openSidebar">
+                  титановые ногти
+                </h3>
+              </div>
+            </div>
+            <div class="sidebar" id="sidebar12">
+              <img
+                src="/static/img/firstsidebar.avif"
+                alt=""
+                class="firstsidebar"
+              />
+              <h2>номинации блока</h2>
+              <p>1. Художественная роспись. Типсы</p>
+              <h3>1.1 Point to point</h3>
+              <h3>1.2 Stylish fashion (стильная мода)</h3>
+              <h3>1.3 Авангард</h3>
+              <h3>1.4 Акварельная роспись</h3>
+              <h3>1.5 Анималистика</h3>
+              <h3>1.6 Аниме</h3>
+              <h3>1.7 Архитектура</h3>
+              <h3>1.8 Ботаническая роспись</h3>
+              <h3>1.9 Витраж</h3>
+              <h3>1.10 Вологодская роспись</h3>
+              <h3>1.11 Гжель</h3>
+              <h3>1.12 Гиперреализм (один в один)</h3>
+              <h3>1.13 Гравюрная роспись (графика)</h3>
+              <h3>1.14 Дизайн-реклама чемпионата GROWSKIT</h3>
+              <h3>1.15 Жостово</h3>
+              <h3>1.16 Импрессионизм</h3>
+              <h3>1.17 История мира</h3>
+              <h3>1.18 Кино и поп-культура</h3>
+              <h3>1.19 Китайская роспись</h3>
+              <h3>1.20 Кубизм</h3>
+              <h3>1.21 Монохром художественный</h3>
+              <h3>1.22 Мир насекомых</h3>
+              <h3>1.23 Мифология и легенды. Фэнтези и магия</h3>
+              <h3>1.24 Микс медиа</h3>
+              <h3>1.25 Мультипликация</h3>
+              <h3>1.26 Натюрморт</h3>
+              <h3>1.27 Нейросети</h3>
+              <h3>1.27.1 Цветы из нейросети</h3>
+              <h3>1.27.2 Животные из нейросети</h3>
+              <h3>1.27.3 Фэнтези нейросети</h3>
+              <h3>1.27.4 Роботы нейросети</h3>
+              <h3>1.27.5 Морская тематика нейросети</h3>
+              <h3>1.27.6 Стиль «Неон нейросети»</h3>
+              <h3>1.27.7 Мультипликационная тематика нейросети</h3>
+              <h3>1.27.8 Лица нейросети</h3>
+              <h3>1.27.9 Космос нейросети</h3>
+              <h3>1.27.10 Замки нейросети</h3>
+              <h3>1.27.11 Птицы нейросети</h3>
+              <h3>1.27.12 Музыкальные инструменты нейросети</h3>
+              <h3>1.27.13 Свободная тема из нейросети</h3>
+              <h3>1.28 Пейзажная роспись</h3>
+              <h3>1.29 По мотивам Тату</h3>
+              <h3>1.29.1 В цвете</h3>
+              <h3>1.29.2 Монохром</h3>
+              <h3>1.29.3 Комбинированный дизайн (цвет + монохром)</h3>
+              <h3>1.30 Поп-арт</h3>
+              <h3>1.31 Свободная тема</h3>
+              <h3>1.32 Шарж</h3>
+            </div>
+            <div class="sidebar" id="sidebar13">
+              <img
+                src="/static/img/secondsidebar.avif"
+                alt=""
+                class="secondsidebar"
+              />
+              <h2>номинации блока</h2>
+              <p>2. Салонные дизайны на типсах</p>
+              <h3>2.1 3D дизайн</h3>
+              <h3>2.2 Абстракция</h3>
+              <h3>2.3 Акварельная роспись</h3>
+              <h3>2.4 Аэрография</h3>
+              <h3>2.5 Барельеф</h3>
+              <h3>2.6 Бархатный песок</h3>
+              <h3>2.7 Вензеля</h3>
+              <h3>2.8 Геометрия</h3>
+              <h3>2.9 Градиент + Художественная роспись</h3>
+              <h3>2.10 Жидкие камни</h3>
+              <h3>2.11 Инкрустация типс</h3>
+              <h3>2.12 Кошачий глаз</h3>
+              <h3>2.13 Кошачий глаз + стемпинг</h3>
+              <h3>2.14 Кракелюр + слайдеры</h3>
+              <h3>2.15 Креативный дизайн</h3>
+              <h3>2.16 Кружева</h3>
+              <h3>2.17 Лепка плоскостная гель-пластилин</h3>
+              <h3>2.18 Лепка плоскостная гель-пластилин + роспись</h3>
+              <h3>2.19 Лепка плоскостная/акрил</h3>
+              <h3>2.20 Литье</h3>
+              <h3>2.21 Мехенди</h3>
+              <h3>2.22 Мозаика</h3>
+              <h3>2.23 Неоновый дизайн (с эффектом свечения)</h3>
+              <h3>2.24 Свадебный дизайн</h3>
+              <h3>2.25 Свободная тема</h3>
+              <h3>2.26 Слайдер-дизайн</h3>
+              <h3>2.27 Слайдер-дизайн + кракелюр</h3>
+              <h3>2.28 Слайдер-дизайн + паутинка</h3>
+              <h3>2.29 Стемпинг MIX-техник</h3>
+              <h3>2.30 Стемпинг объемный 3D</h3>
+              <h3>2.31 Стемпинг реверсивный</h3>
+              <h3>2.32 Стемпинг теневой</h3>
+              <h3>2.33 Стемпинг цветной теневой</h3>
+              <h3>2.34 Стемпинг + кракелюр</h3>
+              <h3>2.35 Стемпинг + роспись</h3>
+              <h3>2.36 Стемпинг + слайдеры</h3>
+              <h3>2.37 Текстуры + MIX техник</h3>
+              <h3>2.38 Японский нейл-тренд</h3>
+            </div>
+            <div class="sidebar" id="sidebar14">
+              <img src="/static/img/thirdsidebar.png" alt="" class="thirdsidebar" />
+              <h2>номинации блока</h2>
+              <p>3. Дизайн на педикюрных типсах</p>
+              <h3>3.1 Акварельная роспись</h3>
+              <h3>3.2 Аниме</h3>
+              <h3>3.3 Аэрография</h3>
+              <h3>3.4 Жостово</h3>
+              <h3>3.5 Китайская роспись</h3>
+              <h3>3.6 Мультипликация</h3>
+              <h3>3.7 Пейзажная роспись</h3>
+              <h3>3.8 Салонные дизайны (минимализм)</h3>
+              <h3>3.9 Свет и тень (монохром)</h3>
+              <h3>3.10 Свободная тема</h3>
+            </div>
+            <div class="sidebar" id="sidebar15">
+              <img
+                src="/static/img/forthsidebar.avif"
+                alt=""
+                class="forthsidebar"
+              />
+              <h2>номинации блока</h2>
+              <p>4. Дизайн на предмете</p>
+              <h3>4.1 Point to point</h3>
+              <h3>4.2 Аэрография</h3>
+              <h3>4.3 Вологодская роспись</h3>
+              <h3>4.4 Гжель</h3>
+              <h3>4.5 Гравюрная роспись</h3>
+              <h3>4.6 Жостово</h3>
+              <h3>4.7 Китайская роспись</h3>
+              <h3>4.8 Линейный монохром</h3>
+              <h3>4.9 Михенди</h3>
+              <h3>4.10 Мозаика</h3>
+              <h3>4.11 Палехская роспись</h3>
+              <h3>4.12 Свободная тема: Художественная роспись</h3>
+              <h3>4.13 Федоскино</h3>
+              <h3>4.14 Холуйская роспись</h3>
+              <h3>4.15 Инкрустация предмета</h3>
+              <h3>4.16 Инкрустация предмета + MIX-техник</h3>
+              <h3>4.17 Инкрустация предмета + роспись</h3>
+              <h3>4.18 Объёмная инкрустация</h3>
+              <h3>4.19 Стэмпинг на предмете</h3>
+            </div>
+            <div class="sidebar" id="sidebar16">
+              <img
+                src="/static/img/fifthsidebar.avif"
+                alt=""
+                class="fifthsidebar"
+              />
+              <h2>номинации блока</h2>
+              <p>5. Дизайн одежды/обуви/головных уборов</p>
+              <h3>5.1 Аэрография</h3>
+              <h3>5.2 Инкрустация</h3>
+              <h3>5.3 Роспись</h3>
+              <h3>5.4 Свободная тема</h3>
+            </div>
+            <div class="sidebar" id="sidebar17">
+              <img
+                src="/static/img/sixthsidebar.avif"
+                alt=""
+                class="sixthsidebar"
+              />
+              <h2>номинации блока</h2>
+              <p>6. Свободный стиль</p>
+              <h3>6.1 Алмазная мозаика по фото</h3>
+              <h3>6.2 Бокал</h3>
+              <h3>6.3 Скульптура</h3>
+              <h3>6.4 Скульптурная композиция</h3>
+              <h3>6.5 Ювелирное украшение/браслет</h3>
+              <h3>6.6 Ювелирное украшение/брошь</h3>
+              <h3>6.7 Ювелирное украшение/диадема</h3>
+              <h3>6.8 Ювелирное украшение/корона</h3>
+              <h3>6.9 Ювелирное украшение/заколка</h3>
+              <h3>6.10 Ювелирное украшение/колье</h3>
+              <h3>6.11 Ювелирное украшение/кольцо</h3>
+              <h3>6.12 Ювелирное украшение/комплект 3 предмета</h3>
+              <h3>6.13 Ювелирное украшение/кулон</h3>
+              <h3>6.14 Ювелирное украшение/серьги</h3>
+              <h3>6.15 Ювелирное украшение/тема свободная</h3>
+              <h3>6.16 Яйцо Фаберже</h3>
+            </div>
+            <div class="sidebar" id="sidebar18">
+              <img
+                src="/static/img/seventhsidebar.avif"
+                alt=""
+                class="seventhsidebar"
+              />
+              <h2>номинации блока</h2>
+              <p>7. Манекен-рука</p>
+              <h3 class="manekin">
+                Номинация "Манекен-рука" — это своеобразный конкурс, где мастера
+                ногтевого сервиса показывают своё мастерство и фантазию через
+                оформление муляжей рук. Участникам предлагается создать уникальные
+                дизайны, используя различные материалы для маникюра, такие как
+                гель-лаки, стразы, наклейки, акриловые краски и другие элементы
+                декора. Цель конкурса — показать уровень профессионализма,
+                творческий подход и умение воплощать необычные идеи.
+              </h3>
+            </div>
+            <div class="sidebar" id="sidebar19">
+              <img
+                src="/static/img/eightsidebar.avif"
+                alt=""
+                class="eightsidebar"
+              />
+              <h2>номинации блока</h2>
+              <p>8. Моделирование</p>
+              <h3>8.1 Царь-ноготь</h3>
+              <h3>8.2 Фантазийно-креативное моделирование</h3>
+            </div>
+            <div class="sidebar" id="sidebar20">
+              <img
+                src="/static/img/ninethsidebar.avif"
+                alt=""
+                class="ninethsidebar"
+              />
+              <h2>номинации блока</h2>
+              <p>9. Постер</p>
+              <h3>9.1 Выкладной (смоделированный) French</h3>
+  <h3>9.2 Готический женский образ</h3>
+  <h3>9.3 Женский деловой образ</h3>
+  <h3>9.4 Креативный, нестандартный женский образ</h3>
+  <h3>9.5 Маникюр - крупный план - French</h3>
+  <h3>9.6 Маникюр - крупный план - French одна рука</h3>
+  <h3>9.7 Маникюр – крупный план одна рука однотонное покрытие</h3>
+  <h3>9.8 Маникюр – крупный план одна рука салонный дизайн</h3>
+  <h3>9.9 Маникюр – крупный план одна рука художественная роспись тема свободная</h3>
+  <h3>9.10 Маникюр – крупный план одна рука стемпинг</h3>
+  <h3>9.11 Маникюр – крупный план одна рука градиент</h3>
+  <h3>9.12 Маникюр – крупный план две руки однотонное покрытие</h3>
+  <h3>9.13 Маникюр – крупный план две руки салонный дизайн</h3>
+  <h3>9.14 Маникюр – крупный план две руки художественная роспись тема свободная</h3>
+  <h3>9.15 Маникюр – крупный план две руки стемпинг</h3>
+  <h3>9.16 Маникюр – крупный план две руки градиент</h3>
+  <h3>9.17 Маникюр – крупный план, тема свободная</h3>
+  <h3>9.18 Мужской маникюр – с салонным дизайном две руки</h3>
+  <h3>9.19 Мужской маникюр – с салонным дизайном одна рука</h3>
+  <h3>9.20 Мужской маникюр – без покрытия две руки</h3>
+  <h3>9.21 Мужской маникюр – без покрытия одна рука</h3>
+  <h3>9.22 Мужской образ</h3>
+  <h3>9.23 Педикюр – крупный план French</h3>
+  <h3>9.24 Педикюр – крупный план однотонное покрытие</h3>
+  <h3>9.25 Педикюр – крупный план стемпинг</h3>
+  <h3>9.26 Педикюр – крупный план градиент</h3>
+  <h3>9.27 Педикюр – крупный план салонный дизайн</h3>
+  <h3>9.28 Педикюр – крупный план художественная роспись</h3>
+  <h3>9.29 Педикюр - крупный план, тема свободная</h3>
+  <h3>9.30 Педикюр с использованием плёнок</h3>
+  <h3>9.31 Постер «Руки + ноги» однотонное покрытие</h3>
+  <h3>9.32 Постер «Руки + ноги» салонный дизайн</h3>
+  <h3>9.33 Постер «Руки + ноги» художественная роспись</h3>
+  <h3>9.34 Постер в стиле чемпионата GROWSKIT (для рекламных креативов чемпионата и баннера)</h3>
+  <h3>9.35 Постер тема Свободная</h3>
+  <h3>9.36 Постер Реклама салона</h3>
+  <h3>9.37 Постер Реклама гель-лака</h3>
+  <h3>9.38 Постер Руки с обложки - арочное моделирование на верхние формы</h3>
+  <h3>9.39 Постер Руки с обложки - арочное моделирование на нижние формы</h3>
+  <h3>9.40 Постер Руки с обложки - креативное моделирование на нижние формы</h3>
+  <h3>9.41 Постер Руки с обложки – салонное моделирование на верхние формы</h3>
+  <h3>9.42 Постер Руки с обложки – салонное моделирование на нижние формы</h3>
+  <h3>9.43 Салонный маникюр классика French+красный гель-лак</h3>
+  <h3>9.44 Свадебный маникюр</h3>
+  <h3>9.45 Свадебный маникюр одна рука</h3>
+  <h3>9.46 Свадебный образ</h3>
+  <h3>9.47 Фантазийный образ</h3>
+  <h3>9.48 Этно- Etno (принадлежащий какой-то культуре)</h3>
+            </div>
+            <div class="sidebar" id="sidebar21">
+              <img
+                src="/static/img/tenthslidebar.png"
+                alt=""
+                class="tenthslidebar"
+              />
+              <h2>номинации блока</h2>
+              <p>10. Педикюр</p>
+              <h3>10.1 Педикюр «ДО/ПОСЛЕ» эстетика</h3>
+  <h3>10.2 Мужской педикюр «ДО/ПОСЛЕ»</h3>
+  <h3>10.3 Педикюр «ДО/ПОСЛЕ» сложная стопа</h3>
+  <h3>10.4 Обработка трещин на пятках «ДО/ПОСЛЕ»</h3>
+  <h3>10.5 Установка «Титановой нити»</h3>
+            </div>
+            <div class="sidebar" id="sidebar22">
+              <img
+                src="/static/img/eleventhslidebar.png"
+                alt=""
+                class="eleventhslidebar"
+              />
+              <h2>номинации блока</h2>
+              <p>11. Титановые ногти</p>
+              <h3>11.1 Маникюр+Титановые ногти однотонное покрытие «ДО/ПОСЛЕ»</h3>
+  <h3>11.2 Титановые ногти+салонный дизайн</h3>
+  <h3>11.3 Титановые ногти French</h3>
+  <h3>11.4 Наращивание Титановые ногти. Любым способом</h3>
+            </div>
+            <div class="col-12">
+              <div class="galaxy">
+                <img src="/static/img/galaxy.png" alt="" />
+                <a href="/uchastie/" style="display: flex; align-items: center">
+                  <h5>Принять участие</h5>
+
+                  <img
+                    src="/static/img/purplearrow.svg"
+                    alt=""
+                    class="purplearrow"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+          </div>
       </section>
-      <section class="categories">
+      <section class="categories d-none d-sm-block">
         <div class="container" style="margin-bottom: 68px">
           <div class="row">
             <div class="col-lg-5">
@@ -627,7 +1197,7 @@
                 <h4 style="color: #ffaff2">Мастер</h4>
                 <h5>опыт от 3 до 5 лет</h5>
                 <h5>не является инструктором</h5>
-  
+
                 <button
                   class="etopromenya"
                   onclick="window.location.href='/uchastie/'"
@@ -644,7 +1214,7 @@
                 <h5>опыт более 5 лет</h5>
                 <h5>имеет более 5 наград на чемпионатах</h5>
                 <h5>не является инструктором</h5>
-  
+
                 <button
                   class="etopromenya"
                   onclick="window.location.href='/uchastie/'"
@@ -654,7 +1224,7 @@
                 </button>
               </div>
             </div>
-            <div class="col-lg-2 w20" style="position: relative">
+            <div class="col-lg-2 w20 w45" style="position: relative">
               <img src="/static/img/tl6.png" alt="" class="tl6" />
               <div class="categ">
                 <h4 style="color: #cf8ece">Инструктор</h4>
@@ -662,7 +1232,21 @@
                   в этой категории участвуют инструкторы вне зависимости от стажа
                   работы
                 </h5>
-  
+
+                <button
+                  class="etopromenya"
+                  onclick="window.location.href='/uchastie/'"
+                >
+                  <h6>Это про меня!</h6>
+                  <img src="/static/img/smallarr.svg" alt="" />
+                </button>
+              </div>
+
+            </div>
+            <div class="col-lg-2 w20 w45">
+              <div class="categ">
+                <h4 style="color: #a87dd2">Премиум</h4>
+                <h5>в этой категории принимают участие Судьи</h5>
                 <button
                   class="etopromenya"
                   onclick="window.location.href='/uchastie/'"
@@ -672,7 +1256,132 @@
                 </button>
               </div>
             </div>
-            <div class="col-lg-2 w20">
+          </div>
+          <div class="row mt-4">
+            <div class="col-lg-6">
+              <div class="topcateg">
+                <h4>Тренер</h4>
+                <h5>
+                  оценивается по наибольшему количеству призовых мест за
+                  подготовленные им работы с участниками команды (более 3
+                  участников)
+                </h5>
+                <button
+                  class="etopromenya1"
+                  onclick="window.location.href='/uchastie/'"
+                >
+                  <h6>Это про меня!</h6>
+                  <img src="/static/img/smallarr.svg" alt="" />
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="topcateg">
+                <h4>Руководитель команды</h4>
+                <h5>
+                  оценивается по наибольшему количеству призовых мест за
+                  подготовленные им работы с участниками команды (более 3
+                  участников)
+                </h5>
+                <button
+                  class="etopromenya1"
+                  onclick="window.location.href='/uchastie/'"
+                >
+                  <h6>Это про меня!</h6>
+                  <img src="/static/img/smallarr.svg" alt="" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="categories d-block d-sm-none">
+        <div class="container" style="margin-bottom: 68px">
+          <div class="row">
+            <div class="col-lg-5">
+              <h2>Категории участников</h2>
+            </div>
+            <div class="col-lg-7">
+              <h3>
+                Независимо от уровня подготовки, каждый найдёт здесь что-то для
+                себя и сможет сделать шаг к новым вершинам в своей карьере
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-2 ">
+              <div class="categ" style="position: relative">
+                <img src="/static/img/tl26.png" alt="" class="tl26" />
+                <h4>Юниор</h4>
+                <h5>опыт менее 3 лет</h5>
+                <h5>впервые участвует в каком-либо чемпионате</h5>
+                <h5>не является инструктором</h5>
+                <a href="/uchastie/">
+                  <button
+                    class="etopromenya"
+                    onclick="window.location.href='/uchastie/'"
+                  >
+                    <h6>Это про меня!</h6>
+                    <img src="/static/img/smallarr.svg" alt="" />
+                  </button>
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-2 ">
+              <div class="categ" style="position: relative">
+                <img src="/static/img/tl17.png" alt="" class="tl17" />
+                <h4 style="color: #ffaff2">Мастер</h4>
+                <h5>опыт от 3 до 5 лет</h5>
+                <h5>не является инструктором</h5>
+
+                <button
+                  class="etopromenya"
+                  onclick="window.location.href='/uchastie/'"
+                >
+                  <h6>Это про меня!</h6>
+                  <img src="/static/img/smallarr.svg" alt="" />
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-2 " style="position: relative">
+              <img src="/static/img/tl27.png" alt="" class="tl27" />
+              <div class="categ">
+                <h4 style="color: #fd84dc">Топ-Мастер</h4>
+                <h5>опыт более 5 лет</h5>
+                <h5>имеет более 5 наград на чемпионатах</h5>
+                <h5>не является инструктором</h5>
+
+                <button
+                  class="etopromenya"
+                  onclick="window.location.href='/uchastie/'"
+                >
+                  <h6>Это про меня!</h6>
+                  <img src="/static/img/smallarr.svg" alt="" />
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-2 " style="position: relative">
+              <img src="/static/img/tl6.png" alt="" class="tl6" />
+              <div class="categ">
+                <h4 style="color: #cf8ece">Инструктор</h4>
+                <h5>
+                  в этой категории участвуют инструкторы вне зависимости от стажа
+                  работы
+                </h5>
+
+                <button
+                  class="etopromenya"
+                  onclick="window.location.href='/uchastie/'"
+                >
+                  <h6>Это про меня!</h6>
+                  <img src="/static/img/smallarr.svg" alt="" />
+                </button>
+              </div>
+
+            </div>
+            <div class="col-lg-2 ">
               <div class="categ">
                 <h4 style="color: #a87dd2">Премиум</h4>
                 <h5>в этой категории принимают участие Судьи</h5>
@@ -883,18 +1592,19 @@
             <img src="/static/img/nizkrug.png" alt="" class="nizkrug" />
           </div>
         </div>
+
       </section>
       <section class="price">
         <div class="container">
           <div class="row">
-            <div class="col-lg-4">
+            <div class="col-xl-4">
               <h2>Стоимость участия в чемпионате</h2>
               <h3>
                 Участие в чемпионате платное,<br />
                 но приобретаемые опыт и эмоции - бесценны
               </h3>
             </div>
-            <div class="col-lg-8">
+            <div class="col-xl-8">
               <div class="row align-items-center d-flex">
                 <div class="col-lg-7">
                   <div class="vznos">
@@ -910,12 +1620,17 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-12 d-lg-none sm-liniya">
+                  <div class="for-sm-liniya">
+                    
+                  </div>
+                </div>
                 <div class="col-lg-5">
                   <div class="row">
-                    <div class="col-1 d-flex align-items-center">
+                    <div class="col-lg-1 d-none d-lg-flex align-items-center forlin">
                       <div class="liniya1"></div>
                     </div>
-                    <div class="col-lg-11">
+                    <div class="col-lg-11 col-12">
                       <div class="sale">
                         <h6>
                           Итоговая скидка <span id="finalDiscount">3000 ₽</span>
@@ -941,7 +1656,7 @@
           </div>
         </div>
       </section>
-      <section class="rules">
+      <section class="rules d-none d-sm-block">
         <img src="/static/img/leftellipse.png" alt="" class="leftellipse" />
         <div class="container">
           <div class="row align-items-center">
@@ -953,10 +1668,10 @@
                 о всех предложенных номинациях.
               </h3>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3 col-md-4 col-sm-5">
               <img src="/static/img/rakushka.png" alt="" />
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-md-8 col-sm-7">
               <div class="row">
                 <div class="col-1"></div>
                 <div class="col-11 marginreg">
@@ -973,10 +1688,27 @@
           </div>
         </div>
       </section>
+      <section class="rules1 d-block d-sm-none">
+        <img src="/static/img/rakushka2.png" alt="" class="rakushka2">
+        <div class="container">
+          <div class="row">
+            <div class="col-10">
+              <h2>Правила и критерии</h2>
+              <h3>
+                Со всеми правилами и критериями GROWSKIT вы можете ознакомиться в
+                регламенте чемпионата. Там же вы найдёте исчерпывающую информацию
+                о всех предложенных номинациях.
+              </h3>
+              <button>Регламент</button>
+              <h4>*Регламент недоступен к скачиванию, поскольку является авторским произведением и защищен авторскими правами.</h4>
+            </div>
+          </div>
+        </div>
+      </section>
       <section class="orgi">
         <img src="/static/img/zakoruchka.png" alt="" class="zakoruchka" />
         <img src="/static/img/lentochka.png" alt="" class="lentochka" />
-        <div class="container">
+        <div class="container d-none d-lg-flex">
           <div class="row">
             <div class="col-lg-6">
               <h2>Организаторы GROWSKIT</h2>
@@ -1003,7 +1735,7 @@
             </div>
           </div>
         </div>
-        <div class="container mt-5" style="width: 94%">
+        <div class="container mt-5 d-none d-lg-flex" style="width: 94%">
           <div class="row">
             <div class="irina d-flex">
               <div class="socseti">
@@ -1029,7 +1761,7 @@
               <div class="imgirina">
                 <img src="/static/img/irina.png" alt="" />
               </div>
-  
+
               <div class="opis">
                 <h5>Сидорова Ирина</h5>
                 <ul>
@@ -1059,7 +1791,7 @@
             </div>
           </div>
         </div>
-        <div class="container mt-5">
+        <div class="container mt-5 d-none d-lg-flex">
           <div class="row">
             <div class="irina d-flex">
               <div class="opis">
@@ -1078,7 +1810,10 @@
                   </li>
                 </ul>
               </div>
-              <img src="/static/img/kasach.png" alt="" class="imgirina" />
+              <div class="imgirina">
+                <img src="/static/img/kasach.png" alt="" />
+              </div>
+
               <div class="socseti">
                 <div
                   class="vk"
@@ -1102,6 +1837,85 @@
             </div>
           </div>
         </div>
+        <div class="container mt-5 d-flex d-lg-none forh2Orgi">
+          <h2>Организаторы GROWSKIT</h2>
+          <div class="irina1">
+            <h3>Сидорова Ирина</h3>
+              <img src="/static/img/irina2.avif" alt="" />
+            <ul>
+              <li>инструктор по росписи и дизайну ногтей</li>
+              <li>организатор чемпионата «GROWSKIT»</li>
+              <li>
+                    организатор двух онлайн проектов: Best Nail Art и Golden
+                    Beauty Star, для мастеров маникюра-педикюра на площадке
+                    ВКонтакте
+              </li>
+              <li>
+                    номинант премии 2023года «Лучшие онлайн проекты на площадке
+                    ВКонтакте» 
+              </li>
+            </ul>
+            <h4>Подробнее</h4>
+            <div class="vk-orgi1">
+              <h5 onclick="window.location.href='https://vk.com/sidorovanailsart'">ВК</h5>
+            </div>
+            <div class="tg-orgi1">
+              <h5 onclick="window.location.href='https://t.me/sidorovanailsart'">TG</h5>
+            </div>
+            <div class="wp-orgi1">
+              <h5 onclick="window.location.href='https://wa.me/79787089920'">WP</h5>
+            </div>
+          </div>
+        </div>
+        <div class="container mt-5 d-flex d-lg-none forh2Orgi">
+          <div class="irina1">
+            <h3>Касач Татьяна</h3>
+              <img src="/static/img/kasach2.avif" alt="" />
+            <ul>
+              <li>Организатор марафона «Best Nail Art» </li>
+                  <li>Организатор чемпионата «GROWSKIT»</li>
+                  <li>Организатор премии «GROWING BUSINESS AWARDS» </li>
+                  <li>
+                    Номинант премии года «FAVORITES OF THE YEAR 2024» с званием
+                    «Самый креативный Nail Art проект на площадке ВКонтакте»
+                  </li>
+            </ul>
+            <h4>Подробнее</h4>
+            <div class="vk-orgi1">
+              <h5 onclick="window.location.href='https://vk.com/bnags'">ВК</h5>
+            </div>
+            <div class="tg-orgi1">
+              <h5 onclick="window.location.href='https://t.me/Kasach_Tatyana'">TG</h5>
+            </div>
+            <div class="wp-orgi1">
+              <h5 onclick="window.location.href='https://api.whatsapp.com/send/?phone=79787574155&text&type=phone_number&app_absent=0'">WP</h5>
+            </div>
+          </div>
+        </div>
+        <div class="container d-flex d-lg-none ">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="textorgi for-column">
+                <h3>Вы можете помочь нашей команде и стать</h3>
+                <div class="verhniz">
+                  <div class="manager" style="cursor: pointer" onclick="window.location.href='#footer'">
+                    <h3 style="text-decoration: underline">менеджером</h3>
+                    <img src="/static/img/malarrow.svg" alt="" />
+                  </div>
+                  <div
+                    class="manager"
+                    style="cursor: pointer"
+                    onclick="window.location.href='/sponsorstvo/'"
+                  >
+                    <h3 style="text-decoration: underline">спонсором</h3>
+                    <img src="/static/img/malarrow.svg" alt="" />
+                  </div>
+                </div>
+                <h3>проекта</h3>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
       <section class="magazine">
         <img src="/static/img/Magazines_ 1.png" alt="" class="magazines" />
@@ -1120,7 +1934,7 @@
           </div>
         </div>
       </section>
-      <section class="faq">
+      <section class="">
         <div class="container" style="position: relative">
           <img src="/static/img/bigquestion.png" alt="" class="bigquestion" />
           <div class="row">
@@ -1142,7 +1956,7 @@
               </div>
               <div class="for-faq">
                 <div class="faq-item">
-                  <span>Как сдавать работы?</span>
+                  <span>Где посмотреть регламент и критерии?</span>
                   <img src="/static/img/plusfaq.png" alt="" />
                   <img src="/static/img/minus.png" alt="" class="d-none" />
                 </div>
@@ -1155,7 +1969,7 @@
               </div>
               <div class="for-faq1">
                 <div class="faq-item">
-                  <span>Как сдавать работы?</span>
+                  <span>Какие призы я могу получить?</span>
                   <img src="/static/img/plusfaq.png" alt="" />
                   <img src="/static/img/minus.png" alt="" class="d-none" />
                 </div>
@@ -1168,7 +1982,7 @@
               </div>
               <div class="for-faq1">
                 <div class="faq-item">
-                  <span>Как сдавать работы?</span>
+                  <span>Как и когда отправляются награды?</span>
                   <img src="/static/img/plusfaq.png" alt="" />
                   <img src="/static/img/minus.png" alt="" class="d-none" />
                 </div>
@@ -1181,7 +1995,7 @@
               </div>
               <div class="for-faq1" style="border-bottom: 2px solid #efdaed">
                 <div class="faq-item">
-                  <span>Как сдавать работы?</span>
+                  <span>Когда и где можно будет посмотреть результаты чемпионата?</span>
                   <img src="/static/img/plusfaq.png" alt="" />
                   <img src="/static/img/minus.png" alt="" class="d-none" />
                 </div>
@@ -1193,8 +2007,9 @@
                 </div>
               </div>
             </div>
-            <div class="col-30">
-              <h4>
+            
+            <div class="offset-6 col-6 offset-lg-0 col-lg-3 fortop">
+              <h4 class="ostalis">
                 Остались вопросы?<br />
                 Спросите нас напрямую
               </h4>
@@ -1228,12 +2043,15 @@
       <section class="prizes">
         <div class="container-fluid">
           <div class="row">
-            <h2>Какие призы и подарки мы приготовили для участников?</h2>
+            <div class="offset-1 col-10">
+              <h2>Какие призы и подарки мы приготовили для участников?</h2>
+            </div>
+            
           </div>
           <div class="row align-items-center">
             <div class="col-lg-4">
-              <div class="row">
-                <div class="offset-lg-1 col-lg-9">
+              <div class="row justify-content-center">
+                <div class="offset-lg-1 col-lg-9 dnone-top">
                   <img
                     src="/static/img/kubok.png"
                     alt=""
@@ -1244,7 +2062,7 @@
                     подарками от организаторов, спонсоров и партнёров чемпионата
                   </h3>
                 </div>
-                <div class="offset-lg-2 col-lg-9 mt-5">
+                <div class="offset-lg-2 col-lg-9 mt-5 offset-2 col-10 dnone-top">
                   <img
                     src="/static/img/medal.png"
                     alt=""
@@ -1257,12 +2075,15 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-5 d-none d-lg-flex ">
+              <img src="/static/img/bigkubok.png" alt="" class="bigkubok" />
+            </div>
+            <div class="col-lg-5 d-flex d-sm-none dnone-top justify-content-center">
               <img src="/static/img/bigkubok.png" alt="" class="bigkubok" />
             </div>
             <div class="col-lg-3">
-              <div class="row">
-                <div class="col-lg-10">
+              <div class="row justify-content-center">
+                <div class="col-lg-10 dnone-top" >
                   <img
                     src="/static/img/kubok.png"
                     alt=""
@@ -1273,7 +2094,7 @@
                     плакеткой
                   </h3>
                 </div>
-                <div class="offset-lg-2 col-lg-10 mt-5">
+                <div class="offset-lg-2 col-lg-10 offset-2 col-10 mt-5 dnone-top">
                   <img
                     src="/static/img/kubok.png"
                     alt=""
@@ -1286,14 +2107,17 @@
                 </div>
               </div>
             </div>
+            <div class="col-lg-5 d-none d-sm-flex d-lg-none dnone-top justify-content-center">
+              <img src="/static/img/bigkubok.png" alt="" class="bigkubok" />
+            </div>
           </div>
         </div>
       </section>
-  
+
       <section class="footer" id="footer">
         <div class="container">
           <div class="row footpad">
-            <div class="col-lg-6">
+            <div class="col-xl-6 col-sm-12 first-part-footer">
               <img src="/static/img/footgrowskit.png" alt="" />
               <div class="bottom-plashki">
                 <img
@@ -1308,9 +2132,9 @@
                 />
               </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-xl-6 col-sm-12">
               <div class="row">
-                <div class="col-lg-2 offset-lg-1">
+                <div class="col-xl-2 offset-xl-1 col-sm-4 links">
                   <a href="/"><h2>Чемпионат</h2></a>
                   <a href="/premiya/"><h2>Премия</h2></a>
                   <a href="/magazine/"><h2>Журнал</h2></a>
@@ -1318,7 +2142,7 @@
                   <a href="/sudeystvo/"><h2>Судейство</h2></a>
                   <a href="/participants/"><h2>Участники</h2></a>
                 </div>
-                <div class="offset-lg-1 col-lg-5">
+                <div class="offset-xl-1 col-xl-5 col-sm-4 forcontacts">
                   <h3>Контакты</h3>
                   <div class="contacts">
                     <h4 style="margin-right: 8px">+7 (978) 708-99-20</h4>
@@ -1329,7 +2153,7 @@
                     <h4>Татьяна</h4>
                   </div>
                 </div>
-                <div class="col-lg-3 forlinks">
+                <div class="col-xl-3 col-sm-4  forlinks">
                   <h3>Мы в соц.сетях</h3>
                   <div
                     class="telegram"
@@ -1374,9 +2198,11 @@
           </div>
         </div>
     </div>
-    
+  
     </section>
+
     <script src="/static/script/index.js"></script>
+    <script src="/static/script/burger.js"></script>
     <script src="/static/script/sidebar.js"></script>
   </body>
 </html>
