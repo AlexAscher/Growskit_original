@@ -225,6 +225,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 51px;
 }
 .sponsors1 {
   padding: 39px 40px;
@@ -304,13 +305,31 @@ body {
 .forma h2 {
   font-family: Gilroy;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 17px;
   line-height: 100%;
   letter-spacing: 0%;
   vertical-align: middle;
   width: 57%;
   color: white;
+
+  width: 34%;
+}
+.spons-for-gap {
+  display: flex;
+  align-items: center;
+  gap: 63px;
   margin-bottom: 47px;
+}
+.spons-for-gap h3 {
+  font-family: Kreadon;
+  font-weight: 400;
+  font-size: 35px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: right;
+  vertical-align: middle;
+  color: white;
+  width: 61%;
 }
 .custom-form {
   display: flex;
@@ -629,4 +648,69 @@ textarea::placeholder {
   align-items: center;
   gap: 24px;
   margin-top: 40px;
+}
+.hotite {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+.hotite h3 {
+  font-family: Kreadon;
+  font-weight: 400;
+  font-size: 35px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: right;
+  vertical-align: middle;
+  color: white;
+}
+@media (max-width: 1200px) {
+  .zdes {
+    top: 71%;
+  }
+}
+@media (max-width: 992px) {
+  .zavitka {
+    top: 65%;
+  }
+  .zdes {
+    top: 75%;
+    right: -3%;
+  }
+}
+@media (max-width: 840px) {
+  .zdes {
+    font-size: 20px;
+    right: 4%;
+  }
+}
+@media (max-width: 768px) {
+  .zdes {
+    font-size: 15px;
+    top: 78%;
+  }
+  .bottom-plashki img {
+    width: 254px;
+  }
+}
+@media (max-width: 576px) {
+  .zavitka,
+  .zdes {
+    display: none;
+  }
+  .forma h2 {
+    font-size: 14px;
+  }
+  .hotite h3 {
+    font-size: 30px;
+  }
+  .hotite {
+    gap: 35px;
+  }
+}
+@media (max-width: 335px) {
+  .hotite h3 {
+    gap: 10px;
+  }
 }

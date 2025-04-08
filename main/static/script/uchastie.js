@@ -1,77 +1,90 @@
-var index_photo = 5;
-
 document.addEventListener("DOMContentLoaded", function () {
   const formContainer = document.getElementById("formContainer");
   const addFormBtn = document.querySelector(".add-form-btn");
 
   addFormBtn.addEventListener("click", function () {
-    index_photo += 1;
+    // Сохраняем текущую позицию скролла
+    const scrollPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+
+    // Создаем новую форму
     const newForm = document.createElement("div");
     newForm.classList.add("big-forma");
     newForm.innerHTML = `
-          <div class="row">
-            <div class="topform">
+        <div class="row">
+            <div class="topform marginzero">
               <h2 style="margin-bottom: 0;">Информация об участнике</h2>
-              <img src="/static/img/arrowForSelect.svg" alt="">
+              <img src="/static/img/arrowForSelect.svg" alt="" class="rotated">
             </div>
-            <div class="form-content">
+            <div class="form-content hidden">
               <div class="row">
                 <div class="col-lg-8">
                   <div class="row">
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Фамилия Имя Отчество" required name="fio" />
+                    <div class="col-md-6">
+                      <input type="text" placeholder="Фамилия Имя Отчество"  required name="fio" />
                     </div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Город страна" required name="city" />
+                    <div class="col-md-6 col-sm-12">
+                      <input type="text" placeholder="Город страна" required name="city"  />
                     </div>
-                    <div class="col-lg-6">
-                      <div class="row align-items-center" style="--bs-gutter-x: 8px">
-                        <div class="col-lg-11">
-                          <select name="category_participant" required>
-                            <option value="">Категория участника</option>
-                            <option value="individual" >Индивидуальный участник</option>
-                            <option value="team-leader">Руководитель команды</option>
-                            <option value="junior" >Юниор</option>
-                            <option value="professional">Профессионал</option>
+                    <div class="col-lg-6 col-sm-12">
+                      <div
+                        class="row align-items-center"
+                        style="--bs-gutter-x: 8px"
+                      >
+                        <div class="col-11">
+                          <select name="category_participant">
+                            <option>Категория участника</option>
+                            <option>Индивидуальный участник</option>
+                            <option>Руководитель команды</option>
+                            <option>Юниор</option>
+                            <option>Профессионал</option>
                           </select>
                         </div>
-                        <div class="col-lg-1">
+                        <div class="col-1">
                           <img src="/static/img/question.svg" alt="" />
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="ФИО тренера (если есть)" name="fio_trainer" />
                     </div>
 
-                    <div class="col-lg-6" style="margin-top: 30px">
+                    <div class="col-md-6 col-sm-6 input-margin-top" >
                       <input type="text" placeholder="Телефон" required name="phone" />
                     </div>
-                    <div class="col-lg-6" style="margin-top: 30px">
+                    <div class="col-md-6 col-sm-6 input-margin-top">
                       <input type="email" placeholder="Почта" required name="email" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="Ссылка на профиль ВК" name="vk" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="Ссылка на профиль Telegram" name="telegram" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="Почтовый адрес" required name="address" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-ld-6 col-12">
                       <input type="text" placeholder="Адрес ближайшего СДЭК" required name="address_sdek" />
                     </div>
                     <div class="col-12">
-                      <textarea name="bio" id="" required
-                        placeholder="Вкратце расскажите о своих достижениях и регалиях"></textarea>
+                      <textarea
+                        name="bio"
+                        id=""
+                        placeholder="Вкратце расскажите о своих достижениях и регалиях"
+                      ></textarea>
                     </div>
-                    <div class="col-lg-6 kolvo">
+                    <div class="col-md-6 kolvo">
                       <h3>Количество подаваемых работ</h3>
                     </div>
-                    <div class="col-lg-6"></div>
-                    <div class="col-lg-6">
-                      <input type="text" placeholder="Количество работ" class="raboti" required name="count_work" />
+                    <div class="col-md-6 fodnone"></div>
+                    <div class="col-md-6">
+                      <input 
+                       required name="count_work"
+                        type="text"
+                        placeholder="Количество работ"
+                        class="raboti"
+                      />
                     </div>
                     <div class="col-lg-6">
                       <div class="nomin">
@@ -105,14 +118,20 @@ document.addEventListener("DOMContentLoaded", function () {
                   </p>
                 </div>
               </div>
-
             </div>
-
           </div>
       `;
 
+    // Добавляем новую форму в контейнер
     formContainer.appendChild(newForm);
+
+    // Присоединяем обработчики событий к новой форме
     attachEventListeners(newForm);
+
+    // Возвращаемся к сохраненной позиции скролла
+    setTimeout(() => {
+      window.scrollTo(0, scrollPosition);
+    }, 0);
   });
 
   function attachEventListeners(form) {

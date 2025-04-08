@@ -8,16 +8,17 @@
   <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/static/css/header.css" />
   <link rel="stylesheet" href="/static/css/footer.css" />
-  <link rel="stylesheet" href="/static/css/uchastie.css" />
+  
   <link rel="stylesheet" href="/static/css/forma.css" />
+  <link rel="stylesheet" href="/static/css/uchastie.css" />
   <link rel="stylesheet" href="/static/css/reset.css" />
 </head>
 
 <body>
-  <header class="header">
-    <div class="logo"><img src="/static/img/headerlogo.png" alt="" /></div>
+  <header class="header d-none d-xxl-flex">
+    <div class="logo"><img src="/static/img/headerlogo.png" alt=""></div>
     <nav class="nav">
-      <a href="/">Чемпионат </a>
+      <a href="/">Чемпионат</a>
       <a href="/premiya/">Премия</a>
       <a href="/magazine/">Журнал</a>
       <a href="/sponsorstvo/">Спонсорство</a>
@@ -25,9 +26,28 @@
       <a href="/participants/">Участники</a>
     </nav>
     <div class="buttons">
-      <a href="/uchastie/"><button class="header-second-btn">Принять участие</button></a>
+        <button class="header-first-btn" onclick="window.location.href='/premiya/' ">Номинироваться на премию</button>
+        <a href="/uchastie/"><button class="header-second-btn">Принять участие</button></a>
     </div>
-  </header>
+</header>
+<header class="d-block d-xxl-flex">
+  <div class="hamburger-menu">
+    <div class="logo"><img src="/static/img/headerlogo.png" alt="" style="width: 70px;"/></div>
+        <input id="menu__toggle" type="checkbox"/>
+        <label class="menu__btn" for="menu__toggle">
+          <span></span>
+        </label>
+        <ul class="menu__box">
+            <li><a class="menu_item1" href="/" style="padding-right: 0px;">Чемпионат</a></li>
+            <li class="mt-2"><a class="menu_item1" href="/premiya/" style="padding-right: 0px;">Премия</a></li>
+            <li class="mt-2"><a class="menu_item1" href="/magazine/" style="padding-right: 0px;">Журнал</a></li>
+            <li class="mt-2"><a class="menu_item1" href="/sponsorstvo/" style="padding-right: 0px;">Спонсорство</a></li>
+            <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal" data-bs-target="#exampleModal" style="padding-right: 0px;">Судейство</a></li>
+            <li class="mt-2"><a class="menu_item1" href="/participants/" style="padding-right: 0px;">Участники</a></li>
+            <li class="mt-2"><a class="menu_item1" href="/uchastie/" style="padding-right: 0px;">Принять участие</a></li>
+        </ul>
+  </div>
+</header>
   <section class="main">
     <div class="container firstcontainer">
       <div class="regoplata">
@@ -71,15 +91,15 @@
             <h2>Информация об участнике</h2>
             <div class="col-lg-8">
               <div class="row">
-                <div class="col-lg-6">
+                <div class="col-md-6">
                   <input type="text" placeholder="Фамилия Имя Отчество" name="fio" required />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6 col-sm-12">
                   <input type="text" placeholder="Город страна" name="city" required />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6 col-sm-12">
                   <div class="row align-items-center" style="--bs-gutter-x: 8px">
-                    <div class="col-lg-11">
+                    <div class="col-11">
                       <select name="category_participant" required>
                         <option value="">Категория участника</option>
                         <option value="individual">Индивидуальный участник</option>
@@ -88,45 +108,45 @@
                         <option value="professional">Профессионал</option>
                       </select>
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-1">
                       <img src="/static/img/question.svg" alt="" />
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6">
                   <input type="text" placeholder="ФИО тренера (если есть)" name="fio_trainer" />
                 </div>
 
-                <div class="col-lg-6" style="margin-top: 30px">
+                <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
                   <input type="text" placeholder="Телефон" name="phone" required />
                 </div>
-                <div class="col-lg-6" style="margin-top: 30px">
+                <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
                   <input type="email" placeholder="Почта" name="email" required />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6">
                   <input type="text" placeholder="Ссылка на профиль ВК" name="vk" />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6">
                   <input type="text" placeholder="Ссылка на профиль Telegram" name="telegram" />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6">
                   <input type="text" placeholder="Почтовый адрес" name="address" required />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-ld-6 col-12">
                   <input type="text" placeholder="Адрес ближайшего СДЭК" name="address_sdek" required />
                 </div>
                 <div class="col-12">
                   <textarea name="bio" id="" placeholder="Вкратце расскажите о своих достижениях и регалиях"
                     required></textarea>
                 </div>
-                <div class="col-lg-6 kolvo">
+                <div class="col-md-6 kolvo">
                   <h3>Количество подаваемых работ</h3>
                 </div>
-                <div class="col-lg-6"></div>
-                <div class="col-lg-6">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
                   <input type="number" placeholder="Количество работ" class="raboti" name="count_work" required />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6">
                   <div class="nomin">
                     <p>1 номинация</p>
                     <h5>6000 ₽</h5>
@@ -175,13 +195,13 @@
         <div class="big-forma">
           <h2>Информация о команде</h2>
           <div class="row">
-            <div class="col-lg-8">
+            <div class="col-xl-8 col-md-12">
               <input type="text" placeholder="Название команды" required name="team_name" />
-              <div class="row" style="margin-top: 15px">
-                <div class="col-lg-4">
+              <div class="row" style="margin-top: 15px" >
+                <div class="col-md-4 col-sm-5" >
                   <input type="number" placeholder="Количество участников" name="team_count" />
                 </div>
-                <div class="col-lg-8">
+                <div class="col-md-8 col-sm-7">
                   <input type="text" placeholder="ФИО тренера (если есть)" name="team_trainer" />
                 </div>
               </div>
@@ -194,29 +214,29 @@
             <div class="col-lg-8">
               <h2 class="secondh2">Информация о руководителе</h2>
               <div class="row">
-                <div class="col-lg-6">
+                <div class="col-md-6">
                   <input type="text" placeholder="Фамилия Имя Отчество" required name="fio" />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6">
                   <input type="text" placeholder="Город страна" name="city" required />
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-md-6 col-sm-6">
                   <input type="text" placeholder="Телефон" name="phone" required />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6 col-sm-6">
                   <input type="email" placeholder="Почта" name="email" required />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6">
                   <input type="text" placeholder="Ссылка на профиль ВК" name="vk" />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6">
                   <input type="text" placeholder="Ссылка на профиль Telegram" name="telegram" />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6">
                   <input type="text" placeholder="Почтовый адрес" name="address" required />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6">
                   <input type="text" placeholder="Адрес ближайшего СДЭК" name="address_sdek" required />
                 </div>
                 <div class="col-12">
@@ -256,15 +276,15 @@
               <div class="row">
                 <div class="col-lg-8">
                   <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="Фамилия Имя Отчество" required name="fio" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6 col-sm-12">
                       <input type="text" placeholder="Город страна" required name="city" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 col-sm-12">
                       <div class="row align-items-center" style="--bs-gutter-x: 8px">
-                        <div class="col-lg-11">
+                        <div class="col-11">
                           <select name="category_participant" required>
                             <option value="">Категория участника</option>
                             <option value="individual" >Индивидуальный участник</option>
@@ -273,42 +293,42 @@
                             <option value="professional">Профессионал</option>
                           </select>
                         </div>
-                        <div class="col-lg-1">
+                        <div class="col-1">
                           <img src="/static/img/question.svg" alt="" />
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="ФИО тренера (если есть)" name="fio_trainer" />
                     </div>
 
-                    <div class="col-lg-6" style="margin-top: 30px">
+                    <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
                       <input type="text" placeholder="Телефон" required name="phone" />
                     </div>
-                    <div class="col-lg-6" style="margin-top: 30px">
+                    <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
                       <input type="email" placeholder="Почта" required name="email" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="Ссылка на профиль ВК" name="vk" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="Ссылка на профиль Telegram" name="telegram" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="Почтовый адрес" required name="address" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-ld-6">
                       <input type="text" placeholder="Адрес ближайшего СДЭК" required name="address_sdek" />
                     </div>
                     <div class="col-12">
                       <textarea name="bio" id="" required
                         placeholder="Вкратце расскажите о своих достижениях и регалиях"></textarea>
                     </div>
-                    <div class="col-lg-6 kolvo">
+                    <div class="col-md-6 kolvo">
                       <h3>Количество подаваемых работ</h3>
                     </div>
-                    <div class="col-lg-6"></div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
                       <input type="text" placeholder="Количество работ" class="raboti" required name="count_work" />
                     </div>
                     <div class="col-lg-6">
@@ -358,15 +378,15 @@
               <div class="row">
                 <div class="col-lg-8">
                   <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="Фамилия Имя Отчество" required name="fio" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6 col-sm-12">
                       <input type="text" placeholder="Город страна" required name="city" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6 col-sm-12">
                       <div class="row align-items-center" style="--bs-gutter-x: 8px">
-                        <div class="col-lg-11">
+                        <div class="col-11">
                           <select name="category_participant" required>
                             <option value="">Категория участника</option>
                             <option value="individual" >Индивидуальный участник</option>
@@ -375,42 +395,42 @@
                             <option value="professional">Профессионал</option>
                           </select>
                         </div>
-                        <div class="col-lg-1">
+                        <div class="col-1">
                           <img src="/static/img/question.svg" alt="" />
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="ФИО тренера (если есть)" name="fio_trainer" />
                     </div>
 
-                    <div class="col-lg-6" style="margin-top: 30px">
+                    <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
                       <input type="text" placeholder="Телефон" required name="phone" />
                     </div>
-                    <div class="col-lg-6" style="margin-top: 30px">
+                    <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
                       <input type="email" placeholder="Почта" required name="email" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="Ссылка на профиль ВК" name="vk" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="Ссылка на профиль Telegram" name="telegram" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                       <input type="text" placeholder="Почтовый адрес" required name="address" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-ld-6 col-12">
                       <input type="text" placeholder="Адрес ближайшего СДЭК" required name="address_sdek" />
                     </div>
                     <div class="col-12">
                       <textarea name="bio" id="" required
                         placeholder="Вкратце расскажите о своих достижениях и регалиях"></textarea>
                     </div>
-                    <div class="col-lg-6 kolvo">
+                    <div class="col-md-6 kolvo">
                       <h3>Количество подаваемых работ</h3>
                     </div>
-                    <div class="col-lg-6"></div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
                       <input type="text" placeholder="Количество работ" class="raboti" required name="count_work" />
                     </div>
                     <div class="col-lg-6">
@@ -452,7 +472,7 @@
         </div>
         <div id="formContainer"></div>
         <div class="container" style="padding-right: 0; padding-left: 0; margin-top: 30px; margin-bottom: 30px;">
-          <button class="add-form-btn" onclick="addForm()"><img src="/static/img/plusone.png" alt=""></button>
+          <button class="add-form-btn"><img src="/static/img/plusone.png" alt=""></button>
         </div>
         <div class="nizh-after-form">
           <div class="row">
@@ -488,53 +508,65 @@
     </div>
     </div>
   </section>
-  <section class="footer">
-    <div class="container-fluid">
+  <section class="footer" id="footer">
+    <div class="container">
       <div class="row footpad">
-        <div class="col-lg-6">
+        <div class="col-xl-6 col-sm-12 first-part-footer">
           <img src="/static/img/footgrowskit.png" alt="" />
-          <img src="/static/img/lotus.png" alt="" style="margin-top: 20px" />
+          <div class="bottom-plashki">
+            <img
+              src="/static/img/lotus.png"
+              alt=""
+              style="margin-top: 20px"
+            />
+            <img
+              src="/static/img/lunailbottom.png"
+              alt=""
+              style="margin-top: 20px"
+            />
+          </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-xl-6 col-sm-12">
           <div class="row">
-            <div class="col-lg-2 offset-lg-1">
-              <a href="/">
-                <h2>Чемпионат</h2>
-              </a>
-              <a href="/premiya/">
-                <h2>Премия</h2>
-              </a>
-              <a href="/magazine/">
-                <h2>Журнал</h2>
-              </a>
-              <a href="/sponsorstvo/">
-                <h2>Спонсорство</h2>
-              </a>
-              <a href="/sudeystvo/">
-                <h2>Судейство</h2>
-              </a>
-              <a href="/participants/">
-                <h2>Участники</h2>
-              </a>
+            <div class="col-xl-2 offset-xl-1 col-sm-4 links">
+              <a href="/"><h2>Чемпионат</h2></a>
+              <a href="/premiya/"><h2>Премия</h2></a>
+              <a href="/magazine/"><h2>Журнал</h2></a>
+              <a href="/sponsorstvo/"><h2>Спонсорство</h2></a>
+              <a href="/sudeystvo/"><h2>Судейство</h2></a>
+              <a href="/participants/"><h2>Участники</h2></a>
             </div>
-            <div class="offset-lg-1 col-lg-5">
+            <div class="offset-xl-1 col-xl-5 col-sm-4 forcontacts">
               <h3>Контакты</h3>
               <div class="contacts">
-                <h4 style="margin-right: 8px">+7 (999) 999-99-99</h4>
+                <h4 style="margin-right: 8px">+7 (978) 708-99-20</h4>
                 <h4>Ирина</h4>
               </div>
+              <div class="contacts">
+                <h4 style="margin-right: 8px">‪+7 (978) 757-41-55‬</h4>
+                <h4>Татьяна</h4>
+              </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-xl-3 col-sm-4  forlinks">
               <h3>Мы в соц.сетях</h3>
-              <div class="telegram">
+              <div
+                class="telegram"
+                onclick="window.location.href='https://t.me/sidorovanailsart'"
+              >
                 <img src="/static/img/telegram.svg" alt="" />
                 <h5>Telegram</h5>
               </div>
-              <div class="telegram">
+              <div
+                class="telegram"
+                onclick="window.location.href='https://vk.com/sidorovanailsart'"
+              >
                 <img src="/static/img/vkontakte.svg" alt="" />
                 <h5>VK</h5>
               </div>
-              <div class="telegram">
+              <div
+                class="telegram"
+                onclick="window.location.href='https://wa.me/79787089920'"
+              >
                 <img src="/static/img/whatsapp.svg" alt="" />
                 <h5>WhatsApp</h5>
               </div>
@@ -549,19 +581,19 @@
             <h6>© 2025 GROWSKIT</h6>
           </div>
           <div class="rightfoot">
-            <a href="">
-              <h6 style="text-decoration: underline">
+            <a href=""
+              ><h6 style="text-decoration: underline">
                 Политика конфиденциальности
-              </h6>
-            </a>
-            <a href="">
-              <h6 style="text-decoration: underline">Оферта</h6>
-            </a>
+              </h6></a
+            >
+            <a href=""><h6 style="text-decoration: underline">Оферта</h6></a>
           </div>
         </div>
       </div>
     </div>
-  </section>
+</div>
+
+</section>
   <script src="/static/script/uchastie.js"></script>
 </body>
 

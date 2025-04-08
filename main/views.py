@@ -1,8 +1,10 @@
 import datetime
+import json
 import random
 import string
 from typing import Literal
 from django.contrib.auth import authenticate, login
+from django.template import loader
 from django.conf import settings
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -300,7 +302,11 @@ def uchastie(request: HttpRequest):
 
 def send_auth(request: HttpRequest):
     if request.method == 'POST':
-        user = get_object_or_404(User, email=request.POST.get('email'))
+        email = request.POST.get('email')
+        if not email:
+            data = json.loads(request.body.decode('utf-8') or '{}')
+            email = data.get('email')
+        user = get_object_or_404(User, email=email)
         password = get_random_string(10)
         user.set_password(password)
         user.save()
@@ -438,29 +444,28 @@ def add_manager(request):
 def championship_admin(request):
     championships = Championship.objects.all()
 
-    if request.method == "POST" and "add_date" in request.POST:
-        # Добавление новой даты проведения чемпионата
-        name = request.POST.get("name")
-        date = request.POST.get("date")
-        last_date_registration = request.POST.get("last_date_registration")
-
-        if name and date and last_date_registration:
-            Championship.objects.create(
-                name=name,
-                date=date,
-                last_date_registration=last_date_registration,
-            )
+    if request.method == "POST":
+        form = ChampionshipForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
             return redirect("championship_admin")
+    else:
+        form = ChampionshipForm()
 
-    return render(request, "admin/championship_admin.html", {"championships": championships})
+    return render(request, "admin/championship_admin.html", {"championships": championships, "form": form})
 
 @login_required
 def participant_dashboard(request):
-    participant = ProfileParticipant.objects.get(user=request.user)
+    if not request.COOKIES.get('participant_id'):
+        participant = ProfileParticipant.objects.get(user=request.user)
+    else:
+        participant = ProfileParticipant.objects.get(id=request.COOKIES.get('participant_id'))
+
     awards = AwardRequest.objects.filter(email=participant.email)
     journals = JournalRequest.objects.filter(email=participant.email)
 
     return render(request, 'participant/dashboard.html', {
+        'is_leader': True if request.COOKIES.get('participant_id') else False,
         'participant': participant,
         'awards': awards,
         'journals': journals,
@@ -469,22 +474,35 @@ def participant_dashboard(request):
 @login_required
 def upload_work(request):
     try:
-        participant = ProfileParticipant.objects.get(user=request.user)
+        if not request.COOKIES.get('participant_id'):
+            participant = ProfileParticipant.objects.get(user=request.user)
+        else:
+            participant = ProfileParticipant.objects.get(id=request.COOKIES.get('participant_id'))
     except ProfileParticipant.DoesNotExist:
         messages.error(request, 'Вы не являетесь участником.')
         return redirect('participant_dashboard')
+    
+
+    user = request.user
+    if request.COOKIES.get('participant_id'):
+        user = User.objects.get(profileparticipant__id=request.COOKIES.get('participant_id'))
 
     if request.method == 'POST':
         nomination = request.POST.get('nomination')
         files = request.FILES.getlist('photos')
 
-        uploaded_works_count = PhotoList.objects.filter(user=request.user).values('work_id').distinct().count()
+        championship = Championship.objects.filter(last_date_registration__gte=datetime.date.today()).first()
+        if not championship:
+            messages.error(request, 'Чемпионат не активен.')
+            return redirect('participant_dashboard')
+
+        uploaded_works_count = PhotoList.objects.filter(user=user).values('work_id').distinct().count()
         if participant.count_work > uploaded_works_count:
             work_id = uuid.uuid4()
             for file in files:
                 PhotoList.objects.create(
-                    user=request.user,
-                    championship=None,
+                    user=user,
+                    championship=championship,
                     photo=file,
                     nomination=nomination,
                     work_id=work_id
@@ -495,19 +513,51 @@ def upload_work(request):
 
         return redirect('upload_work')
 
-    works = PhotoList.objects.filter(user=request.user).order_by('work_id')
+    works = PhotoList.objects.filter(user=user).order_by('work_id')
     grouped_works = {}
     for work in works:
         if work.work_id not in grouped_works:
             grouped_works[work.work_id] = {
-                'nomination': work.get_nomination_display(),
+                'nomination': work.nomination,# method not exist: get_nomination_display(),
                 'photos': []
             }
         grouped_works[work.work_id]['photos'].append(work)
 
     return render(request, 'participant/upload_work.html', {
+        'is_leader': True if request.COOKIES.get('participant_id') else False,
         'participant': participant,
         'grouped_works': grouped_works,
         'nominations': PhotoList.CHAMPIONSHIP_NOMINATIONS
     })
+
+def update_work_count(request):
+    if request.method == 'POST':
+        add_work_count = request.POST.get('add_work_count')
+        participant_id = request.COOKIES.get('participant_id')
+
+        try:
+            participant = ProfileParticipant.objects.get(id=participant_id)
+        except ProfileParticipant.DoesNotExist:
+            messages.error(request, 'Участник не найден.')
+            return redirect('participant_dashboard')
+
+        participant.count_work += int(add_work_count)
+        participant.save()
+
+        return redirect('upload_work')
+
+    return redirect('upload_work')
+
+@login_required
+def leader_participant_list(request):
+    leader = ProfileLeader.objects.get(user=request.user)
+    if not leader:
+        messages.error(request, 'Вы не являетесь лидером.')
+        return redirect('participant_dashboard')
+        
+    participants = ProfileParticipant.objects.filter(team__leader=leader, team__championship__last_date_registration__gte=datetime.date.today()).all()
+    content = loader.render_to_string('leader/participant_list.html', {"participants": participants}, request, using=None)
+    resp = HttpResponse(content, None, None)
+    resp.delete_cookie('participant_id')
+    return resp
 
