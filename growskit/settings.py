@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import json
 import logging
 import os
+from logging import DEBUG
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
@@ -31,6 +32,7 @@ SECRET_KEY = 'django-insecure-qgpu0x%gk4^30fj78e4r6!r7z*!udcva3_p_)2&a*(tx2a19zy
 DEBUG = os.environ.get('DEBUG', False) == 'True'
 if DEBUG: print('DEBUG MODE ENABLED')
 else: print('PRODUCTION MODE ENABLED')
+
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 

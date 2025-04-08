@@ -560,3 +560,4 @@ def leader_participant_list(request):
     resp = HttpResponse(content, None, None)
     resp.delete_cookie('participant_id')
     return resp
+
