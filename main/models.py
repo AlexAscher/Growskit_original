@@ -227,6 +227,7 @@ class Mark(models.Model):
     judge = models.ForeignKey(ProfileJudge, on_delete=models.CASCADE, related_name='mu_judge', null=True)
     participant = models.ForeignKey(ProfileParticipant, on_delete=models.CASCADE, related_name='mu_participant', null=True)
     mark = models.FloatField()
+    critery = models.CharField(max_length=150, null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
 
     def __str__(self):
