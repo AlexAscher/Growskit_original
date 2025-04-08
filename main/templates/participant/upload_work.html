@@ -8,7 +8,8 @@
 <div class="mb-4">
     <p><strong>Оплачено работ:</strong> {{ participant.count_work }}</p>
     <p><strong>Загружено работ:</strong> {{ grouped_works|length }}</p>
-    <a href="#" class="btn btn-primary">Докупить номинации</a>
+    <input name="add_work_count" type="number" placeholder="Введите количество дополнительных работ" class="form-control">
+    <a href="#" class="btn btn-primary" onclick="updateWorkCount()">Докупить номинации</a>
 </div>
 
 {% if grouped_works %}
@@ -46,4 +47,34 @@
     </div>
     <button type="submit" class="btn btn-success">Загрузить</button>
 </form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    async function updateWorkCount() {
+        const workCountInput = document.querySelector('input[name="add_work_count"]');
+        const workCount = parseInt(workCountInput.value);
+        if (isNaN(workCount) || workCount <= 0) {
+            return
+        }
+        const formData = new FormData();
+        formData.append('add_work_count', workCount);
+        formData.append('participant_id', '{{ participant.id }}');  
+        fetch('{% url "update_work_count" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        }).then(response => [response, response.json()]).then(([resp, data]) => {
+            if (resp.status === 200) {
+                location.reload();
+            } else {
+                console.error(`${resp.status}: ${data}`);
+            }   
+        }).catch(error => {
+            console.error('Ошибка при обновлении количества работ', error);
+        });
+    }
+</script>
 {% endblock %}

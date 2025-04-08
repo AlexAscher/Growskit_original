@@ -180,3 +180,18 @@ class AddManagerForm(forms.ModelForm):
             'fio': 'ФИО',
             'referal_key': 'Реферальный ключ',
         }
+
+class ChampionshipForm(forms.ModelForm):
+    class Meta:
+        model = Championship
+        fields = ['name', 'date', 'last_date_registration']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название чемпионата'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Введите дату начала'}),
+            'last_date_registration': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Введите дату окончания регистрации'}),
+        }
+        labels = {
+            'name': 'Название',
+            'date': 'Дата начала',
+            'last_date_registration': 'Дата окончания регистрации',
+        }

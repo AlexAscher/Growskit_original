@@ -187,6 +187,8 @@ class LogModelHandler(logging.Handler):
 
 class JsonEncoder(json.JSONEncoder):
     def default(self, obj):
+        if isinstance(obj, BaseException):
+            return str(obj)
         return obj.__repr__()
 
 class JsonFormatter(logging.Formatter):

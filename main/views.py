@@ -1,4 +1,5 @@
 import datetime
+import json
 import random
 import string
 from typing import Literal
@@ -300,7 +301,11 @@ def uchastie(request: HttpRequest):
 
 def send_auth(request: HttpRequest):
     if request.method == 'POST':
-        user = get_object_or_404(User, email=request.POST.get('email'))
+        email = request.POST.get('email')
+        if not email:
+            data = json.loads(request.body.decode('utf-8') or '{}')
+            email = data.get('email')
+        user = get_object_or_404(User, email=email)
         password = get_random_string(10)
         user.set_password(password)
         user.save()
@@ -438,21 +443,15 @@ def add_manager(request):
 def championship_admin(request):
     championships = Championship.objects.all()
 
-    if request.method == "POST" and "add_date" in request.POST:
-        # Добавление новой даты проведения чемпионата
-        name = request.POST.get("name")
-        date = request.POST.get("date")
-        last_date_registration = request.POST.get("last_date_registration")
-
-        if name and date and last_date_registration:
-            Championship.objects.create(
-                name=name,
-                date=date,
-                last_date_registration=last_date_registration,
-            )
+    if request.method == "POST":
+        form = ChampionshipForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
             return redirect("championship_admin")
+    else:
+        form = ChampionshipForm()
 
-    return render(request, "admin/championship_admin.html", {"championships": championships})
+    return render(request, "admin/championship_admin.html", {"championships": championships, "form": form})
 
 @login_required
 def participant_dashboard(request):
@@ -478,13 +477,18 @@ def upload_work(request):
         nomination = request.POST.get('nomination')
         files = request.FILES.getlist('photos')
 
+        championship = Championship.objects.filter(last_date_registration__gte=datetime.date.today()).first()
+        if not championship:
+            messages.error(request, 'Чемпионат не активен.')
+            return redirect('participant_dashboard')
+
         uploaded_works_count = PhotoList.objects.filter(user=request.user).values('work_id').distinct().count()
         if participant.count_work > uploaded_works_count:
             work_id = uuid.uuid4()
             for file in files:
                 PhotoList.objects.create(
                     user=request.user,
-                    championship=None,
+                    championship=championship,
                     photo=file,
                     nomination=nomination,
                     work_id=work_id
@@ -510,3 +514,21 @@ def upload_work(request):
         'grouped_works': grouped_works,
         'nominations': PhotoList.CHAMPIONSHIP_NOMINATIONS
     })
+
+def update_work_count(request):
+    if request.method == 'POST':
+        add_work_count = request.POST.get('add_work_count')
+        participant_id = request.POST.get('participant_id')
+
+        try:
+            participant = ProfileParticipant.objects.get(id=participant_id)
+        except ProfileParticipant.DoesNotExist:
+            messages.error(request, 'Участник не найден.')
+            return redirect('participant_dashboard')
+
+        participant.count_work += int(add_work_count)
+        participant.save()
+
+        return redirect('upload_work')
+
+    return redirect('upload_work')

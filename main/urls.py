@@ -25,6 +25,8 @@ urlpatterns = [
     path("championship/", views.championship_admin, name="championship_admin"),
     path('participant/dashboard/', views.participant_dashboard, name='participant_dashboard'),
     path('participant/upload_work/', views.upload_work, name='upload_work'),
+    path('participant/upload_work/add_work_count/', views.update_work_count, name='update_work_count'),
+
     path('api/send_notify_of_days_left_registration/', views.send_notify_of_days_left_registration, name='send_notify_of_days_left_registration'),
     path("api/send_auth/", views.send_auth, name="send_auth"),
 ]
