@@ -21,10 +21,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="col-lg-8">
                   <div class="row">
                     <div class="col-md-6">
-                      <input type="text" placeholder="Фамилия Имя Отчество" />
+                      <input type="text" placeholder="Фамилия Имя Отчество"  required name="fio" />
                     </div>
                     <div class="col-md-6 col-sm-12">
-                      <input type="text" placeholder="Город страна" />
+                      <input type="text" placeholder="Город страна" required name="city"  />
                     </div>
                     <div class="col-lg-6 col-sm-12">
                       <div
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         style="--bs-gutter-x: 8px"
                       >
                         <div class="col-11">
-                          <select>
+                          <select name="category_participant">
                             <option>Категория участника</option>
                             <option>Индивидуальный участник</option>
                             <option>Руководитель команды</option>
@@ -46,30 +46,30 @@ document.addEventListener("DOMContentLoaded", function () {
                       </div>
                     </div>
                     <div class="col-md-6">
-                      <input type="text" placeholder="ФИО тренера (если есть)" />
+                      <input type="text" placeholder="ФИО тренера (если есть)" name="fio_trainer" />
                     </div>
 
                     <div class="col-md-6 col-sm-6 input-margin-top" >
-                      <input type="text" placeholder="Телефон" />
+                      <input type="text" placeholder="Телефон" required name="phone" />
                     </div>
                     <div class="col-md-6 col-sm-6 input-margin-top">
-                      <input type="email" placeholder="Почта" />
+                      <input type="email" placeholder="Почта" required name="email" />
                     </div>
                     <div class="col-md-6">
-                      <input type="text" placeholder="Ссылка на профиль ВК" />
+                      <input type="text" placeholder="Ссылка на профиль ВК" name="vk" />
                     </div>
                     <div class="col-md-6">
-                      <input type="text" placeholder="Ссылка на профиль Telegram" />
+                      <input type="text" placeholder="Ссылка на профиль Telegram" name="telegram" />
                     </div>
                     <div class="col-md-6">
-                      <input type="text" placeholder="Почтовый адрес" />
+                      <input type="text" placeholder="Почтовый адрес" required name="address" />
                     </div>
                     <div class="col-ld-6 col-12">
-                      <input type="text" placeholder="Адрес ближайшего СДЭК" />
+                      <input type="text" placeholder="Адрес ближайшего СДЭК" required name="address_sdek" />
                     </div>
                     <div class="col-12">
                       <textarea
-                        name=""
+                        name="bio"
                         id=""
                         placeholder="Вкратце расскажите о своих достижениях и регалиях"
                       ></textarea>
@@ -79,7 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                     <div class="col-md-6 fodnone"></div>
                     <div class="col-md-6">
-                      <input
+                      <input 
+                       required name="count_work"
                         type="text"
                         placeholder="Количество работ"
                         class="raboti"
@@ -101,8 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="col-lg-4 rightside">
                   <div class="file-upload">
                     <h4>Личное фото</h4>
-                    <input type="file" id="fileInput" hidden />
-                    <label for="fileInput" class="upload-btn">Выбрать</label>
+                    <input type="file" id="fileInput${index_photo}" hidden name="photo" required />
+                    <label for="fileInput${index_photo}" class="upload-btn">Выбрать</label>
                     <h5>или перетащите файлы сюда</h5>
                   </div>
                   <ul>
