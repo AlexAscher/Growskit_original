@@ -188,7 +188,7 @@ class LogModelHandler(logging.Handler):
 
 class JsonEncoder(json.JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, BaseException):
+        if isinstance(obj, BaseException) or issubclass(type(obj), BaseException):
             return str(obj)
         return obj.__repr__()
 
