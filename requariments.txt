@@ -2,3 +2,4 @@ Django==5.1.7
 dotenv==0.9.9
 pyTelegramBotAPI==4.26.0
 psutil==7.0.0
+mysqlclient==2.2.7
