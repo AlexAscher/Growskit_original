@@ -426,11 +426,24 @@ def judges_list(request):
 def sponsors_list(request):
     sponsors = ProfileSponsor.objects.all()
 
-    if request.method == "POST" and "delete_sponsor" in request.POST:
+    if request.method == "POST":
         sponsor_id = request.POST.get("sponsor_id")
         sponsor = get_object_or_404(ProfileSponsor, id=sponsor_id)
-        sponsor.user.delete()  # Удаляем связанного пользователя
-        sponsor.delete()  # Удаляем запись спонсора
+        
+        if "delete_sponsor" in request.POST:
+            sponsor.user.delete()  # Удаляем связанного пользователя
+            sponsor.delete()  # Удаляем запись спонсора
+            return redirect("sponsors_list")
+
+        if 'status' in request.POST:
+            status = request.POST.get('status')
+            sponsor.approved = status
+        
+        if "logo" in request.FILES:
+            logo = request.FILES.get("logo")
+            sponsor.photo = logo
+
+        sponsor.save()
         return redirect("sponsors_list")
 
     return render(request, "admin/sponsors_list.html", {"sponsors": sponsors})
@@ -600,3 +613,23 @@ def leader_participant_list(request):
     resp.delete_cookie('participant_id')
     return resp
 
+@login_required
+def api_change_status(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        status = request.POST.get('status')
+        typ = request.POST.get('type')
+
+        if typ == 'participant':
+            profile = ProfileParticipant.objects.get(id=id)
+        elif typ == 'leader':
+            profile = ProfileLeader.objects.get(id=id)
+        elif typ == 'sponsor':
+            profile = ProfileSponsor.objects.get(id=id)
+        elif typ == 'judge':
+            profile = ProfileJudge.objects.get(id=id)
+
+        profile.status = status
+        profile.save()
+
+        return HttpResponse('{"status": "OK"}')
