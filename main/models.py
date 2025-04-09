@@ -145,6 +145,7 @@ class ProfileParticipant(models.Model):
 class ProfileJudge(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=user_directory_path)
+    isLeader = models.BooleanField(default=False)
 
     fio = models.CharField(max_length=150)
     phone = models.CharField(max_length=150)
