@@ -401,14 +401,26 @@ def judges_list(request):
     judges = ProfileJudge.objects.all()
     latest_championship = Championship.objects.filter(date__gte=datetime.date.today()).first()
 
-    if request.method == "POST" and "update_criteries" in request.FILES:
-        criteries = request.FILES.get("criteries")
-        if latest_championship:
-            latest_championship.criteries = criteries
-            latest_championship.save()
+    if request.method == "POST":
+        if "criteries" in request.FILES:
+            criteries = request.FILES.get("criteries")
+            if latest_championship:
+                latest_championship.criteries = criteries
+                latest_championship.save()
+            
+        if "status" in request.POST:
+            print(request.POST.get('status'))
+            judge: ProfileJudge = get_object_or_404(ProfileJudge, id=request.POST.get("id"))
+            approved = request.POST.get("status")
+            judge.approved = approved
+            judge.save()
         return redirect("judges_list")
 
-    return render(request, "admin/judges_list.html", {"judges": judges, "latest_championship": latest_championship})
+    return render(request, "admin/judges_list.html", {
+        "judges": judges,
+        "latest_championship": latest_championship,
+        "statuses": STATUS_APPROVED
+    })
 
 @user_passes_test(is_admin)
 def sponsors_list(request):
