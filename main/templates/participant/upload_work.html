@@ -9,7 +9,7 @@
     <p><strong>Оплачено работ:</strong> {{ participant.count_work }}</p>
     <p><strong>Загружено работ:</strong> {{ grouped_works|length }}</p>
     <input name="add_work_count" type="number" placeholder="Введите количество дополнительных работ" class="form-control">
-    <a href="#" class="btn btn-primary" onclick="updateWorkCount()">Докупить номинации</a>
+    <a href="#" class="btn btn-primary mt-3" onclick="updateWorkCount()">Докупить номинации</a>
 </div>
 
 {% if grouped_works %}

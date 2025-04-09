@@ -12,7 +12,7 @@
                 <th>Телефон</th>
                 <th>Email</th>
                 <th>Удалить</th>
-                <th>Статус</th>
+                <th>Действия</th>
             </tr>
         </thead>
         <tbody>
@@ -44,6 +44,10 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="logo" class="form-label">Файлы:</label>
+                                    <input type="file" name="logo" id="logo" class="form-control" multiple>
+                                </div>
                             <label for="status{{ sponsor.id }}">Выберите статус:</label>
                             <select name="status" id="status{{ sponsor.id }}" class="form-select mt-2">
                                 <option value="test1">test1</option>
