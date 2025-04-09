@@ -353,6 +353,8 @@ class CustomLoginView(LoginView):
             return '/participants_list/'  # Перенаправление для администраторов
         elif hasattr(user, 'profileparticipant'):
             return '/participant/dashboard/'  # Перенаправление для участников
+        elif hasattr(user, 'profilejudge'):
+            return '/judge/welcome/'  # Перенаправление для судей
         return '/'  # Перенаправление для остальных пользователей
 
 # Проверка: пользователь должен быть администратором
@@ -370,6 +372,10 @@ def custom_redirect(request):
     # Проверяем, является ли пользователь участником
     if hasattr(user, 'profileparticipant'):
         return redirect('/participant/dashboard/')  # Перенаправляем участников
+
+    # Проверяем, является ли пользователь судьей
+    if hasattr(user, 'profilejudge'):
+        return redirect('/judge/welcome/')  # Перенаправляем судей
 
     # Если пользователь не попадает ни в одну из категорий
     return redirect('/')  # Перенаправляем на главную страницу
@@ -614,6 +620,16 @@ def leader_participant_list(request):
     return resp
 
 @login_required
+def judge_welcome(request):
+    if not hasattr(request.user, 'profilejudge'):
+        messages.error(request, 'Вы не являетесь судьей.')
+        return redirect('/')  # Перенаправляем на главную страницу, если пользователь не судья
+
+    return render(request, 'judge/welcome.html', {
+        'judge': request.user.profilejudge,
+    })
+
+@login_required
 def api_change_status(request):
     if request.method == 'POST':
         id = request.POST.get('id')
@@ -633,3 +649,4 @@ def api_change_status(request):
         profile.save()
 
         return HttpResponse('{"status": "OK"}')
+
