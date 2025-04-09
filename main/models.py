@@ -39,7 +39,7 @@ class Log(models.Model):
 
 
 def user_directory_path(instance, filename):
-    return f'main/users/{instance.user.id}/{filename}'
+    return f'media/main/users/{instance.user.id}/{filename}'
 
 
 def user_directory_path_championship(instance, filename):
@@ -59,11 +59,11 @@ def user_directory_path_championship(instance, filename):
         if not championship:
             raise BadRequest('User not in championship')
 
-    return f'main/championships/{championship.id}/{instance.user.id}/{filename}'
+    return f'media/main/championships/{championship.id}/{instance.user.id}/{filename}'
 
 
 def championship_directory_path(instance, filename):
-    return f'main/championships/{instance.id}/{filename}'
+    return f'media/main/championships/{instance.id}/{filename}'
 
 # Фотографии/проекты пользоваталя. Django неявно создаст ManyToMany связь
 class PhotoList(models.Model):
