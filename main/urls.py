@@ -34,6 +34,7 @@ urlpatterns = [
     path('api/send_notify_of_days_left_registration/', views.send_notify_of_days_left_registration, name='send_notify_of_days_left_registration'),
     path("api/send_auth/", views.send_auth, name="send_auth"),
     path('api/change_status/', views.api_change_status, name='api_change_status'),
+    path('api/sertificate_upload/', views.sertificate_upload, name='api_sertificate_upload')
 ]
 
 if settings.DEBUG:

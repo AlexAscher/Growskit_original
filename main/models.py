@@ -88,6 +88,9 @@ class PhotoList(models.Model):
     def __str__(self):
         return f'{self.user.username} ({self.championship}) {self.photo.name} - {self.nomination}'
 
+    def get_nomination_display(self):
+        return dict(self.CHAMPIONSHIP_NOMINATIONS).get(self.nomination)
+
 class Sertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     championship = models.ForeignKey('Championship', on_delete=models.CASCADE)

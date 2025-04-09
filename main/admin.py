@@ -16,6 +16,7 @@ admin.site.register(ProfileLeader)
 admin.site.register(ProfileManager)
 admin.site.register(AwardRequest)
 admin.site.register(JournalRequest)
+admin.site.register(Sertificate)
 
 
 class DateFieldListFilter(admin.DateFieldListFilter):

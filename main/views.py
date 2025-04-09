@@ -6,7 +6,7 @@ from typing import Literal
 from django.contrib.auth import authenticate, login
 from django.template import loader
 from django.conf import settings
-from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import Http404, HttpRequest, HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import BadRequest
 from django.contrib.auth.models import User, Group
@@ -376,6 +376,9 @@ def custom_redirect(request):
     # Проверяем, является ли пользователь судьей
     if hasattr(user, 'profilejudge'):
         return redirect('/judge/welcome/')  # Перенаправляем судей
+    
+    if hasattr(user, 'profileleader'):
+        return redirect('/leader/participant_list/')
 
     # Если пользователь не попадает ни в одну из категорий
     return redirect('/')  # Перенаправляем на главную страницу
@@ -391,15 +394,18 @@ def participants_list(request):
         for work in works:
             if work.work_id not in grouped_works:
                 grouped_works[work.work_id] = {
-                    'nomination': work.nomination,
+                    'nomination': work.get_nomination_display(),
                     'photos': []
                 }
             grouped_works[work.work_id]['photos'].append(work)
         works_by_participant[participant.id] = grouped_works
 
+    championship = Championship.objects.filter(last_date_registration__gte=datetime.date.today()).first()
+
     return render(request, 'admin/participants_list.html', {
         'participants': participants,
         'works_by_participant': works_by_participant,
+        'championship': championship
     })
 
 @user_passes_test(is_admin)
@@ -576,7 +582,7 @@ def upload_work(request):
     for work in works:
         if work.work_id not in grouped_works:
             grouped_works[work.work_id] = {
-                'nomination': work.nomination,# method not exist: get_nomination_display(),
+                'nomination': work.get_nomination_display(),
                 'photos': []
             }
         grouped_works[work.work_id]['photos'].append(work)
@@ -650,3 +656,14 @@ def api_change_status(request):
 
         return HttpResponse('{"status": "OK"}')
 
+@login_required
+def sertificate_upload(request):
+    if request.method == 'POST':
+        form = SertificateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('participants_list')
+        
+        return BadRequest(form.errors.as_text())
+    
+    raise BadRequest("Method not allowed")

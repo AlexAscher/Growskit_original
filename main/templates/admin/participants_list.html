@@ -33,6 +33,14 @@
                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#participantWorksModal{{ participant.id }}">
                     Работы
                 </button>
+
+                <form action="{% url 'api_sertificate_upload' %}" method="post" enctype="multipart/form-data" id="form{{ participant.id }}">
+                    {% csrf_token %}
+                    <input type="hidden" name="user" value="{{ participant.user.id }}">
+                    <input type="hidden" name="championship" value="{{ championship.id }}">
+                    <input type="file" name="file" hidden id="sertificate{{ participant.id }}" onchange="document.getElementById('form{{ participant.id }}').submit();">
+                    <label class="btn btn-primary" for="sertificate{{ participant.id }}" >{% if participant.user|has_sertificate:championship.id %}Обновить сертификат{% else %}Загрузить сертификат{% endif %}</label>
+                </form>
             </td>
         </tr>
 
