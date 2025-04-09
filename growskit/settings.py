@@ -10,13 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import datetime
 import json
 import logging
 import os
 from logging import DEBUG
 from pathlib import Path
+from socket import socket
 from dotenv import load_dotenv
 load_dotenv()
+
+from django.http import HttpRequest
+from django.core.handlers.wsgi import WSGIRequest
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -195,9 +201,20 @@ class LogModelHandler(logging.Handler):
 
 class JsonEncoder(json.JSONEncoder):
     def default(self, obj):
+        if type(obj) is object: return str(obj)
+        if isinstance(obj, dict) or issubclass(type(obj), dict):
+            return obj
+        if isinstance(obj, str) or isinstance(obj, int) or isinstance(obj, float) or isinstance(obj, bool) or\
+                issubclass(type(obj), str) or issubclass(type(obj), int) or issubclass(type(obj), float) or\
+                issubclass(type(obj), bool) or obj is None:
+            return obj
         if isinstance(obj, BaseException) or issubclass(type(obj), BaseException):
             return str(obj)
-        return obj.__repr__()
+        if isinstance(obj, datetime.datetime) or isinstance(obj, datetime.date) or isinstance(obj, datetime.time) or\
+                issubclass(type(obj), datetime.datetime) or issubclass(type(obj), datetime.date) or issubclass(type(obj), datetime.time):
+            return obj.isoformat()
+        
+        return repr(obj)
 
 class JsonFormatter(logging.Formatter):
     def format(self, record):
