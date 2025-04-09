@@ -66,7 +66,7 @@ def notify_user_tg(subject: str, message: str, tg: list[str] | str, fail_silentl
 
 def get_group_tg():
     users = User.objects.filter(is_superuser=True)
-    return list(set([user.profileadmin.telegram for user in users]))
+    return list(set([user.profileadmin.telegram for user in users if user.profileadmin.telegram])) or ['-4713095754']
 
 def notify_user(subject: str, message: str, recipient: list[str] | str, fail_silently=False, tg: list[str] | str =""):
     if len(recipient) > 0:
