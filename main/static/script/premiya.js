@@ -95,3 +95,47 @@ function positionPriobrButtons() {
     }
   });
 }
+function validateForm(step) {
+  let isValid = true;
+
+  // Находим текущую форму
+  const formContainer = document.querySelectorAll(".form-container")[step - 1];
+  if (!formContainer) {
+    console.error(`Форма для шага ${step} не найдена.`);
+    return;
+  }
+
+  // Проверяем все обязательные поля
+  const inputs = formContainer.querySelectorAll("input[required]");
+  inputs.forEach((input) => {
+    if (!input.checkValidity()) {
+      input.classList.add("invalid");
+      isValid = false;
+    } else {
+      input.classList.remove("invalid");
+    }
+  });
+
+  // Дополнительная проверка для телефона
+  const phoneInput = formContainer.querySelector(".telephone");
+  if (phoneInput && !phoneInput.value.match(/^\+?[0-9\s\-()]{10,}$/)) {
+    phoneInput.classList.add("invalid");
+    isValid = false;
+  }
+
+  // Если форма НЕ валидна, останавливаем выполнение
+  if (!isValid) {
+    alert("Пожалуйста, заполните все обязательные поля корректно.");
+    return; // Останавливаем выполнение функции
+  }
+
+  // Если форма валидна, переходим к следующему шагу
+  showNextStep(step);
+}
+
+// Функция для отображения следующего шага
+function showNextStep(currentStep) {
+  const forms = document.querySelectorAll(".form-container");
+  forms[currentStep - 1].style.display = "none"; // Скрываем текущую форму
+  forms[currentStep].style.display = "block"; // Показываем следующую форму
+}

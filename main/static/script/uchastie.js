@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function (e) {
+  e.preventDefault();
   const formContainer = document.getElementById("formContainer");
   const addFormBtn = document.querySelector(".add-form-btn");
 
@@ -136,7 +137,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function attachEventListeners(form) {
     const toggleBtn = form.querySelector(".topform img");
     const formContent = form.querySelector(".form-content");
-    const nameInput = form.querySelector(".name-input");
+    const nameInput = form.querySelector(
+      'input[placeholder="Фамилия Имя Отчество"]'
+    ); // Исправлено
     const title = form.querySelector(".topform h2");
 
     toggleBtn.addEventListener("click", function () {
@@ -147,6 +150,22 @@ document.addEventListener("DOMContentLoaded", function () {
     nameInput.addEventListener("input", function () {
       title.textContent = nameInput.value.trim() || "Информация об участнике";
     });
+  }
+});
+
+document.querySelector("form").addEventListener("submit", function (e) {
+  const fileInputs = document.querySelectorAll('input[type="file"][required]');
+  let isValid = true;
+
+  fileInputs.forEach((input) => {
+    if (!input.files.length) {
+      isValid = false;
+      alert(`Пожалуйста, выберите файл для поля "${input.name}"`);
+    }
+  });
+
+  if (!isValid) {
+    e.preventDefault(); // Предотвращаем отправку формы
   }
 });
 
@@ -180,29 +199,73 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-const dropArea = document.querySelector(".file-upload");
-const fileInput = document.getElementById("fileInput");
+document.addEventListener("DOMContentLoaded", function () {
+  const payButton = document.querySelector(".oplata-button");
 
-// Обработка перетаскивания
-dropArea.addEventListener("dragover", (event) => {
-  event.preventDefault();
-  dropArea.style.borderColor = "#df70bc";
+  // Добавляем обработчик события на кнопку "К оплате"
+  payButton.addEventListener("click", function (e) {
+    e.preventDefault(); // Предотвращаем стандартное поведение кнопки
+
+    // Находим все формы участников
+    const participantForms = document.querySelectorAll(
+      ".big-forma .form-content"
+    );
+
+    // Счетчик заполненных форм
+    let validParticipantsCount = 0;
+
+    // Проверяем каждую форму на заполненность
+    participantForms.forEach((form) => {
+      const nameInput = form.querySelector(
+        'input[placeholder="Фамилия Имя Отчество"]'
+      );
+      const workCountInput = form.querySelector(".raboti");
+
+      // Проверяем, что ФИО и количество работ заполнены
+      if (
+        nameInput &&
+        nameInput.value.trim() !== "" &&
+        workCountInput &&
+        parseInt(workCountInput.value) > 0
+      ) {
+        validParticipantsCount++;
+      }
+    });
+
+    // Проверяем минимальное количество участников
+    if (validParticipantsCount < 5) {
+      alert("Для продолжения необходимо добавить минимум 5 участников.");
+    } else {
+      // Если условие выполнено, можно продолжить (например, отправить форму или перейти к следующему шагу)
+      alert("Условие выполнено! Переход к оплате...");
+      // Здесь можно добавить код для перехода к следующему шагу или отправки формы
+    }
+  });
 });
 
-dropArea.addEventListener("dragleave", () => {
-  dropArea.style.borderColor = "rgba(255, 255, 255, 0.3)";
-});
+// const dropArea = document.querySelector(".file-upload");
+// const fileInput = document.getElementById("fileInput");
 
-dropArea.addEventListener("drop", (event) => {
-  event.preventDefault();
-  dropArea.style.borderColor = "rgba(255, 255, 255, 0.3)";
+// // Обработка перетаскивания
+// dropArea.addEventListener("dragover", (event) => {
+//   event.preventDefault();
+//   dropArea.style.borderColor = "#df70bc";
+// });
 
-  const files = event.dataTransfer.files;
-  if (files.length > 0) {
-    fileInput.files = files; // Присваиваем файлы инпуту
-    console.log("Файл загружен:", files[0].name);
-  }
-});
+// dropArea.addEventListener("dragleave", () => {
+//   dropArea.style.borderColor = "rgba(255, 255, 255, 0.3)";
+// });
+
+// dropArea.addEventListener("drop", (event) => {
+//   event.preventDefault();
+//   dropArea.style.borderColor = "rgba(255, 255, 255, 0.3)";
+
+//   const files = event.dataTransfer.files;
+//   if (files.length > 0) {
+//     fileInput.files = files; // Присваиваем файлы инпуту
+//     console.log("Файл загружен:", files[0].name);
+//   }
+// });
 document.addEventListener("DOMContentLoaded", function () {
   const radioButtons = document.querySelectorAll('input[name="participant"]');
   const individualForm = document.getElementById("individual-form");
@@ -216,6 +279,81 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         individualForm.classList.add("hidden");
         teamLeaderForm.classList.remove("hidden");
+      }
+    });
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const dropAreas = document.querySelectorAll(".file-upload");
+
+  dropAreas.forEach((dropArea) => {
+    const fileInput = dropArea.querySelector('input[type="file"]');
+    const filePreview = dropArea.querySelector(".file-preview");
+    const fileNameElement = filePreview?.querySelector(".file-name");
+    const removeFileBtn = filePreview?.querySelector(".remove-file-btn");
+    const defaultContent = dropArea.querySelectorAll("h4, .upload-btn, h5");
+
+    // Проверяем, что элементы существуют
+    if (!filePreview || !fileNameElement || !removeFileBtn) {
+      console.error("Не найдены необходимые элементы для file-upload");
+      return;
+    }
+
+    // Функция для обновления предпросмотра файла
+    function updateFilePreview(file) {
+      if (file) {
+        fileNameElement.textContent = file.name; // Отображаем имя файла
+        filePreview.classList.remove("hidden"); // Показываем контейнер
+
+        // Скрываем элементы по умолчанию
+        defaultContent.forEach((element) => {
+          element.style.display = "none";
+        });
+      } else {
+        fileNameElement.textContent = ""; // Очищаем имя файла
+        filePreview.classList.add("hidden"); // Скрываем контейнер
+
+        // Показываем элементы по умолчанию
+        defaultContent.forEach((element) => {
+          element.style.display = "";
+        });
+
+        // Очищаем значение input
+        fileInput.value = "";
+      }
+    }
+
+    // Обработка выбора файла через input
+    fileInput.addEventListener("change", function () {
+      const file = this.files[0]; // Получаем выбранный файл
+      updateFilePreview(file);
+    });
+
+    // Обработка нажатия на кнопку "крестик"
+    removeFileBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      updateFilePreview(null); // Убираем файл
+    });
+
+    // Обработка перетаскивания файла
+    dropArea.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      dropArea.style.borderColor = "#df70bc";
+    });
+
+    dropArea.addEventListener("dragleave", () => {
+      dropArea.style.borderColor = "rgba(255, 255, 255, 0.3)";
+    });
+
+    dropArea.addEventListener("drop", (event) => {
+      event.preventDefault();
+      dropArea.style.borderColor = "rgba(255, 255, 255, 0.3)";
+
+      const files = event.dataTransfer.files;
+      if (files.length > 0) {
+        fileInput.files = files; // Присваиваем файлы инпуту
+        updateFilePreview(files[0]); // Обновляем предпросмотр
       }
     });
   });
