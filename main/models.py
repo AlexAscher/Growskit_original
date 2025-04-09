@@ -1,12 +1,12 @@
 import datetime
 import logging
 import uuid
-from django.db import models
+
 from django.contrib.auth.models import User
 from django.core.exceptions import BadRequest
-from django.dispatch import receiver
+from django.db import models
 from django.db.models.signals import post_save
-
+from django.dispatch import receiver
 
 """
 БД:
@@ -22,11 +22,10 @@ from django.db.models.signals import post_save
 есть два поля даты - дата самого чемпионата и дата окончания регистрации
 """
 
-# TODO: есть вариант добавить логирование запросов через django-request
 
 class Log(models.Model):
     STATUSES = [(key, key) for key in logging.getLevelNamesMapping() if key != logging.getLevelName(logging.NOTSET)]
-    
+
     created = models.DateTimeField(default=datetime.datetime.now)
     status = models.CharField(max_length=20, choices=STATUSES)
     message = models.TextField()
@@ -48,13 +47,12 @@ def user_directory_path_championship(instance, filename):
 
     championship = Championship.objects.filter(
         participants=instance.user.profileparticipant,  # Используем связанный ProfileParticipant
-        last_date_registration__gte=datetime.date.today()
+        last_date_registration__gte=datetime.date.today(),
     ).first()
 
     if not championship:
         championship = Championship.objects.filter(
-            judges=instance.user,
-            last_date_registration__gte=datetime.date.today()
+            judges=instance.user, last_date_registration__gte=datetime.date.today()
         ).first()
         if not championship:
             raise BadRequest('User not in championship')
@@ -64,6 +62,7 @@ def user_directory_path_championship(instance, filename):
 
 def championship_directory_path(instance, filename):
     return f'media/main/championships/{instance.id}/{filename}'
+
 
 # Фотографии/проекты пользоваталя. Django неявно создаст ManyToMany связь
 class PhotoList(models.Model):
@@ -91,6 +90,7 @@ class PhotoList(models.Model):
     def get_nomination_display(self):
         return dict(self.CHAMPIONSHIP_NOMINATIONS).get(self.nomination)
 
+
 class Sertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     championship = models.ForeignKey('Championship', on_delete=models.CASCADE)
@@ -104,17 +104,20 @@ STATUS_APPROVED = (
     ("approved", "Одобрено"),
     ("refused", "Отказано"),
     ("wait", "На рассмотрении"),
-    ("blocked", "Заблокировано")
+    ("blocked", "Заблокировано"),
 )
+
 
 class ProfileAdmin(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, limit_choices_to={'is_superuser': True})
     telegram = models.CharField(max_length=150, null=True, blank=True)
 
+
 @receiver(post_save, sender=User)
 def create_admin_profile(sender, instance, created, **kwargs):
     if created:
         ProfileAdmin.objects.get_or_create(user=instance)
+
 
 class ProfileParticipant(models.Model):
     CATEGORY_PARTICIPANT = (
@@ -142,8 +145,8 @@ class ProfileParticipant(models.Model):
     approved = models.CharField(max_length=150, choices=STATUS_APPROVED, default='approved')
 
     def __str__(self):
-        return self.fio
-    
+        return str(self.fio)
+
 
 class ProfileJudge(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -163,11 +166,9 @@ class ProfileJudge(models.Model):
     def __str__(self):
         return 'Судья ' + self.fio
 
+
 class ProfileSponsor(models.Model):
-    CATEGORY_PARTICIPANT = (
-        ("individual", "Индивидуальный участник"),
-        ("team-leader", "Руководитель команды")
-    )
+    CATEGORY_PARTICIPANT = (("individual", "Индивидуальный участник"), ("team-leader", "Руководитель команды"))
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
@@ -205,7 +206,8 @@ class ProfileLeader(models.Model):
 
     def __str__(self):
         return 'Руководитель ' + self.fio
-    
+
+
 class ProfileManager(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -216,6 +218,7 @@ class ProfileManager(models.Model):
     def __str__(self):
         return f'Менеджер {self.fio} ({self.referals} рефералов)'
 
+
 # Комманда
 class Team(models.Model):
     championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
@@ -224,18 +227,22 @@ class Team(models.Model):
     members = models.ManyToManyField(ProfileParticipant)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
+
 
 # Оценка судьи
 class Mark(models.Model):
     judge = models.ForeignKey(ProfileJudge, on_delete=models.CASCADE, related_name='mu_judge', null=True)
-    participant = models.ForeignKey(ProfileParticipant, on_delete=models.CASCADE, related_name='mu_participant', null=True)
+    participant = models.ForeignKey(
+        ProfileParticipant, on_delete=models.CASCADE, related_name='mu_participant', null=True
+    )
     mark = models.FloatField()
     critery = models.CharField(max_length=150, null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f'({self.mark:.2f}) {self.participant} ({self.judge})'
+
 
 # Чемпионат
 class Championship(models.Model):
@@ -249,11 +256,13 @@ class Championship(models.Model):
 
     def __str__(self):
         return self.name + ' ' + str(self.date)
-    
+
     # Получение списка средних оценок по пользователям
-    def get_marks_average(self, user: User | None = None) -> list[dict[str, float]]: #  [{'user': user.email, 'average': average}]
+    def get_marks_average(
+        self, user: User | None = None
+    ) -> list[dict[str, float]]:  #  [{'user': user.email, 'average': average}]
         def average(user: User):
-            marks = self.marks.filter(User=user)
+            marks = self.marks.filter(participant__user=user)  # pylint: disable=no-member
             res = sum(mark.mark for mark in marks)
 
             return res / marks.count()
@@ -261,12 +270,15 @@ class Championship(models.Model):
         if user:
             return [{'user': user.email, 'average': average(user)}]
 
-        return [{'user': user.email, 'average': average(user)} for user in self.participants.all()]
-    
+        return [
+            {'user': user.email, 'average': average(user)}
+            for user in self.participants.all()  # pylint: disable=no-member
+        ]
+
     def get_days_left(self):
         return (self.last_date_registration - datetime.date.today()).days
-    
-    
+
+
 class AwardRequest(models.Model):
     AWARD_NOMINATIONS = (
         ("best_company", "Лучшая компания"),
@@ -305,6 +317,7 @@ class AwardRequest(models.Model):
 
     def __str__(self):
         return f'Award {self.fio} - {self.nomination}'
+
 
 class JournalRequest(models.Model):
     fio = models.CharField(max_length=150)

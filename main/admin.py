@@ -1,8 +1,25 @@
-from django.contrib import admin
-from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
+import datetime
 
-from .models import *
+from django.contrib import admin
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+
+from .models import (
+    AwardRequest,
+    Championship,
+    JournalRequest,
+    Log,
+    Mark,
+    PhotoList,
+    ProfileAdmin,
+    ProfileJudge,
+    ProfileLeader,
+    ProfileManager,
+    ProfileParticipant,
+    ProfileSponsor,
+    Sertificate,
+    Team,
+)
 
 admin.site.register(Championship)
 admin.site.register(Mark)
@@ -27,19 +44,27 @@ class DateFieldListFilter(admin.DateFieldListFilter):
         # zone so Django's definition of "Today" matches what the user expects.
         if timezone.is_aware(now):
             now = timezone.localtime(now)
-        
+
         links = list(self.links)
-        links = links[:1] + [
-            (_("Past hour"), {
-                self.lookup_kwarg_since: now - datetime.timedelta(hours=1),
-                self.lookup_kwarg_until: now
-            }),
-            (_("This hour"), {
-                self.lookup_kwarg_since: now.replace(minute=0, second=0, microsecond=0),
-                self.lookup_kwarg_until: now
-            })
-        ] + links[1:] # set before Today
+        links = (
+            links[:1]
+            + [
+                (
+                    _("Past hour"),
+                    {self.lookup_kwarg_since: now - datetime.timedelta(hours=1), self.lookup_kwarg_until: now},
+                ),
+                (
+                    _("This hour"),
+                    {
+                        self.lookup_kwarg_since: now.replace(minute=0, second=0, microsecond=0),
+                        self.lookup_kwarg_until: now,
+                    },
+                ),
+            ]
+            + links[1:]
+        )  # set before Today
         self.links = tuple(links)
+
 
 @admin.register(Log)
 class LogAdmin(admin.ModelAdmin):

@@ -1,11 +1,13 @@
-import subprocess
-import telebot
 import os
+import subprocess
 
+import telebot
 from dotenv import load_dotenv
+
 load_dotenv()
 
 TGBOT_TOKEN = os.getenv('TGBOT_TOKEN')
+
 
 class Handler(telebot.ExceptionHandler):
     def handle(self, exception):
@@ -14,14 +16,18 @@ class Handler(telebot.ExceptionHandler):
             os.kill(os.getpid(), 9)
         return True
 
+
 bot = None if not TGBOT_TOKEN else telebot.TeleBot(TGBOT_TOKEN, exception_handler=Handler())
+
 
 def check_bot(func):
     def wrapper(*args, **kwargs):
         if not bot:
             return None
         return func(*args, **kwargs)
+
     return wrapper
+
 
 def callfunc(func, *args, fail_silently=False, **kwargs):
     try:
@@ -31,14 +37,21 @@ def callfunc(func, *args, fail_silently=False, **kwargs):
             raise
         print(f'${func.__module__}.{func.__name__} ({args}) Exception: {e}')
 
-if bot:
+
+if __name__ == '__main__' and bot:
+
     @bot.message_handler(commands=['start'])
-    def start(message):
+    def start(message: telebot.types.Message):
         print(message.chat.id)
         bot.send_message(message.chat.id, 'Hello!')
 
-    if __name__ == '__main__':
-        bot.infinity_polling()
-    else:
-        proc = subprocess.Popen(['python', os.path.join(os.path.dirname(__file__), 'bot.py')], shell=True,
-            stdin=None, stdout=None, stderr=None, close_fds=True)
+    bot.infinity_polling()
+else:
+    proc = subprocess.Popen(
+        ['python', os.path.join(os.path.dirname(__file__), 'bot.py')],
+        shell=True,
+        stdin=None,
+        stdout=None,
+        stderr=None,
+        close_fds=True,
+    )

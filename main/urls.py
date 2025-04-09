@@ -1,8 +1,7 @@
-from django.contrib import admin
-from django.urls import include, path
-from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.views import LogoutView
+from django.urls import path
 
 from . import views
 
@@ -30,11 +29,14 @@ urlpatterns = [
     path('journals/', views.journal_list, name='journal_list'),
     path('awards/', views.award_list, name='award_list'),
     path('judge/welcome/', views.judge_welcome, name='judge_welcome'),
-
-    path('api/send_notify_of_days_left_registration/', views.send_notify_of_days_left_registration, name='send_notify_of_days_left_registration'),
+    path(
+        'api/send_notify_of_days_left_registration/',
+        views.send_notify_of_days_left_registration,
+        name='send_notify_of_days_left_registration',
+    ),
     path("api/send_auth/", views.send_auth, name="send_auth"),
     path('api/change_status/', views.api_change_status, name='api_change_status'),
-    path('api/sertificate_upload/', views.sertificate_upload, name='api_sertificate_upload')
+    path('api/sertificate_upload/', views.sertificate_upload, name='api_sertificate_upload'),
 ]
 
 if settings.DEBUG:
