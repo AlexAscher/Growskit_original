@@ -39,6 +39,7 @@
                 <div class="modal-content">
                     <form method="post" action="">
                         {% csrf_token %}
+                        <input type="hidden" name="sponsor_id" value="{{ sponsor.id }}">
                         <div class="modal-header">
                             <h5 class="modal-title" id="editSponsorModalLabel{{ sponsor.id }}">Изменить статус судьи</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -50,9 +51,9 @@
                                 </div>
                             <label for="status{{ sponsor.id }}">Выберите статус:</label>
                             <select name="status" id="status{{ sponsor.id }}" class="form-select mt-2">
-                                <option value="test1">test1</option>
-                                <option value="test2">test2</option>
-                                <option value="test3">test3</option>
+                                {% for status in statuses %}
+                                <option value="{{ status.0 }}" {% if status.0 == sponsor.approved %} selected {% endif %}>{{ status.1 }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="modal-footer">
