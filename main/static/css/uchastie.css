@@ -129,7 +129,12 @@ body {
   padding: 8px 12px;
 }
 .main {
-  margin-top: 8%;
+  margin-top: 3%;
+}
+@media (max-width: 1200px) {
+  .main {
+    margin-top: 8%;
+  }
 }
 .firstcontainer {
   margin-bottom: 3%;
@@ -287,6 +292,13 @@ body {
 .forjustify {
   display: flex;
   justify-content: center;
+}
+@media (max-width: 768px) {
+  .forjustify {
+    justify-content: start;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
 }
 .nizh-after-form {
   margin-top: 64px;

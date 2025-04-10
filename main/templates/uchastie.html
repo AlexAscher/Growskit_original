@@ -118,7 +118,7 @@
                 </div>
 
                 <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
-                  <input type="text" placeholder="Телефон" name="phone" required />
+                  <input type="text" placeholder="Телефон" name="phone" pattern="\+?[0-9\s\-()]{10,}" required />
                 </div>
                 <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
                   <input type="email" placeholder="Почта" name="email" required />
@@ -228,7 +228,7 @@
                 </div>
 
                 <div class="col-md-6 col-sm-6">
-                  <input type="text" placeholder="Телефон" name="phone" required />
+                  <input type="text" placeholder="Телефон" pattern="\+?[0-9\s\-()]{10,}" name="phone" required />
                 </div>
                 <div class="col-md-6 col-sm-6">
                   <input type="email" placeholder="Почта" name="email" required />
@@ -255,8 +255,8 @@
             <div class="col-lg-4 rightside">
               <div class="file-upload">
                 <h4>Личное фото</h4>
-                <input type="file" id="fileInput1" hidden name="photo" required />
-                <label for="fileInput1" class="upload-btn">Выбрать</label>
+                <input type="file" id="fileInput2" hidden name="photo" required />
+                <label for="fileInput2" class="upload-btn">Выбрать</label>
                 <h5>или перетащите файлы сюда</h5>
                 <!-- Контейнер для отображения загруженного файла -->
                 <div class="file-preview hidden">
@@ -315,7 +315,7 @@
                     </div>
 
                     <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
-                      <input type="text" placeholder="Телефон" required name="phone" />
+                      <input type="text" placeholder="Телефон" pattern="\+?[0-9\s\-()]{10,}" required name="phone" />
                     </div>
                     <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
                       <input type="email" placeholder="Почта" required name="email" />
@@ -359,8 +359,8 @@
                 <div class="col-lg-4 rightside">
                   <div class="file-upload">
                     <h4>Личное фото</h4>
-                    <input type="file" id="fileInput1" hidden name="photo" required />
-                    <label for="fileInput1" class="upload-btn">Выбрать</label>
+                    <input type="file" id="fileInput3" hidden name="photo" required />
+                    <label for="fileInput3" class="upload-btn">Выбрать</label>
                     <h5>или перетащите файлы сюда</h5>
                     <!-- Контейнер для отображения загруженного файла -->
                     <div class="file-preview hidden">
@@ -423,7 +423,7 @@
                     </div>
 
                     <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
-                      <input type="text" placeholder="Телефон" required name="phone" />
+                      <input type="text" placeholder="Телефон" pattern="\+?[0-9\s\-()]{10,}" required name="phone" />
                     </div>
                     <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
                       <input type="email" placeholder="Почта" required name="email" />
@@ -467,8 +467,8 @@
                 <div class="col-lg-4 rightside">
                   <div class="file-upload">
                     <h4>Личное фото</h4>
-                    <input type="file" id="fileInput1" hidden name="photo" required />
-                    <label for="fileInput1" class="upload-btn">Выбрать</label>
+                    <input type="file" id="fileInput4" hidden name="photo" required />
+                    <label for="fileInput4" class="upload-btn">Выбрать</label>
                     <h5>или перетащите файлы сюда</h5>
                     <!-- Контейнер для отображения загруженного файла -->
                     <div class="file-preview hidden">
@@ -502,14 +502,14 @@
           <div class="row">
             <div class="offset-lg-5 col-lg-7">
               <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-md-4">
                   <div class="sale">
                     <h3>Скидка</h3>
                     <h4><span>3</span> х 1000 ₽</h4>
                     <p>Руководителям команд предоставляется скидка 1000 ₽ за каждого участника команды</p>
                   </div>
                 </div>
-                <div class="col-lg-5 forjustify">
+                <div class="col-lg-5 forjustify col-md-4">
                   <div class="itogo">
                     <h3>Итого</h3>
                     <div class="prices">
@@ -519,7 +519,7 @@
 
                   </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-3 col-md-4">
                   <button class="oplata-button" type="submit">К оплате</button>
                 </div>
               </div>
@@ -619,6 +619,7 @@
 
 </section>
   <script src="/static/script/uchastie.js"></script>
+  <script src="/static/script/validation.js"></script>
 </body>
 
 </html>

@@ -373,9 +373,16 @@
               </p>
               <div class="file-upload">
                 <h4>Личное фото</h4>
-                <input type="file" id="fileInput" hidden />
-                <label for="fileInput" class="upload-btn">Выбрать</label>
+                <input type="file" id="fileInput11" hidden name="photo" required />
+                <label for="fileInput11" class="upload-btn">Выбрать</label>
                 <h5>или перетащите файлы сюда</h5>
+                <!-- Контейнер для отображения загруженного файла -->
+                <div class="file-preview hidden">
+                  <img src="/static/img/file-icon.png" alt="File Icon" class="file-icon" />
+                  <span class="file-name"></span>
+                  <!-- Кнопка "крестик" -->
+                  <button class="remove-file-btn">×</button>
+                </div>
               </div>
               <ul class="ul-needed">
                 <li>Вокруг вашего силуэта должен быть воздух</li>

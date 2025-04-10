@@ -1,44 +1,407 @@
-document.addEventListener("DOMContentLoaded", function (e) {
-  e.preventDefault();
+// document.addEventListener("DOMContentLoaded", function (e) {
+//   e.preventDefault();
+//   const formContainer = document.getElementById("formContainer");
+//   const addFormBtn = document.querySelector(".add-form-btn");
+
+//   addFormBtn.addEventListener("click", function () {
+//     // Сохраняем текущую позицию скролла
+//     const scrollPosition =
+//       window.pageYOffset || document.documentElement.scrollTop;
+
+//     // Создаем новую форму
+//     const newForm = document.createElement("div");
+//     newForm.classList.add("big-forma");
+//     newForm.innerHTML = `
+//         <div class="row">
+//             <div class="topform">
+//               <h2 style="margin-bottom: 0;">Информация об участнике</h2>
+//               <img src="/static/img/arrowForSelect.svg" alt="">
+//             </div>
+//             <div class="form-content">
+//               <div class="row">
+//                 <div class="col-lg-8">
+//                   <div class="row">
+//                     <div class="col-md-6">
+//                       <input type="text" placeholder="Фамилия Имя Отчество" required name="fio" />
+//                     </div>
+//                     <div class="col-md-6 col-sm-12">
+//                       <input type="text" placeholder="Город страна" required name="city" />
+//                     </div>
+//                     <div class="col-md-6 col-sm-12">
+//                       <div class="row align-items-center" style="--bs-gutter-x: 8px">
+//                         <div class="col-11">
+//                           <select name="category_participant" required>
+//                             <option value="">Категория участника</option>
+//                             <option value="individual" >Индивидуальный участник</option>
+//                             <option value="team-leader">Руководитель команды</option>
+//                             <option value="junior" >Юниор</option>
+//                             <option value="professional">Профессионал</option>
+//                           </select>
+//                         </div>
+//                         <div class="col-1">
+//                           <img src="/static/img/question.svg" alt="" />
+//                         </div>
+//                       </div>
+//                     </div>
+//                     <div class="col-md-6">
+//                       <input type="text" placeholder="ФИО тренера (если есть)" name="fio_trainer" />
+//                     </div>
+
+//                     <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
+//                       <input type="text" placeholder="Телефон" required name="phone" />
+//                     </div>
+//                     <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
+//                       <input type="email" placeholder="Почта" required name="email" />
+//                     </div>
+//                     <div class="col-md-6">
+//                       <input type="text" placeholder="Ссылка на профиль ВК" name="vk" />
+//                     </div>
+//                     <div class="col-md-6">
+//                       <input type="text" placeholder="Ссылка на профиль Telegram" name="telegram" />
+//                     </div>
+//                     <div class="col-md-6">
+//                       <input type="text" placeholder="Почтовый адрес" required name="address" />
+//                     </div>
+//                     <div class="col-ld-6 col-12">
+//                       <input type="text" placeholder="Адрес ближайшего СДЭК" required name="address_sdek" />
+//                     </div>
+//                     <div class="col-12">
+//                       <textarea name="bio" id="" required
+//                         placeholder="Вкратце расскажите о своих достижениях и регалиях"></textarea>
+//                     </div>
+//                     <div class="col-md-6 kolvo">
+//                       <h3>Количество подаваемых работ</h3>
+//                     </div>
+//                     <div class="col-md-6"></div>
+//                     <div class="col-md-6">
+//                       <input type="text" placeholder="Количество работ" class="raboti" required name="count_work" />
+//                     </div>
+//                     <div class="col-lg-6">
+//                       <div class="nomin">
+//                         <p>1 номинация</p>
+//                         <h5>6000 ₽</h5>
+//                       </div>
+//                       <div class="lin"></div>
+//                       <div class="nomin">
+//                         <p>каждая следующая номинация</p>
+//                         <h5>5500 ₽</h5>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//                 <div class="col-lg-4 rightside">
+//                   <div class="file-upload">
+//                     <h4>Личное фото</h4>
+//                     <input type="file" id="fileInput1" hidden name="photo" required />
+//                     <label for="fileInput1" class="upload-btn">Выбрать</label>
+//                     <h5>или перетащите файлы сюда</h5>
+//                     <!-- Контейнер для отображения загруженного файла -->
+//                     <div class="file-preview hidden">
+//                       <img src="/static/img/file-icon.png" alt="File Icon" class="file-icon" />
+//                       <span class="file-name"></span>
+//                       <!-- Кнопка "крестик" -->
+//                       <button class="remove-file-btn">×</button>
+//                     </div>
+//                   </div>
+//                   <ul>
+//                     <li>Вокруг вашего силуэта должен быть воздух</li>
+//                     <li>Задний фон не имеет значения</li>
+//                     <li>Ваш взгляд направлен в камеру</li>
+//                     <li>Фотография должна быть в хорошем качестве</li>
+//                   </ul>
+//                   <p>
+//                     Ваши личные фото будут использоваться для оформления визитки участника в соц.сетях чемпионата и на сайте
+//                   </p>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//       `;
+
+//     // Добавляем новую форму в контейнер
+//     formContainer.appendChild(newForm);
+
+//     // Присоединяем обработчики событий к новой форме
+//     attachEventListeners(newForm);
+
+//     // Возвращаемся к сохраненной позиции скролла
+//     setTimeout(() => {
+//       window.scrollTo(0, scrollPosition);
+//     }, 0);
+//   });
+
+//   function attachEventListeners(form) {
+//     const toggleBtn = form.querySelector(".topform img");
+//     const formContent = form.querySelector(".form-content");
+//     const nameInput = form.querySelector(
+//       'input[placeholder="Фамилия Имя Отчество"]'
+//     );
+//     const title = form.querySelector(".topform h2");
+
+//     toggleBtn.addEventListener("click", function () {
+//       formContent.classList.toggle("hidden");
+//       toggleBtn.classList.toggle("rotated");
+//     });
+
+//     nameInput.addEventListener("input", function () {
+//       title.textContent = nameInput.value.trim() || "Информация об участнике";
+//     });
+//   }
+// });
+
+// document.querySelector("form").addEventListener("submit", function (e) {
+//   const fileInputs = document.querySelectorAll('input[type="file"][required]');
+//   let isValid = true;
+
+//   fileInputs.forEach((input) => {
+//     if (!input.files.length) {
+//       isValid = false;
+//       alert(`Пожалуйста, выберите файл для поля "${input.name}"`);
+//     }
+//   });
+
+//   if (!isValid) {
+//     e.preventDefault(); // Предотвращаем отправку формы
+//   }
+// });
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   document.querySelectorAll(".topform img").forEach((arrow) => {
+//     arrow.addEventListener("click", function () {
+//       const bigForma = this.closest(".big-forma");
+//       const topform = bigForma.querySelector(".topform ");
+//       const formContent = bigForma.querySelector(".form-content"); // Берем только контент формы, без заголовка
+
+//       if (formContent) {
+//         formContent.classList.toggle("hidden"); // Скрываем/показываем форму
+//         this.classList.toggle("rotated"); // Переворачиваем стрелку
+//         topform.classList.toggle("marginzero");
+//       }
+//     });
+//   });
+
+//   // Меняем заголовок на ФИО
+//   document
+//     .querySelectorAll('input[placeholder="Фамилия Имя Отчество"]')
+//     .forEach((input) => {
+//       input.addEventListener("input", function () {
+//         const bigForma = this.closest(".big-forma");
+//         const topform = bigForma.querySelector(".topform h2");
+
+//         topform.textContent = this.value.trim()
+//           ? `${this.value}`
+//           : "Информация об участнике";
+//       });
+//     });
+// });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const dropAreas = document.querySelectorAll(".file-upload");
+
+  dropAreas.forEach((dropArea) => {
+    // Находим элементы внутри текущего dropArea
+    const fileInput = dropArea.querySelector('input[type="file"]');
+    const filePreview = dropArea.querySelector(".file-preview");
+    const fileNameElement = filePreview?.querySelector(".file-name");
+    const removeFileBtn = filePreview?.querySelector(".remove-file-btn");
+    const defaultContent = dropArea.querySelectorAll("h4, .upload-btn, h5");
+
+    // Проверяем, что необходимые элементы существуют
+    if (!filePreview || !fileNameElement || !removeFileBtn) {
+      console.error(
+        "Не найдены необходимые элементы для file-upload",
+        dropArea
+      );
+      return;
+    }
+
+    // Функция для обновления предпросмотра файла
+    function updateFilePreview(file) {
+      if (file) {
+        fileNameElement.textContent = file.name; // Отображаем имя файла
+        filePreview.classList.remove("hidden"); // Показываем контейнер
+
+        // Скрываем элементы по умолчанию
+        defaultContent.forEach((element) => {
+          element.style.display = "none";
+        });
+      } else {
+        fileNameElement.textContent = ""; // Очищаем имя файла
+        filePreview.classList.add("hidden"); // Скрываем контейнер
+
+        // Показываем элементы по умолчанию
+        defaultContent.forEach((element) => {
+          element.style.display = "";
+        });
+
+        // Очищаем значение input
+        fileInput.value = "";
+      }
+    }
+
+    // Обработка выбора файла через input
+    fileInput.addEventListener("change", function () {
+      const file = this.files[0]; // Получаем выбранный файл
+      updateFilePreview(file);
+    });
+
+    // Обработка нажатия на кнопку "крестик"
+    removeFileBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      updateFilePreview(null); // Убираем файл
+    });
+
+    // Обработка перетаскивания файла
+    dropArea.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      dropArea.style.borderColor = "#df70bc";
+    });
+
+    dropArea.addEventListener("dragleave", () => {
+      dropArea.style.borderColor = "rgba(255, 255, 255, 0.3)";
+    });
+
+    dropArea.addEventListener("drop", (event) => {
+      event.preventDefault();
+      dropArea.style.borderColor = "rgba(255, 255, 255, 0.3)";
+
+      const files = event.dataTransfer.files;
+      if (files.length > 0) {
+        const dataTransfer = new DataTransfer(); // Создаем новый объект DataTransfer
+        dataTransfer.items.add(files[0]); // Добавляем файл
+        fileInput.files = dataTransfer.files; // Присваиваем файлы инпуту
+        updateFilePreview(files[0]); // Обновляем предпросмотр
+      }
+    });
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
   const formContainer = document.getElementById("formContainer");
+
+  // Делегирование событий для всех форм
+  document.body.addEventListener("change", function (event) {
+    const fileInput = event.target.closest('.file-upload input[type="file"]');
+    if (fileInput) {
+      const dropArea = fileInput.closest(".file-upload");
+      handleFileInputChange(dropArea, fileInput.files[0]);
+    }
+  });
+
+  document.body.addEventListener("click", function (event) {
+    const removeFileBtn = event.target.closest(".remove-file-btn");
+    if (removeFileBtn) {
+      const dropArea = removeFileBtn.closest(".file-upload");
+      handleRemoveFile(dropArea);
+    }
+  });
+
+  document.body.addEventListener("dragover", function (event) {
+    const dropArea = event.target.closest(".file-upload");
+    if (dropArea) {
+      event.preventDefault();
+      dropArea.style.borderColor = "#df70bc";
+    }
+  });
+
+  document.body.addEventListener("dragleave", function (event) {
+    const dropArea = event.target.closest(".file-upload");
+    if (dropArea) {
+      dropArea.style.borderColor = "rgba(255, 255, 255, 0.3)";
+    }
+  });
+
+  document.body.addEventListener("drop", function (event) {
+    const dropArea = event.target.closest(".file-upload");
+    if (dropArea) {
+      event.preventDefault();
+      dropArea.style.borderColor = "rgba(255, 255, 255, 0.3)";
+
+      const files = event.dataTransfer.files;
+      if (files.length > 0) {
+        const fileInput = dropArea.querySelector('input[type="file"]');
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(files[0]);
+        fileInput.files = dataTransfer.files;
+        handleFileInputChange(dropArea, files[0]);
+      }
+    }
+  });
+
+  // Функция для обработки изменения input[type="file"]
+  function handleFileInputChange(dropArea, file) {
+    const filePreview = dropArea.querySelector(".file-preview");
+    const fileNameElement = filePreview?.querySelector(".file-name");
+    const defaultContent = dropArea.querySelectorAll("h4, .upload-btn, h5");
+
+    if (file) {
+      fileNameElement.textContent = file.name;
+      filePreview.classList.remove("hidden");
+
+      defaultContent.forEach((element) => {
+        element.style.display = "none";
+      });
+    } else {
+      fileNameElement.textContent = "";
+      filePreview.classList.add("hidden");
+
+      defaultContent.forEach((element) => {
+        element.style.display = "";
+      });
+    }
+  }
+
+  // Функция для удаления файла
+  function handleRemoveFile(dropArea) {
+    const filePreview = dropArea.querySelector(".file-preview");
+    const fileNameElement = filePreview?.querySelector(".file-name");
+    const fileInput = dropArea.querySelector('input[type="file"]');
+    const defaultContent = dropArea.querySelectorAll("h4, .upload-btn, h5");
+
+    fileNameElement.textContent = "";
+    filePreview.classList.add("hidden");
+
+    defaultContent.forEach((element) => {
+      element.style.display = "";
+    });
+
+    fileInput.value = "";
+  }
+
+  // Обработчик для кнопки "Добавить форму"
   const addFormBtn = document.querySelector(".add-form-btn");
-
-  addFormBtn.addEventListener("click", function () {
-    // Сохраняем текущую позицию скролла
-    const scrollPosition =
-      window.pageYOffset || document.documentElement.scrollTop;
-
-    // Создаем новую форму
+  let formCounter = 5;
+  addFormBtn.addEventListener("click", function (e) {
+    e.preventDefault();
     const newForm = document.createElement("div");
     newForm.classList.add("big-forma");
+    const fileId = `fileInput${formCounter}`;
+    formCounter++;
     newForm.innerHTML = `
-        <div class="row">
-            <div class="topform marginzero">
+      <div class="row">
+            <div class="topform">
               <h2 style="margin-bottom: 0;">Информация об участнике</h2>
-              <img src="/static/img/arrowForSelect.svg" alt="" class="rotated">
+              <img src="/static/img/arrowForSelect.svg" alt="">
             </div>
-            <div class="form-content hidden">
+            <div class="form-content">
               <div class="row">
                 <div class="col-lg-8">
                   <div class="row">
                     <div class="col-md-6">
-                      <input type="text" placeholder="Фамилия Имя Отчество" />
+                      <input type="text" placeholder="Фамилия Имя Отчество" required name="fio" />
                     </div>
                     <div class="col-md-6 col-sm-12">
-                      <input type="text" placeholder="Город страна" />
+                      <input type="text" placeholder="Город страна" required name="city" />
                     </div>
-                    <div class="col-lg-6 col-sm-12">
-                      <div
-                        class="row align-items-center"
-                        style="--bs-gutter-x: 8px"
-                      >
+                    <div class="col-md-6 col-sm-12">
+                      <div class="row align-items-center" style="--bs-gutter-x: 8px">
                         <div class="col-11">
-                          <select>
-                            <option>Категория участника</option>
-                            <option>Индивидуальный участник</option>
-                            <option>Руководитель команды</option>
-                            <option>Юниор</option>
-                            <option>Профессионал</option>
+                          <select name="category_participant" required>
+                            <option value="">Категория участника</option>
+                            <option value="individual" >Индивидуальный участник</option>
+                            <option value="team-leader">Руководитель команды</option>
+                            <option value="junior" >Юниор</option>
+                            <option value="professional">Профессионал</option>
                           </select>
                         </div>
                         <div class="col-1">
@@ -47,44 +410,37 @@ document.addEventListener("DOMContentLoaded", function (e) {
                       </div>
                     </div>
                     <div class="col-md-6">
-                      <input type="text" placeholder="ФИО тренера (если есть)" />
+                      <input type="text" placeholder="ФИО тренера (если есть)" name="fio_trainer" />
                     </div>
 
-                    <div class="col-md-6 col-sm-6 input-margin-top" >
-                      <input type="text" placeholder="Телефон" />
+                    <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
+                      <input type="text" placeholder="Телефон" pattern="\+?[0-9\s\-()]{10,}" required name="phone" />
                     </div>
-                    <div class="col-md-6 col-sm-6 input-margin-top">
-                      <input type="email" placeholder="Почта" />
-                    </div>
-                    <div class="col-md-6">
-                      <input type="text" placeholder="Ссылка на профиль ВК" />
+                    <div class="col-md-6 col-sm-6 input-margin-top" style="margin-top: 30px">
+                      <input type="email" placeholder="Почта" required name="email" />
                     </div>
                     <div class="col-md-6">
-                      <input type="text" placeholder="Ссылка на профиль Telegram" />
+                      <input type="text" placeholder="Ссылка на профиль ВК" name="vk" />
                     </div>
                     <div class="col-md-6">
-                      <input type="text" placeholder="Почтовый адрес" />
+                      <input type="text" placeholder="Ссылка на профиль Telegram" name="telegram" />
+                    </div>
+                    <div class="col-md-6">
+                      <input type="text" placeholder="Почтовый адрес" required name="address" />
                     </div>
                     <div class="col-ld-6 col-12">
-                      <input type="text" placeholder="Адрес ближайшего СДЭК" />
+                      <input type="text" placeholder="Адрес ближайшего СДЭК" required name="address_sdek" />
                     </div>
                     <div class="col-12">
-                      <textarea
-                        name=""
-                        id=""
-                        placeholder="Вкратце расскажите о своих достижениях и регалиях"
-                      ></textarea>
+                      <textarea name="bio" id="" required
+                        placeholder="Вкратце расскажите о своих достижениях и регалиях"></textarea>
                     </div>
                     <div class="col-md-6 kolvo">
                       <h3>Количество подаваемых работ</h3>
                     </div>
-                    <div class="col-md-6 fodnone"></div>
+                    <div class="col-md-6"></div>
                     <div class="col-md-6">
-                      <input
-                        type="text"
-                        placeholder="Количество работ"
-                        class="raboti"
-                      />
+                      <input type="text" placeholder="Количество работ" class="raboti" required name="count_work" />
                     </div>
                     <div class="col-lg-6">
                       <div class="nomin">
@@ -102,9 +458,16 @@ document.addEventListener("DOMContentLoaded", function (e) {
                 <div class="col-lg-4 rightside">
                   <div class="file-upload">
                     <h4>Личное фото</h4>
-                    <input type="file" id="fileInput" hidden />
-                    <label for="fileInput" class="upload-btn">Выбрать</label>
+                    <input type="file" id="${fileId}" hidden name="photo" required />
+                    <label for="${fileId}" class="upload-btn">Выбрать</label>
                     <h5>или перетащите файлы сюда</h5>
+                    <!-- Контейнер для отображения загруженного файла -->
+                    <div class="file-preview hidden">
+                      <img src="/static/img/file-icon.png" alt="File Icon" class="file-icon" />
+                      <span class="file-name"></span>
+                      <!-- Кнопка "крестик" -->
+                      <button class="remove-file-btn">×</button>
+                    </div>
                   </div>
                   <ul>
                     <li>Вокруг вашего силуэта должен быть воздух</li>
@@ -113,33 +476,28 @@ document.addEventListener("DOMContentLoaded", function (e) {
                     <li>Фотография должна быть в хорошем качестве</li>
                   </ul>
                   <p>
-                    Ваши личные фото будут использоваться для оформления визитки
-                    участника в соц.сетях чемпионата и на сайте
+                    Ваши личные фото будут использоваться для оформления визитки участника в соц.сетях чемпионата и на сайте
                   </p>
                 </div>
               </div>
             </div>
           </div>
-      `;
+    `;
 
     // Добавляем новую форму в контейнер
     formContainer.appendChild(newForm);
 
     // Присоединяем обработчики событий к новой форме
     attachEventListeners(newForm);
-
-    // Возвращаемся к сохраненной позиции скролла
-    setTimeout(() => {
-      window.scrollTo(0, scrollPosition);
-    }, 0);
   });
 
+  // Функция для присоединения обработчиков событий к новым формам
   function attachEventListeners(form) {
     const toggleBtn = form.querySelector(".topform img");
     const formContent = form.querySelector(".form-content");
     const nameInput = form.querySelector(
       'input[placeholder="Фамилия Имя Отчество"]'
-    ); // Исправлено
+    );
     const title = form.querySelector(".topform h2");
 
     toggleBtn.addEventListener("click", function () {
@@ -151,52 +509,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
       title.textContent = nameInput.value.trim() || "Информация об участнике";
     });
   }
-});
-
-document.querySelector("form").addEventListener("submit", function (e) {
-  const fileInputs = document.querySelectorAll('input[type="file"][required]');
-  let isValid = true;
-
-  fileInputs.forEach((input) => {
-    if (!input.files.length) {
-      isValid = false;
-      alert(`Пожалуйста, выберите файл для поля "${input.name}"`);
-    }
-  });
-
-  if (!isValid) {
-    e.preventDefault(); // Предотвращаем отправку формы
-  }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll(".topform img").forEach((arrow) => {
-    arrow.addEventListener("click", function () {
-      const bigForma = this.closest(".big-forma");
-      const topform = bigForma.querySelector(".topform ");
-      const formContent = bigForma.querySelector(".form-content"); // Берем только контент формы, без заголовка
-
-      if (formContent) {
-        formContent.classList.toggle("hidden"); // Скрываем/показываем форму
-        this.classList.toggle("rotated"); // Переворачиваем стрелку
-        topform.classList.toggle("marginzero");
-      }
-    });
-  });
-
-  // Меняем заголовок на ФИО
-  document
-    .querySelectorAll('input[placeholder="Фамилия Имя Отчество"]')
-    .forEach((input) => {
-      input.addEventListener("input", function () {
-        const bigForma = this.closest(".big-forma");
-        const topform = bigForma.querySelector(".topform h2");
-
-        topform.textContent = this.value.trim()
-          ? `${this.value}`
-          : "Информация об участнике";
-      });
-    });
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -279,81 +591,6 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         individualForm.classList.add("hidden");
         teamLeaderForm.classList.remove("hidden");
-      }
-    });
-  });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  const dropAreas = document.querySelectorAll(".file-upload");
-
-  dropAreas.forEach((dropArea) => {
-    const fileInput = dropArea.querySelector('input[type="file"]');
-    const filePreview = dropArea.querySelector(".file-preview");
-    const fileNameElement = filePreview?.querySelector(".file-name");
-    const removeFileBtn = filePreview?.querySelector(".remove-file-btn");
-    const defaultContent = dropArea.querySelectorAll("h4, .upload-btn, h5");
-
-    // Проверяем, что элементы существуют
-    if (!filePreview || !fileNameElement || !removeFileBtn) {
-      console.error("Не найдены необходимые элементы для file-upload");
-      return;
-    }
-
-    // Функция для обновления предпросмотра файла
-    function updateFilePreview(file) {
-      if (file) {
-        fileNameElement.textContent = file.name; // Отображаем имя файла
-        filePreview.classList.remove("hidden"); // Показываем контейнер
-
-        // Скрываем элементы по умолчанию
-        defaultContent.forEach((element) => {
-          element.style.display = "none";
-        });
-      } else {
-        fileNameElement.textContent = ""; // Очищаем имя файла
-        filePreview.classList.add("hidden"); // Скрываем контейнер
-
-        // Показываем элементы по умолчанию
-        defaultContent.forEach((element) => {
-          element.style.display = "";
-        });
-
-        // Очищаем значение input
-        fileInput.value = "";
-      }
-    }
-
-    // Обработка выбора файла через input
-    fileInput.addEventListener("change", function () {
-      const file = this.files[0]; // Получаем выбранный файл
-      updateFilePreview(file);
-    });
-
-    // Обработка нажатия на кнопку "крестик"
-    removeFileBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      updateFilePreview(null); // Убираем файл
-    });
-
-    // Обработка перетаскивания файла
-    dropArea.addEventListener("dragover", (event) => {
-      event.preventDefault();
-      dropArea.style.borderColor = "#df70bc";
-    });
-
-    dropArea.addEventListener("dragleave", () => {
-      dropArea.style.borderColor = "rgba(255, 255, 255, 0.3)";
-    });
-
-    dropArea.addEventListener("drop", (event) => {
-      event.preventDefault();
-      dropArea.style.borderColor = "rgba(255, 255, 255, 0.3)";
-
-      const files = event.dataTransfer.files;
-      if (files.length > 0) {
-        fileInput.files = files; // Присваиваем файлы инпуту
-        updateFilePreview(files[0]); // Обновляем предпросмотр
       }
     });
   });
