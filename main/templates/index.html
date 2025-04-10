@@ -6,12 +6,14 @@
     <title>Document</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="/static/css/popup.css">
     <link rel="stylesheet" href="/static/css/header.css" />
     <link rel="stylesheet" href="static/css/footer.css" />
     <link rel="stylesheet" href="/static/css/reset.css" />
   </head>
   <body>
     <div class="overlay">
+      
       <header class="header d-none d-xxl-flex">
         <div class="logo"><img src="/static/img/headerlogo.png" alt=""></div>
         <nav class="nav">
@@ -33,7 +35,7 @@
         </nav>
         <div class="buttons">
             <button class="header-first-btn" onclick="window.location.href='/premiya/' ">Номинироваться на премию</button>
-            <a href="/uchastie/"><button class="header-second-btn">Принять участие</button></a>
+            <a href="/login/"><button class="header-second-btn">Принять участие</button></a>
         </div>
 
     </header>
@@ -52,12 +54,38 @@
                 <li class="mt-2"><a class="menu_item1" href="/sponsorstvo/" style="padding-right: 0px;">Спонсорство</a></li>
                 <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal" data-bs-target="#exampleModal" style="padding-right: 0px;">Судейство</a></li>
                 <li class="mt-2"><a class="menu_item1" href="/participants/" style="padding-right: 0px;">Участники</a></li>
-                <li class="mt-2"><a class="menu_item1" href="/uchastie/" style="padding-right: 0px;">Принять участие</a></li>
+                <li class="mt-2"><a class="menu_item1" href="/login/" style="padding-right: 0px;">Принять участие</a></li>
             </ul>
 
       </div>
 
     </header>
+    <div class="popup-container hidden">
+      <div class="popup">
+        <img src="/static/img/golographpopup.png" alt="" class="golographpopup d-lg-block d-none" />
+        <img src="/static/img/x.svg" alt="" class="iks" />
+        <div class="leftside-popup">
+          <h2>Успей принять участие!</h2>
+          <h3>
+            Только до 20 апреля 2025 года ты можешь подать заявку на участие в
+            онлайн Чемпионате Крыма по маникюру, педикюру, дизайну и
+            моделированию ногтей ”GROWSKIT”!
+          </h3>
+          <h3>Это твой шанс проявить себя и побороться за звание лучшего!</h3>
+          <p>до конца приёма заявок</p>
+          <h4>
+            29<span>д</span>12<span>ч</span>36<span>мин</span>17<span>с</span>
+          </h4>
+          <h5>Узнай больше и зарегистрируйся прямо сейчас</h5>
+          <div class="popup-buttons">
+            <a href="/login/"
+              ><button class="popup-button1">Принять участие</button></a
+            >
+            <button class="popup-button2">Задать вопрос</button>
+          </div>
+        </div>
+      </div>
+    </div>
       <img src="/static/img/rightellipse.png" alt="" class="rightellipse d-none d-lg-block" />
       <section class="main d-none d-lg-block">
         <div class="rotliniya"></div>
@@ -82,7 +110,7 @@
                 <h4>07.06.2025</h4>
               </div>
               <div>
-                <a href="/uchastie/">
+                <a href="/login/">
                   <button class="participate-btn">
                     Принять участие
                     <img src="/static/img/Arrow 1.svg" alt="" />
@@ -143,7 +171,7 @@
           <div class="rotliniya1"></div>
           <div class="offset-sm-4 col-sm-8 col-12 for-end">
             <div>
-              <a href="/uchastie/">
+              <a href="/login/">
                 <button class="participate-btn">
                   Принять участие
                   <img src="/static/img/Arrow 1.svg" alt="" />
@@ -219,7 +247,7 @@
                   </div>
                 </div>
                 <div class="about-buttons-bottom">
-                  <a href="/uchastie/">
+                  <a href="/login/">
                     <button class="prinyat">Принять участие</button>
                   </a>
                   <a href="/participants/">
@@ -304,7 +332,7 @@
                   </div>
                 </div>
                 <div class="about-buttons-bottom">
-                  <a href="/uchastie/">
+                  <a href="/login/">
                     <button class="prinyat">Принять участие</button>
                   </a>
                   <a href="/participants/">
@@ -437,7 +465,7 @@
               </div>
               <div class="galaxy" style="margin-left: -25px">
                 <img src="/static/img/galaxy.png" alt="" />
-                <a href="/uchastie/" style="display: flex; align-items: center">
+                <a href="/login/" style="display: flex; align-items: center">
                   <h5>Принять участие</h5>
 
                   <img
@@ -1143,7 +1171,7 @@
             <div class="col-12">
               <div class="galaxy">
                 <img src="/static/img/galaxy.png" alt="" />
-                <a href="/uchastie/" style="display: flex; align-items: center">
+                <a href="/login/" style="display: flex; align-items: center">
                   <h5>Принять участие</h5>
 
                   <img
@@ -1180,10 +1208,10 @@
                 <h5>опыт менее 3 лет</h5>
                 <h5>впервые участвует в каком-либо чемпионате</h5>
                 <h5>не является инструктором</h5>
-                <a href="/uchastie/">
+                <a href="/login/">
                   <button
                     class="etopromenya"
-                    onclick="window.location.href='/uchastie/'"
+                    onclick="window.location.href='/login/'"
                   >
                     <h6>Это про меня!</h6>
                     <img src="/static/img/smallarr.svg" alt="" />
@@ -1200,7 +1228,7 @@
 
                 <button
                   class="etopromenya"
-                  onclick="window.location.href='/uchastie/'"
+                  onclick="window.location.href='/login/'"
                 >
                   <h6>Это про меня!</h6>
                   <img src="/static/img/smallarr.svg" alt="" />
@@ -1217,7 +1245,7 @@
 
                 <button
                   class="etopromenya"
-                  onclick="window.location.href='/uchastie/'"
+                  onclick="window.location.href='/login/'"
                 >
                   <h6>Это про меня!</h6>
                   <img src="/static/img/smallarr.svg" alt="" />
@@ -1235,7 +1263,7 @@
 
                 <button
                   class="etopromenya"
-                  onclick="window.location.href='/uchastie/'"
+                  onclick="window.location.href='/login/'"
                 >
                   <h6>Это про меня!</h6>
                   <img src="/static/img/smallarr.svg" alt="" />
@@ -1249,7 +1277,7 @@
                 <h5>в этой категории принимают участие Судьи</h5>
                 <button
                   class="etopromenya"
-                  onclick="window.location.href='/uchastie/'"
+                  onclick="window.location.href='/login/'"
                 >
                   <h6>Это про меня!</h6>
                   <img src="/static/img/smallarr.svg" alt="" />
@@ -1268,7 +1296,7 @@
                 </h5>
                 <button
                   class="etopromenya1"
-                  onclick="window.location.href='/uchastie/'"
+                  onclick="window.location.href='/login/'"
                 >
                   <h6>Это про меня!</h6>
                   <img src="/static/img/smallarr.svg" alt="" />
@@ -1285,7 +1313,7 @@
                 </h5>
                 <button
                   class="etopromenya1"
-                  onclick="window.location.href='/uchastie/'"
+                  onclick="window.location.href='/login/'"
                 >
                   <h6>Это про меня!</h6>
                   <img src="/static/img/smallarr.svg" alt="" />
@@ -1318,10 +1346,10 @@
                 <h5>опыт менее 3 лет</h5>
                 <h5>впервые участвует в каком-либо чемпионате</h5>
                 <h5>не является инструктором</h5>
-                <a href="/uchastie/">
+                <a href="/login/">
                   <button
                     class="etopromenya"
-                    onclick="window.location.href='/uchastie/'"
+                    onclick="window.location.href='/login/'"
                   >
                     <h6>Это про меня!</h6>
                     <img src="/static/img/smallarr.svg" alt="" />
@@ -1338,7 +1366,7 @@
 
                 <button
                   class="etopromenya"
-                  onclick="window.location.href='/uchastie/'"
+                  onclick="window.location.href='/login/'"
                 >
                   <h6>Это про меня!</h6>
                   <img src="/static/img/smallarr.svg" alt="" />
@@ -1355,7 +1383,7 @@
 
                 <button
                   class="etopromenya"
-                  onclick="window.location.href='/uchastie/'"
+                  onclick="window.location.href='/login/'"
                 >
                   <h6>Это про меня!</h6>
                   <img src="/static/img/smallarr.svg" alt="" />
@@ -1373,7 +1401,7 @@
 
                 <button
                   class="etopromenya"
-                  onclick="window.location.href='/uchastie/'"
+                  onclick="window.location.href='/login/'"
                 >
                   <h6>Это про меня!</h6>
                   <img src="/static/img/smallarr.svg" alt="" />
@@ -1387,7 +1415,7 @@
                 <h5>в этой категории принимают участие Судьи</h5>
                 <button
                   class="etopromenya"
-                  onclick="window.location.href='/uchastie/'"
+                  onclick="window.location.href='/login/'"
                 >
                   <h6>Это про меня!</h6>
                   <img src="/static/img/smallarr.svg" alt="" />
@@ -1406,7 +1434,7 @@
                 </h5>
                 <button
                   class="etopromenya1"
-                  onclick="window.location.href='/uchastie/'"
+                  onclick="window.location.href='/login/'"
                 >
                   <h6>Это про меня!</h6>
                   <img src="/static/img/smallarr.svg" alt="" />
@@ -1423,7 +1451,7 @@
                 </h5>
                 <button
                   class="etopromenya1"
-                  onclick="window.location.href='/uchastie/'"
+                  onclick="window.location.href='/login/'"
                 >
                   <h6>Это про меня!</h6>
                   <img src="/static/img/smallarr.svg" alt="" />
@@ -2204,5 +2232,6 @@
     <script src="/static/script/index.js"></script>
     <script src="/static/script/burger.js"></script>
     <script src="/static/script/sidebar.js"></script>
+    <script src="/static/script/popup.js"></script>
   </body>
 </html>

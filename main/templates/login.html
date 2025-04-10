@@ -17,23 +17,35 @@
         <h2>Вход в личный кабинет</h2>
         <form method="post">
           {% csrf_token %}
-        <input type="text" name="username" id="id_username"  placeholder="Логин" required/>
-        <input type="password" name="password" id="id_password" placeholder="Пароль" required/>
-        <div class="for-text">
-          <div class="fornizh">
-            <label class="custom-checkbox">
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-            <span>Запомнить меня</span>
+          <input
+            type="text"
+            name="username"
+            id="id_username"
+            placeholder="Логин"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            id="id_password"
+            placeholder="Пароль"
+            required
+          />
+          <div class="for-text">
+            <div class="fornizh">
+              <label class="custom-checkbox">
+                <input type="checkbox" />
+                <span class="checkmark"></span>
+              </label>
+              <span>Запомнить меня</span>
+            </div>
+            <a href="" class="firstA">Не помню пароль</a>
           </div>
-          <a href="" class="firstA">Не помню пароль</a>
-        </div>
-        <button type="submit">Войти</button>
-        <div class="forbottomlogin">
-          <h3>Нет аккаунта?</h3>
-          <a href="">Зарегистрироваться</a>
-        </div>
+          <button type="submit">Войти</button>
+          <div class="forbottomlogin">
+            <h3>Нет аккаунта?</h3>
+            <a href="/uchastie/">Зарегистрироваться</a>
+          </div>
         </form>
       </div>
     </div>

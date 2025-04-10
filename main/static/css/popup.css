@@ -54,6 +54,14 @@ body {
   position: absolute;
   right: 0;
   bottom: 0%;
+  width: 308px;
+  height: 100%;
+}
+@media (max-width: 1200px) {
+  .golographpopup {
+    top: 0;
+    width: 290px;
+  }
 }
 .iks {
   position: absolute;
@@ -111,7 +119,7 @@ body {
   padding: 58px;
   width: 70%;
   margin: 0 auto;
-  z-index: 1;
+  z-index: 100;
 }
 .popup h3 {
   font-family: Gilroy;
@@ -129,6 +137,26 @@ body {
 @media (max-width: 1230px) {
   .leftside-popup {
     width: 50%;
+  }
+}
+@media (max-width: 992px) {
+  .leftside-popup {
+    width: 100%;
+  }
+  .popup {
+    backdrop-filter: blur(30px);
+    background: linear-gradient(
+      108.46deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    border: 0.75px solid;
+
+    border-image-source: linear-gradient(
+      91.2deg,
+      #adadad 0%,
+      rgba(173, 173, 173, 0) 100%
+    );
   }
 }
 .leftside-popup p {
@@ -189,6 +217,7 @@ body {
   background: #df70bc;
   padding: 14.12px;
   border-radius: 26.47px;
+  border: none;
 }
 .popup-button2 {
   font-family: Gilroy;
@@ -202,4 +231,75 @@ body {
   border: 0.88px solid #efdaed;
   padding: 14.12px;
   border-radius: 26.47px;
+}
+.popup-container.hidden {
+  display: none;
+}
+
+/* Видимое состояние */
+.popup-container.visible {
+  display: flex;
+}
+.popup-container {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.popup-container.visible {
+  opacity: 1;
+}
+@media (max-width: 768px) {
+  .popup h2 {
+    font-size: 22px;
+  }
+  .popup {
+    padding: 39px 27px;
+  }
+  .popup h3 {
+    font-weight: 400;
+    font-size: 14px;
+  }
+  .leftside-popup p {
+    font-size: 18px;
+  }
+  .leftside-popup h4 {
+    font-size: 35px;
+  }
+  .leftside-popup h4 span {
+    font-size: 22px;
+  }
+  .leftside-popup h5 {
+    margin-top: 15px;
+  }
+}
+@media (max-width: 576px) {
+  .leftside-popup h4 span {
+    margin: 0px 4.21px;
+  }
+  .popup-button1 {
+    width: 100%;
+  }
+  .popup-buttons {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+@media (max-width: 500px) {
+  .popup {
+    padding: 62px 25px;
+  }
+  .popup h2 {
+    font-size: 19px;
+  }
+}
+@media (max-width: 460px) {
+  .leftside-popup h4 {
+    font-size: 23px;
+  }
+  .leftside-popup h4 span {
+    font-size: 18px;
+  }
+  .popup {
+    padding: 68px 25px;
+  }
 }
