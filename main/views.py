@@ -292,9 +292,11 @@ class CustomLoginView(LoginView):
         user = self.request.user
         if user.is_superuser:
             return '/participants_list/'  # Перенаправление для администраторов
-        elif hasattr(user, 'profileparticipant'):
+
+        if hasattr(user, 'profileparticipant'):
             return '/participant/dashboard/'  # Перенаправление для участников
-        elif hasattr(user, 'profilejudge'):
+
+        if hasattr(user, 'profilejudge'):
             return '/judge/welcome/'  # Перенаправление для судей
         return '/'  # Перенаправление для остальных пользователей
 
@@ -565,7 +567,7 @@ def update_work_count(request):
 
 
 @login_required
-def leader_participant_list(request):
+def leader_participant_list(request: HttpRequest):
     leader = ProfileLeader.objects.get(user=request.user)
     if not leader:
         messages.error(request, 'Вы не являетесь лидером.')

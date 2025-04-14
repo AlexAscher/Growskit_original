@@ -4,13 +4,12 @@ import os
 import sys
 
 
-
 def setup_mysql():
     if os.getenv('USE_LOCAL_DB') == 'True':
         return
-    
+
     import MySQLdb
-    
+
     db_host = os.getenv('DB_HOST')
     db_name = os.getenv('DB_NAME')
     db_user = os.getenv('DB_USER')
@@ -26,13 +25,14 @@ def setup_mysql():
         if db:
             db.close()
 
+
 def automigrate(execute_from_command_line, AUTO_MIGRATE=False):
     if 'runserver' not in sys.argv:
         return
-    
+
     if not AUTO_MIGRATE:
         return
-    
+
     execute_from_command_line(['manage.py', 'makemigrations'])
     execute_from_command_line(['manage.py', 'migrate'])
 
@@ -49,8 +49,8 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
 
-
     from dotenv import load_dotenv
+
     load_dotenv()
 
     setup_mysql()

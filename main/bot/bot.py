@@ -37,6 +37,8 @@ def callfunc(func, *args, fail_silently=False, **kwargs):
             raise
         print(f'${func.__module__}.{func.__name__} ({args}) Exception: {e}')
 
+    return None
+
 
 if __name__ == '__main__' and bot:
 
