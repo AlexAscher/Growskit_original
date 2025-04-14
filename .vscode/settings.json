@@ -9,7 +9,7 @@
         "source.fixAll": "explicit",
         "source.organizeImports": "explicit"
     },
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "editor.insertSpaces": true,
     "editor.wordWrap": "on",
     "pylint.args": [

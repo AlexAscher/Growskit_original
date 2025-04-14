@@ -1,7 +1,6 @@
 import datetime
 import json
 import uuid
-from typing import Type, TypeVar
 
 from django import forms
 from django.contrib import messages
@@ -31,6 +30,7 @@ from .models import (
     AwardRequest,
     Championship,
     JournalRequest,
+    Mark,
     PhotoList,
     ProfileJudge,
     ProfileLeader,
@@ -39,7 +39,16 @@ from .models import (
     ProfileSponsor,
     Team,
 )
-from .support import TYPE_USER, create_user, get_group_tg, get_random_string, notify_admin, notify_new_user, notify_user
+from .support import (
+    TYPE_USER,
+    create_user,
+    get_group_tg,
+    get_random_string,
+    marks_to_form_value,
+    notify_admin,
+    notify_new_user,
+    notify_user,
+)
 
 
 def get_active_championship(fail_silently=True):
@@ -73,7 +82,7 @@ def save_with_new_user[T](
     type_user: TYPE_USER,
     check_championship=False,
     need_notify=False,
-) -> tuple[type[T].Meta.model, bool]:
+) -> tuple[T, bool]:
     championship: Championship = None
     if check_championship:
         championship = get_active_championship(False)
@@ -510,12 +519,14 @@ def upload_work(request):
         nomination = request.POST.get('nomination')
         files = request.FILES.getlist('photos')
 
-        championship = Championship.objects.filter(last_date_registration__gte=datetime.date.today()).first()
+        championship = get_active_championship()
         if not championship:
             messages.error(request, 'Чемпионат не активен.')
             return redirect('participant_dashboard')
 
-        uploaded_works_count = PhotoList.objects.filter(user=user).values('work_id').distinct().count()
+        uploaded_works_count = (
+            PhotoList.objects.filter(user=user, championship=championship).values('work_id').distinct().count()
+        )
         if participant.count_work > uploaded_works_count:
             work_id = uuid.uuid4()
             for file in files:
@@ -528,7 +539,7 @@ def upload_work(request):
 
         return redirect('upload_work')
 
-    works = PhotoList.objects.filter(user=user).order_by('work_id')
+    works = PhotoList.objects.filter(user=user, championship=championship).order_by('work_id')
     grouped_works = {}
     for work in works:
         if work.work_id not in grouped_works:
@@ -574,7 +585,7 @@ def leader_participant_list(request: HttpRequest):
         return redirect('participant_dashboard')
 
     participants = ProfileParticipant.objects.filter(
-        team__leader=leader, team__championship__last_date_registration__gte=datetime.date.today()
+        team__leader=leader, team__championship=get_active_championship(False)
     ).all()
     content = loader.render_to_string(
         'leader/participant_list.html', {"participants": participants}, request, using=None
@@ -624,3 +635,121 @@ def sertificate_upload(request):
         return BadRequest(form.errors.as_text())
 
     raise BadRequest("Method not allowed")
+
+
+@login_required
+def judge_championship(request):
+    if not hasattr(request.user, 'profilejudge'):
+        messages.error(request, 'Вы не являетесь судьей.')
+        return redirect('/')  # Перенаправляем на главную страницу, если пользователь не судья
+
+    championship = get_active_championship(False)
+
+    if datetime.date.today() < championship.last_date_registration:
+        messages.error(request, 'Регистрация в чемпионате еще не закончена.')
+        return redirect('judge_welcome')
+
+    path_criteries = 'main/static/txt/criteries.json'
+
+    with open(path_criteries, "r", encoding="utf-8") as f:
+        criteries = json.load(f).get("Критерии")
+
+    works = PhotoList.objects.filter(championship=championship).order_by('work_id')
+    grouped_works: dict[str, dict[str, str | list]] = {}
+    for work in works:
+        if work.work_id not in grouped_works:
+            grouped_works[work.work_id] = {'nomination': work.get_nomination_display(), 'photos': []}
+        grouped_works[work.work_id]['photos'].append(work)
+        grouped_works[work.work_id]['marked'] = marks_to_form_value(
+            Mark.objects.filter(work_id=work.work_id, judge=request.user.profilejudge)
+        )
+
+    return render(
+        request,
+        'judge/championship.html',
+        {"championship": championship, "criteries": criteries, "grouped_works": grouped_works},
+    )
+
+
+@login_required
+def api_judge_rate_work(request: HttpRequest):
+    if not hasattr(request.user, 'profilejudge'):
+        messages.error(request, 'Вы не являетесь судьей.')
+        return redirect('/')  # Перенаправляем на главную страницу, если пользователь не судья
+
+    if request.method == 'POST':
+        championship = get_active_championship(False)
+        work_id = request.POST.get('work_id')
+        work = uuid.UUID(work_id, version=4)
+        judge = request.user.profilejudge
+
+        marks = {}
+
+        for key, value in request.POST.items():
+            if not key.startswith('criteries-') and not key.startswith('comments-'):
+                continue
+
+            typ, id, name = key.split('-')
+
+            if typ == 'criteries':
+                marks[id + ". " + name] = {'mark': int(value)}
+
+            if typ == 'comments':
+                marks[id + ". " + name]['comment'] = value
+
+        for critery, mark in marks.items():
+            markM = Mark.objects.filter(work_id=work, judge=judge, critery=critery).first()
+            
+            if request.POST.get('only_edit') and not markM:
+                continue
+
+            if not markM:
+                Mark.objects.create(work_id=work, judge=judge, critery=critery, championship=championship, mark=mark['mark'], comment=mark.get('comment'))
+                continue
+
+            markM.championship = championship
+            markM.mark = mark['mark']
+            markM.comment = mark.get('comment') or 'Без комментариев'
+            markM.save()
+
+
+        from_path = request.META.get('HTTP_REFERER')
+        if from_path:
+            return redirect(from_path)
+
+        return redirect('judge_championship')
+
+    raise BadRequest("Method not allowed")
+
+
+
+@login_required
+@user_passes_test(is_admin)
+def current_championship_admin(request):
+    championship = get_active_championship(False)
+
+    if datetime.date.today() < championship.last_date_registration:
+        messages.error(request, 'Регистрация в чемпионате еще не закончена.')
+        return redirect('championship_admin')
+
+    path_criteries = 'main/static/txt/criteries.json'
+
+    with open(path_criteries, "r", encoding="utf-8") as f:
+        criteries = json.load(f).get("Критерии")
+
+    works = PhotoList.objects.filter(championship=championship).order_by('work_id')
+    grouped_works: dict[str, dict[str, str | list]] = {}
+    for work in works:
+        if work.work_id not in grouped_works:
+            grouped_works[work.work_id] = {'nomination': work.get_nomination_display(), 'photos': []}
+        grouped_works[work.work_id]['photos'].append(work)
+        grouped_works[work.work_id]['marked'] = marks_to_form_value(
+            Mark.objects.filter(work_id=work.work_id, judge=request.user.profilejudge)
+        )
+
+    return render(
+        request,
+        'admin/championship.html',
+        {"championship": championship, "criteries": criteries, "grouped_works": grouped_works},
+    )
+

@@ -29,6 +29,9 @@ urlpatterns = [
     path('journals/', views.journal_list, name='journal_list'),
     path('awards/', views.award_list, name='award_list'),
     path('judge/welcome/', views.judge_welcome, name='judge_welcome'),
+    path('judge/championship/', views.judge_championship, name='judge_championship'),
+    path('current_championship/', views.current_championship_admin, name='current_championship_admin'),
+    # API
     path(
         'api/send_notify_of_days_left_registration/',
         views.send_notify_of_days_left_registration,
@@ -37,6 +40,7 @@ urlpatterns = [
     path("api/send_auth/", views.send_auth, name="send_auth"),
     path('api/change_status/', views.api_change_status, name='api_change_status'),
     path('api/sertificate_upload/', views.sertificate_upload, name='api_sertificate_upload'),
+    path('api/judge_rate_work/', views.api_judge_rate_work, name='api_judge_rate_work'),
 ]
 
 if settings.DEBUG:

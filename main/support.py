@@ -5,8 +5,10 @@ from typing import Literal
 from django.conf import settings
 from django.contrib.auth.models import Group, User
 from django.core.mail import send_mail
+from django.db.models.query import QuerySet
 
 from main.bot import bot
+from main.models import Mark
 
 TYPE_USER = Literal['participant', 'judge', 'sponsor', 'manager', 'leader', 'admin']
 
@@ -86,3 +88,18 @@ def notify_new_user(email: str, password: str, fail_silently=False, tg: str = ""
     subject = "Заявка на Чемпионат"
     message = f"Ваша заявка на чемпионат принята!\n\nИспользуйте для входа:\nЛогин: {email}\nПароль: {password}"
     notify_user(subject, message, email, fail_silently=fail_silently)  # , tg=tg)
+
+
+def marks_to_form_value(marks: QuerySet[Mark, Mark]):
+    # criteries-<id>-<name>
+    # comments-<id>-<name>
+    marks_dict = {}
+
+    for mark in marks:
+        id, name = mark.critery.split('. ')
+        critery = f"criteries-{id}-{name}"
+        comment = f"comments-{id}-{name}"
+        marks_dict[critery] = int(mark.mark)
+        marks_dict[comment] = mark.comment
+
+    return marks_dict

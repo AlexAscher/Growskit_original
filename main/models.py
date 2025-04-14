@@ -67,8 +67,8 @@ def championship_directory_path(instance, filename):
 # Фотографии/проекты пользоваталя. Django неявно создаст ManyToMany связь
 class PhotoList(models.Model):
     CHAMPIONSHIP_NOMINATIONS = (
-        ("hand_painted_nails", "художественная роспись. типсы"),
-        ("salon_designs", "салонные дизайны на типсах"),
+        ("hand_painted_nails", "Художественная роспись. Типсы."),
+        ("salon_designs", "Салонные дизайны на типсах."),
         ("pedicure_designs", "дизайн на педикюрных типсах"),
         ("object_designs", "дизайн на предмете"),
         ("clothing_designs", "дизайн одежды/обуви/головных уборов"),
@@ -233,15 +233,14 @@ class Team(models.Model):
 # Оценка судьи
 class Mark(models.Model):
     judge = models.ForeignKey(ProfileJudge, on_delete=models.CASCADE, related_name='mu_judge', null=True)
-    participant = models.ForeignKey(
-        ProfileParticipant, on_delete=models.CASCADE, related_name='mu_participant', null=True
-    )
+    work_id = models.UUIDField(default=uuid.uuid4)
     mark = models.FloatField()
     critery = models.CharField(max_length=150, null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
+    championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True, related_name='cu_marks')
 
     def __str__(self):
-        return f'({self.mark:.2f}) {self.participant} ({self.judge})'
+        return f'({self.mark:.2f}) {self.work_id} ({self.judge})'
 
 
 # Чемпионат
@@ -251,7 +250,7 @@ class Championship(models.Model):
     last_date_registration = models.DateField(null=False)
     participants = models.ManyToManyField(ProfileParticipant, blank=True)
     judges = models.ManyToManyField(User, blank=True, related_name='cu_judges')
-    marks = models.ManyToManyField(Mark, blank=True)
+    marks = models.ManyToManyField(Mark, blank=True, related_name='cu_marks')
     criteries = models.FileField(upload_to=championship_directory_path, null=True, blank=True)
 
     def __str__(self):
@@ -259,20 +258,25 @@ class Championship(models.Model):
 
     # Получение списка средних оценок по пользователям
     def get_marks_average(
-        self, user: User | None = None
-    ) -> list[dict[str, float]]:  #  [{'user': user.email, 'average': average}]
-        def average(user: User):
-            marks = self.marks.filter(participant__user=user)  # pylint: disable=no-member
+        self, work_id: str | uuid.UUID | None = None
+    ) -> list[dict[str, uuid.UUID | float]]:  #  [{'work_id': work_id, 'average': average}]
+        def average(work_id: uuid.UUID):
+            marks = Mark.objects.filter(work_id=work_id, championship=self)  # pylint: disable=no-member
             res = sum(mark.mark for mark in marks)
 
-            return res / marks.count()
+            if not marks.count():
+                return 0
 
-        if user:
-            return [{'user': user.email, 'average': average(user)}]
+            return (res / marks.count()).__round__(2)
+
+        if work_id:
+            if not isinstance(work_id, uuid.UUID):
+                work_id = uuid.UUID(work_id, version=4)
+            return [{'work_id': work_id, 'average': average(work_id)}]
 
         return [
-            {'user': user.email, 'average': average(user)}
-            for user in self.participants.all()  # pylint: disable=no-member
+            {'work_id': mark.work_id, 'average': average(mark.work_id)}
+            for mark in self.marks.all()  # pylint: disable=no-member
         ]
 
     def get_days_left(self):
