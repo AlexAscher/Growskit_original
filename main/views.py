@@ -60,7 +60,7 @@ def get_active_championship(fail_silently=True):
 
 
 def get_or_create_by_user[T](model: type[T] | models.Model, user: User, **data) -> tuple[T, bool]:
-    obj = model.objects.get(user=user)
+    obj = model.objects.filter(user=user).first()
     if obj:
         return obj, False
 
@@ -213,14 +213,17 @@ def uchastie(request: HttpRequest):
 
         user, password, _ = create_user(form.cleaned_data['leader']['email'], 'leader')
         leader, _ = get_or_create_by_user(ProfileLeader, user, **form.cleaned_data['leader'])
-        team = Team.objects.create(name=form.cleaned_data['team_name'], leader=leader, championship=championship)
-        team.leader = leader
-
+        team = Team.objects.filter(name=form.cleaned_data['team_name']).first()
+        if team and team.leader != leader:
+            raise BadRequest('Команда с таким названием уже зарегистрирована')
+        if not team:
+            team = Team.objects.create(name=form.cleaned_data['team_name'], leader=leader, championship=championship)
+        
         new_users = []
         real_new = []
         for participant_data in form.cleaned_data['participants']:
             user, password, _ = create_user(participant_data['email'], 'participant')
-            new_users.append([participant_data['email'], password, participant_data['tg']])
+            new_users.append([participant_data['email'], password, participant_data.get('tg') or participant_data.get('telegram')])
             participant, created = get_or_create_by_user(ProfileParticipant, user, **participant_data)
             team.members.add(participant)
             if created:
@@ -251,6 +254,7 @@ def uchastie(request: HttpRequest):
     return render(request, 'uchastie.html')
 
 
+@login_required
 def send_auth(request: HttpRequest):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -270,9 +274,14 @@ def send_auth(request: HttpRequest):
     raise BadRequest
 
 
+@login_required
 def send_notify_of_days_left_registration(request: HttpRequest):
     if request.method == 'POST':
-        championship = get_object_or_404(Championship, id=request.POST.get('championship_id'))
+        data = request.POST
+        if not data.get('championship_id'):
+            data = json.loads(request.body.decode('utf-8') or '{}')
+        
+        championship = get_object_or_404(Championship, id=data.get('championship_id'))
 
         members = championship.participants.all()
         for member in members:
@@ -338,6 +347,7 @@ def custom_redirect(request):
     return redirect('/')  # Перенаправляем на главную страницу
 
 
+@login_required
 @user_passes_test(is_admin)
 def participants_list(request):
     participants = ProfileParticipant.objects.all()
@@ -363,6 +373,7 @@ def participants_list(request):
     )
 
 
+@login_required
 @user_passes_test(is_admin)
 def judges_list(request):
     judges = ProfileJudge.objects.all()
@@ -389,6 +400,7 @@ def judges_list(request):
     )
 
 
+@login_required
 @user_passes_test(is_admin)
 def sponsors_list(request):
     sponsors = ProfileSponsor.objects.all()
@@ -416,6 +428,7 @@ def sponsors_list(request):
     return render(request, "admin/sponsors_list.html", {"sponsors": sponsors})
 
 
+@login_required
 @user_passes_test(is_admin)
 def managers_list(request):
     managers = ProfileManager.objects.all()
@@ -429,6 +442,7 @@ def managers_list(request):
     return render(request, "admin/managers_list.html", {"managers": managers})
 
 
+@login_required
 @user_passes_test(is_admin)
 def add_manager(request):
     if request.method == "POST":
@@ -451,6 +465,7 @@ def add_manager(request):
     return render(request, "admin/add_manager.html", {"form": form})
 
 
+@login_required
 @user_passes_test(is_admin)
 def championship_admin(request):
     championships = Championship.objects.all()
@@ -472,6 +487,7 @@ def journal_list(request):
     return render(request, 'admin/journal_list.html', {'journals': journals})
 
 
+@login_required
 @user_passes_test(is_admin)
 def award_list(request):
     awards = AwardRequest.objects.all()
@@ -515,14 +531,14 @@ def upload_work(request):
     if request.COOKIES.get('participant_id'):
         user = User.objects.get(profileparticipant__id=request.COOKIES.get('participant_id'))
 
+    championship = get_active_championship()
+    if not championship:
+        messages.error(request, 'Чемпионат не активен.')
+        return redirect('participant_dashboard')
+    
     if request.method == 'POST':
         nomination = request.POST.get('nomination')
         files = request.FILES.getlist('photos')
-
-        championship = get_active_championship()
-        if not championship:
-            messages.error(request, 'Чемпионат не активен.')
-            return redirect('participant_dashboard')
 
         uploaded_works_count = (
             PhotoList.objects.filter(user=user, championship=championship).values('work_id').distinct().count()
@@ -558,10 +574,13 @@ def upload_work(request):
     )
 
 
+@login_required
 def update_work_count(request):
     if request.method == 'POST':
         add_work_count = request.POST.get('add_work_count')
         participant_id = request.COOKIES.get('participant_id')
+        if not participant_id:
+            participant_id = request.user.profileparticipant.id
 
         try:
             participant = ProfileParticipant.objects.get(id=participant_id)
@@ -588,7 +607,7 @@ def leader_participant_list(request: HttpRequest):
         team__leader=leader, team__championship=get_active_championship(False)
     ).all()
     content = loader.render_to_string(
-        'leader/participant_list.html', {"participants": participants}, request, using=None
+        'leader/participant_list.html', {"participants": participants} | {'statuses': STATUS_APPROVED}, request, using=None
     )
     resp = HttpResponse(content, None, None)
     resp.delete_cookie('participant_id')
@@ -744,7 +763,7 @@ def current_championship_admin(request):
             grouped_works[work.work_id] = {'nomination': work.get_nomination_display(), 'photos': []}
         grouped_works[work.work_id]['photos'].append(work)
         grouped_works[work.work_id]['marked'] = marks_to_form_value(
-            Mark.objects.filter(work_id=work.work_id, judge=request.user.profilejudge)
+            Mark.objects.filter(work_id=work.work_id)
         )
 
     return render(

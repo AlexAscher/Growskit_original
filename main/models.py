@@ -69,7 +69,7 @@ class PhotoList(models.Model):
     CHAMPIONSHIP_NOMINATIONS = (
         ("hand_painted_nails", "Художественная роспись. Типсы."),
         ("salon_designs", "Салонные дизайны на типсах."),
-        ("pedicure_designs", "дизайн на педикюрных типсах"),
+        ("pedicure_designs", "Дизайн на педикюрных типсах"),
         ("object_designs", "дизайн на предмете"),
         ("clothing_designs", "дизайн одежды/обуви/головных уборов"),
         ("free_style", "свободный стиль"),
@@ -82,7 +82,7 @@ class PhotoList(models.Model):
     championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
     photo = models.FileField(upload_to=user_directory_path_championship)  # фото или видео
     nomination = models.CharField(max_length=150, choices=CHAMPIONSHIP_NOMINATIONS, null=True, blank=True)
-    work_id = models.UUIDField(default=uuid.uuid4, editable=False)  # Уникальный идентификатор работы
+    work_id = models.UUIDField()  # Уникальный идентификатор работы
 
     def __str__(self):
         return f'{self.user.username} ({self.championship}) {self.photo.name} - {self.nomination}'
@@ -221,9 +221,9 @@ class ProfileManager(models.Model):
 
 # Комманда
 class Team(models.Model):
-    championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
+    championship = models.ForeignKey('Championship', on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
-    leader = models.ForeignKey(ProfileLeader, on_delete=models.CASCADE, null=True)
+    leader = models.ForeignKey(ProfileLeader, on_delete=models.CASCADE)
     members = models.ManyToManyField(ProfileParticipant)
 
     def __str__(self):
@@ -232,12 +232,12 @@ class Team(models.Model):
 
 # Оценка судьи
 class Mark(models.Model):
-    judge = models.ForeignKey(ProfileJudge, on_delete=models.CASCADE, related_name='mu_judge', null=True)
-    work_id = models.UUIDField(default=uuid.uuid4)
+    judge = models.ForeignKey(ProfileJudge, on_delete=models.CASCADE, related_name='mu_judge')
+    work_id = models.UUIDField()
     mark = models.FloatField()
     critery = models.CharField(max_length=150, null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
-    championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True, related_name='cu_marks')
+    championship = models.ForeignKey('Championship', on_delete=models.CASCADE, related_name='cu_marks')
 
     def __str__(self):
         return f'({self.mark:.2f}) {self.work_id} ({self.judge})'
