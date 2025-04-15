@@ -8,7 +8,6 @@ from django.core.mail import send_mail
 from django.db.models.query import QuerySet
 
 from main.bot import bot
-from main.models import Mark
 
 TYPE_USER = Literal['participant', 'judge', 'sponsor', 'manager', 'leader', 'admin']
 
@@ -90,7 +89,7 @@ def notify_new_user(email: str, password: str, fail_silently=False, tg: str = ""
     notify_user(subject, message, email, fail_silently=fail_silently)  # , tg=tg)
 
 
-def marks_to_form_value(marks: QuerySet[Mark, Mark]):
+def marks_to_form_value(marks: QuerySet['Mark', 'Mark']):
     # criteries-<id>-<name>
     # comments-<id>-<name>
     marks_dict = {}

@@ -134,7 +134,6 @@ class AwardRequestForm(forms.ModelForm):
             'photo',
             'bio',
             'nomination',
-            'from_journal',
         ]
 
 
@@ -151,8 +150,8 @@ class JournaRequestForm(forms.ModelForm):
             'telegram',
             'photo',
             'count_pages',
-            'need_instance',
-            'need_nomination',
+            'need_journal',
+            'need_cover',
             'need_cup_and_elite',
         ]
 

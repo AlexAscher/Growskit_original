@@ -8,6 +8,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from main.support import get_random_string
+
 """
 БД:
 
@@ -38,7 +40,18 @@ class Log(models.Model):
 
 
 def user_directory_path(instance, filename):
-    return f'media/main/users/{instance.user.id}/{filename}'
+    user = None if not hasattr(instance, 'user') else instance.user
+
+    if user is None:
+        if not hasattr(instance, 'email'):
+            raise ValueError("instance должен иметь атрибут user или иметь атрибут email")
+    
+        email = instance.email
+        user = User.objects.filter(email=email).first()
+        if not user:
+            user = User.objects.create_user(username=email, email=email, password=get_random_string(10))
+
+    return f'media/main/users/{user.id}/{filename}'
 
 
 def user_directory_path_championship(instance, filename):
@@ -317,10 +330,12 @@ class AwardRequest(models.Model):
     photo = models.ImageField(upload_to=user_directory_path)
     bio = models.TextField()
     nomination = models.CharField(max_length=150, choices=AWARD_NOMINATIONS)
-    from_journal = models.ForeignKey('JournalRequest', on_delete=models.CASCADE, null=True)
+
+    def get_nomination_display(self):
+        return dict(self.AWARD_NOMINATIONS)[self.nomination]
 
     def __str__(self):
-        return f'Award {self.fio} - {self.nomination}'
+        return f'Award {self.fio} - {self.get_nomination_display()}'
 
 
 class JournalRequest(models.Model):
@@ -334,8 +349,9 @@ class JournalRequest(models.Model):
     photo = models.ImageField(upload_to=user_directory_path)
 
     count_pages = models.IntegerField()
-    need_instance = models.BooleanField(default=False)
-    need_nomination = models.BooleanField(default=False)
+    need_journal = models.BooleanField(default=False)
+    need_cover = models.BooleanField(default=False)
+    nomination = models.ForeignKey(AwardRequest, on_delete=models.SET_NULL, null=True, default=None)
     need_cup_and_elite = models.BooleanField(default=False)
 
     def __str__(self):

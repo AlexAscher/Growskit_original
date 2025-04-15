@@ -19,6 +19,7 @@
             <th>Количество страниц</th>
             <th>Нужен экземпляр</th>
             <th>Нужна номинация</th>
+            <th>Нужна обложка</th>
             <th>Нужен кубок и элита</th>
         </tr>
     </thead>
@@ -53,8 +54,9 @@
                 {% endif %}
             </td>
             <td>{{ journal.count_pages }}</td>
-            <td>{{ journal.need_instance|yesno:"Да,Нет" }}</td>
-            <td>{{ journal.need_nomination|yesno:"Да,Нет" }}</td>
+            <td>{{ journal.need_journal|yesno:"Да,Нет" }}</td>
+            <td>{{ journal.nomination|yesno:"Да,Нет" }}</td>
+            <td>{{ journal.need_cover|yesno:"Да,Нет" }}</td>
             <td>{{ journal.need_cup_and_elite|yesno:"Да,Нет" }}</td>
         </tr>
         {% empty %}

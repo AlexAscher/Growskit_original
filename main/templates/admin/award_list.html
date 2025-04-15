@@ -18,7 +18,7 @@
             <th>Фото</th>
             <th>Биография</th>
             <th>Номинация</th>
-            <th>Из журнала</th>
+            <!-- <th>Из журнала</th> -->
         </tr>
     </thead>
     <tbody>
@@ -53,13 +53,13 @@
             </td>
             <td>{{ award.bio }}</td>
             <td>{{ award.get_nomination_display }}</td>
-            <td>
+            <!-- <td>
                 {% if award.from_journal %}
                 {{ award.from_journal.fio }}
                 {% else %}
                 Не указано
                 {% endif %}
-            </td>
+            </td> -->
         </tr>
         {% empty %}
         <tr>

@@ -5,14 +5,14 @@
 
 {% block content %}
     <h1 class="mb-4">Чемпионаты</h1>
-    <div class="row">
+    <form class="row" method="post" action="{% url 'api_set_group_tg' %}">
         <div class="col-md-4 mb-4">
-            <input type="text" name="name" class="form-control" placeholder="Ссылка на группу ТГ" required>
+            <input type="text" name="name" class="form-control" placeholder="Ссылка на группу ТГ" required value="{{ group_tg }}">
         </div>
         <div class="col-md-8 mb-4">
             <button type="submit" name="add_date" class="btn btn-primary">Добавить</button>
         </div>
-    </div>
+    </form>
     <!-- Форма для добавления новой даты чемпионата -->
     <form method="post" class="mb-4">
         {% csrf_token %}

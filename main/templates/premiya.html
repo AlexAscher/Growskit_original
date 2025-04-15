@@ -599,203 +599,207 @@
             </div>
           </div>
           <div class="col-lg-6">
+            <form method="post" action="" enctype="multipart/form-data">
+              {% csrf_token %}
+            <div class="form-container">
+                <div class="topofform">
+                  <h2>Информация для связи</h2>
+                <div class="progress-bar1">
+                  <div class="pink"></div>
+                  <div class="empty"></div>
+                  <div class="empty"></div>
+                  <div class="empty"></div>
+                  <div class="empty"></div>
+                </div>
+                </div>
+
+                <input type="text" name="fio" required class="input-box" placeholder="Фамилия Имя Отчество">
+                <div class="input-row">
+                    <input type="text" name="phone" required class="input-box telephone" placeholder="Телефон">
+                    <input type="text" name="email" required class="input-box email" placeholder="Почта">
+                </div>
+                <p class="info-text">Почтовый адрес и адрес СДЭК необходимы для отправки вам журнала, ваши данные в безопасности</p>
+                <input type="text" required name="address" class="input-box" placeholder="Почтовый адрес">
+                <input type="text" required name="address_sdek" class="input-box" placeholder="Адрес ближайшего СДЭК">
+                <div class="form-buttons1">
+                  <button type="button" class="next">Далее</button>
+                </div>
+            </div>
             <div class="form-container">
               <div class="topofform">
-                <h2>Информация для связи</h2>
+                <h2>Познакомимся ближе</h2>
               <div class="progress-bar1">
+                <div class="pink"></div>
                 <div class="pink"></div>
                 <div class="empty"></div>
                 <div class="empty"></div>
                 <div class="empty"></div>
+              </div>
+              </div>
+              <div class="input-row">
+                <input type="text" class="input-box "  name="vk" placeholder="Ссылка на профиль ВК">
+                <input type="text" class="input-box "  name="telegram" placeholder="Ссылка на профиль Telegram">
+            </div>
+            <p class="info-text">Ваши личные фото будут использоваться для оформления визитки участника в соц.сетях чемпионата и на сайте</p>
+            <div class="file-upload">
+              <h4>Личное фото</h4>
+              <input type="file" id="fileInput" name="photo" required hidden />
+              <label for="fileInput" class="upload-btn">Выбрать</label>
+              <h5>или перетащите файлы сюда</h5>
+            </div>
+            <ul class="ul-needed">
+              <li>Вокруг вашего силуэта должен быть воздух</li>
+              <li>Задний фон не имеет значения</li>
+              <li>Ваш взгляд направлен в камеру</li>
+              <li>Фотография должна быть в хорошем качестве</li>
+            </ul>
+            <div class="form-buttons">
+              <button type="button" class="backButton">Назад</button>
+              <button type="button" class="next">Выбрать номинацию</button>
+            </div>
+            </div>
+            <div class="form-container">
+              <div class="topofform">
+                <h2>Выбор номинации</h2>
+              <div class="progress-bar1">
+                <div class="pink"></div>
+                <div class="pink"></div>
+                <div class="pink"></div>
+                <div class="empty"></div>
                 <div class="empty"></div>
               </div>
               </div>
-
-              <input type="text" class="input-box" placeholder="Фамилия Имя Отчество">
-              <div class="input-row">
-                  <input type="text" class="input-box telephone" placeholder="Телефон">
-                  <input type="text" class="input-box email" placeholder="Почта">
+              <select name="nomination" required>
+                <option value="">Выберите номинацию</option>
+                <option value="best_company">Лучшая компания</option>
+                <option value="best_entrepreneur">Инновация года</option>
+                <option value="innovation_of_the_year">Лучший предприниматель</option>
+                <option value="startup_of_the_year">Стартап года</option>
+                <option value="leader_of_the_year">Лидер года</option>
+                <option value="best_brand">Лучший бренд</option>
+                <option value="best_beauty_product">Лучший бьюти продукт</option>
+                <option value="best_salon">Лучший салон</option>
+                <option value="best_eco_initiative">Лучшая эко-инициатива</option>
+                <option value="best_instructor">Лучший инструктор</option>
+                <option value="best_master">Лучший мастер</option>
+                <option value="best_beauty_blogger">Лучший бьюти-блогер</option>
+                <option value="legend_of_the_year">Легенда года</option>
+                <option value="best_speaker">Лучший спикер</option>
+                <option value="best_expert">Лучший эксперт</option>
+                <option value="best_trainer">Лучший тренер</option>
+                <option value="best_beauty_project">Лучший бьюти проект</option>
+                <option value="best_sponsor">Лучший спонсор</option>
+                <option value="best_online_offline_school">Лучшая онлайн/оффлайн школа</option>
+                <option value="growskit_growth_agility">GROWSKIT ловкость роста</option>
+              </select>
+              <p class="info-text1">Почтовый адрес и адрес СДЭК необходимы для отправки вам журнала, ваши данные
+                в безопасности</p>
+                <textarea name="bio" id="" placeholder="Расскажите о своих достижениях и регалиях"></textarea>
+                <div class="form-buttons">
+                  <button type="button" class="backButton">Назад</button>
+                  <button type="button" class="next">К выбору пакета</button>
+                </div>
+            </div>
+            <div class="form-container">
+              <div class="topofform">
+                <h2>Выбор пакета</h2>
+              <div class="progress-bar1">
+                <div class="pink"></div>
+                <div class="pink"></div>
+                <div class="pink"></div>
+                <div class="pink"></div>
+                <div class="empty"></div>
               </div>
-              <p class="info-text">Почтовый адрес и адрес СДЭК необходимы для отправки вам журнала, ваши данные в безопасности</p>
-              <input type="text" class="input-box" placeholder="Почтовый адрес">
-              <input type="text" class="input-box" placeholder="Адрес ближайшего СДЭК">
-              <div class="form-buttons1">
-                <button class="next">Далее</button>
               </div>
-          </div>
-          <div class="form-container">
-            <div class="topofform">
-              <h2>Познакомимся ближе</h2>
-            <div class="progress-bar1">
-              <div class="pink"></div>
-              <div class="pink"></div>
-              <div class="empty"></div>
-              <div class="empty"></div>
-              <div class="empty"></div>
-            </div>
-            </div>
-            <div class="input-row">
-              <input type="text" class="input-box " placeholder="Ссылка на профиль ВК">
-              <input type="text" class="input-box " placeholder="Ссылка на профиль Telegram">
-          </div>
-          <p class="info-text">Ваши личные фото будут использоваться для оформления визитки участника в соц.сетях чемпионата и на сайте</p>
-          <div class="file-upload">
-            <h4>Личное фото</h4>
-            <input type="file" id="fileInput" hidden />
-            <label for="fileInput" class="upload-btn">Выбрать</label>
-            <h5>или перетащите файлы сюда</h5>
-          </div>
-          <ul class="ul-needed">
-            <li>Вокруг вашего силуэта должен быть воздух</li>
-            <li>Задний фон не имеет значения</li>
-            <li>Ваш взгляд направлен в камеру</li>
-            <li>Фотография должна быть в хорошем качестве</li>
-          </ul>
-          <div class="form-buttons">
-            <button class="backButton">Назад</button>
-            <button class="next">Выбрать номинацию</button>
-          </div>
-          </div>
-          <div class="form-container">
-            <div class="topofform">
-              <h2>Выбор номинации</h2>
-            <div class="progress-bar1">
-              <div class="pink"></div>
-              <div class="pink"></div>
-              <div class="pink"></div>
-              <div class="empty"></div>
-              <div class="empty"></div>
-            </div>
-            </div>
-            <select>
-              <option>Лучшая компания</option>
-              <option>Лучший предприниматель</option>
-              <option>Инновация года</option>
-              <option>Стартап года</option>
-              <option>Лидер года</option>
-              <option>Лучший бренд</option>
-              <option>Лучший бьюти продукт</option>
-              <option>Лучший салон</option>
-              <option>Лучшая эко-инициатива</option>
-              <option>Лучший инструктор</option>
-              <option>Лучший мастер</option>
-              <option>Лучший бьюти-блогер</option>
-              <option>Легенда года</option>
-              <option>Лучший спикер</option>
-              <option>Лучший эксперт</option>
-              <option>Лучший тренер</option>
-              <option>Лучший бьюти проект</option>
-              <option>Лучший спонсор</option>
-              <option>Лучшая онлайн/оффлайн школа</option>
-              <option>GROWSKIT ловкость роста</option>
-            </select>
-            <p class="info-text1">Почтовый адрес и адрес СДЭК необходимы для отправки вам журнала, ваши данные
-              в безопасности</p>
-              <textarea name="" id="">Расскажите о своих достижениях и регалиях</textarea>
-              <div class="form-buttons">
-                <button class="backButton">Назад</button>
-                <button class="next">К выбору пакета</button>
+              <div class="firstpacket">
+                <input type="radio" name="packet" value="default" id="default" checked>
+                <label for="default">
+                    <span class="custom-radio"></span>
+                    <div class="text-content">
+                        <h3>Участие в Премии GROWING BUSINESS AWARDS</h3>
+                        <h4>8.000 ₽</h4>
+                    </div>
+                </label>
               </div>
-          </div>
-          <div class="form-container">
-            <div class="topofform">
-              <h2>Выбор пакета</h2>
-            <div class="progress-bar1">
-              <div class="pink"></div>
-              <div class="pink"></div>
-              <div class="pink"></div>
-              <div class="pink"></div>
-              <div class="empty"></div>
-            </div>
-            </div>
-            <div class="firstpacket">
-              <input type="radio" name="packet" id="default" checked>
-              <label for="default">
-                  <span class="custom-radio"></span>
-                  <div class="text-content">
-                      <h3>Участие в Премии GROWING BUSINESS AWARDS</h3>
-                      <h4>8.000 ₽</h4>
+            <h3 class="vigoda">Выгодные пакеты предложений</h3>
+              <div class="otherpackets">
+                <input type="radio" name="packet" value="mini" id="mini">
+                <label for="mini">
+                  <div class="leftside-packet">
+                    <span class="custom-radio"></span>
+                    <h3>MINI</h3>
+                    <h4>15.300₽</h4>
                   </div>
-              </label>
-            </div>
-          <h3 class="vigoda">Выгодные пакеты предложений</h3>
-            <div class="otherpackets">
-              <input type="radio" name="packet" id="mini">
-              <label for="mini">
-                <div class="leftside-packet">
-                  <span class="custom-radio"></span>
-                  <h3>MINI</h3>
-                  <h4>15.300₽</h4>
-                </div>
-                <ul>
-                  <li><img src="/static/img/minigalka.png" alt="">Номинирование на премию “GROWING BUSINESS AWARDS”</li>
-                  <li><img src="/static/img/minigalka.png" alt="">Именной кубок и элитная плакетка</li>
-                  <li><img src="/static/img/minigalka.png" alt="">Печать вашей статьи на 1 странице в глянцевом журнале SKITLUXE</li>
-                  <li><img src="/static/img/minigalka.png" alt="">Экземпляр журнала в подарок</li>
-                </ul>
-              </label>
-            </div>
-            <div class="otherpackets">
-              <input type="radio" name="packet" id="platinum">
-              <label for="platinum">
-                <div class="leftside-packet">
-                  <span class="custom-radio"></span>
-                  <h3>PLATINUM</h3>
-                  <h4>23.800 ₽</h4>
-                </div>
-                <ul>
-                  <li><img src="/static/img/minigalka.png" alt="">Номинирование на премию “GROWING BUSINESS AWARDS”</li>
-                  <li><img src="/static/img/minigalka.png" alt="">Именной кубок и элитная плакетка</li>
-                  <li><img src="/static/img/minigalka.png" alt="">Печать вашей статьи на 2 страницах в глянцевом журнале SKITLUXE</li>
-                  <li><img src="/static/img/minigalka.png" alt="">Экземпляр журнала в подарок</li>
-                </ul>
-              </label>
-            </div>
-            <div class="otherpackets">
-              <input type="radio" name="packet" id="gold">
-              <label for="gold">
-                <div class="leftside-packet">
-                  <span class="custom-radio"></span>
-                  <h3>GOLD</h3>
-                  <h4>30.600 ₽</h4>
-                </div>
-                <ul>
-                  <li><img src="/static/img/minigalka.png" alt="">Номинирование на премию “GROWING BUSINESS AWARDS”</li>
-                  <li><img src="/static/img/minigalka.png" alt="">Именной кубок и элитная плакетка</li>
-                  <li><img src="/static/img/minigalka.png" alt="">Индивидуальная глянцевая обложка журнала SKITLUXE с вашим фото</li>
-                  <li><img src="/static/img/minigalka.png" alt="">Печать вашей статьи на 2 страницах в глянцевом журнале SKITLUXE</li>
-                  <li><img src="/static/img/minigalka.png" alt="">Экземпляр журнала в подарок</li>
+                  <ul>
+                    <li><img src="/static/img/minigalka.png" alt="">Номинирование на премию “GROWING BUSINESS AWARDS”</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Именной кубок и элитная плакетка</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Печать вашей статьи на 1 странице в глянцевом журнале SKITLUXE</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Экземпляр журнала в подарок</li>
+                  </ul>
+                </label>
+              </div>
+              <div class="otherpackets">
+                <input type="radio" name="packet" value="platinum" id="platinum">
+                <label for="platinum">
+                  <div class="leftside-packet">
+                    <span class="custom-radio"></span>
+                    <h3>PLATINUM</h3>
+                    <h4>23.800 ₽</h4>
+                  </div>
+                  <ul>
+                    <li><img src="/static/img/minigalka.png" alt="">Номинирование на премию “GROWING BUSINESS AWARDS”</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Именной кубок и элитная плакетка</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Печать вашей статьи на 2 страницах в глянцевом журнале SKITLUXE</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Экземпляр журнала в подарок</li>
+                  </ul>
+                </label>
+              </div>
+              <div class="otherpackets">
+                <input type="radio" name="packet" value="gold" id="gold">
+                <label for="gold">
+                  <div class="leftside-packet">
+                    <span class="custom-radio"></span>
+                    <h3>GOLD</h3>
+                    <h4>30.600 ₽</h4>
+                  </div>
+                  <ul>
+                    <li><img src="/static/img/minigalka.png" alt="">Номинирование на премию “GROWING BUSINESS AWARDS”</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Именной кубок и элитная плакетка</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Индивидуальная глянцевая обложка журнала SKITLUXE с вашим фото</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Печать вашей статьи на 2 страницах в глянцевом журнале SKITLUXE</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Экземпляр журнала в подарок</li>
 
-                </ul>
-              </label>
-            </div>
-            <div class="form-buttons">
-              <button class="backButton">Назад</button>
-              <button class="next">Оплатить</button>
-            </div>
-          </div>
-          <div class="form-container">
-            <div class="topofform">
-              <h2>Выбор пакета</h2>
-            <div class="progress-bar1">
-              <div class="pink"></div>
-              <div class="pink"></div>
-              <div class="pink"></div>
-              <div class="pink"></div>
-              <div class="pink"></div>
-            </div>
-            </div>
-            <div class="finish-oplata">
-              <img src="/static/img/okkrug.png" alt="">
-              <div class="rightside-oplata">
-                <h3>Оплата прошла успешно!</h3>
-                <h4>Наши организаторы свяжутся с вами в ближайшее время</h4>
+                  </ul>
+                </label>
+              </div>
+              <div class="form-buttons">
+                <button type="button" class="backButton">Назад</button>
+                <button class="next" type="submit">Оплатить</button>
               </div>
             </div>
-            <div class="form-buttons1">
-              <button class="next">Хорошо</button>
+            <div class="form-container" id="finish">
+              <div class="topofform">
+                <h2>Выбор пакета</h2>
+              <div class="progress-bar1">
+                <div class="pink"></div>
+                <div class="pink"></div>
+                <div class="pink"></div>
+                <div class="pink"></div>
+                <div class="pink"></div>
+              </div>
+              </div>
+              <div class="finish-oplata">
+                <img src="/static/img/okkrug.png" alt="">
+                <div class="rightside-oplata">
+                  <h3>Оплата прошла успешно!</h3>
+                  <h4>Наши организаторы свяжутся с вами в ближайшее время</h4>
+                </div>
+              </div>
+              <div class="form-buttons1">
+                <button type="button" class="next">Хорошо</button>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

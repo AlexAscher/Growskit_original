@@ -37,17 +37,17 @@
             <div class="modal fade" id="editSponsorModal{{ sponsor.id }}" tabindex="-1" aria-labelledby="editJudgeModalLabel{{ sponsor.id }}" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form method="post" action="">
+                    <form method="post" action="" enctype="multipart/form-data">
                         {% csrf_token %}
                         <input type="hidden" name="sponsor_id" value="{{ sponsor.id }}">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editSponsorModalLabel{{ sponsor.id }}">Изменить статус судьи</h5>
+                            <h5 class="modal-title" id="editSponsorModalLabel{{ sponsor.id }}">Изменить статус спонсора</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                                 <div class="mb-3">
                                     <label for="logo" class="form-label">Файлы:</label>
-                                    <input type="file" name="logo" id="logo" class="form-control" multiple>
+                                    <input type="file" name="logo" id="logo" class="form-control" multiple value="{{ sponsor.photo }}">
                                 </div>
                             <label for="status{{ sponsor.id }}">Выберите статус:</label>
                             <select name="status" id="status{{ sponsor.id }}" class="form-select mt-2">

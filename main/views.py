@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.core.exceptions import BadRequest
 from django.db import models
+from django.forms import ValidationError
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
@@ -115,16 +116,62 @@ def index(request):
 
 def magazine(request: HttpRequest):
     if request.method == 'POST':
+        request.POST = request.POST.copy()
+
+        packet = request.POST.get('packet')
+
+        if packet == 'default':
+            request.POST.setdefault('count_pages', 1)
+        elif packet == 'default2':
+            request.POST.setdefault('count_pages', 2)
+        elif packet == 'default3':
+            request.POST.setdefault('need_cover', True)
+            request.POST.setdefault('count_pages', 2)
+        elif packet == 'minimagazine':
+            request.POST.setdefault('count_pages', 1)
+            request.POST.setdefault('need_cup_and_elite', True)
+            request.POST.setdefault('need_journal', True)
+        elif packet == 'platinummagazine':
+            request.POST.setdefault('count_pages', 2)
+            request.POST.setdefault('need_cup_and_elite', True)
+            request.POST.setdefault('need_journal', True)
+        elif packet == 'goldmagazine':
+            request.POST.setdefault('count_pages', 2)
+            request.POST.setdefault('need_cup_and_elite', True)
+            request.POST.setdefault('need_journal', True)
+            request.POST.setdefault('need_cover', True)
+
         form = JournaRequestForm(request.POST, request.FILES)
+        
+        if not packet:
+            form.add_error('packet', ValidationError("Выберите пакет"))
+
         if not form.is_valid():
             raise BadRequest(form.errors.as_text())
+        
+        model = form.save(commit=False)
+        
+        def save_business_awards():
+            data = request.POST.copy()
+            data.setdefault('bio', '<Создано автоматически>')
+            data.setlist('nomination', ['growing_business_awards'])
+            business = AwardRequestForm(data)
+            if not business.is_valid():
+                if not (len(business.errors) == 1 and 'photo' in business.errors):
+                    raise BadRequest(business.errors.as_text())
+                business.errors.clear()
+            business.instance.photo = model.photo
+            business.save()
 
-        model = form.save()
-        if model.need_nomination:
-            request.POST.setdefault('from_journal', model.id)
-            request.POST.setdefault('nomination', 'growing_business_awards')
-            request.POST.setdefault('bio', "<Созданно автоматически>")
-            premiya(request)
+
+        if packet == 'minimagazine':
+            save_business_awards()
+        elif packet == 'platinummagazine':
+            save_business_awards()  
+        elif packet == 'goldmagazine':
+            save_business_awards()       
+
+        form.save()
 
         notify_admin(
             'Заявка на место в журнале', f'{model}' + '\nПодробности в личном кабинете', 'ALL', tg=get_group_tg()
@@ -141,16 +188,58 @@ def popup(request):
     return render(request, 'popup.html')
 
 
-def premiya(request):
+def premiya(request: HttpRequest):
     if request.method == 'POST':
         form = AwardRequestForm(request.POST, request.FILES)
+        packet = request.POST.get('packet')
+        if not packet:
+            form.add_error('packet', ValidationError("Выберите пакет"))
+        
         if not form.is_valid():
             raise BadRequest(form.errors.as_text())
+        
+        
+        model = form.save(commit=False)
+        
+        def save_business_awards():
+            data = request.POST.copy()
+            data.setlist('nomination', ['growing_business_awards'])
+            business = AwardRequestForm(data)
+            if not business.is_valid():
+                if not (len(business.errors) == 1 and 'photo' in business.errors):
+                    raise BadRequest(business.errors.as_text())
+                business.errors.clear()
+            business.instance.photo = model.photo
+            business.save()
+        
+        def save_journal(count_pages, need_journal, need_cover, need_cup_and_elite):
+            data = request.POST.copy()
+            data.setdefault('count_pages', count_pages)
+            data.setdefault('need_journal', need_journal)
+            data.setdefault('need_cover', need_cover)
+            data.setdefault('need_cup_and_elite', need_cup_and_elite)
+            journal = JournaRequestForm(data)
+            if not journal.is_valid():
+                if not (len(journal.errors) == 1 and 'photo' in journal.errors):
+                    raise BadRequest(journal.errors.as_text())
+                journal.errors.clear()
+            journal.instance.photo = model.photo
+            journal.save()
 
-        model = form.save()
 
-        if request.POST.get('from_journal'):
-            return redirect('magazine')
+        if packet == 'default':
+            save_business_awards()
+        elif packet == 'mini':
+            save_business_awards()
+            save_journal(1, True, False, True)
+        elif packet == 'platinum':
+            save_business_awards()
+            save_journal(2, True, False, True)  
+        elif packet == 'gold':
+            save_business_awards()
+            save_journal(2, True, True, True)       
+
+        form.save()
 
         notify_admin('Заявка на премию', f'{model}' + '\nПодробности в личном кабинете', 'ALL', tg=get_group_tg())
 
@@ -369,6 +458,7 @@ def participants_list(request):
             'participants': participants,
             'works_by_participant': works_by_participant,
             'championship': get_active_championship(True),
+            'statuses': STATUS_APPROVED,
         },
     )
 
@@ -425,7 +515,7 @@ def sponsors_list(request):
         sponsor.save()
         return redirect("sponsors_list")
 
-    return render(request, "admin/sponsors_list.html", {"sponsors": sponsors})
+    return render(request, "admin/sponsors_list.html", {"sponsors": sponsors, "statuses": STATUS_APPROVED})
 
 
 @login_required
@@ -624,21 +714,27 @@ def judge_welcome(request):
 
 
 @login_required
+@user_passes_test(is_admin)
 def api_change_status(request):
     if request.method == 'POST':
-        profile_id = request.POST.get('id')
-        status = request.POST.get('status')
-        typ: str = request.POST.get('type')
+        data = request.POST
+        if 'id' not in data:
+            data = json.loads(request.body.decode('utf-8') or '{}')
+
+        profile_id = data.get('id')
+        status = data.get('status')
+        typ: str = data.get('type')
 
         profileModel = globals()["Profile" + typ.title()]
         if not profileModel:
             return HttpResponse('{"status": "incorrect profile type"}')
 
         profile = profileModel.objects.get(id=profile_id)
-        profile.status = status
+        profile.approved = status
+        profile.user.save()
         profile.save()
 
-        return HttpResponse('{"status": "OK"}')
+        return custom_redirect(request)
 
     raise BadRequest('{"status": "Method not allowed"}')
 
@@ -772,3 +868,14 @@ def current_championship_admin(request):
         {"championship": championship, "criteries": criteries, "grouped_works": grouped_works},
     )
 
+
+@login_required
+@user_passes_test(is_admin)
+def api_set_group_tg(request: HttpRequest):
+    if request.method == 'POST':
+        group_id = request.POST.get('group_id')
+        request.user.profileadmin.telegram = group_id
+        request.user.profileadmin.save()
+        return redirect('championship_admin')
+
+    raise BadRequest("Method not allowed")

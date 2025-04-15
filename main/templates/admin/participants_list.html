@@ -26,73 +26,86 @@
             <td>{{ participant.email }}</td>
             <td>
                 <!-- Кнопка для открытия модального окна с информацией -->
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#participantModal{{ participant.id }}">
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#participantModal{{ participant.id }}">
                     Подробнее
                 </button>
                 <!-- Кнопка для открытия модального окна с работами -->
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#participantWorksModal{{ participant.id }}">
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#participantWorksModal{{ participant.id }}">
                     Работы
                 </button>
 
-                <form action="{% url 'api_sertificate_upload' %}" method="post" enctype="multipart/form-data" id="form{{ participant.id }}">
+                <form action="{% url 'api_sertificate_upload' %}" method="post" enctype="multipart/form-data"
+                    id="form{{ participant.id }}">
                     {% csrf_token %}
                     <input type="hidden" name="user" value="{{ participant.user.id }}">
                     <input type="hidden" name="championship" value="{{ championship.id }}">
-                    <input type="file" name="file" hidden id="sertificate{{ participant.id }}" onchange="document.getElementById('form{{ participant.id }}').submit();">
-                    <label class="btn btn-primary" for="sertificate{{ participant.id }}" >{% if participant.user|has_sertificate:championship.id %}Обновить сертификат{% else %}Загрузить сертификат{% endif %}</label>
+                    <input type="file" name="file" hidden id="sertificate{{ participant.id }}"
+                        onchange="document.getElementById('form{{ participant.id }}').submit();">
+                    <label class="btn btn-primary" for="sertificate{{ participant.id }}">{% if participant.user|has_sertificate:championship.id %}Обновить сертификат{% else %}Загрузить сертификат{% endif %}</label>
                 </form>
             </td>
         </tr>
 
         <!-- Модальное окно для участника -->
-        <div class="modal fade" id="participantModal{{ participant.id }}" tabindex="-1" aria-labelledby="participantModalLabel{{ participant.id }}" aria-hidden="true">
+        <div class="modal fade" id="participantModal{{ participant.id }}" tabindex="-1"
+            aria-labelledby="participantModalLabel{{ participant.id }}" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="participantModalLabel{{ participant.id }}">Информация об участнике</h5>
+                        <h5 class="modal-title" id="participantModalLabel{{ participant.id }}">Информация об участнике
+                        </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="text-center mb-3">
-                            <img src="{{ participant.photo.url }}" alt="Фото участника" class="img-thumbnail" style="max-width: 200px;">
+                    <form method="post" action="{% url 'api_change_status' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{ participant.id }}">
+                        <input type="hidden" name="type" value="participant">
+                        <div class="modal-body">
+                            <div class="text-center mb-3">
+                                <img src="{{ participant.photo.url }}" alt="Фото участника" class="img-thumbnail"
+                                    style="max-width: 200px;">
+                            </div>
+                            <p><strong>ФИО:</strong> {{ participant.fio }}</p>
+                            <p><strong>Город:</strong> {{ participant.city }}</p>
+                            <p><strong>Категория:</strong> {{ participant.get_category_participant_display }}</p>
+                            <p><strong>Телефон:</strong> {{ participant.phone }}</p>
+                            <p><strong>Email:</strong> {{ participant.email }}</p>
+                            <p><strong>Адрес:</strong> {{ participant.address }}</p>
+                            <p><strong>Адрес СДЭК:</strong> {{ participant.address_sdek }}</p>
+                            <p><strong>VK:</strong> <a href="{{ participant.vk }}" target="_blank">{{ participant.vk }}</a></p>
+                            <p><strong>Telegram:</strong> <a href="{{ participant.telegram }}" target="_blank">{{ participant.telegram }}</a></p>
+                            <p><strong>Биография:</strong> {{ participant.bio }}</p>
+                            <p><strong>Количество работ:</strong> {{ participant.count_work }}</p>
+                            <p><strong>Статус:</strong>
+                                <select name="status" id="status{{ participant.id }}" class="form-select mt-3">
+                                    {% for status in statuses %}
+                                    <option value="{{ status.0 }}" {% if status.0 == participant.approved %} selected {% endif %}>{{ status.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </p>
                         </div>
-                        <p><strong>ФИО:</strong> {{ participant.fio }}</p>
-                        <p><strong>Город:</strong> {{ participant.city }}</p>
-                        <p><strong>Категория:</strong> {{ participant.get_category_participant_display }}</p>
-                        <p><strong>Телефон:</strong> {{ participant.phone }}</p>
-                        <p><strong>Email:</strong> {{ participant.email }}</p>
-                        <p><strong>Адрес:</strong> {{ participant.address }}</p>
-                        <p><strong>Адрес СДЭК:</strong> {{ participant.address_sdek }}</p>
-                        <p><strong>VK:</strong> <a href="{{ participant.vk }}" target="_blank">{{ participant.vk }}</a></p>
-                        <p><strong>Telegram:</strong> <a href="{{ participant.telegram }}" target="_blank">{{ participant.telegram }}</a></p>
-                        <p><strong>Биография:</strong> {{ participant.bio }}</p>
-                        <p><strong>Количество работ:</strong> {{ participant.count_work }}</p>
-                        <p><strong>Статус:</strong>
-                            <select name="status" id="status{{ participant.id }}" class="form-select mt-3" onchange="changeStatus(this.value, '{{ participant.id }}', 'participant')">
-                                {% for status in statuses %}
-                                <option value="{{ status.0 }}" {% if status.0 == participant.approved %} selected {% endif %}>{{ status.1 }}</option>
-                                {% endfor %}
-                            </select>
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger">Заблокировать</button>
-                        <button type="button" class="btn btn-primary">Сохранить</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
 
-<div class="modal fade" id="participantWorksModal{{ participant.id }}" tabindex="-1" aria-labelledby="participantWorksModalLabel{{ participant.id }}" aria-hidden="true">
+        <div class="modal fade" id="participantWorksModal{{ participant.id }}" tabindex="-1"
+            aria-labelledby="participantWorksModalLabel{{ participant.id }}" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="participantWorksModalLabel{{ participant.id }}">Работы участника: {{ participant.fio }}</h5>
+                        <h5 class="modal-title" id="participantWorksModalLabel{{ participant.id }}">Работы участника: {{
+                            participant.fio }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                     </div>
                     <div class="modal-body">
-                                              {% if participant.id in works_by_participant %}
+                        {% if participant.id in works_by_participant %}
                         <h2 class="mb-4">Работы</h2>
                         <div class="list-group">
                             {% with works=works_by_participant|get:participant.id %}
@@ -102,7 +115,8 @@
                                 <div class="d-flex flex-wrap">
                                     {% for photo in work.photos %}
                                     <div class="me-2 mb-2">
-                                        <img src="{{ photo.photo.url }}" alt="Фото работы" class="img-thumbnail" style="width: 150px; height: 150px;">
+                                        <img src="{{ photo.photo.url }}" alt="Фото работы" class="img-thumbnail"
+                                            style="width: 150px; height: 150px;">
                                     </div>
                                     {% endfor %}
                                 </div>
