@@ -1,11 +1,14 @@
 import datetime
+import logging
+import uuid
 
-from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import BadRequest
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.core.exceptions import BadRequest
 
+from main.support import get_random_string
 
 """
 БД:
@@ -21,25 +24,65 @@ from django.core.exceptions import BadRequest
 есть два поля даты - дата самого чемпионата и дата окончания регистрации
 """
 
+
+class Log(models.Model):
+    STATUSES = [(key, key) for key in logging.getLevelNamesMapping() if key != logging.getLevelName(logging.NOTSET)]
+
+    created = models.DateTimeField(default=datetime.datetime.now)
+    status = models.CharField(max_length=20, choices=STATUSES)
+    message = models.TextField()
+    description = models.TextField(null=True, blank=True)
+    src = models.TextField(null=True, blank=True)
+    context = models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.created} - {self.status}: {self.message}'
+
+
+def user_directory_path(instance, filename):
+    user = None if not hasattr(instance, 'user') else instance.user
+
+    if user is None:
+        if not hasattr(instance, 'email'):
+            raise ValueError("instance должен иметь атрибут user или иметь атрибут email")
+    
+        email = instance.email
+        user = User.objects.filter(email=email).first()
+        if not user:
+            user = User.objects.create_user(username=email, email=email, password=get_random_string(10))
+
+    return f'media/main/users/{user.id}/{filename}'
+
+
 def user_directory_path_championship(instance, filename):
-    championship = Championship.objects.filter(participants=instance.user, last_date_registration__gte=datetime.date.today()).first()
+    if not isinstance(instance.user, User):
+        raise ValueError("instance.user должен быть объектом User")
+
+    championship = Championship.objects.filter(
+        participants=instance.user.profileparticipant,  # Используем связанный ProfileParticipant
+        last_date_registration__gte=datetime.date.today(),
+    ).first()
+
     if not championship:
-        championship = Championship.objects.filter(judges=instance.user, last_date_registration__gte=datetime.date.today()).first()
+        championship = Championship.objects.filter(
+            judges=instance.user, last_date_registration__gte=datetime.date.today()
+        ).first()
         if not championship:
             raise BadRequest('User not in championship')
 
     return f'media/main/championships/{championship.id}/{instance.user.id}/{filename}'
 
 
-def user_directory_path(instance, filename):
-    return f'media/main/users/{instance.user.id}/{filename}'
+def championship_directory_path(instance, filename):
+    return f'media/main/championships/{instance.id}/{filename}'
+
 
 # Фотографии/проекты пользоваталя. Django неявно создаст ManyToMany связь
 class PhotoList(models.Model):
     CHAMPIONSHIP_NOMINATIONS = (
-        ("hand_painted_nails", "художественная роспись. типсы"),
-        ("salon_designs", "салонные дизайны на типсах"),
-        ("pedicure_designs", "дизайн на педикюрных типсах"),
+        ("hand_painted_nails", "Художественная роспись. Типсы."),
+        ("salon_designs", "Салонные дизайны на типсах."),
+        ("pedicure_designs", "Дизайн на педикюрных типсах"),
         ("object_designs", "дизайн на предмете"),
         ("clothing_designs", "дизайн одежды/обуви/головных уборов"),
         ("free_style", "свободный стиль"),
@@ -47,14 +90,47 @@ class PhotoList(models.Model):
         ("modeling", "моделирование"),
         ("poster", "постер"),
     )
-    
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
-    photo = models.FileField(upload_to=user_directory_path_championship) # фото или видео
+    photo = models.FileField(upload_to=user_directory_path_championship)  # фото или видео
     nomination = models.CharField(max_length=150, choices=CHAMPIONSHIP_NOMINATIONS, null=True, blank=True)
+    work_id = models.UUIDField()  # Уникальный идентификатор работы
 
     def __str__(self):
         return f'{self.user.username} ({self.championship}) {self.photo.name} - {self.nomination}'
+
+    def get_nomination_display(self):
+        return dict(self.CHAMPIONSHIP_NOMINATIONS).get(self.nomination)
+
+
+class Sertificate(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    championship = models.ForeignKey('Championship', on_delete=models.CASCADE)
+    file = models.FileField(upload_to=user_directory_path_championship)
+
+    def __str__(self):
+        return f'Sertificate {self.user.username} ({self.championship}) {self.file.name}'
+
+
+STATUS_APPROVED = (
+    ("approved", "Одобрено"),
+    ("refused", "Отказано"),
+    ("wait", "На рассмотрении"),
+    ("blocked", "Заблокировано"),
+)
+
+
+class ProfileAdmin(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, limit_choices_to={'is_superuser': True})
+    telegram = models.CharField(max_length=150, null=True, blank=True)
+
+
+@receiver(post_save, sender=User)
+def create_admin_profile(sender, instance, created, **kwargs):
+    if created:
+        ProfileAdmin.objects.get_or_create(user=instance)
+
 
 class ProfileParticipant(models.Model):
     CATEGORY_PARTICIPANT = (
@@ -79,20 +155,16 @@ class ProfileParticipant(models.Model):
     address_sdek = models.CharField(max_length=150)
     bio = models.TextField()
     count_work = models.IntegerField()
+    approved = models.CharField(max_length=150, choices=STATUS_APPROVED, default='approved')
 
     def __str__(self):
-        return self.fio
+        return str(self.fio)
 
-
-STATUS_APPROVED = (
-    ("approved", "Одобрено"),
-    ("refused", "Отказано"),
-    ("wait", "На рассмотрении")
-)
 
 class ProfileJudge(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=user_directory_path)
+    isLeader = models.BooleanField(default=False)
 
     fio = models.CharField(max_length=150)
     phone = models.CharField(max_length=150)
@@ -107,13 +179,12 @@ class ProfileJudge(models.Model):
     def __str__(self):
         return 'Судья ' + self.fio
 
+
 class ProfileSponsor(models.Model):
-    CATEGORY_PARTICIPANT = (
-        ("individual", "Индивидуальный участник"),
-        ("team-leader", "Руководитель команды")
-    )
+    CATEGORY_PARTICIPANT = (("individual", "Индивидуальный участник"), ("team-leader", "Руководитель команды"))
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
 
     fio = models.CharField(max_length=150)
     participant = models.CharField(max_length=150, choices=CATEGORY_PARTICIPANT)
@@ -148,7 +219,8 @@ class ProfileLeader(models.Model):
 
     def __str__(self):
         return 'Руководитель ' + self.fio
-    
+
+
 class ProfileManager(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -159,24 +231,30 @@ class ProfileManager(models.Model):
     def __str__(self):
         return f'Менеджер {self.fio} ({self.referals} рефералов)'
 
+
 # Комманда
 class Team(models.Model):
-    championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
+    championship = models.ForeignKey('Championship', on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
-    leader = models.ForeignKey(ProfileLeader, on_delete=models.CASCADE, null=True)
+    leader = models.ForeignKey(ProfileLeader, on_delete=models.CASCADE)
     members = models.ManyToManyField(ProfileParticipant)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
+
 
 # Оценка судьи
 class Mark(models.Model):
-    judge = models.ForeignKey(ProfileJudge, on_delete=models.CASCADE, related_name='mu_judge', null=True)
-    participant = models.ForeignKey(ProfileParticipant, on_delete=models.CASCADE, related_name='mu_participant', null=True)
+    judge = models.ForeignKey(ProfileJudge, on_delete=models.CASCADE, related_name='mu_judge')
+    work_id = models.UUIDField()
     mark = models.FloatField()
+    critery = models.CharField(max_length=150, null=True, blank=True)
+    comment = models.TextField(null=True, blank=True)
+    championship = models.ForeignKey('Championship', on_delete=models.CASCADE, related_name='cu_marks')
 
     def __str__(self):
-        return f'({self.mark:.2f}) {self.participant} ({self.judge})'
+        return f'({self.mark:.2f}) {self.work_id} ({self.judge})'
+
 
 # Чемпионат
 class Championship(models.Model):
@@ -185,25 +263,39 @@ class Championship(models.Model):
     last_date_registration = models.DateField(null=False)
     participants = models.ManyToManyField(ProfileParticipant, blank=True)
     judges = models.ManyToManyField(User, blank=True, related_name='cu_judges')
-    marks = models.ManyToManyField(Mark, blank=True)
-    criteries = models.TextField()
+    marks = models.ManyToManyField(Mark, blank=True, related_name='cu_marks')
+    criteries = models.FileField(upload_to=championship_directory_path, null=True, blank=True)
 
     def __str__(self):
         return self.name + ' ' + str(self.date)
-    
+
     # Получение списка средних оценок по пользователям
-    def get_marks_average(self, user: User | None = None) -> list[dict[str, float]]: #  [{'user': user.email, 'average': average}]
-        def average(user: User):
-            marks = self.marks.filter(User=user)
+    def get_marks_average(
+        self, work_id: str | uuid.UUID | None = None
+    ) -> list[dict[str, uuid.UUID | float]]:  #  [{'work_id': work_id, 'average': average}]
+        def average(work_id: uuid.UUID):
+            marks = Mark.objects.filter(work_id=work_id, championship=self)  # pylint: disable=no-member
             res = sum(mark.mark for mark in marks)
 
-            return res / marks.count()
+            if not marks.count():
+                return 0
 
-        if user:
-            return [{'user': user.email, 'average': average(user)}]
+            return (res / marks.count()).__round__(2)
 
-        return [{'user': user.email, 'average': average(user)} for user in self.participants.all()]
-    
+        if work_id:
+            if not isinstance(work_id, uuid.UUID):
+                work_id = uuid.UUID(work_id, version=4)
+            return [{'work_id': work_id, 'average': average(work_id)}]
+
+        return [
+            {'work_id': mark.work_id, 'average': average(mark.work_id)}
+            for mark in self.marks.all()  # pylint: disable=no-member
+        ]
+
+    def get_days_left(self):
+        return (self.last_date_registration - datetime.date.today()).days
+
+
 class AwardRequest(models.Model):
     AWARD_NOMINATIONS = (
         ("best_company", "Лучшая компания"),
@@ -238,10 +330,13 @@ class AwardRequest(models.Model):
     photo = models.ImageField(upload_to=user_directory_path)
     bio = models.TextField()
     nomination = models.CharField(max_length=150, choices=AWARD_NOMINATIONS)
-    from_journal = models.ForeignKey('JournalRequest', on_delete=models.CASCADE, null=True)
+
+    def get_nomination_display(self):
+        return dict(self.AWARD_NOMINATIONS)[self.nomination]
 
     def __str__(self):
-        return f'Award {self.fio} - {self.nomination}'
+        return f'Award {self.fio} - {self.get_nomination_display()}'
+
 
 class JournalRequest(models.Model):
     fio = models.CharField(max_length=150)
@@ -254,8 +349,9 @@ class JournalRequest(models.Model):
     photo = models.ImageField(upload_to=user_directory_path)
 
     count_pages = models.IntegerField()
-    need_instance = models.BooleanField(default=False)
-    need_nomination = models.BooleanField(default=False)
+    need_journal = models.BooleanField(default=False)
+    need_cover = models.BooleanField(default=False)
+    nomination = models.ForeignKey(AwardRequest, on_delete=models.SET_NULL, null=True, default=None)
     need_cup_and_elite = models.BooleanField(default=False)
 
     def __str__(self):

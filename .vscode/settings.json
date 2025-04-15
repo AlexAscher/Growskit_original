@@ -1,0 +1,22 @@
+{
+    "[python]": {
+        "editor.formatOnType": true,
+        "editor.wordBasedSuggestions": "off",
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.tabSize": 4
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit",
+        "source.organizeImports": "explicit"
+    },
+    "editor.formatOnSave": false,
+    "editor.insertSpaces": true,
+    "editor.wordWrap": "on",
+    "pylint.args": [
+        "--load-plugins",
+        "pylint_django",
+        "--django-settings-module=growskit.settings",
+        "--max-line-length=120"
+    ],
+    "python.linting.mypyEnabled": true
+}

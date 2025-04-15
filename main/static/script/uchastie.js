@@ -388,10 +388,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="col-lg-8">
                   <div class="row">
                     <div class="col-md-6">
+
                       <input type="text" placeholder="Фамилия Имя Отчество" required name="fio" />
                     </div>
                     <div class="col-md-6 col-sm-12">
                       <input type="text" placeholder="Город страна" required name="city" />
+                      
                     </div>
                     <div class="col-md-6 col-sm-12">
                       <div class="row align-items-center" style="--bs-gutter-x: 8px">

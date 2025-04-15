@@ -1,10 +1,18 @@
 {% extends 'admin/base_admin.html' %}
 
+
 {% block title %}Список участников{% endblock %}
 
 {% block content %}
     <h1 class="mb-4">Чемпионаты</h1>
-
+    <form class="row" method="post" action="{% url 'api_set_group_tg' %}">
+        <div class="col-md-4 mb-4">
+            <input type="text" name="name" class="form-control" placeholder="Ссылка на группу ТГ" required value="{{ group_tg }}">
+        </div>
+        <div class="col-md-8 mb-4">
+            <button type="submit" name="add_date" class="btn btn-primary">Добавить</button>
+        </div>
+    </form>
     <!-- Форма для добавления новой даты чемпионата -->
     <form method="post" class="mb-4">
         {% csrf_token %}
@@ -14,9 +22,11 @@
             </div>
             <div class="col-md-3">
                 <input type="date" name="date" class="form-control" placeholder="Дата проведения" required>
+                <label for="date" class="form-label"><small>Дата проведения</small></label>
             </div>
             <div class="col-md-3">
                 <input type="date" name="last_date_registration" class="form-control" placeholder="Дата окончания регистрации" required>
+                <label for="last_date_registration" class="form-label"><small>Дата окончания регистрации</small></label>
             </div>
             <div class="col-md-2">
                 <button type="submit" name="add_date" class="btn btn-primary">Добавить</button>
@@ -42,11 +52,49 @@
                 <td>{{ championship.name }}</td>
                 <td>{{ championship.date }}</td>
                 <td>{{ championship.last_date_registration }}</td>
-                <td>{{ championship.criteries }}</td>
                 <td>
-                    <button class="btn btn-warning btn-sm">Разослать напоминание</button>
+                    {% if championship.criteries %}
+                    <button class="btn btn-secondary btn-sm" onclick="window.open('{{ championship.criteries.url }}')">Скачать</button>
+                    {% else %}
+                    <button class="btn btn-secondary btn-sm" disabled>Не загружено</button>
+                    {% endif %}
+                </td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick="sendNotify('{{ championship.id }}')">Разослать напоминание</button>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editChampionshipModal{{ championship.id }}">Изменить</button>
                 </td>
             </tr>
+                    <div class="modal fade" id="editChampionshipModal{{ championship.id }}" tabindex="-1" aria-labelledby="editChampionshipModalLabel{{ championship.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editChampionshipModalLabel{{ championship.id }}">Изменить данные чемпионата</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="name{{ championship.id }}" class="form-label">Название чемпионата</label>
+                                <input type="text" name="name" id="name{{ championship.id }}" class="form-control" value="{{ championship.name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="date{{ championship.id }}" class="form-label">Дата проведения</label>
+                                <input type="date" name="date" id="date{{ championship.id }}" class="form-control" value="{{ championship.date }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="last_date_registration{{ championship.id }}" class="form-label">Дата окончания регистрации</label>
+                                <input type="date" name="last_date_registration" id="last_date_registration{{ championship.id }}" class="form-control" value="{{ championship.last_date_registration }}" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
             {% empty %}
             <tr>
                 <td colspan="6" class="text-center">Чемпионаты не найдены</td>
@@ -54,4 +102,19 @@
             {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    async function sendNotify(championshipId) {
+        let url = "{% url 'send_notify_of_days_left_registration' %}";
+        let resp = await fetch(url, { method: 'POST', body: `{"championship_id": "${championshipId}"}`, headers: { 'X-CSRFToken': '{{ csrf_token }}' }});
+        let data = await resp.json();
+        if (data.status == 'OK') {
+            alert(`Напоминание отправлено. Было уведомлено ${data.notified} участников.`);
+        } else {
+            alert(`Произошла ошибка: (${resp.status}) ${data.message}`);
+        }
+    }
+</script>
 {% endblock %}

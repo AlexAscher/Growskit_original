@@ -47,6 +47,14 @@
             <a href="/uchastie/">Зарегистрироваться</a>
           </div>
         </form>
+        {% if form.errors %}
+            <p style="color: white;">{{ form.errors }}</p>
+        {% endif %}
+        <style>
+          .errorlist{
+            color: white;
+          }
+        </style>
       </div>
     </div>
   </body>

@@ -1,0 +1,71 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Список участников премии{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Список участников премии</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>ФИО</th>
+            <th>Email</th>
+            <th>Телефон</th>
+            <th>Адрес</th>
+            <th>Адрес СДЭК</th>
+            <th>VK</th>
+            <th>Telegram</th>
+            <th>Фото</th>
+            <th>Биография</th>
+            <th>Номинация</th>
+            <!-- <th>Из журнала</th> -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for award in awards %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ award.fio }}</td>
+            <td>{{ award.email }}</td>
+            <td>{{ award.phone }}</td>
+            <td>{{ award.address }}</td>
+            <td>{{ award.address_sdek }}</td>
+            <td>
+                {% if award.vk %}
+                <a href="{{ award.vk }}" target="_blank">Ссылка</a>
+                {% else %}
+                Не указано
+                {% endif %}
+            </td>
+            <td>
+                {% if award.telegram %}
+                <a href="{{ award.telegram }}" target="_blank">Ссылка</a>
+                {% else %}
+                Не указано
+                {% endif %}
+            </td>
+            <td>
+                {% if award.photo %}
+                <img src="{{ award.photo.url }}" alt="Фото" class="img-thumbnail" style="width: 100px; height: auto;">
+                {% else %}
+                Не загружено
+                {% endif %}
+            </td>
+            <td>{{ award.bio }}</td>
+            <td>{{ award.get_nomination_display }}</td>
+            <!-- <td>
+                {% if award.from_journal %}
+                {{ award.from_journal.fio }}
+                {% else %}
+                Не указано
+                {% endif %}
+            </td> -->
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="12" class="text-center">Премии не найдены</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

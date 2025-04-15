@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Личный кабинет судьи {% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <!-- Навигационное меню -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Личный кабинет</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/judge/welcome/">Главная</a>
+                    <a class="nav-link" href="/judge/championship/">Чемпионат</a>
+                    <form method="post" action="/logout/" class="nav-link" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link nav-link"
+                            style="border: none; background: none; cursor: pointer; padding: 0;">Выйти</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Сообщения -->
+    <div class="container mt-4">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Основной контент -->
+    <div class="container mt-4">
+        {% block content %}
+        <!-- Контент страницы -->
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showTooltip(event, message) {
+            var tooltip = document.createElement('div');
+            tooltip.textContent = message;
+            tooltip.style.position = 'absolute';
+            tooltip.style.left = event.clientX + 'px';
+            tooltip.style.top = event.clientY + 'px';
+            tooltip.style.zIndex = 9999;
+            tooltip.style.backgroundColor = 'white';
+            document.body.appendChild(tooltip);
+            setTimeout(function () {
+                document.body.removeChild(tooltip);
+            }, 1000);
+        }
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>
