@@ -36,7 +36,7 @@
     </nav>
     <div class="buttons">
         <button class="header-first-btn" onclick="window.location.href='/premiya/' ">Номинироваться на премию</button>
-        <a href="/uchastie/"><button class="header-second-btn">Принять участие</button></a>
+        <a href="/login/"><button class="header-second-btn">Принять участие</button></a>
     </div>
 
 </header>
@@ -55,7 +55,7 @@
             <li class="mt-2"><a class="menu_item1" href="/sponsorstvo/" style="padding-right: 0px;">Спонсорство</a></li>
             <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal" data-bs-target="#exampleModal" style="padding-right: 0px;">Судейство</a></li>
             <li class="mt-2"><a class="menu_item1" href="/participants/" style="padding-right: 0px;">Участники</a></li>
-            <li class="mt-2"><a class="menu_item1" href="/uchastie/" style="padding-right: 0px;">Принять участие</a></li>
+            <li class="mt-2"><a class="menu_item1" href="/login/" style="padding-right: 0px;">Принять участие</a></li>
         </ul>
 
   </div>
@@ -206,7 +206,7 @@
                   </div>
 
                   <div class="col-lg-5">
-                    <input type="text" placeholder="Телефон" name="phone" required />
+                    <input type="text" placeholder="Телефон" name="phone" pattern="\+?[0-9\s\-()]{10,}" required />
                   </div>
                   <div class="col-lg-7">
                     <input type="email" placeholder="Почта" name="email" required />
@@ -232,9 +232,16 @@
               <div class="col-lg-6 rightside col-sm-6">
                 <div class="file-upload">
                   <h4>Личное фото</h4>
-                  <input type="file" id="fileInput" hidden name="photo" required />
-                  <label for="fileInput" class="upload-btn">Выбрать</label>
+                  <input type="file" id="fileInput13" hidden name="photo" required />
+                  <label for="fileInput13" class="upload-btn">Выбрать</label>
                   <h5>или перетащите файлы сюда</h5>
+                  <!-- Контейнер для отображения загруженного файла -->
+                  <div class="file-preview hidden">
+                    <img src="/static/img/file-icon.png" alt="File Icon" class="file-icon" />
+                    <span class="file-name"></span>
+                    <!-- Кнопка "крестик" -->
+                    <button class="remove-file-btn">×</button>
+                  </div>
                 </div>
                 <ul>
                   <li>Вокруг вашего силуэта должен быть воздух</li>
@@ -246,10 +253,6 @@
                   Ваши личные фото будут использоваться для оформления визитки
                   участника в соц.сетях чемпионата и на сайте
                 </p>
-                <h6>
-                  Ваши личные фото будут использоваться для оформления визитки
-                  судьи в соц.сетях чемпионата и на сайте
-                </h6>
               </div>
             </div>
             <div class="bottom-sud-form">
@@ -350,6 +353,8 @@
 </div>
 
 </section>
+<script src="/static/script/sudeystvo.js"></script> 
+<script src="/static/script/validation.js"></script>
 </body>
 
 </html>

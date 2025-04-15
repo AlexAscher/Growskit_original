@@ -26,15 +26,16 @@
             top: -10px;
             left: 50%;
             transform: translateX(-50%);
-          " /></a>
-      <a href="/sponsorstvo/">Спонсорство</a>
-      <a href="/sudeystvo/">Судейство</a>
-      <a href="/participants/">Участники</a>
-    </nav>
-    <div class="buttons">
-      <button class="header-first-btn" onclick="window.location.href='/premiya/' ">Номинироваться на премию</button>
-      <a href="/uchastie/"><button class="header-second-btn">Принять участие</button></a>
-    </div>
+          "
+      /></a>
+        <a href="/sponsorstvo/">Спонсорство</a>
+        <a href="/sudeystvo/">Судейство</a>
+        <a href="/participants/">Участники</a>
+      </nav>
+      <div class="buttons">
+          <button class="header-first-btn" onclick="window.location.href='/premiya/' ">Номинироваться на премию</button>
+          <a href="/login/"><button class="header-second-btn">Принять участие</button></a>
+      </div>
 
   </header>
   <header class="d-block d-xxl-flex">
@@ -45,16 +46,15 @@
         <span></span>
       </label>
 
-      <ul class="menu__box">
-        <li><a class="menu_item1" href="/" style="padding-right: 0px;">Чемпионат</a></li>
-        <li class="mt-2"><a class="menu_item1" href="/premiya/" style="padding-right: 0px;">Премия</a></li>
-        <li class="mt-2"><a class="menu_item1" href="/magazine/" style="padding-right: 0px;">Журнал</a></li>
-        <li class="mt-2"><a class="menu_item1" href="/sponsorstvo/" style="padding-right: 0px;">Спонсорство</a></li>
-        <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal" data-bs-target="#exampleModal"
-            style="padding-right: 0px;">Судейство</a></li>
-        <li class="mt-2"><a class="menu_item1" href="/participants/" style="padding-right: 0px;">Участники</a></li>
-        <li class="mt-2"><a class="menu_item1" href="/uchastie/" style="padding-right: 0px;">Принять участие</a></li>
-      </ul>
+          <ul class="menu__box">
+              <li><a class="menu_item1" href="/" style="padding-right: 0px;">Чемпионат</a></li>
+              <li class="mt-2"><a class="menu_item1" href="/premiya/" style="padding-right: 0px;">Премия</a></li>
+              <li class="mt-2"><a class="menu_item1" href="/magazine/" style="padding-right: 0px;">Журнал</a></li>
+              <li class="mt-2"><a class="menu_item1" href="/sponsorstvo/" style="padding-right: 0px;">Спонсорство</a></li>
+              <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal" data-bs-target="#exampleModal" style="padding-right: 0px;">Судейство</a></li>
+              <li class="mt-2"><a class="menu_item1" href="/participants/" style="padding-right: 0px;">Участники</a></li>
+              <li class="mt-2"><a class="menu_item1" href="/login/" style="padding-right: 0px;">Принять участие</a></li>
+          </ul>
 
     </div>
 
@@ -318,7 +318,7 @@
               <input type="text" class="input-box" name="address" placeholder="Почтовый адрес" required />
               <input type="text" class="input-box" name="address_sdek" placeholder="Адрес ближайшего СДЭК" required />
               <div class="form-buttons1">
-                <button type="button" class="next">Далее</button>
+                <button type="button" class="next" onclick="validateForm(1)">Далее</button>
               </div>
             </div>
             <div class="form-container">
@@ -341,9 +341,16 @@
               </p>
               <div class="file-upload">
                 <h4>Личное фото</h4>
-                <input type="file" id="fileInput" name="photo" required hidden />
-                <label for="fileInput" class="upload-btn">Выбрать</label>
+                <input type="file" id="fileInput11" hidden name="photo" required />
+                <label for="fileInput11" class="upload-btn">Выбрать</label>
                 <h5>или перетащите файлы сюда</h5>
+                <!-- Контейнер для отображения загруженного файла -->
+                <div class="file-preview hidden">
+                  <img src="/static/img/file-icon.png" alt="File Icon" class="file-icon" />
+                  <span class="file-name"></span>
+                  <!-- Кнопка "крестик" -->
+                  <button class="remove-file-btn">×</button>
+                </div>
               </div>
               <ul class="ul-needed">
                 <li>Вокруг вашего силуэта должен быть воздух</li>
@@ -602,7 +609,7 @@
     </div>
 
   </section>
-  <script src="/static/script/premiya.js"></script>
-</body>
-
+    <script src="/static/script/premiya.js"></script>
+    <script src="/static/script/validation.js"></script>
+  </body>
 </html>

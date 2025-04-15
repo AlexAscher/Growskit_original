@@ -1075,6 +1075,7 @@ nav button {
   color: white;
   margin-left: 40px;
 }
+
 .sale h6 {
   font-family: Gilroy;
   font-weight: 500;
@@ -1084,6 +1085,11 @@ nav button {
 }
 .sale h6 span {
   margin-left: 10px;
+}
+@media (max-width: 1400px) {
+  .sale span {
+    font-size: 13px;
+  }
 }
 .pod {
   font-family: Gilroy;
@@ -2352,7 +2358,7 @@ nav button {
     display: none;
   }
   .magazine {
-    margin-bottom: 65%;
+    margin-bottom: 25%;
   }
 }
 @media (max-width: 680px) {

@@ -286,3 +286,56 @@ textarea {
     width: 40px !important;
   }
 }
+.file-upload {
+  position: relative;
+  text-align: center;
+}
+
+.file-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.file-preview.hidden {
+  display: none;
+}
+
+.file-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.file-name {
+  font-size: 14px;
+  color: #333;
+}
+
+.remove-file-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  color: #333;
+}
+
+.remove-file-btn:hover {
+  background-color: #f0f0f0;
+}

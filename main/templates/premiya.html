@@ -1,609 +1,620 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/static/css/premiya.css" />
-    <link rel="stylesheet" href="/static/css/header.css">
-    
-    <link rel="stylesheet" href="/static/css/magazstyle.css">
-    <link rel="stylesheet" href="/static/css/footer.css">
-    <link rel="stylesheet" href="/static/css/reset.css" />
-  </head>
-  <body>
-    <div class="back">
-      <header class="header d-none d-xxl-flex">
-        <div class="logo"><img src="/static/img/headerlogo.png" alt=""></div>
-        <nav class="nav">
-          <a href="/">Чемпионат</a>
-          <a href="/premiya/" style="color: #cf8ece; position: relative">Премия <img
-            src="/static/img/headertochka.png"
-            alt=""
-            style="
-              position: absolute;
-              top: -10px;
-              left: 50%;
-              transform: translateX(-50%);
-            "
-        /></a>
-          <a href="/magazine/">Журнал</a>
-          <a href="/sponsorstvo/">Спонсорство</a>
-          <a href="/sudeystvo/">Судейство</a>
-          <a href="/participants/">Участники</a>
-        </nav>
-        <div class="buttons">
-            <button class="header-first-btn" onclick="window.location.href='#premiyaForma' ">Номинироваться на премию</button>
-            <a href="/uchastie/"><button class="header-second-btn">Принять участие</button></a>
-        </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/premiya.css" />
+  <link rel="stylesheet" href="/static/css/header.css">
+
+  <link rel="stylesheet" href="/static/css/magazstyle.css">
+  <link rel="stylesheet" href="/static/css/footer.css">
+  <link rel="stylesheet" href="/static/css/reset.css" />
+</head>
+
+<body>
+  <div class="back">
+    <header class="header d-none d-xxl-flex">
+      <div class="logo"><img src="/static/img/headerlogo.png" alt=""></div>
+      <nav class="nav">
+        <a href="/">Чемпионат</a>
+        <a href="/premiya/" style="color: #cf8ece; position: relative">Премия <img src="/static/img/headertochka.png"
+            alt="" style="
+position: absolute;
+top: -10px;
+left: 50%;
+transform: translateX(-50%);
+" /></a>
+        <a href="/magazine/">Журнал</a>
+        <a href="/sponsorstvo/">Спонсорство</a>
+        <a href="/sudeystvo/">Судейство</a>
+        <a href="/participants/">Участники</a>
+      </nav>
+      <div class="buttons">
+        <button class="header-first-btn" onclick="window.location.href='#premiyaForma' ">Номинироваться на
+          премию</button>
+        <a href="/login/"><button class="header-second-btn">Принять участие</button></a>
+      </div>
 
     </header>
     <header class="d-block d-xxl-flex">
       <div class="hamburger-menu">
-        <div class="logo"><img src="/static/img/headerlogo.png" alt="" style="width: 70px;"/></div>
-            <input id="menu__toggle" type="checkbox"/>
-            <label class="menu__btn" for="menu__toggle">
-              <span></span>
-            </label>
+        <div class="logo"><img src="/static/img/headerlogo.png" alt="" style="width: 70px;" /></div>
+        <input id="menu__toggle" type="checkbox" />
+        <label class="menu__btn" for="menu__toggle">
+          <span></span>
+        </label>
 
-            <ul class="menu__box">
-                <li><a class="menu_item1" href="/" style="padding-right: 0px;">Чемпионат</a></li>
-                <li class="mt-2"><a class="menu_item1" href="/premiya/" style="padding-right: 0px;">Премия</a></li>
-                <li class="mt-2"><a class="menu_item1" href="/magazine/" style="padding-right: 0px;">Журнал</a></li>
-                <li class="mt-2"><a class="menu_item1" href="/sponsorstvo/" style="padding-right: 0px;">Спонсорство</a></li>
-                <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal" data-bs-target="#exampleModal" style="padding-right: 0px;">Судейство</a></li>
-                <li class="mt-2"><a class="menu_item1" href="/participants/" style="padding-right: 0px;">Участники</a></li>
-                <li class="mt-2"><a class="menu_item1" href="/uchastie/" style="padding-right: 0px;">Принять участие</a></li>
-            </ul>
+        <ul class="menu__box">
+          <li><a class="menu_item1" href="/" style="padding-right: 0px;">Чемпионат</a></li>
+          <li class="mt-2"><a class="menu_item1" href="/premiya/" style="padding-right: 0px;">Премия</a></li>
+          <li class="mt-2"><a class="menu_item1" href="/magazine/" style="padding-right: 0px;">Журнал</a></li>
+          <li class="mt-2"><a class="menu_item1" href="/sponsorstvo/" style="padding-right: 0px;">Спонсорство</a></li>
+          <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal"
+              data-bs-target="#exampleModal" style="padding-right: 0px;">Судейство</a></li>
+          <li class="mt-2"><a class="menu_item1" href="/participants/" style="padding-right: 0px;">Участники</a></li>
+          <li class="mt-2"><a class="menu_item1" href="/login/" style="padding-right: 0px;">Принять
+              участие</a></li>
+        </ul>
 
       </div>
 
     </header>
-      <section class="growing">
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <div class="row alicenter">
-                <div class="col-lg-8 col-sm-7">
-                  <div class="row">
-                    <div class="col-lg-10 formarginzero" style="margin-left: 40px">
-                      <img src="/static/img/growing.png" alt="" />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-sm-5">
-                  <img src="/static/img/kruzhki.svg" alt="" />
-                  <h3 class="forwidth100" style="width: 60%">
-                    Мы отмечаем талант, достижения, вклад в развитие индустрии
-                    красоты и бизнес
-                  </h3>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 mt-4">
-              <div class="row alicenter">
-                <div class="col-lg-3 col-md-4 col-sm-5">
-                  <h3 style="text-align: end">объявление победителей</h3>
-                  <div class="date justify-content-end">
-                    <img src="/static/icons/calendar.png" alt="" />
-                    <h4>07.06.2025</h4>
-                  </div>
-                </div>
-                <div class="col-md-8 col-sm-7">
-                  <div class="row">
-                    <div class="col-lg-10">
-                      <img src="/static/img/business.png" alt="" />
-                    </div>
+    <section class="growing">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="row alicenter">
+              <div class="col-lg-8 col-sm-7">
+                <div class="row">
+                  <div class="col-lg-10 formarginzero" style="margin-left: 40px">
+                    <img src="/static/img/growing.png" alt="" />
                   </div>
                 </div>
               </div>
+              <div class="col-lg-4 col-sm-5">
+                <img src="/static/img/kruzhki.svg" alt="" />
+                <h3 class="forwidth100" style="width: 60%">
+                  Мы отмечаем талант, достижения, вклад в развитие индустрии
+                  красоты и бизнес
+                </h3>
+              </div>
             </div>
-            <div class="col-12" style="margin-bottom: 130px">
-              <div class="row">
-                <div class="col-sm-7">
-                  <div class="row">
-                    <div class="offset-lg-1 col-lg-10">
-                      <img src="/static/img/awards.png" alt="" class="awards" />
-                    </div>
-                  </div>
+          </div>
+          <div class="col-12 mt-4">
+            <div class="row alicenter">
+              <div class="col-lg-3 col-md-4 col-sm-5">
+                <h3 style="text-align: end">объявление победителей</h3>
+                <div class="date justify-content-end">
+                  <img src="/static/icons/calendar.png" alt="" />
+                  <h4>07.06.2025</h4>
                 </div>
-                <div class="col-sm-5">
-                  <h3 style="margin-top: 5px">
-                    Получите признание, станьте лидером!
-                  </h3>
-                  <button class="participate-btn" onclick="window.location.href='#premiyaForma' ">
-                    Номинироваться
-                    <img src="/static/img/Arrow 1.svg" alt="" class="arrowgrow"/>
-                  </button>
+              </div>
+              <div class="col-md-8 col-sm-7">
+                <div class="row">
+                  <div class="col-lg-10">
+                    <img src="/static/img/business.png" alt="" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="col-12" style="margin-bottom: 130px">
+            <div class="row">
+              <div class="col-sm-7">
+                <div class="row">
+                  <div class="offset-lg-1 col-lg-10">
+                    <img src="/static/img/awards.png" alt="" class="awards" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-5">
+                <h3 style="margin-top: 5px">
+                  Получите признание, станьте лидером!
+                </h3>
+                <button class="participate-btn" onclick="window.location.href='#premiyaForma' ">
+                  Номинироваться
+                  <img src="/static/img/Arrow 1.svg" alt="" class="arrowgrow" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
+  </div>
+
+  <section class="nominations d-none d-xxl-block">
+    <div class="container">
+      <div class="row">
+        <h2>Номинации</h2>
+      </div>
     </div>
-
-    <section class="nominations d-none d-xxl-block">
-      <div class="container">
-        <div class="row">
-          <h2>Номинации</h2>
+    <div class="flexboxx">
+      <div class="grid-container">
+        <div class="one">
+          <img src="/static/img/one.png" alt="" class="imgone" />
+          <h3>Лучшая компания</h3>
+          <h4>
+            для компаний, которые продемонстрировали выдающиеся результаты и
+            инновации
+          </h4>
+        </div>
+        <div class="two">
+          <img src="/static/img/two.png" alt="" class="imgtwo" />
+          <h3>Лучший предприниматель</h3>
+          <h4>
+            для индивидуальных предпринимателей, которые показали значительные
+            успехи и лидерство
+          </h4>
+        </div>
+        <div class="three">
+          <img src="/static/img/three.png" alt="" class="imgthree" />
+          <h3>Инновация года</h3>
+          <h4>
+            для компаний или продуктов, которые внесли значительные инновации
+            в свою отрасль.
+          </h4>
+        </div>
+        <div class="four">
+          <img src="/static/img/four.png" alt="" class="imgfour" />
+          <h3>Стартап года</h3>
+          <h4>
+            для новых компаний, которые быстро развиваются и показывают
+            потенциал для роста.
+          </h4>
+        </div>
+        <div class="five">
+          <img src="/static/img/five.png" alt="" class="imgfive" />
+          <h3>Лидер года</h3>
+          <h4>
+            для руководителей, которые продемонстрировали выдающееся лидерство
+            и стратегическое видение
+          </h4>
+        </div>
+        <div class="six">
+          <img src="/static/img/six.png" alt="" class="imgsix" />
+          <h3>Лучший бренд</h3>
+          <h4>
+            для косметических брендов, которые достигли значительных успехов и
+            признания
+          </h4>
+        </div>
+        <div class="seven">
+          <img src="/static/img/seven.png" alt="" class="imgseven" />
+          <h3>Лучший бьюти продукт</h3>
+          <h4>
+            для косметических продуктов, которые стали популярными и получили
+            положительные отзывы
+          </h4>
+        </div>
+        <div class="eight">
+          <img src="/static/img/eight.png" alt="" class="imgeight" />
+          <h3>Лучший салон</h3>
+          <h4>
+            для салонов красоты/студии красоты, которые предоставляют исключительные услуги и клиентский
+            сервис
+          </h4>
+        </div>
+        <div class="nine">
+          <img src="/static/img/nine.png" alt="" class="imgnine" />
+          <h3>Лучшая эко-инициатива</h3>
+          <h4>
+            для брендов или салонов, которые внедрили устойчивые и экологически чистые практики
+          </h4>
+        </div>
+        <div class="ten">
+          <img src="/static/img/ten.png" alt="" class="imgten" />
+          <h3>Лучший инструктор</h3>
+          <h4>
+            преподаватель выпустивший наибольшее количество учеников
+          </h4>
+        </div>
+        <div class="eleven">
+          <img src="/static/img/eleven.png" alt="" class="imgeleven" />
+          <h3>Лучший мастер</h3>
+          <h4>
+            по маникюру/педикюру/моделированию/росписи ногтей/подологии
+          </h4>
+        </div>
+        <div class="twelve">
+          <img src="/static/img/twelve.png" alt="" class="imgtwelve" />
+          <h3>Лучший бьюти-блогер</h3>
+          <h4>
+            для успешных специалистов в разных направлениях
+          </h4>
+        </div>
+        <div class="thirteen">
+          <img src="/static/img/thirteen.png" alt="" class="imgthirteen" />
+          <h3>Легенда года</h3>
+          <h4>
+            для специалистов по развитию личного бренда
+          </h4>
+        </div>
+        <div class="fourteen">
+          <img src="/static/img/fourteen.png" alt="" class="imgfourteen" />
+          <h3>Лучший спикер</h3>
+          <h4>
+            для специалистов успешно выступающих на конференциях
+            и форумах
+          </h4>
+        </div>
+        <div class="fifteen">
+          <img src="/static/img/fifteen.png" alt="" class="imgfifteen" />
+          <h3>Лучший эксперт</h3>
+          <h4>
+            для специалистов активно позиционирующих свою экспертность
+          </h4>
+        </div>
+        <div class="sixteen">
+          <img src="/static/img/sixteen.png" alt="" class="imgsixteen" />
+          <h3>Лучший тренер</h3>
+          <h4>
+            лучший тренер с наибольшими победами своей команды
+          </h4>
+        </div>
+        <div class="seventeen">
+          <img src="/static/img/seventeen.png" alt="" class="imgseventeen" />
+          <h3>Лучший бьюти проект</h3>
+          <h4>
+            лучший бьюти проект
+            в социальной сети
+          </h4>
+        </div>
+        <div class="eightteen">
+          <img src="/static/img/eightteen.png" alt="" class="imgeightteen" />
+          <h3>Лучший спонсор</h3>
+          <h4>
+            для спонсоров/брендов, которые вносят вклад в развитие бьюти индустрии 
+          </h4>
         </div>
       </div>
-      <div class="flexboxx">
-        <div class="grid-container">
-          <div class="one">
-            <img src="/static/img/one.png" alt="" class="imgone" />
+    </div>
+    <div class="flexboxx1">
+      <div class="grid-container1">
+        <div class="nineteen">
+          <img src="/static/img/nineteen.png" alt="" class="imgnineteen" />
+          <h3>Лучшая онлайн/оффлайн школа</h3>
+          <h4>
+            для школ с наибольшим выпуском учеников
+            и целевой аудиторией 
+          </h4>
+        </div>
+        <div class="twenty">
+          <img src="/static/img/twenty.png" alt="" class="imgtwenty" />
+          <h3>GROWSKIT ловкость роста</h3>
+          <h4>
+            для мастеров, которые завоевали наибольшее количество побед на чемпионатах
+          </h4>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+  <section class="nominations1 d-block d-xxl-none">
+    <div class="container">
+      <div class="row">
+        <h2>Номинации</h2>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row forgap1">
+        <div class="col-md-6">
+          <div class="nomin-item">
             <h3>Лучшая компания</h3>
-            <h4>
-              для компаний, которые продемонстрировали выдающиеся результаты и
-              инновации
-            </h4>
+            <h4>для компаний, которые продемонстрировали выдающиеся результаты и инновации</h4>
+            <img src="/static/img/one.png" alt="">
           </div>
-          <div class="two">
-            <img src="/static/img/two.png" alt="" class="imgtwo" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item">
             <h3>Лучший предприниматель</h3>
-            <h4>
-              для индивидуальных предпринимателей, которые показали значительные
-              успехи и лидерство
-            </h4>
+            <h4>для индивидуальных предпринимателей, которые показали значительные успехи и лидерство</h4>
+            <img src="/static/img/two.png" alt="">
           </div>
-          <div class="three">
-            <img src="/static/img/three.png" alt="" class="imgthree" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item">
             <h3>Инновация года</h3>
-            <h4>
-              для компаний или продуктов, которые внесли значительные инновации
-              в свою отрасль.
-            </h4>
+            <h4>для компаний или продуктов, которые внесли значительные инновации в свою отрасль.</h4>
+            <img src="/static/img/three.png" alt="">
           </div>
-          <div class="four">
-            <img src="/static/img/four.png" alt="" class="imgfour" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item">
             <h3>Стартап года</h3>
-            <h4>
-              для новых компаний, которые быстро развиваются и показывают
-              потенциал для роста.
-            </h4>
+            <h4>для новых компаний, которые быстро развиваются и показывают потенциал для роста.</h4>
+            <img src="/static/img/four.png" alt="">
           </div>
-          <div class="five">
-            <img src="/static/img/five.png" alt="" class="imgfive" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item">
             <h3>Лидер года</h3>
-            <h4>
-              для руководителей, которые продемонстрировали выдающееся лидерство
-              и стратегическое видение
+            <h4>для руководителей, которые продемонстрировали выдающееся лидерство и стратегическое видение
             </h4>
+            <img src="/static/img/five.png" alt="">
           </div>
-          <div class="six">
-            <img src="/static/img/six.png" alt="" class="imgsix" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item">
             <h3>Лучший бренд</h3>
-            <h4>
-              для косметических брендов, которые достигли значительных успехов и
-              признания
-            </h4>
+            <h4>для косметических брендов, которые достигли значительных успехов и признания</h4>
+            <img src="/static/img/six.png" alt="">
           </div>
-          <div class="seven">
-            <img src="/static/img/seven.png" alt="" class="imgseven" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item">
             <h3>Лучший бьюти продукт</h3>
-            <h4>
-              для косметических продуктов, которые стали популярными и получили
-              положительные отзывы
-            </h4>
+            <h4>для косметических продуктов, которые стали популярными и получили положительные отзывы</h4>
+            <img src="/static/img/seven.png" alt="">
           </div>
-          <div class="eight">
-            <img src="/static/img/eight.png" alt="" class="imgeight" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item">
             <h3>Лучший салон</h3>
-            <h4>
-              для салонов красоты/студии красоты, которые предоставляют исключительные услуги и клиентский сервис
-            </h4>
+            <h4>для салонов красоты/студии красоты, которые предоставляют исключительные услуги и клиентский
+              сервис</h4>
+            <img src="/static/img/eight.png" alt="">
           </div>
-          <div class="nine">
-            <img src="/static/img/nine.png" alt="" class="imgnine" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item">
             <h3>Лучшая эко-инициатива</h3>
-            <h4>
-              для брендов или салонов, которые внедрили устойчивые и экологически чистые практики
-            </h4>
+            <h4>для брендов или салонов, которые внедрили устойчивые и экологически чистые практики</h4>
+            <img src="/static/img/nine.png" alt="">
           </div>
-          <div class="ten">
-            <img src="/static/img/ten.png" alt="" class="imgten" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item1">
             <h3>Лучший инструктор</h3>
-            <h4>
-              преподаватель выпустивший наибольшее количество учеников
-            </h4>
+            <h4>преподаватель выпустивший наибольшее количество учеников</h4>
+            <img src="/static/img/ten.png" alt="">
           </div>
-          <div class="eleven">
-            <img src="/static/img/eleven.png" alt="" class="imgeleven" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item1">
             <h3>Лучший мастер</h3>
-            <h4>
-              по маникюру/педикюру/моделированию/росписи ногтей/подологии
-            </h4>
+            <h4>по маникюру/педикюру/моделированию/росписи ногтей/подологии</h4>
+            <img src="/static/img/eleven.png" alt="">
           </div>
-          <div class="twelve">
-            <img src="/static/img/twelve.png" alt="" class="imgtwelve" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item1">
             <h3>Лучший бьюти-блогер</h3>
-            <h4>
-              для успешных специалистов в разных направлениях
-            </h4>
+            <h4>для успешных специалистов в разных направлениях</h4>
+            <img src="/static/img/twelve.png" alt="">
           </div>
-          <div class="thirteen">
-            <img src="/static/img/thirteen.png" alt="" class="imgthirteen" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item1">
             <h3>Легенда года</h3>
-            <h4>
-              для специалистов по развитию личного бренда
-            </h4>
+            <h4>для успешных специалистов в разных направлениях</h4>
+            <img src="/static/img/thirteen.png" alt="">
           </div>
-          <div class="fourteen">
-            <img src="/static/img/fourteen.png" alt="" class="imgfourteen" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item1">
             <h3>Лучший спикер</h3>
-            <h4>
-              для специалистов успешно выступающих на конференциях
-и форумах
-            </h4>
+            <h4>для специалистов успешно выступающих на конференциях
+              и форумах</h4>
+            <img src="/static/img/fourteen.png" alt="">
           </div>
-          <div class="fifteen">
-            <img src="/static/img/fifteen.png" alt="" class="imgfifteen" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item1">
             <h3>Лучший эксперт</h3>
-            <h4>
-              для специалистов активно позиционирующих свою экспертность
-            </h4>
+            <h4>для специалистов активно позиционирующих свою экспертность</h4>
+            <img src="/static/img/fifteen.png" alt="">
           </div>
-          <div class="sixteen">
-            <img src="/static/img/sixteen.png" alt="" class="imgsixteen" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item1">
             <h3>Лучший тренер</h3>
-            <h4>
-              лучший тренер с наибольшими победами своей команды
-            </h4>
-          </div>
-          <div class="seventeen">
-            <img src="/static/img/seventeen.png" alt="" class="imgseventeen" />
-            <h3>Лучший бьюти проект </h3>
-            <h4>
-              лучший бьюти проект
-в социальной сети
-            </h4>
-          </div>
-          <div class="eightteen">
-            <img src="/static/img/eightteen.png" alt="" class="imgeightteen" />
-            <h3>Лучший спонсор </h3>
-            <h4>
-              для спонсоров/брендов, которые вносят вклад в развитие бьюти индустрии 
-            </h4>
+            <h4>лучший тренер с наибольшими победами своей команды</h4>
+            <img src="/static/img/sixteen.png" alt="">
           </div>
         </div>
-      </div>
-      <div class="flexboxx1">
-        <div class="grid-container1">
-          <div class="nineteen">
-            <img src="/static/img/nineteen.png" alt="" class="imgnineteen" />
+        <div class="col-md-6">
+          <div class="nomin-item1">
+            <h3>Лучший бьюти проект</h3>
+            <h4>лучший бьюти проект
+              в социальной сети</h4>
+            <img src="/static/img/seventeen.png" alt="">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item1">
+            <h3>Лучший спонсор</h3>
+            <h4>для спонсоров/брендов, которые вносят вклад в развитие бьюти индустрии </h4>
+            <img src="/static/img/eightteen.png" alt="">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item1">
             <h3>Лучшая онлайн/оффлайн школа</h3>
-            <h4>
-              для школ с наибольшим выпуском учеников
-и целевой аудиторией 
-            </h4>
+            <h4>для школ с наибольшим выпуском учеников
+              и целевой аудиторией</h4>
+            <img src="/static/img/nineteen.png" alt="">
           </div>
-          <div class="twenty">
-            <img src="/static/img/twenty.png" alt="" class="imgtwenty" />
+        </div>
+        <div class="col-md-6">
+          <div class="nomin-item1">
             <h3>GROWSKIT ловкость роста</h3>
-            <h4>
-              для мастеров, которые завоевали наибольшее количество побед на чемпионатах
-            </h4>
+            <h4>для мастеров, которые завоевали наибольшее количество побед на чемпионатах</h4>
+            <img src="/static/img/twenty.png" alt="">
           </div>
         </div>
       </div>
-      </div>
-    </section>
-    <section class="nominations1 d-block d-xxl-none">
-      <div class="container">
-        <div class="row">
-          <h2>Номинации</h2>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row forgap1">
-          <div class="col-md-6">
-            <div class="nomin-item">
-              <h3>Лучшая компания</h3>
-              <h4>для компаний, которые продемонстрировали выдающиеся результаты и инновации</h4>
-              <img src="/static/img/one.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item">
-              <h3>Лучший предприниматель</h3>
-              <h4>для индивидуальных предпринимателей, которые показали значительные успехи и лидерство</h4>
-              <img src="/static/img/two.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item">
-              <h3>Инновация года</h3>
-              <h4>для компаний или продуктов, которые внесли значительные инновации в свою отрасль.</h4>
-              <img src="/static/img/three.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item">
-              <h3>Стартап года</h3>
-              <h4>для новых компаний, которые быстро развиваются и показывают потенциал для роста.</h4>
-              <img src="/static/img/four.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item">
-              <h3>Лидер года</h3>
-              <h4>для руководителей, которые продемонстрировали выдающееся лидерство и стратегическое видение</h4>
-              <img src="/static/img/five.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item">
-              <h3>Лучший бренд</h3>
-              <h4>для косметических брендов, которые достигли значительных успехов и признания</h4>
-              <img src="/static/img/six.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item">
-              <h3>Лучший бьюти продукт</h3>
-              <h4>для косметических продуктов, которые стали популярными и получили положительные отзывы</h4>
-              <img src="/static/img/seven.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item">
-              <h3>Лучший салон</h3>
-              <h4>для салонов красоты/студии красоты, которые предоставляют исключительные услуги и клиентский сервис</h4>
-              <img src="/static/img/eight.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item">
-              <h3>Лучшая эко-инициатива</h3>
-              <h4>для брендов или салонов, которые внедрили устойчивые и экологически чистые практики</h4>
-              <img src="/static/img/nine.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item1">
-              <h3>Лучший инструктор</h3>
-              <h4>преподаватель выпустивший наибольшее количество учеников</h4>
-              <img src="/static/img/ten.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item1">
-              <h3>Лучший мастер</h3>
-              <h4>по маникюру/педикюру/моделированию/росписи ногтей/подологии</h4>
-              <img src="/static/img/eleven.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item1">
-              <h3>Лучший бьюти-блогер</h3>
-              <h4>для успешных специалистов в разных направлениях</h4>
-              <img src="/static/img/twelve.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item1">
-              <h3>Легенда года</h3>
-              <h4>для успешных специалистов в разных направлениях</h4>
-              <img src="/static/img/thirteen.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item1">
-              <h3>Лучший спикер</h3>
-              <h4>для специалистов успешно выступающих на конференциях
-                и форумах</h4>
-              <img src="/static/img/fourteen.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item1">
-              <h3>Лучший эксперт</h3>
-              <h4>для специалистов активно позиционирующих свою экспертность</h4>
-              <img src="/static/img/fifteen.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item1">
-              <h3>Лучший тренер</h3>
-              <h4>лучший тренер с наибольшими победами своей команды</h4>
-              <img src="/static/img/sixteen.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item1">
-              <h3>Лучший бьюти проект </h3>
-              <h4>лучший бьюти проект
-                в социальной сети</h4>
-              <img src="/static/img/seventeen.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item1">
-              <h3>Лучший спонсор</h3>
-              <h4>для спонсоров/брендов, которые вносят вклад в развитие бьюти индустрии </h4>
-              <img src="/static/img/eightteen.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item1">
-              <h3>Лучшая онлайн/оффлайн школа</h3>
-              <h4>для школ с наибольшим выпуском учеников
-                и целевой аудиторией</h4>
-              <img src="/static/img/nineteen.png" alt="">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nomin-item1">
-              <h3>GROWSKIT ловкость роста</h3>
-              <h4>для мастеров, которые завоевали наибольшее количество побед на чемпионатах</h4>
-              <img src="/static/img/twenty.png" alt="">
-            </div>
-          </div>
-        </div>
 
-      </div>
-      </div>
-      </div>
-    </section>
-    <section class="packets">
-      <h2>Выгодные пакеты</h2>
-      <div class="container">
-        <div class="row forgap">
-          <img src="/static/img/krugifonnomin.png" alt="" class="krugifonnomin">
-          <div class="col-lg-4">
-            <div class="packet" style="border: 2px solid white">
-              <div class="mini">
-                <h3>MINI</h3>
-              </div>
-              <h4>Каждый из вас проявил инициативу и стремление к развитию. Ваши усилия уже сейчас заметны, и это лишь начало. Вы доказали, что способны на многое, и впереди вас ждут новые достижения.</h4>
-              <h5>15.300₽</h5>
-              <div class="galochka">
-                <img src="/static/img/galka.svg" alt="">
-                <p style="width: 80%;">Номинирование на премию “GROWING BUSINESS AWARDS”</p>
-              </div>
-              <div class="galochka">
-                <img src="/static/img/galka.svg" alt="">
-                <p >Именной кубок и элитная плакетка</p>
-              </div>
-              <div class="galochka">
-                <img src="/static/img/galka.svg" alt="">
-                <p >Печать в глянцевом журнале SKITLUXE (1 страница)</p>
-              </div>
-              <div class="galochka galochaklast">
-                <img src="/static/img/galka.svg" alt="">
-                <p >Экземпляр журнала в подарок</p>
-              </div>
-              <button class="priobr" onclick="window.location.href='#premiyaForma' ">
-                <h6>Приобрести</h6>
-                <img src="/static/img/priobrarrow.svg" alt="" style="margin-top: 2px;">
-              </button>
+    </div>
+    </div>
+    </div>
+  </section>
+  <section class="packets">
+    <h2>Выгодные пакеты</h2>
+    <div class="container">
+      <div class="row forgap">
+        <img src="/static/img/krugifonnomin.png" alt="" class="krugifonnomin">
+        <div class="col-lg-4">
+          <div class="packet" style="border: 2px solid white">
+            <div class="mini">
+              <h3>MINI</h3>
             </div>
+            <h4>Каждый из вас проявил инициативу и стремление к развитию. Ваши усилия уже сейчас заметны, и
+              это лишь начало. Вы доказали, что способны на многое, и впереди вас ждут новые достижения.
+            </h4>
+            <h5>15.300₽</h5>
+            <div class="galochka">
+              <img src="/static/img/galka.svg" alt="">
+              <p style="width: 80%;">Номинирование на премию “GROWING BUSINESS AWARDS”</p>
+            </div>
+            <div class="galochka">
+              <img src="/static/img/galka.svg" alt="">
+              <p>Именной кубок и элитная плакетка</p>
+            </div>
+            <div class="galochka">
+              <img src="/static/img/galka.svg" alt="">
+              <p>Печать в глянцевом журнале SKITLUXE (1 страница)</p>
+            </div>
+            <div class="galochka galochaklast">
+              <img src="/static/img/galka.svg" alt="">
+              <p>Экземпляр журнала в подарок</p>
+            </div>
+            <button class="priobr" onclick="window.location.href='#premiyaForma' ">
+              <h6>Приобрести</h6>
+              <img src="/static/img/priobrarrow.svg" alt="" style="margin-top: 2px;">
+            </button>
           </div>
-          <div class="col-lg-4">
-            <div class="packet" style="border: 2px solid #F6BDF1">
-              <div class="mini">
-                <h3>PLATINUM</h3>
-              </div>
-              <h4>Вы  сделали больше, чем ожидалось. Вложили душу и сердце в свою работу, ваши усилия стали основой  успеха.
-                Вы — настоящие лидеры, показывающие пример другим.</h4>
-              <h5>23.800₽</h5>
-              <div class="galochka">
-                <img src="/static/img/galka.svg" alt="">
-                <p style="width: 80%;">Номинирование на премию “GROWING BUSINESS AWARDS”</p>
-              </div>
-              <div class="galochka">
-                <img src="/static/img/galka.svg" alt="">
-                <p >Именной кубок и элитная плакетка</p>
-              </div>
-              <div class="galochka">
-                <img src="/static/img/galka.svg" alt="">
-                <p >Печать в глянцевом журнале SKITLUXE (2 страницы)</p>
-              </div>
-              <div class="galochka galochaklast">
-                <img src="./img/galka.svg" alt="">
-                <p >Экземпляр журнала в подарок</p>
-              </div>
-              <button class="priobr" onclick="window.location.href='#premiyaForma' ">
-                <h6>Приобрести</h6>
-                <img  src="/static/img/priobrarrow.svg" alt="" style="margin-top: 2px;">
-              </button>
+        </div>
+        <div class="col-lg-4">
+          <div class="packet" style="border: 2px solid #F6BDF1">
+            <div class="mini">
+              <h3>PLATINUM</h3>
             </div>
+            <h4>Высделали больше, чем ожидалось. Вложили душу и сердце в свою работу, ваши усилия стали
+              основойуспеха.
+              Вы — настоящие лидеры, показывающие пример другим.</h4>
+            <h5>23.800₽</h5>
+            <div class="galochka">
+              <img src="/static/img/galka.svg" alt="">
+              <p style="width: 80%;">Номинирование на премию “GROWING BUSINESS AWARDS”</p>
+            </div>
+            <div class="galochka">
+              <img src="/static/img/galka.svg" alt="">
+              <p>Именной кубок и элитная плакетка</p>
+            </div>
+            <div class="galochka">
+              <img src="/static/img/galka.svg" alt="">
+              <p>Печать в глянцевом журнале SKITLUXE (2 страницы)</p>
+            </div>
+            <div class="galochka galochaklast">
+              <img src="./img/galka.svg" alt="">
+              <p>Экземпляр журнала в подарок</p>
+            </div>
+            <button class="priobr" onclick="window.location.href='#premiyaForma' ">
+              <h6>Приобрести</h6>
+              <imgsrc=" /static/img/priobrarrow.svg" alt="" style="margin-top: 2px;">
+            </button>
           </div>
-          <div class="col-lg-4">
-            <div class="packet" style="border: 2px solid #FD84DC">
-              <div class="mini">
-                <h3>GOLD</h3>
-              </div>
-              <h4>Вы стабильно демонстрируете высокий уровень профессионализма и роста
-                в своей работе. Вы постоянно стремитесь
-                к совершенству и добиваетесь впечатляющих результатов.</h4>
-              <h5>30.600₽</h5>
-              <div class="galochka">
-                <img src="/static/img/galka.svg" alt="">
-                <p style="width: 80%;">Номинирование на премию “GROWING BUSINESS AWARDS”</p>
-              </div>
-              <div class="galochka">
-                <img src="/static/img/galka.svg" alt="">
-                <p >Именной кубок и элитная плакетка</p>
-              </div>
-              <div class="galochka">
-                <img src="/static/img/galka.svg" alt="">
-                <p >Печать в глянцевом журнале SKITLUXE (1 страница)</p>
-              </div>
-              <div class="galochka">
-                <img src="/static/img/galka.svg" alt="">
-                <p >Экземпляр журнала в подарок</p>
-              </div>
-              <div class="galochka galochaklast">
-                <img src="/static/img/galka.svg" alt="">
-                <p >Индивидуальная глянцевая обложка журнала SKITLUXE с вашим фото</p>
-              </div>
-              <button class="priobr" onclick="window.location.href='#premiyaForma' ">
-                <h6>Приобрести</h6>
-                <img  src="/static/img/priobrarrow.svg" alt="" style="margin-top: 2px;">
-              </button>
+        </div>
+        <div class="col-lg-4">
+          <div class="packet" style="border: 2px solid #FD84DC">
+            <div class="mini">
+              <h3>GOLD</h3>
             </div>
+            <h4>Вы стабильно демонстрируете высокий уровень профессионализма и роста
+              в своей работе. Вы постоянно стремитесь
+              к совершенству и добиваетесь впечатляющих результатов.</h4>
+            <h5>30.600₽</h5>
+            <div class="galochka">
+              <img src="/static/img/galka.svg" alt="">
+              <p style="width: 80%;">Номинирование на премию “GROWING BUSINESS AWARDS”</p>
+            </div>
+            <div class="galochka">
+              <img src="/static/img/galka.svg" alt="">
+              <p>Именной кубок и элитная плакетка</p>
+            </div>
+            <div class="galochka">
+              <img src="/static/img/galka.svg" alt="">
+              <p>Печать в глянцевом журнале SKITLUXE (1 страница)</p>
+            </div>
+            <div class="galochka">
+              <img src="/static/img/galka.svg" alt="">
+              <p>Экземпляр журнала в подарок</p>
+            </div>
+            <div class="galochka galochaklast">
+              <img src="/static/img/galka.svg" alt="">
+              <p>Индивидуальная глянцевая обложка журнала SKITLUXE с вашим фото</p>
+            </div>
+            <button class="priobr" onclick="window.location.href='#premiyaForma' ">
+              <h6>Приобрести</h6>
+              <imgsrc=" /static/img/priobrarrow.svg" alt="" style="margin-top: 2px;">
+            </button>
           </div>
         </div>
       </div>
-    </section>
-    <div class="forma" id="premiyaForma">
-      <img src="/static/img/trophy.png" alt="" class="trophy" />
-      <div class="container">
-        <div class="row forgapnearbottom">
-          <div class="col-lg-6 leftside">
-            <div class="stante">
-              <div class="row">
-                <div class="offset-lg-4 col-lg-8">
-                  <h2>Станьте номинантом премии</h2>
-                  <h3>Заполните форму и наши организаторы обязательно с вами свяжутся </h3>
-                </div>
+    </div>
+  </section>
+  <div class="forma" id="premiyaForma">
+    <img src="/static/img/trophy.png" alt="" class="trophy" />
+    <div class="container">
+      <div class="row forgapnearbottom">
+        <div class="col-lg-6 leftside">
+          <div class="stante">
+            <div class="row">
+              <div class="offset-lg-4 col-lg-8">
+                <h2>Станьте номинантом премии</h2>
+                <h3>Заполните форму и наши организаторы обязательно с вами свяжутся</h3>
               </div>
             </div>
-            <div class="uchast">
-              <div class="row">
-                <div class="offset-lg-2 col-lg-10">
-                  <h4>Участие в Премии GROWING BUSINESS AWARDS</h4>
-                  <div class="stoimost">
-                    <div class="row">
-                      <div class="col-8">
-                        <h5>В стоимость участия входит:</h5>
-                        <ul>
-                          <li>Номинирование на премию “GROWING BUSINESS AWARDS”</li>
-                          <li>Именной кубок и элитная плакетка</li>
-                        </ul>
-                      </div>
-                      <div class="col-4">
-                        <div class="price">
-                          <h2>9.500 ₽</h2>
-                          <h3>8.000 ₽</h3>
-                        </div>
+          </div>
+          <div class="uchast">
+            <div class="row">
+              <div class="offset-lg-2 col-lg-10">
+                <h4>Участие в Премии GROWING BUSINESS AWARDS</h4>
+                <div class="stoimost">
+                  <div class="row">
+                    <div class="col-8">
+                      <h5>В стоимость участия входит:</h5>
+                      <ul>
+                        <li>Номинирование на премию “GROWING BUSINESS AWARDS”</li>
+                        <li>Именной кубок и элитная плакетка</li>
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      <div class="price">
+                        <h2>9.500 ₽</h2>
+                        <h3>8.000 ₽</h3>
                       </div>
                     </div>
                   </div>
-                  <div class="forcont">
-                    <div class="voprosi">
-                      <h3>Остались вопросы?</h3>
-                      <h3>Спросите нас напрямую</h3>
-                    </div>
-                    <div class="socialmedia">
-                      <img src="/static/img/tgsocial.png" alt="" onclick="window.location.href='https://t.me/sidorovanailsart'" style="cursor: pointer;">
-                      <img src="/static/img/vksocial.png" alt="" onclick="window.location.href='https://vk.com/sidorovanailsart'" style="cursor: pointer;">
-                      <img src="/static/img/wpsocial.png" alt="" onclick="window.location.href='https://wa.me/79787089920'" style="cursor: pointer;">
-                    </div>
+                </div>
+                <div class="forcont">
+                  <div class="voprosi">
+                    <h3>Остались вопросы?</h3>
+                    <h3>Спросите нас напрямую</h3>
+                  </div>
+                  <div class="socialmedia">
+                    <img src="/static/img/tgsocial.png" alt=""
+                      onclick="window.location.href='https://t.me/sidorovanailsart'" style="cursor: pointer;">
+                    <img src="/static/img/vksocial.png" alt=""
+                      onclick="window.location.href='https://vk.com/sidorovanailsart'" style="cursor: pointer;">
+                    <img src="/static/img/wpsocial.png" alt=""
+                      onclick="window.location.href='https://wa.me/79787089920'" style="cursor: pointer;">
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-6">
-            <form method="post" action="" enctype="multipart/form-data">
-              {% csrf_token %}
+        </div>
+        <div class="col-lg-6">
+          <form method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="form-container">
-                <div class="topofform">
-                  <h2>Информация для связи</h2>
+              <div class="topofform">
+                <h2>Информация для связи</h2>
                 <div class="progress-bar1">
                   <div class="pink"></div>
                   <div class="empty"></div>
@@ -611,63 +622,73 @@
                   <div class="empty"></div>
                   <div class="empty"></div>
                 </div>
-                </div>
+              </div>
 
-                <input type="text" name="fio" required class="input-box" placeholder="Фамилия Имя Отчество">
-                <div class="input-row">
-                    <input type="text" name="phone" required class="input-box telephone" placeholder="Телефон">
-                    <input type="text" name="email" required class="input-box email" placeholder="Почта">
-                </div>
-                <p class="info-text">Почтовый адрес и адрес СДЭК необходимы для отправки вам журнала, ваши данные в безопасности</p>
-                <input type="text" required name="address" class="input-box" placeholder="Почтовый адрес">
-                <input type="text" required name="address_sdek" class="input-box" placeholder="Адрес ближайшего СДЭК">
-                <div class="form-buttons1">
-                  <button type="button" class="next">Далее</button>
-                </div>
+              <input type="text" name="fio" required class="input-box" placeholder="Фамилия Имя Отчество">
+              <div class="input-row">
+                <input type="text" name="phone" required class="input-box telephone" placeholder="Телефон"
+                  pattern="\+?[0-9\s\-()]{10,}">
+                <input type="text" name="email" required class="input-box email" placeholder="Почта">
+              </div>
+              <p class="info-text">Почтовый адрес и адрес СДЭК необходимы для отправки вам журнала, ваши
+                данные в безопасности</p>
+              <input type="text" required name="address" class="input-box" placeholder="Почтовый адрес">
+              <input type="text" required name="address_sdek" class="input-box" placeholder="Адрес ближайшего СДЭК">
+              <div class="form-buttons1">
+                <button type="button" class="next">Далее</button>
+              </div>
             </div>
             <div class="form-container">
               <div class="topofform">
                 <h2>Познакомимся ближе</h2>
-              <div class="progress-bar1">
-                <div class="pink"></div>
-                <div class="pink"></div>
-                <div class="empty"></div>
-                <div class="empty"></div>
-                <div class="empty"></div>
-              </div>
+                <div class="progress-bar1">
+                  <div class="pink"></div>
+                  <div class="pink"></div>
+                  <div class="empty"></div>
+                  <div class="empty"></div>
+                  <div class="empty"></div>
+                </div>
               </div>
               <div class="input-row">
-                <input type="text" class="input-box "  name="vk" placeholder="Ссылка на профиль ВК">
-                <input type="text" class="input-box "  name="telegram" placeholder="Ссылка на профиль Telegram">
-            </div>
-            <p class="info-text">Ваши личные фото будут использоваться для оформления визитки участника в соц.сетях чемпионата и на сайте</p>
-            <div class="file-upload">
-              <h4>Личное фото</h4>
-              <input type="file" id="fileInput" name="photo" required hidden />
-              <label for="fileInput" class="upload-btn">Выбрать</label>
-              <h5>или перетащите файлы сюда</h5>
-            </div>
-            <ul class="ul-needed">
-              <li>Вокруг вашего силуэта должен быть воздух</li>
-              <li>Задний фон не имеет значения</li>
-              <li>Ваш взгляд направлен в камеру</li>
-              <li>Фотография должна быть в хорошем качестве</li>
-            </ul>
-            <div class="form-buttons">
-              <button type="button" class="backButton">Назад</button>
-              <button type="button" class="next">Выбрать номинацию</button>
-            </div>
+                <input type="text" class="input-box " name="vk" placeholder="Ссылка на профиль ВК">
+                <input type="text" class="input-box " name="telegram" placeholder="Ссылка на профиль Telegram">
+              </div>
+              <p class="info-text">Ваши личные фото будут использоваться для оформления визитки участника
+                в соц.сетях чемпионата и на сайте</p>
+              <div class="file-upload">
+                <h4>Личное фото</h4>
+                <input type="file" id="fileInput11" hidden name="photo" required />
+                <label for="fileInput11" class="upload-btn">Выбрать</label>
+                <h5>или перетащите файлы сюда</h5>
+                <!-- Контейнер для отображения загруженного файла -->
+                <div class="file-preview hidden">
+                  <img src="/static/img/file-icon.png" alt="File Icon" class="file-icon" />
+                  <span class="file-name"></span>
+                  <!-- Кнопка "крестик" -->
+                  <button class="remove-file-btn">×</button>
+                </div>
+              </div>
+              <ul class="ul-needed">
+                <li>Вокруг вашего силуэта должен быть воздух</li>
+                <li>Задний фон не имеет значения</li>
+                <li>Ваш взгляд направлен в камеру</li>
+                <li>Фотография должна быть в хорошем качестве</li>
+              </ul>
+              <div class="form-buttons">
+                <button type="button" class="backButton">Назад</button>
+                <button type="button" class="next">Выбрать номинацию</button>
+              </div>
             </div>
             <div class="form-container">
               <div class="topofform">
                 <h2>Выбор номинации</h2>
-              <div class="progress-bar1">
-                <div class="pink"></div>
-                <div class="pink"></div>
-                <div class="pink"></div>
-                <div class="empty"></div>
-                <div class="empty"></div>
-              </div>
+                <div class="progress-bar1">
+                  <div class="pink"></div>
+                  <div class="pink"></div>
+                  <div class="pink"></div>
+                  <div class="empty"></div>
+                  <div class="empty"></div>
+                </div>
               </div>
               <select name="nomination" required>
                 <option value="">Выберите номинацию</option>
@@ -692,36 +713,37 @@
                 <option value="best_online_offline_school">Лучшая онлайн/оффлайн школа</option>
                 <option value="growskit_growth_agility">GROWSKIT ловкость роста</option>
               </select>
-              <p class="info-text1">Почтовый адрес и адрес СДЭК необходимы для отправки вам журнала, ваши данные
+              <p class="info-text1">Почтовый адрес и адрес СДЭК необходимы для отправки вам журнала, ваши
+                данные
                 в безопасности</p>
-                <textarea name="bio" id="" placeholder="Расскажите о своих достижениях и регалиях"></textarea>
-                <div class="form-buttons">
-                  <button type="button" class="backButton">Назад</button>
-                  <button type="button" class="next">К выбору пакета</button>
-                </div>
+              <textarea name="bio" id="" placeholder="Расскажите о своих достижениях и регалиях"></textarea>
+              <div class="form-buttons">
+                <button type="button" class="backButton">Назад</button>
+                <button type="button" class="next">К выбору пакета</button>
+              </div>
             </div>
             <div class="form-container">
               <div class="topofform">
                 <h2>Выбор пакета</h2>
-              <div class="progress-bar1">
-                <div class="pink"></div>
-                <div class="pink"></div>
-                <div class="pink"></div>
-                <div class="pink"></div>
-                <div class="empty"></div>
-              </div>
+                <div class="progress-bar1">
+                  <div class="pink"></div>
+                  <div class="pink"></div>
+                  <div class="pink"></div>
+                  <div class="pink"></div>
+                  <div class="empty"></div>
+                </div>
               </div>
               <div class="firstpacket">
                 <input type="radio" name="packet" value="default" id="default" checked>
                 <label for="default">
-                    <span class="custom-radio"></span>
-                    <div class="text-content">
-                        <h3>Участие в Премии GROWING BUSINESS AWARDS</h3>
-                        <h4>8.000 ₽</h4>
-                    </div>
+                  <span class="custom-radio"></span>
+                  <div class="text-content">
+                    <h3>Участие в Премии GROWING BUSINESS AWARDS</h3>
+                    <h4>8.000 ₽</h4>
+                  </div>
                 </label>
               </div>
-            <h3 class="vigoda">Выгодные пакеты предложений</h3>
+              <h3 class="vigoda">Выгодные пакеты предложений</h3>
               <div class="otherpackets">
                 <input type="radio" name="packet" value="mini" id="mini">
                 <label for="mini">
@@ -731,9 +753,12 @@
                     <h4>15.300₽</h4>
                   </div>
                   <ul>
-                    <li><img src="/static/img/minigalka.png" alt="">Номинирование на премию “GROWING BUSINESS AWARDS”</li>
-                    <li><img src="/static/img/minigalka.png" alt="">Именной кубок и элитная плакетка</li>
-                    <li><img src="/static/img/minigalka.png" alt="">Печать вашей статьи на 1 странице в глянцевом журнале SKITLUXE</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Номинирование на премию “GROWING
+                      BUSINESS AWARDS”</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Именной кубок и элитная плакетка
+                    </li>
+                    <li><img src="/static/img/minigalka.png" alt="">Печать вашей статьи на 1
+                      странице в глянцевом журнале SKITLUXE</li>
                     <li><img src="/static/img/minigalka.png" alt="">Экземпляр журнала в подарок</li>
                   </ul>
                 </label>
@@ -747,9 +772,12 @@
                     <h4>23.800 ₽</h4>
                   </div>
                   <ul>
-                    <li><img src="/static/img/minigalka.png" alt="">Номинирование на премию “GROWING BUSINESS AWARDS”</li>
-                    <li><img src="/static/img/minigalka.png" alt="">Именной кубок и элитная плакетка</li>
-                    <li><img src="/static/img/minigalka.png" alt="">Печать вашей статьи на 2 страницах в глянцевом журнале SKITLUXE</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Номинирование на премию “GROWING
+                      BUSINESS AWARDS”</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Именной кубок и элитная плакетка
+                    </li>
+                    <li><img src="/static/img/minigalka.png" alt="">Печать вашей статьи на 2
+                      страницах в глянцевом журнале SKITLUXE</li>
                     <li><img src="/static/img/minigalka.png" alt="">Экземпляр журнала в подарок</li>
                   </ul>
                 </label>
@@ -763,10 +791,14 @@
                     <h4>30.600 ₽</h4>
                   </div>
                   <ul>
-                    <li><img src="/static/img/minigalka.png" alt="">Номинирование на премию “GROWING BUSINESS AWARDS”</li>
-                    <li><img src="/static/img/minigalka.png" alt="">Именной кубок и элитная плакетка</li>
-                    <li><img src="/static/img/minigalka.png" alt="">Индивидуальная глянцевая обложка журнала SKITLUXE с вашим фото</li>
-                    <li><img src="/static/img/minigalka.png" alt="">Печать вашей статьи на 2 страницах в глянцевом журнале SKITLUXE</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Номинирование на премию “GROWING
+                      BUSINESS AWARDS”</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Именной кубок и элитная плакетка
+                    </li>
+                    <li><img src="/static/img/minigalka.png" alt="">Индивидуальная глянцевая обложка
+                      журнала SKITLUXE с вашим фото</li>
+                    <li><img src="/static/img/minigalka.png" alt="">Печать вашей статьи на 2
+                      страницах в глянцевом журнале SKITLUXE</li>
                     <li><img src="/static/img/minigalka.png" alt="">Экземпляр журнала в подарок</li>
 
                   </ul>
@@ -780,13 +812,13 @@
             <div class="form-container" id="finish">
               <div class="topofform">
                 <h2>Выбор пакета</h2>
-              <div class="progress-bar1">
-                <div class="pink"></div>
-                <div class="pink"></div>
-                <div class="pink"></div>
-                <div class="pink"></div>
-                <div class="pink"></div>
-              </div>
+                <div class="progress-bar1">
+                  <div class="pink"></div>
+                  <div class="pink"></div>
+                  <div class="pink"></div>
+                  <div class="pink"></div>
+                  <div class="pink"></div>
+                </div>
               </div>
               <div class="finish-oplata">
                 <img src="/static/img/okkrug.png" alt="">
@@ -803,117 +835,115 @@
         </div>
       </div>
     </div>
-    </div>
-    <section class="footer" id="footer">
-      <div class="container">
-        <div class="row footpad">
-          <div class="col-xl-6 col-sm-12 first-part-footer">
-            <img src="/static/img/footgrowskit.png" alt="" />
-            <div class="bottom-plashki">
-              <img
-                src="/static/img/lotus.png"
-                alt=""
-                style="margin-top: 20px"
-              />
-              <img
-                src="/static/img/lunailbottom.png"
-                alt=""
-                style="margin-top: 20px"
-              />
-            </div>
-          </div>
-          <div class="col-xl-6 col-sm-12">
-            <div class="row">
-              <div class="col-xl-2 offset-xl-1 col-sm-4 links">
-                <a href="/"><h2>Чемпионат</h2></a>
-                <a href="/premiya/"><h2>Премия</h2></a>
-                <a href="/magazine/"><h2>Журнал</h2></a>
-                <a href="/sponsorstvo/"><h2>Спонсорство</h2></a>
-                <a href="/sudeystvo/"><h2>Судейство</h2></a>
-                <a href="/participants/"><h2>Участники</h2></a>
-              </div>
-              <div class="offset-xl-1 col-xl-5 col-sm-4 forcontacts">
-                <h3>Контакты</h3>
-                <div class="contacts">
-                  <h4 style="margin-right: 8px">+7 (978) 708-99-20</h4>
-                  <h4>Ирина</h4>
-                </div>
-                <div class="contacts">
-                  <h4 style="margin-right: 8px">‪+7 (978) 757-41-55‬</h4>
-                  <h4>Татьяна</h4>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-4  forlinks">
-                <h3>Мы в соц.сетях</h3>
-                <div
-                  class="telegram"
-                  onclick="window.location.href='https://t.me/sidorovanailsart'"
-                >
-                  <img src="/static/img/telegram.svg" alt="" />
-                  <h5>Telegram</h5>
-                </div>
-                <div
-                  class="telegram"
-                  onclick="window.location.href='https://vk.com/sidorovanailsart'"
-                >
-                  <img src="/static/img/vkontakte.svg" alt="" />
-                  <h5>VK</h5>
-                </div>
-                <div
-                  class="telegram"
-                  onclick="window.location.href='https://wa.me/79787089920'"
-                >
-                  <img src="/static/img/whatsapp.svg" alt="" />
-                  <h5>WhatsApp</h5>
-                </div>
-              </div>
-            </div>
+  </div>
+  <section class="footer" id="footer">
+    <div class="container">
+      <div class="row footpad">
+        <div class="col-xl-6 col-sm-12 first-part-footer">
+          <img src="/static/img/footgrowskit.png" alt="" />
+          <div class="bottom-plashki">
+            <img src="/static/img/lotus.png" alt="" style="margin-top: 20px" />
+            <img src="/static/img/lunailbottom.png" alt="" style="margin-top: 20px" />
           </div>
         </div>
-        <div class="footlin"></div>
-        <div class="row">
-          <div class="forfootik">
-            <div class="grow2025">
-              <h6>© 2025 GROWSKIT</h6>
+        <div class="col-xl-6 col-sm-12">
+          <div class="row">
+            <div class="col-xl-2 offset-xl-1 col-sm-4 links">
+              <a href="/">
+                <h2>Чемпионат</h2>
+              </a>
+              <a href="/premiya/">
+                <h2>Премия</h2>
+              </a>
+              <a href="/magazine/">
+                <h2>Журнал</h2>
+              </a>
+              <a href="/sponsorstvo/">
+                <h2>Спонсорство</h2>
+              </a>
+              <a href="/sudeystvo/">
+                <h2>Судейство</h2>
+              </a>
+              <a href="/participants/">
+                <h2>Участники</h2>
+              </a>
             </div>
-            <div class="rightfoot">
-              <a href=""
-                ><h6 style="text-decoration: underline">
-                  Политика конфиденциальности
-                </h6></a
-              >
-              <a href=""><h6 style="text-decoration: underline">Оферта</h6></a>
+            <div class="offset-xl-1 col-xl-5 col-sm-4 forcontacts">
+              <h3>Контакты</h3>
+              <div class="contacts">
+                <h4 style="margin-right: 8px">+7 (978) 708-99-20</h4>
+                <h4>Ирина</h4>
+              </div>
+              <div class="contacts">
+                <h4 style="margin-right: 8px">‪+7 (978) 757-41-55‬</h4>
+                <h4>Татьяна</h4>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-4forlinks">
+              <h3>Мы в соц.сетях</h3>
+              <div class="telegram" onclick="window.location.href='https://t.me/sidorovanailsart'">
+                <img src="/static/img/telegram.svg" alt="" />
+                <h5>Telegram</h5>
+              </div>
+              <div class="telegram" onclick="window.location.href='https://vk.com/sidorovanailsart'">
+                <img src="/static/img/vkontakte.svg" alt="" />
+                <h5>VK</h5>
+              </div>
+              <div class="telegram" onclick="window.location.href='https://wa.me/79787089920'">
+                <img src="/static/img/whatsapp.svg" alt="" />
+                <h5>WhatsApp</h5>
+              </div>
             </div>
           </div>
         </div>
       </div>
-  </div>
+      <div class="footlin"></div>
+      <div class="row">
+        <div class="forfootik">
+          <div class="grow2025">
+            <h6>© 2025 GROWSKIT</h6>
+          </div>
+          <div class="rightfoot">
+            <a href="">
+              <h6 style="text-decoration: underline">
+                Политика конфиденциальности
+              </h6>
+            </a>
+            <a href="">
+              <h6 style="text-decoration: underline">Оферта</h6>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
 
   </section>
-    <script src="/static/script/premiya.js"></script>
-    <script>
-      function equalizeHeights() {
-        // Выбираем все элементы с нужными классами
-        const items = document.querySelectorAll('.nomin-item, .nomin-item1');
-        let maxHeight = 0;
+  <script src="/static/script/premiya.js"></script>
+  <script>
+    function equalizeHeights() {
+      // Выбираем все элементы с нужными классами
+      const items = document.querySelectorAll('.nomin-item, .nomin-item1');
+      let maxHeight = 0;
 
-        // Находим максимальную высоту
-        items.forEach(item => {
-          item.style.height = 'auto'; // Сброс высоты перед измерением
-          maxHeight = Math.max(maxHeight, item.offsetHeight);
-        });
+      // Находим максимальную высоту
+      items.forEach(item => {
+        item.style.height = 'auto'; // Сброс высоты перед измерением
+        maxHeight = Math.max(maxHeight, item.offsetHeight);
+      });
 
-        // Устанавливаем одинаковую высоту
-        items.forEach(item => {
-          item.style.height = maxHeight + 'px';
-        });
-      }
+      // Устанавливаем одинаковую высоту
+      items.forEach(item => {
+        item.style.height = maxHeight + 'px';
+      });
+    }
 
-      // Запускаем функцию после загрузки контента и при изменении размера окна
-      window.addEventListener('load', equalizeHeights);
-      window.addEventListener('resize', equalizeHeights);
-    </script>
-у
+    // Запускаем функцию после загрузки контента и при изменении размера окна
+    window.addEventListener('load', equalizeHeights);
+    window.addEventListener('resize', equalizeHeights);
+  </script>
+  <script src="/static/script/validation.js"></script>
 
-  </body>
+</body>
+
 </html>

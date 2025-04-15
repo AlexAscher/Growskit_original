@@ -1,5 +1,6 @@
 body {
   background-color: black;
+  overflow-x: hidden;
 }
 .second-btn {
   font-family: Gilroy;
@@ -668,15 +669,17 @@ textarea::placeholder {
 @media (max-width: 1200px) {
   .zdes {
     top: 71%;
+    right: 0;
   }
 }
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   .zavitka {
-    top: 65%;
+    top: 49%;
   }
   .zdes {
-    top: 75%;
-    right: -3%;
+    top: 59%;
+    right: 0%;
+    font-size: 20px;
   }
 }
 @media (max-width: 840px) {
@@ -692,6 +695,12 @@ textarea::placeholder {
   }
   .bottom-plashki img {
     width: 254px;
+  }
+  .zavitka {
+    display: none;
+  }
+  .zdes {
+    display: none;
   }
 }
 @media (max-width: 576px) {

@@ -131,6 +131,11 @@ body {
 .main {
   margin-top: 3%;
 }
+@media (max-width: 1200px) {
+  .main {
+    margin-top: 8%;
+  }
+}
 .firstcontainer {
   margin-bottom: 3%;
 }
@@ -288,6 +293,13 @@ body {
   display: flex;
   justify-content: center;
 }
+@media (max-width: 768px) {
+  .forjustify {
+    justify-content: start;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+}
 .nizh-after-form {
   margin-top: 64px;
   margin-bottom: 8%;
@@ -295,6 +307,59 @@ body {
 .rotated-180 {
   transform: rotate(180deg);
   transition: transform 0.3s ease;
+}
+.file-upload {
+  position: relative;
+  text-align: center;
+}
+
+.file-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.file-preview.hidden {
+  display: none;
+}
+
+.file-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.file-name {
+  font-size: 14px;
+  color: #333;
+}
+
+.remove-file-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  color: #333;
+}
+
+.remove-file-btn:hover {
+  background-color: #f0f0f0;
 }
 @media (max-width: 576px) {
   .input-margin-top {

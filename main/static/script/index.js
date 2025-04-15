@@ -91,6 +91,9 @@ function updateCountdown() {
   document.querySelector(".gradi h6").innerHTML = `
     ${days}<span>д</span>${hours}<span>ч</span>${minutes}<span>мин</span>${seconds}<span>с</span>
   `;
+  document.querySelector(".popup h4").innerHTML = `
+    ${days}<span>д</span>${hours}<span>ч</span>${minutes}<span>мин</span>${seconds}<span>с</span>
+  `;
 }
 
 // Обновляем таймер каждую секунду
@@ -188,3 +191,30 @@ openSidebarButton.addEventListener("click", () => {
     document.body.style.overflow = "";
   }
 });
+
+function updateCountdown() {
+  const deadline = new Date("2025-06-07T00:00:00");
+  const now = new Date();
+  const diff = deadline - now;
+
+  if (diff <= 0) {
+    document.querySelector(".popup h4").innerHTML =
+      "0<span>д</span>0<span>ч</span>0<span>мин</span>0<span>с</span>";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  document.querySelector(
+    ".popup h4"
+  ).innerHTML = `${days}<span>д</span>${hours}<span>ч</span>${minutes}<span>мин</span>${seconds}<span>с</span>`;
+}
+
+// обновлять каждую секунду
+setInterval(updateCountdown, 1000);
+
+// запустить сразу при загрузке
+updateCountdown();
