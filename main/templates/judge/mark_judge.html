@@ -1,11 +1,11 @@
 {% load tags %}
 
-<div class="modal fade" id="rateModal{{ work_id }}_{{ judge.id }}" tabindex="-1" aria-labelledby="rateModal_{{ judge.id }}Label{{ work_id }}"
+<div class="modal fade" id="rateModal_{{ judge.id }}{{ work_id }}" tabindex="-1" aria-labelledby="rateModal_{{ judge.id }}{{ work_id }}Label"
   aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="rateModal_{{ judge.id }}Label{{ work_id }}">Оцените работу</h5>
+        <h5 class="modal-title" id="rateModal_{{ judge.id }}{{ work_id }}Label">Оцените работу</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" data-bs-toggle="modal"
         data-bs-target="#rateModal_all{{ work_id }}" aria-label="Close"></button>
       </div>
@@ -17,9 +17,9 @@
           <input type="hidden" name="only_edit" value="{{ only_edit }}">
           {% csrf_token %}
           <div class="mb-3">
-            <label for="rating_{{ judge.id }}_{{ work_id }}" class="form-label">Оценка:</label>
+            <label for="rating_{{ judge.id }}{{ work_id }}" class="form-label">Оценка:</label>
             {% for criteria in criteries %}
-              <div id="div_rating_{{ judge.id }}_{{ work_id }}_criteria{{ forloop.counter }}">
+              <div id="div_rating_{{ judge.id }}{{ work_id }}_criteria{{ forloop.counter }}">
                 <!-- {% state work_id False %} -->
                 {% for block in criteria.Блоки %}
                   <h3>{{ block|get:"№" }}. {{ block.Блок }}</h3>
@@ -52,7 +52,7 @@
                 <!-- {% state work_id as need %} -->
                 {% if need == False %}
                 <script>
-                  document.getElementById("div_rating_{{ judge.id }}_{{ work_id }}_criteria{{ forloop.counter }}").style.display = "none";
+                  document.getElementById("div_rating_{{ judge.id }}{{ work_id }}_criteria{{ forloop.counter }}").style.display = "none";
                 </script>
                 {% else %}
                 <table class="table">

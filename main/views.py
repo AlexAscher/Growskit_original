@@ -796,33 +796,31 @@ def api_judge_rate_work(request: HttpRequest):
         championship = get_active_championship(False)
         work_id = request.POST.get('work_id')
         work = uuid.UUID(work_id, version=4)
-        judge = request.user.profilejudge
-
         marks = {}
 
         for key, value in request.POST.items():
             if not key.startswith('criteries-') and not key.startswith('comments-'):
                 continue
 
-            typ, id, name = key.split('-')
+            typ, judge_id, id, name = key.split('-')
+            judge = ProfileJudge.objects.get(id=judge_id)
 
             if typ == 'criteries':
-                marks[id + ". " + name] = {'mark': int(value)}
+                marks[id + ". " + name] = {'mark': int(value), 'judge': judge}
 
             if typ == 'comments':
                 marks[id + ". " + name]['comment'] = value
 
         for critery, mark in marks.items():
-            markM = Mark.objects.filter(work_id=work, judge=judge, critery=critery).first()
+            markM = Mark.objects.filter(work_id=work, judge=mark['judge'], critery=critery).first()
             
             if request.POST.get('only_edit') and not markM:
                 continue
 
             if not markM:
-                Mark.objects.create(work_id=work, judge=judge, critery=critery, championship=championship, mark=mark['mark'], comment=mark.get('comment'))
+                Mark.objects.create(work_id=work, judge=mark['judge'], critery=critery, championship=championship, mark=mark['mark'], comment=mark.get('comment'))
                 continue
 
-            markM.championship = championship
             markM.mark = mark['mark']
             markM.comment = mark.get('comment') or 'Без комментариев'
             markM.save()
@@ -861,6 +859,7 @@ def current_championship_admin(request):
         grouped_works[work.work_id]['marked'] = marks_to_form_value(
             Mark.objects.filter(work_id=work.work_id)
         )
+        grouped_works[work.work_id]['judges'] = set(ProfileJudge.objects.filter(mu_judge__work_id=work.work_id))
 
     return render(
         request,

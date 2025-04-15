@@ -90,14 +90,14 @@ def notify_new_user(email: str, password: str, fail_silently=False, tg: str = ""
 
 
 def marks_to_form_value(marks: QuerySet['Mark', 'Mark']):
-    # criteries-<id>-<name>
-    # comments-<id>-<name>
+    # criteries-<judge_id>-<id>-<name>
+    # comments-<judge_id>-<id>-<name>
     marks_dict = {}
 
     for mark in marks:
         id, name = mark.critery.split('. ')
-        critery = f"criteries-{id}-{name}"
-        comment = f"comments-{id}-{name}"
+        critery = f"criteries-{mark.judge.id}-{id}-{name}"
+        comment = f"comments-{mark.judge.id}-{id}-{name}"
         marks_dict[critery] = int(mark.mark)
         marks_dict[comment] = mark.comment
 
