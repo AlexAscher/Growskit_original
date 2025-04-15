@@ -26,7 +26,7 @@
     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
       data-bs-target="#rateModal_{{ request.user.profilejudge.id }}{{ work_id }}">{% if work.marked %}Оценено{% else %}Оценить{% endif %}</button>
 
-    {% include 'judge/mark_judge.html' with work_id=work_id judge=request.user.profilejudge championship=championship %}
+    {% include 'judge/mark_judge.html' with work_id=work_id work=work judge=request.user.profilejudge %}
   </div>
   {% endfor %}
 </div>

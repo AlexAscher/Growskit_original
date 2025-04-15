@@ -802,14 +802,14 @@ def api_judge_rate_work(request: HttpRequest):
             if not key.startswith('criteries-') and not key.startswith('comments-'):
                 continue
 
-            typ, judge_id, id, name = key.split('-')
+            typ, judge_id, block_id, id, name = key.split('-')
             judge = ProfileJudge.objects.get(id=judge_id)
 
             if typ == 'criteries':
-                marks[id + ". " + name] = {'mark': int(value), 'judge': judge}
+                marks[block_id + ". " + id + ". " + name] = {'mark': int(value), 'judge': judge}
 
             if typ == 'comments':
-                marks[id + ". " + name]['comment'] = value
+                marks[block_id + ". " + id + ". " + name]['comment'] = value
 
         for critery, mark in marks.items():
             markM = Mark.objects.filter(work_id=work, judge=mark['judge'], critery=critery).first()
@@ -835,9 +835,11 @@ def api_judge_rate_work(request: HttpRequest):
     raise BadRequest("Method not allowed")
 
 
+def is_leader_judge(user):
+    return hasattr(user, 'profilejudge') and user.profilejudge.is_leader
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(lambda user: is_admin(user) or is_leader_judge(user))
 def current_championship_admin(request):
     championship = get_active_championship(False)
 
@@ -864,7 +866,7 @@ def current_championship_admin(request):
     return render(
         request,
         'admin/championship.html',
-        {"championship": championship, "criteries": criteries, "grouped_works": grouped_works},
+        {"championship": championship, "criteries": criteries, "grouped_works": grouped_works, 'only_edit': True},
     )
 
 

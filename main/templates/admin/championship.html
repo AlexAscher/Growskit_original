@@ -13,49 +13,44 @@
 {% if grouped_works %}
 <h2 class="mb-4">Работы</h2>
 <div class="list-group">
-  {% for work_id, work in grouped_works.items %}
-  <div class="list-group-item">
-    <h5>{{ work.nomination }}</h5> <!-- Уже человекочитаемое значение -->
-    <div class="d-flex flex-wrap">
-      {% for photo in work.photos %}
-      <div class="me-2 mb-2">
-        <img src="{{ photo.photo.url }}" alt="Фото работы" class="img-thumbnail" style="width: 150px; height: 150px;">
-      </div>
-      {% endfor %}
-    </div>
-    <div>Средняя оценка: {{ championship|get_marks_average:work_id |get:0|get:"average" }}</div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-      data-bs-target="#rateModal_all{{ work_id }}" {% if not work.marked %}disabled{% endif %} >{% if work.marked %}Подробнее{% else %}Не оценено{% endif %}</button>
+  {% for criteria in criteries %}
+    {% with forloop.counter as criteriaCounter %}
+      {% for block in criteria.Блоки %}
+        {% with forloop.counter as blockCounter %}
 
-    <div class="modal fade" id="rateModal_all{{ work_id }}" tabindex="-1" aria-labelledby="rateModal_allLabel{{ work_id }}"
-      aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="rateModal_allLabel{{ work_id }}">Оцените работу</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            {% for judge in work.judges %}
-            <div class="mb-3">
-              <label class="form-label">{{ judge.fio }}</label>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#rateModal_{{ judge.id }}{{ work_id }}">Подробнее</button>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-    
-  {% for judge in work.judges %}
-    {% include 'judge/mark_judge.html' with judge=judge work_id=work_id championship=championship %}
-  {% endfor %}
+          {% include 'admin/mark_row.html' with championship=championship block=block criteriaCounter=criteriaCounter blockCounter=blockCounter %}
+
+          {% for subblock in block.Подблоки %}
+            {% with forloop.counter as subblockCounter %}
+
+              {% if subblock|get:"№" %}
+
+                {% include 'admin/mark_row.html' with block=block criteriaCounter=criteriaCounter blockCounter=blockCounter %}
+
+              {% else %}
+
+                {% with subblock as block %}
+                  {% include 'admin/mark_row.html' with block=block criteriaCounter=criteriaCounter blockCounter=blockCounter subblockCounter=subblockCounter %}
+                {% endwith %}
+
+                {% for subsubblock in subblock.Подблоки %}
+                  {% with forloop.counter as subsubblockCounter %}
+                    {% with subsubblock as block %}
+                      {% include 'admin/mark_row.html' with block=block criteriaCounter=criteriaCounter blockCounter=blockCounter subblockCounter=subblockCounter subsubblockCounter=subsubblockCounter %}
+                    {% endwith %}
+                  {% endwith %}
+                {% endfor %}
+
+              {% endif %}
+
+            {% endwith %}
+          {% endfor %}
+
+        {% endwith %}
+      {% endfor %}
+    {% endwith %}
   {% endfor %}
 </div>
-
-
 {% endif %}
 
 {% endblock %}

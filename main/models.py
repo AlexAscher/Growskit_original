@@ -89,6 +89,7 @@ class PhotoList(models.Model):
         ("mannequin_hand", "манекен-рука"),
         ("modeling", "моделирование"),
         ("poster", "постер"),
+        ("arched_modeling_upper_forms", "Арочное моделирование на верхние формы")
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -164,7 +165,7 @@ class ProfileParticipant(models.Model):
 class ProfileJudge(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=user_directory_path)
-    isLeader = models.BooleanField(default=False)
+    is_leader = models.BooleanField(default=False)
 
     fio = models.CharField(max_length=150)
     phone = models.CharField(max_length=150)

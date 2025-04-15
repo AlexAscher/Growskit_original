@@ -10,7 +10,9 @@
         data-bs-target="#rateModal_all{{ work_id }}" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        {% if only_edit and request.user.is_superuser or not only_edit %}
         <form method="post" action="{% url 'api_judge_rate_work' %}">
+        {% endif %}
           <input type="hidden" name="judge_id" value="{{ judge.id }}">
           <input type="hidden" name="work_id" value="{{ work_id }}">
           <input type="hidden" name="championship_id" value="{{ championship.id }}">
@@ -72,11 +74,11 @@
                       <td>{{ block_criteria.Критерий }} <span style="color: #6c757d" onmousemove="
                         showTooltip(event, '{{ block_criteria|get:"Описание критерия"}}')">?</span></td>
                       <td>{{ block_criteria|get:"Максимальная оценка" }}</td>
-                      <td><input type="number" name="criteries-{{ judge.id }}-{{ block_criteria|get:"№" }}-{{block_criteria.Критерий}}"
+                      <td><input type="number" name="criteries-{{ judge.id }}-{{ criteria.Блоки|get:0|get:"№" }}-{{ block_criteria|get:"№" }}-{{block_criteria.Критерий}}"
                         max="{{ block_criteria|get:"Максимальная оценка" }}" required
-                        value="{% with num=block_criteria|get:"№" crit=block_criteria.Критерий judge_id=judge.id %}{% format "criteries-{0}-{1}-{2}" judge_id num crit as f %}{{ work.marked|get:f }}{% endwith %}"></td>
-                      <td><input type="text" name="comments-{{ judge.id }}-{{ block_criteria|get:"№" }}-{{block_criteria.Критерий}}" required
-                          value="{% with num=block_criteria|get:"№" crit=block_criteria.Критерий judge_id=judge.id %}{% format "comments-{0}-{1}-{2}"  judge_id num crit as f %}{{ work.marked|get:f }}{% endwith %}"></td>
+                        value="{% with num=block_criteria|get:"№" numBlock=criteria.Блоки|get:0|get:"№" crit=block_criteria.Критерий judge_id=judge.id %}{% format "criteries-{0}-{1}-{2}-{3}" judge_id numBlock num crit as f %}{{ work.marked|get:f }}{% endwith %}"></td>
+                      <td><input type="text" name="comments-{{ judge.id }}-{{ criteria.Блоки|get:0|get:"№" }}-{{ block_criteria|get:"№" }}-{{block_criteria.Критерий}}" required
+                          value="{% with num=block_criteria|get:"№" numBlock=criteria.Блоки|get:0|get:"№" crit=block_criteria.Критерий judge_id=judge.id %}{% format "comments-{0}-{1}-{2}-{3}"  judge_id numBlock num crit as f %}{{ work.marked|get:f }}{% endwith %}"></td>
                     </tr>
                     {% endfor %}
                   </tbody>
@@ -86,8 +88,10 @@
             {% endfor %}
 
           </div>
+        {% if only_edit and request.user.is_superuser or not only_edit %}
           <button type="submit" class="btn btn-primary">Отправить</button>
         </form>
+        {% endif %}
       </div>
     </div>
   </div>
