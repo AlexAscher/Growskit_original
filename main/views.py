@@ -60,8 +60,7 @@ def get_active_championship(fail_silently=True, period: Literal['registration', 
         kwargs = {'last_date_registration__lte': datetime.date.today(), 'date__gte': datetime.date.today()}
     else:
         kwargs = {'date__gte': datetime.date.today()}
-    print(kwargs)
-    championship = Championship.objects.filter(**kwargs).first()
+    championship = Championship.objects.filter(is_active=True, **kwargs).first()
     if not championship and not fail_silently:
         raise Http404('Championship is not active')
 
@@ -380,18 +379,21 @@ def send_notify_of_days_left_registration(request: HttpRequest):
         
         championship = get_object_or_404(Championship, id=data.get('championship_id'))
 
+        days = championship.get_days_left()
+        if days < 0:
+            message = 'Регистрация закончилась'
+        elif days == 0:
+            message = 'Сегодня последний день регистрации'
+        else:
+            message = f'До конца регистрации осталось {days} дней'
+
         members = championship.participants.all()
         for member in members:
             subject = 'Чемпионат ' + championship.name
-            days = championship.get_days_left()
-            if days == 0:
-                message = 'Сегодня последний день регистрации'
-            else:
-                message = f'До конца регистрации осталось {days} дней'
             notify_user(subject, message, member.email)  # , tg=member.tg)
 
         notify_admin(
-            'Чемпионат ' + championship.name, f'До конца регистрации осталось {days} дней', 'ALL', tg=get_group_tg()
+            'Чемпионат ' + championship.name, message, 'ALL', tg=get_group_tg()
         )
 
         return JsonResponse({'status': 'OK', 'notified': members.count()})
@@ -891,6 +893,24 @@ def api_set_group_tg(request: HttpRequest):
         group_id = request.POST.get('group_id')
         request.user.profileadmin.telegram = group_id
         request.user.profileadmin.save()
+        return redirect('championship_admin')
+
+    raise BadRequest("Method not allowed")
+
+
+@login_required
+@user_passes_test(is_admin)
+def api_toggle_active_championship(request: HttpRequest):
+    if request.method == 'POST':
+        active_championship = Championship.objects.filter(is_active=True).first()
+        if active_championship:
+            active_championship.is_active = False
+            active_championship.save()
+
+        championship_id = request.POST.get('championship_id')
+        championship = get_object_or_404(Championship, id=championship_id)
+        championship.is_active = not championship.is_active
+        championship.save()
         return redirect('championship_admin')
 
     raise BadRequest("Method not allowed")
