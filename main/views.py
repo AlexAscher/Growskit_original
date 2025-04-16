@@ -902,12 +902,16 @@ def api_set_group_tg(request: HttpRequest):
 @user_passes_test(is_admin)
 def api_toggle_active_championship(request: HttpRequest):
     if request.method == 'POST':
+        data = request.POST
+        if 'championship_id' not in data:
+            data = json.loads(request.body.decode('utf-8') or '{}')
+
         active_championship = Championship.objects.filter(is_active=True).first()
         if active_championship:
             active_championship.is_active = False
             active_championship.save()
 
-        championship_id = request.POST.get('championship_id')
+        championship_id = data.get('championship_id')
         championship = get_object_or_404(Championship, id=championship_id)
         championship.is_active = not championship.is_active
         championship.save()
