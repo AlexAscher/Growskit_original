@@ -78,7 +78,7 @@
                             <input type="hidden" name="id" value="{{ championship.id }}">
                             <div class="mb-3">
                                 <label for="name{{ championship.id }}" class="form-label">Название чемпионата</label>
-                                <input type="text" name="id" id="name{{ championship.id }}" class="form-control" value="{{ championship.id }}" required>
+                                <input type="text" name="name" id="name{{ championship.id }}" class="form-control" value="{{ championship.name }}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="date{{ championship.id }}" class="form-label">Дата проведения</label>
@@ -134,4 +134,5 @@
         })
     }
 </script>
+
 {% endblock %}

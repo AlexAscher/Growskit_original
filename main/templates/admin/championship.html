@@ -1,9 +1,13 @@
+
 {% extends 'judge/base.html' %}
 {% load tags %}
 
 {% block title %}{{ championship }}{% endblock %}
 
 {% block content %}
+{% if request.user.is_superuser %}
+<a href="/participants_list/"><button class="btn btn-primary mb-3">Вернуться в админку</button></a>
+{% endif %}
 <h1 class="mb-4">Чемпионат {{ championship }}</h1>
 
 <div class="mb-4">
