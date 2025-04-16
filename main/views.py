@@ -843,7 +843,7 @@ def is_leader_judge(user):
 def current_championship_admin(request):
     championship = get_active_championship(False)
 
-    if datetime.date.today() < championship.last_date_registration:
+    if datetime.date.today() <= championship.last_date_registration:
         messages.error(request, 'Регистрация в чемпионате еще не закончена.')
         return redirect('championship_admin')
 
