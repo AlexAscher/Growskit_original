@@ -74,6 +74,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input type="hidden" name="id" value="{{ championship.id }}">
                             <div class="mb-3">
                                 <label for="name{{ championship.id }}" class="form-label">Название чемпионата</label>
                                 <input type="text" name="name" id="name{{ championship.id }}" class="form-control" value="{{ championship.name }}" required>

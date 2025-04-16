@@ -1,6 +1,7 @@
 import datetime
 import json
 import uuid
+from typing import Literal
 
 from django import forms
 from django.contrib import messages
@@ -52,12 +53,14 @@ from .support import (
 )
 
 
-def get_active_championship(fail_silently=True, period_registration=False):
-    today = datetime.date.today()
-    if period_registration:
-        kwargs = {'last_date_registration__gte': today}
-    else: # active
-        kwargs = {'last_date_registration__lt': today, 'date__gte': today}
+def get_active_championship(fail_silently=True, period: Literal['registration', 'judging', ''] = ''):
+    if period=='registration':
+        kwargs = {'last_date_registration__gte': datetime.date.today()}
+    elif period=='judging':
+        kwargs = {'last_date_registration__lte': datetime.date.today(), 'date__gte': datetime.date.today()}
+    else:
+        kwargs = {'date__gte': datetime.date.today()}
+    print(kwargs)
     championship = Championship.objects.filter(**kwargs).first()
     if not championship and not fail_silently:
         raise Http404('Championship is not active')
@@ -91,7 +94,7 @@ def save_with_new_user[T](
 ) -> tuple[T, bool]:
     championship: Championship = None
     if check_championship:
-        championship = get_active_championship(False, type_user in ['participant', 'leader'])
+        championship = get_active_championship(False, ['', 'registration'][type_user in ['participant', 'leader']])
 
     form = cls(request.POST, request.FILES)
     if not form.is_valid():
@@ -303,7 +306,7 @@ def uchastie(request: HttpRequest):
         if not form.is_valid():
             raise BadRequest(form.errors.as_text())
 
-        championship = get_active_championship(False, True)
+        championship = get_active_championship(False, 'registration')
 
         user, password, _ = create_user(form.cleaned_data['leader']['email'], 'leader')
         leader, _ = get_or_create_by_user(ProfileLeader, user, **form.cleaned_data['leader'])
@@ -445,6 +448,7 @@ def custom_redirect(request):
 @user_passes_test(is_admin)
 def participants_list(request):
     championship = get_active_championship()
+    print(championship)
     participants = ProfileParticipant.objects.filter(championship=championship)
     works_by_participant = {}
 
@@ -625,7 +629,7 @@ def upload_work(request):
     if request.COOKIES.get('participant_id'):
         user = User.objects.get(profileparticipant__id=request.COOKIES.get('participant_id'))
 
-    championship = get_active_championship(period_registration=True)
+    championship = get_active_championship(period='registration')
     if not championship:
         messages.error(request, 'Чемпионат не активен.')
         return redirect('participant_dashboard')
@@ -671,7 +675,7 @@ def upload_work(request):
 @login_required
 def update_work_count(request):
     if request.method == 'POST':
-        get_active_championship(period_registration=True)
+        get_active_championship(period='registration')
 
         add_work_count = request.POST.get('add_work_count')
         participant_id = request.COOKIES.get('participant_id')
