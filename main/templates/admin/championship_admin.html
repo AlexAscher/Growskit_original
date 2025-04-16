@@ -117,5 +117,16 @@
             alert(`Произошла ошибка: (${resp.status}) ${data.message}`);
         }
     }
+
+    async function toggle_active_championship(championshipId) {
+        let url = "{% url 'api_toggle_active_championship' %}";
+        let resp = await fetch(url, { method: 'POST', body: `{"championship_id": "${championshipId}"}`, headers: { 'X-CSRFToken': '{{ csrf_token }}' }});
+        if (resp.status == 200) {
+            location.reload();
+        } else {
+            console.log(`Произошла ошибка: ${resp.statusText} (${resp.status})`);
+            console.log(await resp.text());
+        }
+    }
 </script>
 {% endblock %}
