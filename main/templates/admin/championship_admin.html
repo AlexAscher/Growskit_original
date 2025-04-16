@@ -62,7 +62,7 @@
                 <td>
                     <button class="btn btn-warning btn-sm" onclick="sendNotify('{{ championship.id }}')">Разослать напоминание</button>
                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editChampionshipModal{{ championship.id }}">Изменить</button>
-                    <button class="btn btn-sm btn-primary">Сделать активным</button>
+                    <button class="btn btn-sm btn-primary" onclick="toggle_active_championship('{{ championship.id }}')">{% if championship.is_active %}Сделать неактивным{% else %}Сделать активным{% endif %}</button>
                 </td>
             </tr>
                     <div class="modal fade" id="editChampionshipModal{{ championship.id }}" tabindex="-1" aria-labelledby="editChampionshipModalLabel{{ championship.id }}" aria-hidden="true">
@@ -117,6 +117,21 @@
         } else {
             alert(`Произошла ошибка: (${resp.status}) ${data.message}`);
         }
+    }
+
+    function toggle_active_championship(championshipId) {
+        let url = "{% url 'api_toggle_active_championship' %}";
+        let resp = fetch(url, { method: 'POST', body: `{"championship_id": "${championshipId}"}`, headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json; charset=utf-8'
+        }}).then(response => [response, response.json()]).then(([resp, data]) => {
+            if (resp.status == 200) {
+                location.reload();
+            } else {
+                console.log(`Произошла ошибка: ${resp.statusText} (${resp.status})`);
+                console.log(data);
+            }
+        })
     }
 </script>
 

@@ -42,6 +42,7 @@ urlpatterns = [
     path('api/sertificate_upload/', views.sertificate_upload, name='api_sertificate_upload'),
     path('api/judge_rate_work/', views.api_judge_rate_work, name='api_judge_rate_work'),
     path('api/set_group_tg', views.api_set_group_tg, name='api_set_group_tg'),
+    path('api/toggle_active_championship/', views.api_toggle_active_championship, name='api_toggle_active_championship'),
 ]
 
 if settings.DEBUG:

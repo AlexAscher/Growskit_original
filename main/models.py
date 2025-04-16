@@ -266,6 +266,7 @@ class Championship(models.Model):
     judges = models.ManyToManyField(User, blank=True, related_name='cu_judges')
     marks = models.ManyToManyField(Mark, blank=True, related_name='cu_marks')
     criteries = models.FileField(upload_to=championship_directory_path, null=True, blank=True)
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name + ' ' + str(self.date)
