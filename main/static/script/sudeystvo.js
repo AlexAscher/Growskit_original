@@ -78,3 +78,42 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const infoIcons = document.querySelectorAll(".info");
+
+  // Проверка на тач-устройства
+  const isTouchDevice = () =>
+    "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+  infoIcons.forEach((infoIcon) => {
+    const tooltip = infoIcon.nextElementSibling;
+
+    if (isTouchDevice()) {
+      // Используем touchstart для тач-устройств
+      infoIcon.addEventListener("touchstart", function (e) {
+        e.stopPropagation();
+        tooltip.classList.toggle("show-tooltip");
+      });
+    } else {
+      // Для обычных устройств используем hover
+      infoIcon.addEventListener("mouseenter", function () {
+        tooltip.classList.add("show-tooltip");
+      });
+
+      infoIcon.addEventListener("mouseleave", function () {
+        tooltip.classList.remove("show-tooltip");
+      });
+    }
+  });
+
+  // Скрытие по клику вне
+  document.addEventListener("touchstart", function (e) {
+    const tooltips = document.querySelectorAll(".tooltip-custom");
+    tooltips.forEach((tooltip) => {
+      if (!e.target.closest(".info")) {
+        tooltip.classList.remove("show-tooltip");
+      }
+    });
+  });
+});

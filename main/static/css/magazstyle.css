@@ -825,7 +825,7 @@ body {
 .rasskazat {
   margin-bottom: 5%;
 }
-@media (max-width: 1400px) {
+@media (max-width: 1399px) {
   .magazines {
     width: 600px;
     right: 3%;
@@ -838,12 +838,12 @@ body {
     margin-top: 15px;
   }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1199px) {
   .magazines {
     width: 500px;
   }
 }
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   .magazine {
     height: 746px;
     margin-bottom: 55%;
@@ -887,7 +887,7 @@ body {
     top: 34% !important;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .skitluxe {
     width: 100%;
   }
@@ -912,7 +912,7 @@ body {
     bottom: -100px;
   }
 }
-@media (max-width: 576px) {
+@media (max-width: 575px) {
   .magazine {
     padding: 0 8px;
   }

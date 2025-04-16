@@ -1400,12 +1400,12 @@ input[type="radio"]:checked + label .firstpacket {
 .remove-file-btn:hover {
   background-color: #f0f0f0;
 }
-@media (max-width: 1200px) {
+@media (max-width: 1199px) {
   .trophy {
     left: -41px;
   }
 }
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   .nomin-item img {
     top: 10px;
   }
@@ -1439,7 +1439,7 @@ input[type="radio"]:checked + label .firstpacket {
     margin-bottom: 5px;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .nomin-item img {
     top: -10px;
   }
@@ -1459,7 +1459,7 @@ input[type="radio"]:checked + label .firstpacket {
     padding: 17px;
   }
 }
-@media (max-width: 576px) {
+@media (max-width: 575px) {
   .form-buttons {
     gap: 10px;
   }
