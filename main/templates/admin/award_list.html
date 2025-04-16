@@ -46,7 +46,8 @@
             </td>
             <td>
                 {% if award.photo %}
-                <img src="{{ award.photo.url }}" alt="Фото" class="img-thumbnail" style="width: 100px; height: auto;">
+                <a href="{{ award.photo.url }}" data-fancybox="" >
+                    <img src="{{ award.photo.url }}" alt="Фото" class="img-thumbnail" style="width: 100px; height: auto;"></a>
                 {% else %}
                 Не загружено
                 {% endif %}

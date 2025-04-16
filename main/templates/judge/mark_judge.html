@@ -2,7 +2,7 @@
 
 <div class="modal fade" id="rateModal_{{ judge.id }}{{ work_id }}" tabindex="-1" aria-labelledby="rateModal_{{ judge.id }}{{ work_id }}Label"
   aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="rateModal_{{ judge.id }}{{ work_id }}Label">Оцените работу</h5>
@@ -24,25 +24,25 @@
               <div id="div_rating_{{ judge.id }}{{ work_id }}_criteria{{ forloop.counter }}">
                 <!-- {% state work_id False %} -->
                 {% for block in criteria.Блоки %}
-                  <h3>{{ block|get:"№" }}. {{ block.Блок }}</h3>
+                  <h4>{{ block|get:"№" }}. {{ block.Блок }}</h4>
                   {% if work.nomination|lower == block.Блок|lower %}
                     <!-- {% state work_id True %} -->
                   {% endif %}
 
                   {% for subblock in block.Подблоки %}
                     {% if subblock|get:"№" %}
-                      <h4>{{ subblock|get:"№" }}. {{ subblock.Блок }}</h4>
+                      <h5>{{ subblock|get:"№" }}. {{ subblock.Блок }}</h5>
                       {% if work.nomination|lower == subblock.Блок|lower %}
                         <!-- {% state work_id True %} -->
                       {% endif %}
                     {% else %}
-                      <h4>{{ subblock.Субназвание }}</h4>
+                      <h5>{{ subblock.Субназвание }}</h5>
                       {% if work.nomination|lower == subblock.Субназвание|lower %}
                         <!-- {% state work_id True %} -->
                       {% endif %}
 
                       {% for subsubblock in subblock.Подблоки %}
-                        <h5>{{ subsubblock|get:"№" }}. {{ subsubblock.Блок }}</h5>
+                        <h6>{{ subsubblock|get:"№" }}. {{ subsubblock.Блок }}</h6>
                         {% if work.nomination|lower == subsubblock.Блок|lower %}
                           <!-- {% state work_id True %} -->
                         {% endif %}

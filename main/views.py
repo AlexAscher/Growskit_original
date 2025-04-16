@@ -119,7 +119,14 @@ def save_with_new_user[T](
 
 
 def index(request):
-    return render(request, 'index.html')
+    championship = get_active_championship()
+    return render(
+        request,
+        'index.html',
+        {
+            'championship': championship,
+        },
+    )
 
 
 def magazine(request: HttpRequest):
