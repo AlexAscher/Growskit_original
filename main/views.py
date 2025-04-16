@@ -52,8 +52,13 @@ from .support import (
 )
 
 
-def get_active_championship(fail_silently=True):
-    championship = Championship.objects.filter(last_date_registration__gte=datetime.date.today()).first()
+def get_active_championship(fail_silently=True, period_registration=False):
+    today = datetime.date.today()
+    if period_registration:
+        kwargs = {'last_date_registration__gte': today}
+    else: # active
+        kwargs = {'last_date_registration__lt': today, 'date__gte': today}
+    championship = Championship.objects.filter(**kwargs).first()
     if not championship and not fail_silently:
         raise Http404('Championship is not active')
 
@@ -86,7 +91,7 @@ def save_with_new_user[T](
 ) -> tuple[T, bool]:
     championship: Championship = None
     if check_championship:
-        championship = get_active_championship(False)
+        championship = get_active_championship(False, type_user in ['participant', 'leader'])
 
     form = cls(request.POST, request.FILES)
     if not form.is_valid():
@@ -298,7 +303,7 @@ def uchastie(request: HttpRequest):
         if not form.is_valid():
             raise BadRequest(form.errors.as_text())
 
-        championship = get_active_championship(False)
+        championship = get_active_championship(False, True)
 
         user, password, _ = create_user(form.cleaned_data['leader']['email'], 'leader')
         leader, _ = get_or_create_by_user(ProfileLeader, user, **form.cleaned_data['leader'])
@@ -439,11 +444,12 @@ def custom_redirect(request):
 @login_required
 @user_passes_test(is_admin)
 def participants_list(request):
-    participants = ProfileParticipant.objects.all()
+    championship = get_active_championship()
+    participants = ProfileParticipant.objects.filter(championship=championship)
     works_by_participant = {}
 
     for participant in participants:
-        works = PhotoList.objects.filter(user=participant.user).order_by('work_id')
+        works = PhotoList.objects.filter(user=participant.user, championship=championship).order_by('work_id')
         grouped_works = {}
         for work in works:
             if work.work_id not in grouped_works:
@@ -457,7 +463,7 @@ def participants_list(request):
         {
             'participants': participants,
             'works_by_participant': works_by_participant,
-            'championship': get_active_championship(True),
+            'championship': championship,
             'statuses': STATUS_APPROVED,
         },
     )
@@ -467,26 +473,24 @@ def participants_list(request):
 @user_passes_test(is_admin)
 def judges_list(request):
     judges = ProfileJudge.objects.all()
-    latest_championship = get_active_championship(True)
+    championship = get_active_championship(True)
 
     if request.method == "POST":
-        if "criteries" in request.FILES:
+        if championship and "criteries" in request.FILES:
             criteries = request.FILES.get("criteries")
-            if latest_championship:
-                latest_championship.criteries = criteries
-                latest_championship.save()
+            championship.criteries = criteries
+            championship.save()
 
         if "status" in request.POST:
             judge: ProfileJudge = get_object_or_404(ProfileJudge, id=request.POST.get("id"))
-            approved = request.POST.get("status")
-            judge.approved = approved
+            judge.approved = request.POST.get("status")
             judge.save()
         return redirect("judges_list")
 
     return render(
         request,
         "admin/judges_list.html",
-        {"judges": judges, "latest_championship": latest_championship, "statuses": STATUS_APPROVED},
+        {"judges": judges, "latest_championship": championship, "statuses": STATUS_APPROVED},
     )
 
 
@@ -621,7 +625,7 @@ def upload_work(request):
     if request.COOKIES.get('participant_id'):
         user = User.objects.get(profileparticipant__id=request.COOKIES.get('participant_id'))
 
-    championship = get_active_championship()
+    championship = get_active_championship(period_registration=True)
     if not championship:
         messages.error(request, 'Чемпионат не активен.')
         return redirect('participant_dashboard')
@@ -667,6 +671,8 @@ def upload_work(request):
 @login_required
 def update_work_count(request):
     if request.method == 'POST':
+        get_active_championship(period_registration=True)
+
         add_work_count = request.POST.get('add_work_count')
         participant_id = request.COOKIES.get('participant_id')
         if not participant_id:
@@ -697,7 +703,7 @@ def leader_participant_list(request: HttpRequest):
         team__leader=leader, team__championship=get_active_championship(False)
     ).all()
     content = loader.render_to_string(
-        'leader/participant_list.html', {"participants": participants} | {'statuses': STATUS_APPROVED}, request, using=None
+        'leader/participant_list.html', {"participants": participants, 'statuses': STATUS_APPROVED}, request, using=None
     )
     resp = HttpResponse(content, None, None)
     resp.delete_cookie('participant_id')
@@ -760,7 +766,7 @@ def judge_championship(request):
 
     championship = get_active_championship(False)
 
-    if datetime.date.today() < championship.last_date_registration:
+    if datetime.date.today() <= championship.last_date_registration:
         messages.error(request, 'Регистрация в чемпионате еще не закончена.')
         return redirect('judge_welcome')
 
@@ -794,6 +800,10 @@ def api_judge_rate_work(request: HttpRequest):
 
     if request.method == 'POST':
         championship = get_active_championship(False)
+        if datetime.date.today() <= championship.last_date_registration:
+            messages.error(request, 'Регистрация в чемпионате еще не закончена.')
+            return redirect('judge_welcome')
+
         work_id = request.POST.get('work_id')
         work = uuid.UUID(work_id, version=4)
         marks = {}
@@ -843,7 +853,7 @@ def is_leader_judge(user):
 def current_championship_admin(request):
     championship = get_active_championship(False)
 
-    if datetime.date.today() < championship.last_date_registration:
+    if datetime.date.today() <= championship.last_date_registration:
         messages.error(request, 'Регистрация в чемпионате еще не закончена.')
         return redirect('championship_admin')
 
