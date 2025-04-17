@@ -1,6 +1,15 @@
 from django import forms
 
-from .models import *
+from .models import (
+    AwardRequest,
+    Championship,
+    JournalRequest,
+    ProfileJudge,
+    ProfileManager,
+    ProfileParticipant,
+    ProfileSponsor,
+    Sertificate,
+)
 
 
 class UchastieForm(forms.ModelForm):
@@ -26,17 +35,7 @@ class UchastieForm(forms.ModelForm):
 class SudeystvoForm(forms.ModelForm):
     class Meta:
         model = ProfileJudge
-        fields = [
-            'photo',
-            'fio',
-            'phone',
-            'email',
-            'address',
-            'address_sdek',
-            'vk',
-            'telegram',
-            'bio',
-        ]
+        fields = ['photo', 'fio', 'phone', 'email', 'address', 'address_sdek', 'vk', 'telegram', 'bio']
 
 
 class SponsorstvoForm(forms.ModelForm):
@@ -54,6 +53,7 @@ class SponsorstvoForm(forms.ModelForm):
             'bio',
             'need_mark_and_dogovor',
         ]
+
 
 class UchastieTeamForm(forms.Form):
     is_team = forms.CharField(required=True)
@@ -80,7 +80,7 @@ class UchastieTeamForm(forms.Form):
 
     def clean(self):
         cleaned_data = self.data.copy()
-        cleaned_data.update(self.files) # super().clean()
+        cleaned_data.update(self.files)  # super().clean()
         cleaned_data = cleaned_data.copy()
 
         # Создание словаря с данными руководителя
@@ -99,7 +99,7 @@ class UchastieTeamForm(forms.Form):
                 if field in ['fio_trainer', 'category_participant', 'count_work']:
                     ii -= 1
                 participant[field] = cleaned_data.getlist(field)[ii]
-            
+
             participants.append(participant)
 
         # Создание словаря с данными команды
@@ -108,18 +108,17 @@ class UchastieTeamForm(forms.Form):
             'team_name': cleaned_data.get('team_name'),
             'team_count': cleaned_data.get('team_count'),
             'leader': leader_data,
-            'participants': participants
+            'participants': participants,
         }
 
         return team_data
 
+
 class ManagerForm(forms.ModelForm):
     class Meta:
         model = ProfileManager
-        fields = [
-            'fio',
-            'referal_key',
-        ]
+        fields = ['fio', 'referal_key']
+
 
 class AwardRequestForm(forms.ModelForm):
     class Meta:
@@ -134,10 +133,9 @@ class AwardRequestForm(forms.ModelForm):
             'telegram',
             'photo',
             'bio',
-
             'nomination',
-            'from_journal',
         ]
+
 
 class JournaRequestForm(forms.ModelForm):
     class Meta:
@@ -151,42 +149,18 @@ class JournaRequestForm(forms.ModelForm):
             'vk',
             'telegram',
             'photo',
-
             'count_pages',
-            'need_instance',
-            'need_nomination',
+            'need_journal',
+            'need_cover',
             'need_cup_and_elite',
         ]
 
-class AddJudgeForm(forms.ModelForm):
-    class Meta:
-        model = ProfileJudge
-        fields = ['fio', 'phone', 'email']
-        widgets = {
-            'fio': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите ФИО'}),
-            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите телефон'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Введите email'}),
-        }
-        labels = {
-            'fio': 'ФИО',
-            'phone': 'Телефон',
-            'email': 'Email',
-        }
 
-class AddSponsorForm(forms.ModelForm):
+class SertificateForm(forms.ModelForm):
     class Meta:
-        model = ProfileSponsor
-        fields = ['fio', 'phone', 'email']
-        widgets = {
-            'fio': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите ФИО'}),
-            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите телефон'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Введите email'}),
-        }
-        labels = {
-            'fio': 'ФИО',
-            'phone': 'Телефон',
-            'email': 'Email',
-        }
+        model = Sertificate
+        fields = ['user', 'championship', 'file']
+
 
 class AddManagerForm(forms.ModelForm):
     class Meta:
@@ -196,7 +170,18 @@ class AddManagerForm(forms.ModelForm):
             'fio': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите ФИО'}),
             'referal_key': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите реферальный ключ'}),
         }
-        labels = {
-            'fio': 'ФИО',
-            'referal_key': 'Реферальный ключ',
+        labels = {'fio': 'ФИО', 'referal_key': 'Реферальный ключ'}
+
+
+class ChampionshipForm(forms.ModelForm):
+    class Meta:
+        model = Championship
+        fields = ['name', 'date', 'last_date_registration']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название чемпионата'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Введите дату начала'}),
+            'last_date_registration': forms.DateInput(
+                attrs={'class': 'form-control', 'placeholder': 'Введите дату окончания регистрации'}
+            ),
         }
+        labels = {'name': 'Название', 'date': 'Дата начала', 'last_date_registration': 'Дата окончания регистрации'}

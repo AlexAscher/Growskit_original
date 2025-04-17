@@ -3,7 +3,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const nextButtons = document.querySelectorAll(".next");
   const backButtons = document.querySelectorAll(".backButton");
 
-  let currentStep = 0;
+  // get # tag from path
+  const url = window.location.href;
+  var hash = url.split("#");
+  if (hash.length > 1) {
+    hash = hash[1];
+  } else {
+    hash = null;
+  }
+
+  let currentStep = hash? formContainers.length-1 : 0;
+  
 
   // Функция для отображения нужного контейнера
   function showStep(step) {

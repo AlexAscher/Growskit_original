@@ -1,0 +1,82 @@
+{% extends 'participant/base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Личный кабинет участника</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ participant.photo.url }}" alt="Фото участника" class="img-thumbnail">
+            </div>
+            <div class="col-md-8">
+                <p><strong>ФИО:</strong> {{ participant.fio }}</p>
+                <p><strong>Город:</strong> {{ participant.city }}</p>
+                <p><strong>Категория:</strong> {{ participant.get_category_participant_display }}</p>
+                <p><strong>ФИО тренера:</strong> {{ participant.fio_trainer|default:"Не указано" }}</p>
+                <p><strong>Телефон:</strong> {{ participant.phone }}</p>
+                <p><strong>Email:</strong> {{ participant.email }}</p>
+                <p><strong>Адрес:</strong> {{ participant.address }}</p>
+                <p><strong>Адрес СДЭК:</strong> {{ participant.address_sdek }}</p>
+                <p><strong>VK:</strong>
+                    {% if participant.vk %}
+                        <a href="{{ participant.vk }}" target="_blank">{{ participant.vk }}</a>
+                    {% else %}
+                        Не указано
+                    {% endif %}
+                </p>
+                <p><strong>Telegram:</strong>
+                    {% if participant.telegram %}
+                        <a href="{{ participant.telegram }}" target="_blank">{{ participant.telegram }}</a>
+                    {% else %}
+                        Не указано
+                    {% endif %}
+                </p>
+                <p><strong>О себе:</strong> {{ participant.bio|default:"Не указано" }}</p>
+                <p><strong>Оплачено работ:</strong> {{ participant.count_work }}</p>
+                <p><strong>Статус:</strong> {{ participant.get_approved_display }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if awards %}
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Напоминаем, вы также участвуете в премии:</h5>
+        <ul>
+            {% for award in awards %}
+                <li>
+                    <strong>Номинация:</strong> {{ award.get_nomination_display }}<br>
+                    <strong>ФИО:</strong> {{ award.fio }}<br>
+                    <strong>Телефон:</strong> {{ award.phone }}<br>
+                    <strong>Адрес:</strong> {{ award.address }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+
+{% if journals %}
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Напоминаем, вы также участвуете в журнале:</h5>
+        <ul>
+            {% for journal in journals %}
+                <li>
+                    <strong>ФИО:</strong> {{ journal.fio }}<br>
+                    <strong>Телефон:</strong> {{ journal.phone }}<br>
+                    <strong>Адрес:</strong> {{ journal.address }}<br>
+                    <strong>Количество страниц:</strong> {{ journal.count_pages }}<br>
+                    <strong>Фото:</strong>
+                    <img src="{{ journal.photo.url }}" alt="Фото журнала" class="img-thumbnail" style="width: 100px; height: auto;">
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

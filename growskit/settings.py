@@ -10,10 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import datetime
+import json
+import logging
 import os
+from logging import DEBUG
 from pathlib import Path
+from socket import socket
 from dotenv import load_dotenv
 load_dotenv()
+
+from django.http import HttpRequest
+from django.core.handlers.wsgi import WSGIRequest
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,12 +32,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s%vcca_hnrdu(83k=%@@q)ynxxonmw8svf^fk6-@go$da^6d+t'
+SECRET_KEY = 'django-insecure-qgpu0x%gk4^30fj78e4r6!r7z*!udcva3_p_)2&a*(tx2a19zy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -79,8 +89,15 @@ WSGI_APPLICATION = 'growskit.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE'  : os.getenv('DB_ENGINE'),
+        'NAME'    : os.getenv('DB_NAME'),
+        'USER'    : os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST'    : os.getenv('DB_HOST'),
+        'PORT'    : os.getenv('DB_PORT'),
+    } if not (os.getenv('USE_LOCAL_DB') == 'True') else {
+        'ENGINE'  : 'django.db.backends.sqlite3',
+        'NAME'    : BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -106,9 +123,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru' # 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -118,7 +135,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -129,16 +147,129 @@ LOGIN_REDIRECT_URL = '/redirect/'
 LOGOUT_REDIRECT_URL = '/login/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_USE_SSL = True
-# EMAIL_PORT = 465
-EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_PORT = 2525
-EMAIL_USE_TLS = True
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'True'
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL') == 'True'
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-# DEFAULT_FROM_EMAIL = 'Your email'
-# DEFAULT_TO_EMAIL = 'Your email'
 EMAIL_LOGGING = True
+
+
+# Logging
+# https://docs.djangoproject.com/en/4.2/topics/logging/
+
+class LogModelHandler(logging.Handler):
+    @staticmethod
+    def strip_dirs(pathname: str):
+        for part in [str(BASE_DIR), 'site-packages', 'venv']:
+            pathname = pathname.split(part)[-1]
+
+        while pathname.startswith('/') or pathname.startswith('\\'):
+            pathname = pathname[1:]
+        
+        return pathname
+
+    @staticmethod
+    def record_to_data_for_model(record: logging.LogRecord):
+        dict = record.__dict__.copy()
+        for key in ['args', 'request', 'exc_info']:
+            if key in dict:
+                dict[key] = dict[key].__repr__()
+
+        record.__dict__.setdefault('description', '')
+
+        return {
+            'status': record.levelname,
+            'message': record.getMessage(),
+            'description': record.description,
+            'src': f'{LogModelHandler.strip_dirs(record.pathname)}:{record.lineno} ({record.funcName})',
+            'context': dict
+        }
+
+    def emit(self, record):
+        if 'LogModel' not in globals():
+            from main.models import Log
+
+        data = LogModelHandler.record_to_data_for_model(record)
+        try:
+            Log.objects.create(**data)
+        except TypeError as e:
+            print(e)
+            del data['context']
+            Log.objects.create(context=f'{"raw": "{str(record.__dict__)}"}', **data)
+
+class JsonEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if type(obj) is object: return str(obj)
+        if isinstance(obj, dict) or issubclass(type(obj), dict):
+            return obj
+        if isinstance(obj, str) or isinstance(obj, int) or isinstance(obj, float) or isinstance(obj, bool) or\
+                issubclass(type(obj), str) or issubclass(type(obj), int) or issubclass(type(obj), float) or\
+                issubclass(type(obj), bool) or obj is None:
+            return obj
+        if isinstance(obj, BaseException) or issubclass(type(obj), BaseException):
+            return str(obj)
+        if isinstance(obj, datetime.datetime) or isinstance(obj, datetime.date) or isinstance(obj, datetime.time) or\
+                issubclass(type(obj), datetime.datetime) or issubclass(type(obj), datetime.date) or issubclass(type(obj), datetime.time):
+            return obj.isoformat()
+        
+        return repr(obj)
+
+class JsonFormatter(logging.Formatter):
+    def format(self, record):
+        return json.dumps(record.__dict__, cls=JsonEncoder)
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'json': {
+            '()': 'growskit.settings.JsonFormatter',
+        },
+        'simple': {
+            'format': '{asctime} - {levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+            'level': 'DEBUG',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'growskit.log',
+            'formatter': 'json',
+            'level': 'INFO',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+        'main.database': {
+            'level': 'WARNING',
+            'class': 'growskit.settings.LogModelHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file', 'mail_admins', 'main.database'],
+            'level': 'INFO',
+        },
+        'main': {
+            'handlers': ['console', 'file', 'mail_admins', 'main.database'],
+            'level': 'DEBUG',
+        }
+    }
+}
+
+
+# bot
+# https://t.me/growskit_bot
+
+TGBOT_TOKEN = os.environ.get('TGBOT_TOKEN')
+if TGBOT_TOKEN is None:
+    print('TGBOT_TOKEN is not set')
