@@ -248,7 +248,7 @@ body {
 .popup-container.visible {
   opacity: 1;
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .popup h2 {
     font-size: 22px;
   }
@@ -272,7 +272,7 @@ body {
     margin-top: 15px;
   }
 }
-@media (max-width: 576px) {
+@media (max-width: 575px) {
   .leftside-popup h4 span {
     margin: 0px 4.21px;
   }

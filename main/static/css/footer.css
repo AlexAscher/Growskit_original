@@ -94,7 +94,7 @@ a {
 .bottom-plashki img {
   width: 240px;
 }
-@media (max-width: 1200px) {
+@media (max-width: 1199px) {
   .first-part-footer {
     display: flex;
     flex-direction: column;
@@ -122,7 +122,7 @@ a {
     justify-content: center;
   }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1199px) {
   .zdes {
     top: 71%;
   }
@@ -145,7 +145,7 @@ a {
     right: 4%;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .zdes {
     font-size: 15px;
     top: 78%;
@@ -157,7 +157,7 @@ a {
     font-size: 12px;
   }
 }
-@media (max-width: 576px) {
+@media (max-width: 575px) {
   .bottom-plashki {
     flex-direction: column;
     align-items: center;

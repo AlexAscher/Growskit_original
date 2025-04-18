@@ -393,6 +393,7 @@ nav button {
 }
 .about {
   margin-top: 5%;
+  position: relative;
 }
 .about-leftside {
   display: flex;
@@ -2115,7 +2116,63 @@ nav button {
 .fortop {
   margin-top: 48px;
 }
-@media (max-width: 992px) {
+.citata {
+  background: #efdaed;
+  border: 1px solid #000000;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 635px;
+  padding: 34px 50px 34px 145px;
+}
+.citata h2 {
+  font-family: Gilroy;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: black;
+  margin-bottom: 44px;
+}
+.citata h2 span {
+  font-family: Kreadon;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #cf8ece;
+}
+.citata h3 {
+  font-family: Gilroy;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #000000;
+  text-align: right;
+}
+.citata h4 {
+  font-family: Kreadon;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #000000;
+  text-align: right;
+}
+@media (max-width: 1399px) {
+  .citata {
+    padding: 34px 50px 34px 50px;
+    width: 450px;
+  }
+}
+@media (max-width: 991px) {
   .bigquestion {
     width: 200px;
     top: 71%;
@@ -2140,12 +2197,12 @@ nav button {
     margin-bottom: 75px;
   }
 }
-@media (max-width: 1400px) {
+@media (max-width: 1399px) {
   .etopromenya {
     width: 153px;
   }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1199px) {
   .reg-blocks img {
     width: 200px;
   }
@@ -2198,7 +2255,7 @@ nav button {
     margin-bottom: 30px;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .sidebar img {
     display: none;
   }
@@ -2224,7 +2281,7 @@ nav button {
     right: 5%;
   }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1199px) {
   .fullgradi > .gradi:nth-child(2) {
     top: 227px;
   }
@@ -2260,7 +2317,7 @@ nav button {
     top: 40%;
   }
 }
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   .fullgradi > .gradi:nth-child(1) {
     top: -4%;
     left: 12%;
@@ -2325,7 +2382,7 @@ nav button {
     background-size: 50%;
   }
 }
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   .rightkrug {
     width: 350px;
   }
@@ -2339,7 +2396,7 @@ nav button {
     margin-bottom: 0 !important;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .fullgradi > .gradi:nth-child(2),
   .fullgradi > .gradi:nth-child(1),
   .fullgradi > .gradi:nth-child(3),
@@ -2366,7 +2423,7 @@ nav button {
     margin-top: 60%;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .forlin {
     display: none !important;
   }
@@ -2392,7 +2449,7 @@ nav button {
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 575px) {
   .sidebar h3 {
     font-size: 13px;
   }
@@ -2563,7 +2620,7 @@ nav button {
     margin-top: 182px;
   }
 }
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   .vznos {
     border-top: 1px solid #efdaed;
     border-right: 1px solid #efdaed;
@@ -2602,7 +2659,7 @@ nav button {
     font-size: 13px;
   }
 }
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   .beg_stroka_parent1 {
     top: -135px;
   }

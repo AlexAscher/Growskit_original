@@ -280,6 +280,10 @@ body {
   margin-top: 95px;
   position: relative;
 }
+.forgap1 {
+  position: relative;
+  --bs-gutter-x: 50px;
+}
 .plashka {
   position: absolute;
   background: #ffffff;
@@ -666,7 +670,7 @@ textarea::placeholder {
   vertical-align: middle;
   color: white;
 }
-@media (max-width: 1200px) {
+@media (max-width: 1199px) {
   .zdes {
     top: 71%;
     right: 0;
@@ -688,7 +692,7 @@ textarea::placeholder {
     right: 4%;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .zdes {
     font-size: 15px;
     top: 78%;
@@ -703,7 +707,7 @@ textarea::placeholder {
     display: none;
   }
 }
-@media (max-width: 576px) {
+@media (max-width: 575px) {
   .zavitka,
   .zdes {
     display: none;
