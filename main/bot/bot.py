@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 
 import telebot
 from dotenv import load_dotenv
@@ -49,21 +50,11 @@ if __name__ == '__main__' and bot:
 
     bot.infinity_polling()
 else:
-    try:
-        proc = subprocess.Popen(
-            ['python', os.path.join(os.path.dirname(__file__), 'bot.py')],
-            shell=True,
-            stdin=None,
-            stdout=None,
-            stderr=None,
-            close_fds=True,
-        )
-    except Exception:
-        proc = subprocess.Popen(
-            ['python3.12', os.path.join(os.path.dirname(__file__), 'bot.py')],
-            shell=True,
-            stdin=None,
-            stdout=None,
-            stderr=None,
-            close_fds=True,
-        )
+    proc = subprocess.Popen(
+        [sys.executable, os.path.join(os.path.dirname(__file__), 'bot.py')],
+        shell=True,
+        stdin=None,
+        stdout=None,
+        stderr=None,
+        close_fds=True,
+    )
