@@ -19,7 +19,9 @@
     <div class="d-flex flex-wrap">
       {% for photo in work.photos %}
       <div class="me-2 mb-2">
-        <img src="{{ photo.photo.url }}" alt="Фото работы" class="img-thumbnail" style="width: 150px; height: 150px;">
+          <a href="{{ photo.photo.url }}" data-fancybox="gallery" title="Фото">
+              <img src="{{ photo.photo.url }}" alt="Фото работы" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+          </a>
       </div>
       {% endfor %}
     </div>
@@ -31,5 +33,15 @@
   {% endfor %}
 </div>
 {% endif %}
-
+<!-- Модальное окно для полноэкранного просмотра -->
+<div id="fullscreenModal" class="modal fade" tabindex="-1" aria-labelledby="fullscreenModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                <img id="fullscreenImage" src="" alt="Полноразмерное изображение" class="w-100">
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -114,8 +114,9 @@
                                 <div class="d-flex flex-wrap">
                                     {% for photo in work.photos %}
                                     <div class="me-2 mb-2">
-                                        <img src="{{ photo.photo.url }}" alt="Фото работы" class="img-thumbnail"
-                                            style="width: 150px; height: 150px;">
+                                        <a href="{{ photo.photo.url }}" data-fancybox="gallery{{ photo.work_id }}" title="Фото">
+                                            <img src="{{ photo.photo.url }}" alt="Фото работы" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                                        </a>
                                     </div>
                                     {% endfor %}
                                 </div>
@@ -136,4 +137,9 @@
         {% endfor %}
     </tbody>
 </table>
+<style>
+    .fancybox__container{
+        z-index: 1060 !important;
+    }
+</style>
 {% endblock %}
