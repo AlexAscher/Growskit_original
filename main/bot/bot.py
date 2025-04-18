@@ -58,7 +58,7 @@ else:
             stderr=None,
             close_fds=True,
         )
-    except:
+    except Exception:
         proc = subprocess.Popen(
             ['python3.12', os.path.join(os.path.dirname(__file__), 'bot.py')],
             shell=True,
