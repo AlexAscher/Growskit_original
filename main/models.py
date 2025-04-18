@@ -135,10 +135,10 @@ def create_admin_profile(sender, instance, created, **kwargs):
 
 class ProfileParticipant(models.Model):
     CATEGORY_PARTICIPANT = (
-        ("individual", "Индивидуальный участник"),
-        ("team-leader", "Руководитель команды"),
         ("junior", "Юниор"),
-        ("professional", "Профессионал"),
+        ("master", "Мастер"),
+        ("top-master", "Топ-Мастер"),
+        ("instructor", "Инструктор"),
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
