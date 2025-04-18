@@ -49,11 +49,21 @@ if __name__ == '__main__' and bot:
 
     bot.infinity_polling()
 else:
-    proc = subprocess.Popen(
-        ['python', os.path.join(os.path.dirname(__file__), 'bot.py')],
-        shell=True,
-        stdin=None,
-        stdout=None,
-        stderr=None,
-        close_fds=True,
-    )
+    try:
+        proc = subprocess.Popen(
+            ['python', os.path.join(os.path.dirname(__file__), 'bot.py')],
+            shell=True,
+            stdin=None,
+            stdout=None,
+            stderr=None,
+            close_fds=True,
+        )
+    except:
+        proc = subprocess.Popen(
+            ['python3.12', os.path.join(os.path.dirname(__file__), 'bot.py')],
+            shell=True,
+            stdin=None,
+            stdout=None,
+            stderr=None,
+            close_fds=True,
+        )
