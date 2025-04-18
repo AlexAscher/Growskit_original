@@ -170,10 +170,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
     fileInput.value = "";
   }
+  function attachEventListenersToForms() {
+    const forms = document.querySelectorAll(".big-forma");
 
+    forms.forEach((form) => {
+      const nameInput = form.querySelector(
+        'input[placeholder="Фамилия Имя Отчество"]'
+      );
+      const title = form.querySelector(".topform h2");
+
+      if (nameInput && title) {
+        // Проставляем начальное значение, если оно есть
+        if (nameInput.value.trim() !== "") {
+          title.textContent = nameInput.value.trim();
+        }
+
+        // Добавляем обработчик события input
+        nameInput.addEventListener("input", function () {
+          title.textContent =
+            nameInput.value.trim() || "Информация об участнике";
+        });
+      }
+    });
+  }
+  attachEventListenersToForms();
   // Обработчик для кнопки "Добавить форму"
   const addFormBtn = document.querySelector(".add-form-btn");
-  let formCounter = 3;
+  let formCounter = 5;
 
   function initializeQuestionIcons() {
     const questionIcons = document.querySelectorAll(".questionSvg");
@@ -407,8 +430,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Проверяем минимальное количество участников
-    if (validParticipantsCount < 5) {
-      alert("Для продолжения необходимо добавить минимум 5 участников.");
+    if (validParticipantsCount < 3) {
+      alert("Для продолжения необходимо добавить минимум 3 участников.");
     } else {
       // Если условие выполнено, можно продолжить (например, отправить форму или перейти к следующему шагу)
       alert("Условие выполнено! Переход к оплате...");
