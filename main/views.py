@@ -28,7 +28,7 @@ from .forms import (
     UchastieTeamForm,
 )
 from .models import (
-    STATUS_APPROVED,
+    STATUS,
     AwardRequest,
     Championship,
     JournalRequest,
@@ -477,7 +477,7 @@ def participants_list(request):
             'participants': participants,
             'works_by_participant': works_by_participant,
             'championship': championship,
-            'statuses': STATUS_APPROVED,
+            'statuses': STATUS,
         },
     )
 
@@ -503,7 +503,7 @@ def judges_list(request):
     return render(
         request,
         "admin/judges_list.html",
-        {"judges": judges, "latest_championship": championship, "statuses": STATUS_APPROVED},
+        {"judges": judges, "latest_championship": championship, "statuses": STATUS},
     )
 
 
@@ -532,7 +532,7 @@ def sponsors_list(request):
         sponsor.save()
         return redirect("sponsors_list")
 
-    return render(request, "admin/sponsors_list.html", {"sponsors": sponsors, "statuses": STATUS_APPROVED})
+    return render(request, "admin/sponsors_list.html", {"sponsors": sponsors, "statuses": STATUS})
 
 
 @login_required
@@ -716,7 +716,7 @@ def leader_participant_list(request: HttpRequest):
         team__leader=leader, team__championship=get_active_championship(False)
     ).all()
     content = loader.render_to_string(
-        'leader/participant_list.html', {"participants": participants, 'statuses': STATUS_APPROVED}, request, using=None
+        'leader/participant_list.html', {"participants": participants, 'statuses': STATUS}, request, using=None
     )
     resp = HttpResponse(content, None, None)
     resp.delete_cookie('participant_id')
