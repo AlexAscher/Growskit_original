@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Показать popup через 25 секунд
-  setTimeout(showPopup, 1000);
+  setTimeout(showPopup, 25000);
 
   // Закрытие popup при клике на "крестик"
   const closeButton = document.querySelector(".iks");

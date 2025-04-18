@@ -307,12 +307,12 @@ textarea {
 .input-margin-top {
   margin-top: 30px;
 }
-@media (max-width: 1200px) {
+@media (max-width: 1199px) {
   .nomin p {
     font-size: 14px !important;
   }
 }
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   .fodnone {
     display: none;
   }
@@ -347,7 +347,7 @@ textarea {
     margin-top: 0;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .raboti {
     margin-top: 0;
     margin-bottom: 10px;

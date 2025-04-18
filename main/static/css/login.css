@@ -162,7 +162,7 @@ a {
   color: #ffa0e5;
   text-decoration: none;
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .login-form {
     padding: 64px 41px;
   }
