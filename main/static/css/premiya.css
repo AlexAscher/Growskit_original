@@ -484,6 +484,46 @@ body {
   left: -25%;
   top: -29%;
 }
+.twentyone {
+  border: 1px solid #efdaed;
+  padding: 16px 16px 16px 89px;
+  border-radius: 20px;
+  position: relative;
+  width: 439px;
+  justify-self: center;
+}
+.imgSecondOne {
+  position: absolute;
+  left: -5%;
+  top: -29%;
+}
+.imgSecondTwo {
+  position: absolute;
+  left: -27%;
+  top: -29%;
+}
+.imgLgTwo {
+  width: 100px !important;
+  z-index: 3;
+}
+.imgLgOne {
+  width: 100px !important;
+  left: 11px !important;
+}
+@media (max-width: 767px) {
+  .imgSecondTwo {
+    left: -55px;
+  }
+}
+@media (max-width: 575px) {
+  .imgLgTwo,
+  .imgLgOne {
+    width: 75px !important;
+  }
+  .imgLgOne {
+    left: 32px !important;
+  }
+}
 .packets {
   margin-bottom: 94px;
 }
