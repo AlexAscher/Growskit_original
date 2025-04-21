@@ -90,6 +90,7 @@ class PhotoList(models.Model):
         ("modeling", "моделирование"),
         ("poster", "постер"),
         ("arched_modeling_upper_forms", "Арочное моделирование на верхние формы"),
+        ("poster_hand_from_cover", "Постер Руки с обложки:")
     )
 
     work_id = models.UUIDField()  # Уникальный идентификатор работы
@@ -274,6 +275,7 @@ class Championship(models.Model):
     participants = models.ManyToManyField(ProfileParticipant, blank=True)
     judges = models.ManyToManyField(ProfileJudge, blank=True)
     sponsors = models.ManyToManyField(ProfileSponsor, blank=True)
+    managers = models.ManyToManyField(ProfileManager, blank=True)
     marks = models.ManyToManyField(Mark, blank=True)
 
     sertificates = models.ManyToManyField(Sertificate, blank=True)
@@ -284,6 +286,18 @@ class Championship(models.Model):
     def is_active(self):
         return self.current_stage != 'closed'
 
+    @is_active.setter
+    def is_active(self, value: bool):
+        print(value)
+        if value:
+            self.current_stage = 'registration'
+        else:
+            self.current_stage = 'closed'
+
+    @staticmethod
+    def get_active():
+        return Championship.objects.filter(current_stage__ne='closed').first()
+
     def __str__(self):
         return self.name + ' ' + str(self.date)
 
@@ -292,7 +306,8 @@ class Championship(models.Model):
         self, work_id: str | uuid.UUID | None = None
     ) -> list[dict[str, uuid.UUID | float]]:  #  [{'work_id': work_id, 'average': average}]
         def average(work_id: uuid.UUID):
-            marks = Mark.objects.filter(work_id=work_id, championship=self)  # pylint: disable=no-member
+            marks = self.marks.filter(work_id=work_id)  # pylint: disable=no-member
+            print(self.marks)
             res = sum(mark.mark for mark in marks)
 
             if not marks.count():

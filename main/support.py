@@ -1,7 +1,11 @@
+import json
 import random
+import re
 import string
+from dataclasses import dataclass, field
 from typing import Literal
 
+import docx
 from django.conf import settings
 from django.contrib.auth.models import Group, User
 from django.core.mail import send_mail
@@ -104,3 +108,114 @@ def marks_to_form_value(marks: QuerySet['Mark', 'Mark']):
     print(marks_dict)
 
     return marks_dict
+
+
+def parse_criteries(file_path: str, dst_path: str = ""):
+    """
+    Parse criteria from .docx file and save it to .json file.
+
+    :param file_path: Path to .docx file
+    :param dst_path: Path to .json file. If empty, will be saved to \<file_path\>.json
+    :return: None
+    """
+
+    def to_number(string):
+        if not string:
+            return 0
+
+        if '.' in string:
+            return float(string)
+        return int(string)
+
+    @dataclass
+    class Block:
+        number: str
+        name: str
+        blocks: list["UnionBlock"] = field(default_factory=list)
+
+        def to_dict(self):
+            return {"№": to_number(self.number), "Блок": self.name, "Подблоки": [block.to_dict() for block in self.blocks]}
+
+    @dataclass
+    class SubBlock:
+        subname: str
+        blocks: list["UnionBlock"] = field(default_factory=list)
+
+        def to_dict(self):
+            return {"Подназвание": self.subname, "Подблоки": [block.to_dict() for block in self.blocks]}
+
+    UnionBlock = Block | SubBlock
+
+    def parse_text(text: str) -> list[UnionBlock]:
+        lines = text.split("\n")
+        blocks = []
+        current_subblock = None
+
+        for line in lines:
+            line = line.strip()
+            if line.startswith("КРИТЕРИИ"):
+                continue
+
+            if line.startswith("БЛОК"):
+                line = line.replace("БЛОК:", "").strip()
+
+            if re.match(r"\d+\.\d+", line):
+                match = re.match(r"(\d+)\.(\d+).?\ ?(.*)", line)
+                if match:
+                    number = match.group(1).strip()
+                    sub_number = match.group(2).strip()
+                    number = f"{number}.{sub_number}"
+                    name = match.group(3).strip()
+                    block = Block(number, name)
+                    current_subblock.blocks.append(block)
+            elif re.match(r"\d+\.", line):
+                match = re.match(r"(\d+)\. (.*)", line)
+                if match:
+                    number = match.group(1).strip()
+                    name = match.group(2).strip()
+                    block = Block(number, name)
+                    blocks.append(block)
+                    current_subblock = block
+            elif line.strip() != "":
+                block = Block("", line)
+                blocks.append(block)
+                current_subblock = block
+
+        return blocks
+
+    def parse_docx(file_path):
+        doc = docx.Document(file_path)
+        criteries = []
+
+        for table in doc.tables:
+            blocks = [block.to_dict() for block in parse_text(table.rows[0].cells[0].text)]
+            blocks_criteries = []
+            for row in table.rows[2:-1]:
+                number = row.cells[0].text.strip()
+                if number.endswith("."):
+                    number = number[:-1]
+                blocks_criteries.append(
+                    {
+                        "№": to_number(number),
+                        "Критерий": row.cells[1].text.strip(),
+                        "Описание критерия": row.cells[2].text.strip(),
+                        "Максимальная оценка": to_number(row.cells[3].text.strip().split(" ")[0]),
+                    }
+                )
+
+            criteries.append({"Блоки": blocks, "Критерии": blocks_criteries})
+
+        for critery in criteries:
+            for block in critery["Блоки"]:
+                if block["№"] == 0 and len(block["Подблоки"]) > 0:
+                    block["№"] = int(str(block["Подблоки"][0]["№"]).split(".", 1)[0])
+
+
+
+        return criteries
+
+    if not dst_path:
+        dst_path = file_path + ".json"
+    
+    with open(dst_path, "w", encoding="utf-8") as f:
+        json.dump({"Критерии": parse_docx(file_path)}, f, indent=4, ensure_ascii=False)

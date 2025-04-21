@@ -178,7 +178,7 @@ class AddManagerForm(forms.ModelForm):
 class ChampionshipForm(forms.ModelForm):
     class Meta:
         model = Championship
-        fields = ['name', 'date', 'last_date_registration']
+        fields = ['id', 'name', 'date', 'last_date_registration']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название чемпионата'}),
             'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Введите дату начала'}),
