@@ -105,7 +105,7 @@
                     </div>
                     <div class="modal-body">
                         {% if participant.id in works_by_participant %}
-                        <h2 class="mb-4">Работы</h2>
+                        <h2 class="mb-4">Работы (Категория: {{ participant.get_category_participant_display }})</h2>
                         <div class="list-group">
                             {% with works=works_by_participant|get:participant.id %}
                             {% for work_id, work in works.items %}

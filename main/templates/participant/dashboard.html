@@ -37,6 +37,7 @@
                 <p><strong>О себе:</strong> {{ participant.bio|default:"Не указано" }}</p>
                 <p><strong>Оплачено работ:</strong> {{ participant.count_work }}</p>
                 <p><strong>Статус:</strong> {{ participant.get_approved_display }}</p>
+                <button class="btn btn-primary ">Скачать сертификат</button>
             </div>
         </div>
     </div>
