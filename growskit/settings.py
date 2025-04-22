@@ -40,6 +40,9 @@ DEBUG = True
 
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '89.104.65.248', 'growskit.ru']
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = True
+
 
 
 # Application definition

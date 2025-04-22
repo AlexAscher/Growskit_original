@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.core.exceptions import BadRequest
 from django.db import models
+from django.db.models import Q
 from django.forms import ValidationError
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -69,7 +70,8 @@ def get_active_championship(fail_silently=True, period: Literal['registration', 
     return championship
 
 
-def get_or_create_by_user[T](model: type[T] | models.Model, user: User, **data) -> tuple[T, bool]:
+# def get_or_create_by_user[T](model: type[T] | models.Model, user: User, **data) -> tuple[T, bool]:
+def get_or_create_by_user(model: type | models.Model, user: User, **data) -> tuple[type, bool]:
     obj = model.objects.filter(user=user).first()
     if obj:
         return obj, False
@@ -86,13 +88,8 @@ def add_profile_to_championship(championship: Championship, profile, type_user: 
     championship.save()
 
 
-def save_with_new_user[T](
-    request: HttpRequest,
-    cls: type[T] | forms.ModelForm,
-    type_user: TYPE_USER,
-    check_championship=False,
-    need_notify=False,
-) -> tuple[T, bool]:
+# def save_with_new_user[T](request: HttpRequest, cls: type[T] | forms.ModelForm, type_user: TYPE_USER, check_championship=False, need_notify=False) -> tuple[T, bool]:
+def save_with_new_user(request: HttpRequest, cls: type | forms.ModelForm, type_user: TYPE_USER, check_championship=False, need_notify=False):
     championship: Championship = None
     if check_championship:
         championship = get_active_championship(False, ['', 'registration'][type_user in ['participant', 'leader']])
@@ -846,7 +843,7 @@ def judge_championship(request):
     with open(path_criteries, "r", encoding="utf-8") as f:
         criteries = json.load(f).get("Критерии")
 
-    works = championship.works.order_by('work_id')
+    works = championship.works.filter(~Q(user=request.user)).order_by('work_id')
     grouped_works: dict[str, dict[str, str | list]] = {}
     for work in works:
         if work.work_id not in grouped_works:

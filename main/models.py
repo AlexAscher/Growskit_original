@@ -26,7 +26,10 @@ from main.support import get_random_string
 
 
 class Log(models.Model):
-    STATUSES = [(key, key) for key in logging.getLevelNamesMapping() if key != logging.getLevelName(logging.NOTSET)]
+    try:
+        STATUSES = [(key, key) for key in logging.getLevelNamesMapping() if key != logging.getLevelName(logging.NOTSET)]
+    except AttributeError:
+        STATUSES = [(key, key) for key in ['CRITICAL', 'FATAL', 'ERROR', 'WARN', 'WARNING', 'INFO','DEBUG']]
 
     created = models.DateTimeField(default=datetime.datetime.now)
     status = models.CharField(max_length=20, choices=STATUSES)
@@ -136,6 +139,7 @@ CATEGORY_PARTICIPANT = (
     ("master", "Мастер"),
     ("top-master", "Топ-Мастер"),
     ("instructor", "Инструктор"),
+    ("premium", "Премиум"),
 )
 
 class ProfileBase():

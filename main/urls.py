@@ -45,5 +45,4 @@ urlpatterns = [
     path('api/change_stage_championship/', views.api_change_stage_championship, name='api_change_stage_championship'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.STATIC_URL, document_root='/main/static')
