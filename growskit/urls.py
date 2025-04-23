@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import os
 import re
 
 from django.conf import settings
@@ -22,13 +23,18 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.static import serve
 
+list_django_static = []
+if os.exists('/usr/local/lib/python3.12/dist-packages/django/contrib/admin/static/admin/'):
+    list_django_static = static('static/admin/', document_root='/usr/local/lib/python3.12/dist-packages/django/contrib/admin/static/admin/')
+
 urlpatterns = [
     re_path(r"^%s(?P<path>.*)$" % re.escape(settings.MEDIA_URL.lstrip("/")), serve, kwargs={"document_root": 'media'}),
     path('admin/', admin.site.urls),
-    *static('static/admin/', document_root='django/contrib/admin/static/admin/'),
+    *list_django_static,
     path('', include('main.urls')),
 ]
 
 #if settings.DEBUG:
 # break django (now we can get data from media/ path):
 #urlpatterns += [re_path(r"^%s(?P<path>.*)$" % re.escape(settings.MEDIA_URL.lstrip("/")), serve, kwargs={"document_root": 'media'})]
+# /usr/local/lib/python2.7/site-packages
