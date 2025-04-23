@@ -1,5 +1,7 @@
 import datetime
+import json
 import logging
+import os
 import uuid
 
 from django.contrib.auth.models import User
@@ -8,7 +10,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from main.support import get_random_string
+from .support import get_random_string, parse_criteries
 
 """
 БД:
@@ -82,30 +84,16 @@ def championship_directory_path(instance, filename):
 
 # Фотографии/проекты пользоваталя. Django неявно создаст ManyToMany связь
 class PhotoList(models.Model):
-    CHAMPIONSHIP_NOMINATIONS = (
-        ("hand_painted_nails", "Художественная роспись. Типсы."),
-        ("salon_designs", "Салонные дизайны на типсах."),
-        ("pedicure_designs", "Дизайн на педикюрных типсах"),
-        ("object_designs", "дизайн на предмете"),
-        ("clothing_designs", "дизайн одежды/обуви/головных уборов"),
-        ("free_style", "свободный стиль"),
-        ("mannequin_hand", "манекен-рука"),
-        ("modeling", "моделирование"),
-        ("poster", "постер"),
-        ("arched_modeling_upper_forms", "Арочное моделирование на верхние формы"),
-        ("poster_hand_from_cover", "Постер Руки с обложки:")
-    )
-
     work_id = models.UUIDField()  # Уникальный идентификатор работы
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     photo = models.FileField(upload_to=user_directory_path_championship)  # фото или видео
-    nomination = models.CharField(max_length=150, choices=CHAMPIONSHIP_NOMINATIONS)
+    nomination = models.CharField(max_length=150)
 
     def __str__(self):
         return f'{self.user.username} {self.photo.name} - {self.nomination}'  # pylint: disable=no-member
 
     def get_nomination_display(self):
-        return dict(self.CHAMPIONSHIP_NOMINATIONS).get(self.nomination)
+        return self.nomination
 
     @staticmethod
     def get_work(work_id):
@@ -331,32 +319,21 @@ class Championship(models.Model):
 
     def get_days_left(self):
         return (self.last_date_registration - datetime.date.today()).days
+    
+    def parse_criteries(self):
+        if not self.criteries:
+            return {}
+        
+        path_criteries = self.criteries.path + '.json' # pylint: disable=no-member
+        if not os.path.exists(path_criteries):
+            parse_criteries(self.criteries.path) # pylint: disable=no-member
+
+
+        with open(path_criteries, "r", encoding="utf-8") as f:
+            return json.load(f).get("Критерии") or {}
 
 
 class AwardRequest(models.Model):
-    AWARD_NOMINATIONS = (
-        ("best_company", "Лучшая компания"),
-        ("best_entrepreneur", "Лучший предприниматель"),
-        ("innovation_of_the_year", "Инновация года"),
-        ("startup_of_the_year", "Стартап года"),
-        ("leader_of_the_year", "Лидер года"),
-        ("best_brand", "Лучший бренд"),
-        ("best_beauty_product", "Лучший бьюти продукт"),
-        ("best_salon", "Лучший салон"),
-        ("best_eco_initiative", "Лучшая эко-инициатива"),
-        ("best_instructor", "Лучший инструктор"),
-        ("best_master", "Лучший мастер"),
-        ("best_beauty_blogger", "Лучший бьюти-блогер"),
-        ("legend_of_the_year", "Легенда года"),
-        ("best_speaker", "Лучший спикер"),
-        ("best_expert", "Лучший эксперт"),
-        ("best_trainer", "Лучший тренер"),
-        ("best_beauty_project", "Лучший бьюти проект"),
-        ("best_sponsor", "Лучший спонсор"),
-        ("best_online_offline_school", "Лучшая онлайн/оффлайн школа"),
-        ("growskit_growth_agility", "GROWSKIT ловкость роста"),
-        ("growing_business_awards", "GROWING BUSINESS AWARDS"),
-    )
     fio = models.CharField(max_length=150)
     email = models.EmailField()
     phone = models.CharField(max_length=150)
@@ -366,10 +343,10 @@ class AwardRequest(models.Model):
     telegram = models.URLField(null=True, blank=True)
     photo = models.ImageField(upload_to=user_directory_path)
     bio = models.TextField()
-    nomination = models.CharField(max_length=150, choices=AWARD_NOMINATIONS)
+    nomination = models.CharField(max_length=150)
 
     def get_nomination_display(self):
-        return dict(self.AWARD_NOMINATIONS)[self.nomination]
+        return self.nomination
 
     def __str__(self):
         return f'Award {self.fio} - {self.get_nomination_display()}'

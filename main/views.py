@@ -642,9 +642,13 @@ def award_list(request):
 @user_passes_test(is_approved)
 def participant_dashboard(request):
     if not request.COOKIES.get('participant_id'):
-        participant = ProfileParticipant.objects.get(user=request.user)
+        participant = ProfileParticipant.objects.filter(user=request.user).first()
     else:
-        participant = ProfileParticipant.objects.get(id=request.COOKIES.get('participant_id'))
+        participant = ProfileParticipant.objects.filter(id=request.COOKIES.get('participant_id')).first()
+    
+    if not participant:
+        messages.error(request, 'Вы не являетесь участником.')
+        return redirect('/')
 
     awards = AwardRequest.objects.filter(email=participant.email)
     journals = JournalRequest.objects.filter(email=participant.email)
@@ -664,18 +668,16 @@ def participant_dashboard(request):
 @login_required
 @user_passes_test(is_approved)
 def upload_work(request):
-    try:
-        if not request.COOKIES.get('participant_id'):
-            participant = ProfileParticipant.objects.get(user=request.user)
-        else:
-            participant = ProfileParticipant.objects.get(id=request.COOKIES.get('participant_id'))
-    except ProfileParticipant.DoesNotExist:
+    if not request.COOKIES.get('participant_id'):
+        participant = ProfileParticipant.objects.filter(user=request.user).first()
+    else:
+        participant = ProfileParticipant.objects.filter(id=request.COOKIES.get('participant_id')).first()
+    
+    if not participant:
         messages.error(request, 'Вы не являетесь участником.')
         return redirect('participant_dashboard')
 
-    user = request.user
-    if request.COOKIES.get('participant_id'):
-        user = User.objects.get(profileparticipant__id=request.COOKIES.get('participant_id'))
+    user = participant.user
 
     championship = get_active_championship(period='registration')
     if not championship:
@@ -684,6 +686,11 @@ def upload_work(request):
     
     if request.method == 'POST':
         nomination = request.POST.get('nomination')
+        subnomination = request.POST.get('subnomination')
+        if subnomination:
+            nomination = subnomination
+            print(nomination)
+
         files = request.FILES.getlist('photos')
 
         uploaded_works_count = (
@@ -701,6 +708,8 @@ def upload_work(request):
 
         return redirect('upload_work')
 
+    criteries = championship.parse_criteries()
+
     works = PhotoList.objects.filter(user=user, championship=championship).order_by('work_id')
     grouped_works = {}
     for work in works:
@@ -715,7 +724,7 @@ def upload_work(request):
             'is_leader': (True if request.COOKIES.get('participant_id') else False),
             'participant': participant,
             'grouped_works': grouped_works,
-            'nominations': PhotoList.CHAMPIONSHIP_NOMINATIONS,
+            'criteries': criteries,
         },
     )
 
@@ -835,13 +844,7 @@ def judge_championship(request):
         messages.error(request, 'Регистрация в чемпионате еще не закончена.')
         return redirect('judge_welcome')
 
-    path_criteries = championship.criteries.path + '.json'
-    if not os.path.exists(path_criteries):
-        parse_criteries(championship.criteries.path)
-
-
-    with open(path_criteries, "r", encoding="utf-8") as f:
-        criteries = json.load(f).get("Критерии")
+    criteries = championship.parse_criteries()
 
     works = championship.works.filter(~Q(user=request.user)).order_by('work_id')
     grouped_works: dict[str, dict[str, str | list]] = {}
@@ -934,12 +937,7 @@ def current_championship_admin(request):
         messages.error(request, 'Регистрация в чемпионате еще не закончена.')
         return redirect('championship_admin')
 
-    path_criteries = championship.criteries.path + '.json'
-    if not os.path.exists(path_criteries):
-        parse_criteries(championship.criteries.path)
-
-    with open(path_criteries, "r", encoding="utf-8") as f:
-        criteries = json.load(f).get("Критерии")
+    criteries = championship.parse_criteries()
 
     works = championship.works.order_by('work_id')
     grouped_works: dict[str, dict[str, str | list]] = {}
