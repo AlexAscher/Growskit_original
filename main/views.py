@@ -613,7 +613,7 @@ def championship_admin(request):
     championships = Championship.objects.all()
 
     if request.method == "POST":
-        instance = Championship.objects.get(id=request.POST.get("id"))
+        instance = Championship.objects.filter(id=request.POST.get("id")).first()
         form = ChampionshipForm(request.POST, request.FILES, instance=instance)
         if form.is_valid():
             form.save()
