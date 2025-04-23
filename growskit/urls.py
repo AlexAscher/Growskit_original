@@ -24,7 +24,7 @@ from django.urls import include, path, re_path
 from django.views.static import serve
 
 list_django_static = []
-if os.exists('/usr/local/lib/python3.12/dist-packages/django/contrib/admin/static/admin/'):
+if os.path.exists('/usr/local/lib/python3.12/dist-packages/django/contrib/admin/static/admin/'):
     list_django_static = static('static/admin/', document_root='/usr/local/lib/python3.12/dist-packages/django/contrib/admin/static/admin/')
 
 urlpatterns = [
