@@ -23,10 +23,11 @@ from django.urls import include, path, re_path
 from django.views.static import serve
 
 urlpatterns = [
+    re_path(r"^%s(?P<path>.*)$" % re.escape(settings.MEDIA_URL.lstrip("/")), serve, kwargs={"document_root": 'media'}),
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
 ]
 
 #if settings.DEBUG:
 # break django (now we can get data from media/ path):
-urlpatterns += [re_path(r"^%s(?P<path>.*)$" % re.escape(settings.MEDIA_URL.lstrip("/")), serve, kwargs={"document_root": 'media'})]
+#urlpatterns += [re_path(r"^%s(?P<path>.*)$" % re.escape(settings.MEDIA_URL.lstrip("/")), serve, kwargs={"document_root": 'media'})]

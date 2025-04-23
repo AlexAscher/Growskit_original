@@ -689,7 +689,6 @@ def upload_work(request):
         subnomination = request.POST.get('subnomination')
         if subnomination:
             nomination = subnomination
-            print(nomination)
 
         files = request.FILES.getlist('photos')
 
