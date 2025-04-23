@@ -1,3 +1,4 @@
+import datetime
 import json
 import random
 import re
@@ -55,6 +56,7 @@ def get_group_tg():
 
 def notify_user(subject: str, message: str, recipient: list[str] | str, fail_silently=False, tg: list[str] | str = ""):
     if len(recipient) > 0:
+        print(1, datetime.datetime.now())
         send_mail(
             subject,
             message,
@@ -62,6 +64,7 @@ def notify_user(subject: str, message: str, recipient: list[str] | str, fail_sil
             (list(set(recipient)) if isinstance(recipient, list) else [recipient]),
             fail_silently=fail_silently,
         )
+        print(2, datetime.datetime.now())
     if tg:
         notify_user_tg(subject, message, tg, fail_silently=fail_silently)
 
