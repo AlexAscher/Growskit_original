@@ -199,7 +199,25 @@ def magazine(request: HttpRequest):
 
 
 def participants(request):
-    return render(request, 'participants.html')
+    championship = Championship.get_active()
+    participants = []
+    leaders = []
+    if championship:
+        participants = championship.participants.all()
+
+        for participant in participants:
+            participant.nominations = championship.works.filter(user=participant.user).order_by('work_id')
+        
+        teams = championship.teams.all()
+        for team in teams:
+            leaders.append(team.leader)
+        leaders = list(set(leaders))
+    
+    return render(request, 'participants.html', {
+        'championship': championship,
+        'participants': participants,
+        'leaders': leaders
+    })
 
 
 def popup(request):
