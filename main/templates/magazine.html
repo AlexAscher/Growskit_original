@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>Журнал Growskit</title>
+  <link rel="icon" href="/static/img/tablogo.png" type="image/x-icon">
+  
   <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/static/css/magazstyle.css" />
   <link rel="stylesheet" href="/static/css/header.css">
@@ -29,7 +31,7 @@
           "
       /></a>
         <a href="/sponsorstvo/">Спонсорство</a>
-        <a href="/sudeystvo/">Судейство</a>
+        <a href="/sudeystvo/">Судьи</a>
         <a href="/participants/">Участники</a>
       </nav>
       <div class="buttons">
@@ -51,7 +53,7 @@
               <li class="mt-2"><a class="menu_item1" href="/premiya/" style="padding-right: 0px;">Премия</a></li>
               <li class="mt-2"><a class="menu_item1" href="/magazine/" style="padding-right: 0px;">Журнал</a></li>
               <li class="mt-2"><a class="menu_item1" href="/sponsorstvo/" style="padding-right: 0px;">Спонсорство</a></li>
-              <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal" data-bs-target="#exampleModal" style="padding-right: 0px;">Судейство</a></li>
+              <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal" data-bs-target="#exampleModal" style="padding-right: 0px;">Судьи</a></li>
               <li class="mt-2"><a class="menu_item1" href="/participants/" style="padding-right: 0px;">Участники</a></li>
               <li class="mt-2"><a class="menu_item1" href="/login/" style="padding-right: 0px;">Принять участие</a></li>
           </ul>
@@ -302,6 +304,7 @@
                   <div class="empty"></div>
                   <div class="empty"></div>
                   <div class="empty"></div>
+                  <div class="empty"></div>
                 </div>
               </div>
 
@@ -327,6 +330,7 @@
                 <div class="progress-bar1">
                   <div class="pink"></div>
                   <div class="pink"></div>
+                  <div class="empty"></div>
                   <div class="empty"></div>
                   <div class="empty"></div>
                 </div>
@@ -365,8 +369,53 @@
             </div>
             <div class="form-container">
               <div class="topofform">
+                <h2>Выбор номинации</h2>
+                <div class="progress-bar1">
+                  <div class="pink"></div>
+                  <div class="pink"></div>
+                  <div class="pink"></div>
+                  <div class="empty"></div>
+                  <div class="empty"></div>
+                </div>
+              </div>
+              <select name="nomination" required>
+                <option value="">Выберите номинацию</option>
+                <option value="best_company">Лучшая компания</option>
+                <option value="best_entrepreneur">Инновация года</option>
+                <option value="innovation_of_the_year">Лучший предприниматель</option>
+                <option value="startup_of_the_year">Стартап года</option>
+                <option value="leader_of_the_year">Лидер года</option>
+                <option value="best_brand">Лучший бренд</option>
+                <option value="best_beauty_product">Лучший бьюти продукт</option>
+                <option value="best_salon">Лучший салон</option>
+                <option value="best_eco_initiative">Лучшая эко-инициатива</option>
+                <option value="best_instructor">Лучший инструктор</option>
+                <option value="best_master">Лучший мастер</option>
+                <option value="best_beauty_blogger">Лучший бьюти-блогер</option>
+                <option value="legend_of_the_year">Легенда года</option>
+                <option value="best_speaker">Лучший спикер</option>
+                <option value="best_expert">Лучший эксперт</option>
+                <option value="best_trainer">Лучший тренер</option>
+                <option value="best_beauty_project">Лучший бьюти проект</option>
+                <option value="best_sponsor">Лучший спонсор</option>
+                <option value="best_online_offline_school">Лучшая онлайн/оффлайн школа</option>
+                <option value="creative_beauty_expert">Креативный бьюти эксперт</option>
+                <option value="growskit_growth_agility">GROWSKIT ловкость роста</option>
+              </select>
+              <p class="info-text1">Почтовый адрес и адрес СДЭК необходимы для отправки вам журнала, ваши
+                данные
+                в безопасности</p>
+              <textarea name="bio" id="" placeholder="Расскажите о своих достижениях и регалиях"></textarea>
+              <div class="form-buttons">
+                <button type="button" class="backButton">Назад</button>
+                <button type="button" class="next">К выбору пакета</button>
+              </div>
+            </div>
+            <div class="form-container">
+              <div class="topofform">
                 <h2>Выбор пакета</h2>
                 <div class="progress-bar1">
+                  <div class="pink"></div>
                   <div class="pink"></div>
                   <div class="pink"></div>
                   <div class="pink"></div>
@@ -500,10 +549,12 @@
                 <button type="submit" class="next">Оплатить</button>
               </div>
             </div>
+            
             <div class="form-container">
               <div class="topofform">
-                <h2>Выбор пакета</h2>
+                <h2>Оплата</h2>
                 <div class="progress-bar1">
+                  <div class="pink"></div>
                   <div class="pink"></div>
                   <div class="pink"></div>
                   <div class="pink"></div>
@@ -552,7 +603,7 @@
                 <h2>Спонсорство</h2>
               </a>
               <a href="/sudeystvo/">
-                <h2>Судейство</h2>
+                <h2>Судьи</h2>
               </a>
               <a href="/participants/">
                 <h2>Участники</h2>
@@ -594,12 +645,12 @@
             <h6>© 2025 GROWSKIT</h6>
           </div>
           <div class="rightfoot">
-            <a href="">
+            <a href="/static/img/politika_confidencialnosti.pdf">
               <h6 style="text-decoration: underline">
                 Политика конфиденциальности
               </h6>
             </a>
-            <a href="">
+            <a href="/static/img/oferta.pdf">
               <h6 style="text-decoration: underline">Оферта</h6>
             </a>
           </div>

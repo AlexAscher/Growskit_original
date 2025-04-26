@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Админская панель{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" rel="stylesheet">
     {% block extra_css %}{% endblock %}
 </head>
 
@@ -44,7 +45,8 @@
         <!-- Контент страницы -->
         {% endblock %}
     </div>
-
+    <!-- Подключение JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
 
@@ -73,6 +75,7 @@
                 });
         }
     </script>
+
     {% block extra_js %}{% endblock %}
 </body>
 

@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Получаем элемент sidebar
 // Получаем элементы
 const openSidebarButton = document.querySelector(".openSidebar");
-const sidebar = document.getElementById("sidebar11");
+const sidebar = document.getElementById("sidebar112");
 
 // Добавляем обработчик события на кнопку для открытия/закрытия сайдбара
 openSidebarButton.addEventListener("click", () => {

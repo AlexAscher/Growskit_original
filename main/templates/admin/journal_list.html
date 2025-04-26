@@ -48,7 +48,9 @@
             </td>
             <td>
                 {% if journal.photo %}
+                <a href="{{ journal.photo.url }}" data-fancybox="" >
                 <img src="{{ journal.photo.url }}" alt="Фото" class="img-thumbnail" style="width: 100px; height: auto;">
+                </a>
                 {% else %}
                 Не загружено
                 {% endif %}

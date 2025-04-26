@@ -5,6 +5,16 @@
 {% block content %}
 <h1 class="mb-4">Список судей</h1>
     <button class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#criteriesModal" {% if not latest_championship %} disabled {% endif %}>Добавить/Изменить критерии</button>
+    <!-- Элемент выбора статуса -->
+    <div class="mb-3">
+        <label for="statusFilter">Фильтр по статусу:</label>
+        <select id="statusFilter" class="form-select">
+            <option value="">Все</option>
+            {% for status in statuses %}
+                <option value="{{ status.0 }}">{{ status.1 }}</option>
+            {% endfor %}
+        </select>
+    </div>
     <table class="table">
     <thead>
         <tr>
@@ -13,18 +23,21 @@
             <th>Телефон</th>
             <th>Email</th>
             <th>Логин</th>
-            <th>Статус</th>
+            <th colspan="2">Статус</th>
         </tr>
     </thead>
     <tbody>
         {% for judge in judges %}
-        <tr>
+        <tr data-status="{{ judge.approved }}">
             <td>{{ forloop.counter }}</td>
             <td>{{ judge.fio }}</td>
             <td>{{ judge.phone }}</td>
             <td>{{ judge.email }}</td>
             <td>
                 <button class="btn btn-primary" onclick="sendAuth('{{ judge.email }}', this)">Выслать логин</button>
+            </td>
+            <td>
+                {{ judge.get_approved_display }}
             </td>
             <td>
                 <!-- Кнопка для открытия модального окна -->
@@ -106,5 +119,32 @@
             console.log(data.message);
         }
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const statusFilter = document.getElementById('statusFilter');
+    const tableRows = document.querySelectorAll('tbody tr');
+
+    // Функция для фильтрации строк
+    function filterRows() {
+        const selectedStatus = statusFilter.value;
+
+        tableRows.forEach(row => {
+            const rowStatus = row.getAttribute('data-status');
+
+            if (selectedStatus === '' || rowStatus === selectedStatus) {
+                row.style.display = ''; // Показать строку
+            } else {
+                row.style.display = 'none'; // Скрыть строку
+            }
+        });
+    }
+
+    // Обработчик события при изменении значения в выпадающем списке
+    statusFilter.addEventListener('change', filterRows);
+
+    // Вызов функции при загрузке страницы
+    filterRows();
+});
 </script>
 {% endblock %}

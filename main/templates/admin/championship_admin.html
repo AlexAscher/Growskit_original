@@ -62,6 +62,7 @@
                 <td>
                     <button class="btn btn-warning btn-sm" onclick="sendNotify('{{ championship.id }}')">Разослать напоминание</button>
                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editChampionshipModal{{ championship.id }}">Изменить</button>
+                    <button class="btn btn-sm btn-primary">Сделать активным</button>
                 </td>
             </tr>
                     <div class="modal fade" id="editChampionshipModal{{ championship.id }}" tabindex="-1" aria-labelledby="editChampionshipModalLabel{{ championship.id }}" aria-hidden="true">
@@ -74,6 +75,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input type="hidden" name="id" value="{{ championship.id }}">
                             <div class="mb-3">
                                 <label for="name{{ championship.id }}" class="form-label">Название чемпионата</label>
                                 <input type="text" name="name" id="name{{ championship.id }}" class="form-control" value="{{ championship.name }}" required>
@@ -117,4 +119,5 @@
         }
     }
 </script>
+
 {% endblock %}

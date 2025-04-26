@@ -1,0 +1,82 @@
+{% load tags %}
+
+<!-- {% format "div_rating_{0}_criteria{1}_block{2}_subblock{3}_subsubblock{4}" judge.id criteriaCounter blockCounter subblockCounter subsubblockCounter as div_rating %} -->
+<!-- {% state div_rating False %} -->
+<div id="{{ div_rating }}">
+  <h3>{{ block|get:"№" }}. {{ block.Блок }}</h3>
+  <h5>{{ work.nomination }}</h5> <!-- Уже человекочитаемое значение -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="col-8" >Работа</th>
+        <th>Средняя оценка</th>
+        <th>Действия</th>
+    </thead>
+    <tbody>
+      {% for work_id, work in grouped_works.items %}
+        {% if work.nomination|lower == block.Блок|lower %}
+        <!-- {% state div_rating True %} -->
+        <tr>
+          <td class="d-flex flex-wrap">
+            {% for photo in work.photos %}
+            <div class="me-2 mb-2">
+                <a href="{{ photo.photo.url }}" data-fancybox="gallery{{ photo.work_id }}" title="Фото">
+                    <img src="{{ photo.photo.url }}" alt="Фото работы" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                </a>
+            </div>
+            {% endfor %}
+          </td>
+          <td>{{ championship|get_marks_average:work_id |get:0|get:"average" }}</td>
+          <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#rateModal_all{{ work_id }}" {% if not work.marked %}disabled{% endif %} >{% if work.marked %}Подробнее{% else %}Не оценено{% endif %}</button></td>
+          <div class="modal fade" id="rateModal_all{{ work_id }}" tabindex="-1" aria-labelledby="rateModal_allLabel{{ work_id }}"
+              aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="rateModal_allLabel{{ work_id }}">Оцените работу</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  {% for judge in work.judges %}
+                  <div class="mb-3">
+                    <label class="form-label col-8">{{ judge.fio }}</label>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                      data-bs-target="#rateModal_{{ judge.id }}{{ work_id }}">Подробнее</button>
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tr>
+        {% endif %}
+      {% endfor %}
+  </table>
+  <!-- {% state div_rating as need %} -->
+  {% if need == False %}
+  <script>
+    document.getElementById("{{ div_rating }}").style.display = "none";
+  </script>
+  {% endif %}
+</div>
+
+{% for work_id, work in grouped_works.items %}
+  {% for judge in work.judges %}
+    {% include 'judge/mark_judge.html' with judge=judge work_id=work_id work=work %}
+  {% endfor %}
+{% endfor %}
+<!-- Модальное окно для полноэкранного просмотра -->
+<div id="fullscreenModal" class="modal fade" tabindex="-1" aria-labelledby="fullscreenModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                <img id="fullscreenImage" src="" alt="Полноразмерное изображение" class="w-100">
+            </div>
+        </div>
+    </div>
+</div>

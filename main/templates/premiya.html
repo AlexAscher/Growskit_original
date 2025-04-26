@@ -4,12 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>Премия Growskit</title>
+  <link rel="icon" href="/static/img/tablogo.png" type="image/x-icon">
   <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/static/css/premiya.css" />
   <link rel="stylesheet" href="/static/css/header.css">
-
   <link rel="stylesheet" href="/static/css/magazstyle.css">
+  <link rel="stylesheet" href="/static/css/premiya.css" />
   <link rel="stylesheet" href="/static/css/footer.css">
   <link rel="stylesheet" href="/static/css/reset.css" />
 </head>
@@ -29,7 +29,7 @@ transform: translateX(-50%);
 " /></a>
         <a href="/magazine/">Журнал</a>
         <a href="/sponsorstvo/">Спонсорство</a>
-        <a href="/sudeystvo/">Судейство</a>
+        <a href="/sudeystvo/">Судьи</a>
         <a href="/participants/">Участники</a>
       </nav>
       <div class="buttons">
@@ -53,7 +53,7 @@ transform: translateX(-50%);
           <li class="mt-2"><a class="menu_item1" href="/magazine/" style="padding-right: 0px;">Журнал</a></li>
           <li class="mt-2"><a class="menu_item1" href="/sponsorstvo/" style="padding-right: 0px;">Спонсорство</a></li>
           <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal"
-              data-bs-target="#exampleModal" style="padding-right: 0px;">Судейство</a></li>
+              data-bs-target="#exampleModal" style="padding-right: 0px;">Судьи</a></li>
           <li class="mt-2"><a class="menu_item1" href="/participants/" style="padding-right: 0px;">Участники</a></li>
           <li class="mt-2"><a class="menu_item1" href="/login/" style="padding-right: 0px;">Принять
               участие</a></li>
@@ -284,11 +284,21 @@ transform: translateX(-50%);
         </div>
         <div class="twenty">
           <img src="/static/img/twenty.png" alt="" class="imgtwenty" />
-          <h3>GROWSKIT ловкость роста</h3>
+          <h3>Креативный бьюти эксперт</h3>
           <h4>
-            для мастеров, которые завоевали наибольшее количество побед на чемпионатах
+            для мастеров и экспертов, которые преуспели в своей деятельности по нескольким направлениям бьюти индустрии
           </h4>
         </div>
+      </div>
+    </div>
+    <div class="flexboxxx1">
+      <div class="twentyone">
+        <img src="/static/img/one.png" alt="" class="imgSecondOne" />
+        <img src="/static/img/two.png" alt="" class="imgSecondTwo" />
+        <h3>GROWSKIT ловкость роста</h3>
+        <h4>
+          для мастеров, которые завоевали наибольшее количество побед на чемпионатах
+        </h4>
       </div>
     </div>
     </div>
@@ -441,11 +451,20 @@ transform: translateX(-50%);
         </div>
         <div class="col-md-6">
           <div class="nomin-item1">
-            <h3>GROWSKIT ловкость роста</h3>
-            <h4>для мастеров, которые завоевали наибольшее количество побед на чемпионатах</h4>
+            <h3>Креативный бьюти эксперт</h3>
+            <h4>для мастеров и экспертов, которые преуспели в своей деятельности по нескольким направлениям бьюти индустрии</h4>
             <img src="/static/img/twenty.png" alt="">
           </div>
         </div>
+        <div class="col-md-6">
+          <div class="nomin-item1">
+            <h3>GROWSKIT ловкость роста</h3>
+            <h4>для мастеров, которые завоевали наибольшее количество побед на чемпионатах</h4>
+            <img src="/static/img/two.png" alt="" class="imgLgTwo">
+            <img src="/static/img/one.png" alt="" class="imgLgOne">
+          </div>
+        </div>
+        
       </div>
 
     </div>
@@ -510,12 +529,12 @@ transform: translateX(-50%);
               <p>Печать в глянцевом журнале SKITLUXE (2 страницы)</p>
             </div>
             <div class="galochka galochaklast">
-              <img src="./img/galka.svg" alt="">
+              <img src="/static/img/galka.svg" alt="">
               <p>Экземпляр журнала в подарок</p>
             </div>
             <button class="priobr" onclick="window.location.href='#premiyaForma' ">
               <h6>Приобрести</h6>
-              <imgsrc=" /static/img/priobrarrow.svg" alt="" style="margin-top: 2px;">
+              <img src="/static/img/priobrarrow.svg" alt="" style="margin-top: 2px;">
             </button>
           </div>
         </div>
@@ -550,7 +569,7 @@ transform: translateX(-50%);
             </div>
             <button class="priobr" onclick="window.location.href='#premiyaForma' ">
               <h6>Приобрести</h6>
-              <imgsrc=" /static/img/priobrarrow.svg" alt="" style="margin-top: 2px;">
+              <img src=" /static/img/priobrarrow.svg" alt="" style="margin-top: 2px;">
             </button>
           </div>
         </div>
@@ -711,6 +730,7 @@ transform: translateX(-50%);
                 <option value="best_beauty_project">Лучший бьюти проект</option>
                 <option value="best_sponsor">Лучший спонсор</option>
                 <option value="best_online_offline_school">Лучшая онлайн/оффлайн школа</option>
+                <option value="creative_beauty_expert">Креативный бьюти эксперт</option>
                 <option value="growskit_growth_agility">GROWSKIT ловкость роста</option>
               </select>
               <p class="info-text1">Почтовый адрес и адрес СДЭК необходимы для отправки вам журнала, ваши
@@ -811,7 +831,7 @@ transform: translateX(-50%);
             </div>
             <div class="form-container" id="finish">
               <div class="topofform">
-                <h2>Выбор пакета</h2>
+                <h2>Оплата</h2>
                 <div class="progress-bar1">
                   <div class="pink"></div>
                   <div class="pink"></div>
@@ -862,7 +882,7 @@ transform: translateX(-50%);
                 <h2>Спонсорство</h2>
               </a>
               <a href="/sudeystvo/">
-                <h2>Судейство</h2>
+                <h2>Судьи</h2>
               </a>
               <a href="/participants/">
                 <h2>Участники</h2>
@@ -904,12 +924,12 @@ transform: translateX(-50%);
             <h6>© 2025 GROWSKIT</h6>
           </div>
           <div class="rightfoot">
-            <a href="">
+            <a href="/static/img/politika_confidencialnosti.pdf">
               <h6 style="text-decoration: underline">
                 Политика конфиденциальности
               </h6>
             </a>
-            <a href="">
+            <a href="/static/img/oferta.pdf">
               <h6 style="text-decoration: underline">Оферта</h6>
             </a>
           </div>

@@ -11,6 +11,7 @@
                 <th>#</th>
                 <th>ФИО</th>
                 <th>Реферальный ключ</th>
+                <th>Ссылка</th>
                 <th>Количество рефералов</th>
                 <th>Действия</th>
             </tr>
@@ -21,6 +22,7 @@
                 <td>{{ forloop.counter }}</td>
                 <td>{{ manager.fio }}</td>
                 <td>{{ manager.referal_key }}</td>
+                <td>https://growskit.ru/uchastie/?refer={{ manager.referal_key }}</td>
                 <td>{{ manager.referals }}</td>
                 <td>
                     <form method="post" style="display: inline;">

@@ -1,9 +1,13 @@
+
 {% extends 'judge/base.html' %}
 {% load tags %}
 
 {% block title %}{{ championship }}{% endblock %}
 
 {% block content %}
+{% if request.user.is_superuser %}
+<a href="/participants_list/"><button class="btn btn-primary mb-3">Вернуться в админку</button></a>
+{% endif %}
 <h1 class="mb-4">Чемпионат {{ championship }}</h1>
 
 <div class="mb-4">
@@ -13,111 +17,42 @@
 {% if grouped_works %}
 <h2 class="mb-4">Работы</h2>
 <div class="list-group">
-  {% for work_id, work in grouped_works.items %}
-  <div class="list-group-item">
-    <h5>{{ work.nomination }}</h5> <!-- Уже человекочитаемое значение -->
-    <div class="d-flex flex-wrap">
-      {% for photo in work.photos %}
-      <div class="me-2 mb-2">
-        <img src="{{ photo.photo.url }}" alt="Фото работы" class="img-thumbnail" style="width: 150px; height: 150px;">
-      </div>
-      {% endfor %}
-    </div>
-    <div>Средняя оценка: {{ championship|get_marks_average:work_id |get:0|get:"average" }}</div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-      data-bs-target="#rateModal{{ work_id }}" {% if not work.marked %}disabled{% endif %} >{% if work.marked %}Подробнее{% else %}Не оценено{% endif %}</button>
+  {% for criteria in criteries %}
+    {% with forloop.counter as criteriaCounter %}
+      {% for block in criteria.Блоки %}
+        {% with forloop.counter as blockCounter %}
 
-    <div class="modal fade" id="rateModal{{ work_id }}" tabindex="-1" aria-labelledby="rateModalLabel{{ work_id }}"
-      aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="rateModalLabel{{ work_id }}">Оцените работу</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form method="post" action="{% url 'api_judge_rate_work' %}">
-              <input type="hidden" name="work_id" value="{{ work_id }}">
-              <input type="hidden" name="championship_id" value="{{ championship.id }}">
-              <input type="hidden" name="only_edit" value="1">
-              {% csrf_token %}
-              <div class="mb-3">
-                <label for="rating{{ work_id }}" class="form-label">Оценка:</label>
-                {% for criteria in criteries %}
-                  <div id="div_rating{{ work_id }}_criteria{{ forloop.counter }}">
-                    <!-- {% state work_id False %} -->
-                    {% for block in criteria.Блоки %}
-                      <h3>{{ block|get:"№" }}. {{ block.Блок }}</h3>
-                      {% if work.nomination|lower == block.Блок|lower %}
-                        <!-- {% state work_id True %} -->
-                      {% endif %}
+          {% include 'admin/mark_row.html' with championship=championship block=block criteriaCounter=criteriaCounter blockCounter=blockCounter %}
 
-                      {% for subblock in block.Подблоки %}
-                        {% if subblock|get:"№" %}
-                          <h4>{{ subblock|get:"№" }}. {{ subblock.Блок }}</h4>
-                          {% if work.nomination|lower == subblock.Блок|lower %}
-                            <!-- {% state work_id True %} -->
-                          {% endif %}
-                        {% else %}
-                          <h4>{{ subblock.Субназвание }}</h4>
-                          {% if work.nomination|lower == subblock.Субназвание|lower %}
-                            <!-- {% state work_id True %} -->
-                          {% endif %}
+          {% for subblock in block.Подблоки %}
+            {% with forloop.counter as subblockCounter %}
 
-                          {% for subsubblock in subblock.Подблоки %}
-                            <h5>{{ subsubblock|get:"№" }}. {{ subsubblock.Блок }}</h5>
-                            {% if work.nomination|lower == subsubblock.Блок|lower %}
-                              <!-- {% state work_id True %} -->
-                            {% endif %}
-                          {% endfor %}
-                        {% endif %}
-                      {% endfor %}
-                    {% endfor %}
+              {% if subblock|get:"№" %}
 
-                    <!-- {% state work_id as need %} -->
-                    {% if need == False %}
-                    <script>
-                      document.getElementById("div_rating{{ work_id }}_criteria{{ forloop.counter }}").style.display = "none";
-                    </script>
-                    {% else %}
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>№</th>
-                          <th>Критерий</th>
-                          <th>Максимальная оценка</th>
-                          <th>Оценка</th>
-                          <th>Комментарий</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for block_criteria in criteria.Критерии %}
-                        <tr>
-                          <td>{{ block_criteria|get:"№" }}</td>
-                          <td>{{ block_criteria.Критерий }} <span style="color: #6c757d" onmousemove="
-                            showTooltip(event, '{{ block_criteria|get:"Описание критерия"}}')">?</span></td>
-                          <td>{{ block_criteria|get:"Максимальная оценка" }}</td>
-                          <td><input type="number" name="criteries-{{ block_criteria|get:"№" }}-{{block_criteria.Критерий}}"
-                            max="{{ block_criteria|get:"Максимальная оценка" }}" required
-                            value="{% with num=block_criteria|get:"№" crit=block_criteria.Критерий %}{% format "criteries-{0}-{1}" num crit as f %}{{ work.marked|get:f }}{% endwith %}"></td>
-                          <td><input type="text" name="comments-{{ block_criteria|get:"№" }}-{{block_criteria.Критерий}}" required
-                             value="{% with num=block_criteria|get:"№" crit=block_criteria.Критерий %}{% format "comments-{0}-{1}" num crit as f %}{{ work.marked|get:f }}{% endwith %}"></td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-                    {% endif %}
-                  </div>
+                {% include 'admin/mark_row.html' with block=block criteriaCounter=criteriaCounter blockCounter=blockCounter %}
+
+              {% else %}
+
+                {% with subblock as block %}
+                  {% include 'admin/mark_row.html' with block=block criteriaCounter=criteriaCounter blockCounter=blockCounter subblockCounter=subblockCounter %}
+                {% endwith %}
+
+                {% for subsubblock in subblock.Подблоки %}
+                  {% with forloop.counter as subsubblockCounter %}
+                    {% with subsubblock as block %}
+                      {% include 'admin/mark_row.html' with block=block criteriaCounter=criteriaCounter blockCounter=blockCounter subblockCounter=subblockCounter subsubblockCounter=subsubblockCounter %}
+                    {% endwith %}
+                  {% endwith %}
                 {% endfor %}
 
-              </div>
-              <button type="submit" class="btn btn-primary">Отправить</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+              {% endif %}
+
+            {% endwith %}
+          {% endfor %}
+
+        {% endwith %}
+      {% endfor %}
+    {% endwith %}
   {% endfor %}
 </div>
 {% endif %}
