@@ -62,7 +62,11 @@
                 <td>
                     <button class="btn btn-warning btn-sm" onclick="sendNotify('{{ championship.id }}')">Разослать напоминание</button>
                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editChampionshipModal{{ championship.id }}">Изменить</button>
-                    <button class="btn btn-sm btn-primary">Сделать активным</button>
+                    <select class="form-select form-select-sm" name="stage" id="stage{{ championship.id }}" onchange="changeStage('{{ championship.id }}', this.value)">
+                        {% for stage in stages %}
+                        <option value="{{ stage.0 }}" {% if stage.0 == championship.current_stage %} selected {% endif %}>{{ stage.1 }}</option>
+                        {% endfor %}
+                    </select>
                 </td>
             </tr>
                     <div class="modal fade" id="editChampionshipModal{{ championship.id }}" tabindex="-1" aria-labelledby="editChampionshipModalLabel{{ championship.id }}" aria-hidden="true">
@@ -82,11 +86,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="date{{ championship.id }}" class="form-label">Дата проведения</label>
-                                <input type="date" name="date" id="date{{ championship.id }}" class="form-control" value="{{ championship.date }}" required>
+                                <input type="date" name="date" id="date{{ championship.id }}" class="form-control form-control-date" data-original-date="{{ championship.date }}" value="{{ championship.date }}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="last_date_registration{{ championship.id }}" class="form-label">Дата окончания регистрации</label>
-                                <input type="date" name="last_date_registration" id="last_date_registration{{ championship.id }}" class="form-control" value="{{ championship.last_date_registration }}" required>
+                                <input type="date" name="last_date_registration" id="last_date_registration{{ championship.id }}" class="form-control form-control-date" data-original-date="{{ championship.last_date_registration }}" value="{{ championship.last_date_registration }}" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -118,6 +122,57 @@
             alert(`Произошла ошибка: (${resp.status}) ${data.message}`);
         }
     }
+
+    function changeStage(championshipId, stage) {
+        let url = "{% url 'api_change_stage_championship' %}";
+        let resp = fetch(url, { method: 'POST', body: `{"championship_id": "${championshipId}", "stage": "${stage}"}`, headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json; charset=utf-8'
+        }}).then(response => [response, response.json()]).then(([resp, data]) => {
+            if (resp.status == 200) {
+                location.reload();
+            } else {
+                console.log(`Произошла ошибка: ${resp.statusText} (${resp.status})`);
+                console.log(data);
+            }
+        })
+    }
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Функция для преобразования русского названия месяца в число (0-11)
+    function getMonthNumber(monthName) {
+        const months = [
+            "января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря"
+        ];
+        return months.indexOf(monthName.toLowerCase());
+    }
+
+    // Находим все элементы с классом form-control-date
+    const dateInputs = document.querySelectorAll('.form-control-date');
+    dateInputs.forEach(input => {
+        const originalDate = input.getAttribute('data-original-date'); // Получаем исходную дату
+
+        if (originalDate && originalDate.includes("г.")) {
+            // Разбиваем строку на части: день, месяц, год
+            const parts = originalDate.split(" ");
+            const day = parseInt(parts[0], 10); // День
+            const monthName = parts[1]; // Название месяца
+            const year = parseInt(parts[2].replace("г.", ""), 10); // Год
+
+            // Получаем числовой индекс месяца (0-11)
+            const month = getMonthNumber(monthName);
+
+            // Создаем объект Date и форматируем его в YYYY-MM-DD
+            if (!isNaN(day) && month !== -1 && !isNaN(year)) {
+                const dateObj = new Date(year, month, day);
+                const formattedDate = dateObj.toISOString().split("T")[0]; // Формат YYYY-MM-DD
+                input.value = formattedDate; // Устанавливаем новое значение
+            }
+        }
+    });
+});
 </script>
 
 {% endblock %}

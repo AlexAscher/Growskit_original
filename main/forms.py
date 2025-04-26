@@ -43,7 +43,6 @@ class SponsorstvoForm(forms.ModelForm):
         model = ProfileSponsor
         fields = [
             'fio',
-            'participant',
             'phone',
             'email',
             'address',
@@ -102,6 +101,9 @@ class UchastieTeamForm(forms.Form):
 
             participants.append(participant)
 
+        if len(participants) < 5:
+            raise forms.ValidationError('Команда должна состоять минимум из 5 участников')
+
         # Создание словаря с данными команды
         team_data = {
             'is_team': cleaned_data.get('is_team'),
@@ -159,7 +161,7 @@ class JournaRequestForm(forms.ModelForm):
 class SertificateForm(forms.ModelForm):
     class Meta:
         model = Sertificate
-        fields = ['user', 'championship', 'file']
+        fields = ['user', 'file']
 
 
 class AddManagerForm(forms.ModelForm):
@@ -176,7 +178,7 @@ class AddManagerForm(forms.ModelForm):
 class ChampionshipForm(forms.ModelForm):
     class Meta:
         model = Championship
-        fields = ['name', 'date', 'last_date_registration']
+        fields = ['id', 'name', 'date', 'last_date_registration']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название чемпионата'}),
             'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Введите дату начала'}),

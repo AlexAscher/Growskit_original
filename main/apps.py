@@ -10,3 +10,5 @@ class MainConfig(AppConfig):
 
         from .signals import create_groups
         post_migrate.connect(create_groups, sender=self)
+
+        import main.lookups

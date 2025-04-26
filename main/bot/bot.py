@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 
 import telebot
 from dotenv import load_dotenv
@@ -50,7 +51,7 @@ if __name__ == '__main__' and bot:
     bot.infinity_polling()
 else:
     proc = subprocess.Popen(
-        ['python', os.path.join(os.path.dirname(__file__), 'bot.py')],
+        [sys.executable, os.path.join(os.path.dirname(__file__), 'bot.py')],
         shell=True,
         stdin=None,
         stdout=None,
