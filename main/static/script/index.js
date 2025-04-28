@@ -67,38 +67,6 @@ window.addEventListener("resize", () => {
   equalizeHeights(".categ");
   equalizeHeights(".topcateg");
 });
-function updateCountdown() {
-  const targetDate = new Date("2025-06-07T00:00:00"); // 7 июня 2025
-  const now = new Date();
-  const timeDiff = targetDate - now;
-
-  if (timeDiff <= 0) {
-    document.querySelector(".textcube h4").innerHTML =
-      "00<span>д</span> 00<span>ч</span> 00<span>мин</span> 00<span>с</span>";
-    return;
-  }
-
-  const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor(
-    (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  );
-  const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-
-  document.querySelector(".textcube h4").innerHTML = `
-    ${days}<span>д</span>${hours}<span>ч</span>${minutes}<span>мин</span>${seconds}<span>с</span>
-  `;
-  document.querySelector(".gradi h6").innerHTML = `
-    ${days}<span>д</span>${hours}<span>ч</span>${minutes}<span>мин</span>${seconds}<span>с</span>
-  `;
-  document.querySelector(".popup h4").innerHTML = `
-    ${days}<span>д</span>${hours}<span>ч</span>${minutes}<span>мин</span>${seconds}<span>с</span>
-  `;
-}
-
-// Обновляем таймер каждую секунду
-setInterval(updateCountdown, 1000);
-updateCountdown();
 
 document.addEventListener("DOMContentLoaded", function () {
   const slider = document.getElementById("rangeSlider");
@@ -193,12 +161,15 @@ openSidebarButton.addEventListener("click", () => {
 });
 
 function updateCountdown() {
-  const deadline = new Date("2025-06-07T00:00:00");
+  const deadline = new Date("2025-04-27T00:00:00");
   const now = new Date();
   const diff = deadline - now;
 
   if (diff <= 0) {
     document.querySelector(".popup h4").innerHTML =
+      "0<span>д</span>0<span>ч</span>0<span>мин</span>0<span>с</span>";
+
+    document.querySelector(".textcube h4").innerHTML =
       "0<span>д</span>0<span>ч</span>0<span>мин</span>0<span>с</span>";
     return;
   }
@@ -208,9 +179,10 @@ function updateCountdown() {
   const minutes = Math.floor((diff / (1000 * 60)) % 60);
   const seconds = Math.floor((diff / 1000) % 60);
 
-  document.querySelector(
-    ".popup h4"
-  ).innerHTML = `${days}<span>д</span>${hours}<span>ч</span>${minutes}<span>мин</span>${seconds}<span>с</span>`;
+  const countdownHTML = `${days}<span>д</span>${hours}<span>ч</span>${minutes}<span>мин</span>${seconds}<span>с</span>`;
+
+  document.querySelector(".popup h4").innerHTML = countdownHTML;
+  document.querySelector(".textcube h4").innerHTML = countdownHTML;
 }
 
 // обновлять каждую секунду
@@ -218,3 +190,27 @@ setInterval(updateCountdown, 1000);
 
 // запустить сразу при загрузке
 updateCountdown();
+
+// Функция для переключения видимости дополнительной информации
+function toggleInfo(buttonId, blockId) {
+  const button = document.getElementById(buttonId);
+  const container = document.getElementById(blockId);
+  const extraInfo = container.querySelector(".extra-info");
+
+  if (extraInfo.style.display === "none" || extraInfo.style.display === "") {
+    extraInfo.style.display = "block";
+    button.textContent = "Свернуть";
+  } else {
+    extraInfo.style.display = "none";
+    button.textContent = "Подробнее";
+  }
+}
+
+// Назначение обработчиков событий для кнопок
+document.getElementById("toggleButton1").addEventListener("click", () => {
+  toggleInfo("toggleButton1", "block1");
+});
+
+document.getElementById("toggleButton2").addEventListener("click", () => {
+  toggleInfo("toggleButton2", "block2");
+});

@@ -553,3 +553,5 @@ document.addEventListener("input", function (event) {
 });
 
 document.addEventListener("DOMContentLoaded", calculateTotal);
+
+// Обработчик нажатия на кнопку "К оплате"

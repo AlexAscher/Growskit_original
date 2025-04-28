@@ -1242,6 +1242,13 @@ nav button {
 }
 
 .rules1 button {
+  border: 2px solid #ffffff;
+  border-radius: 30px;
+  padding: 16px 50px;
+  margin-bottom: 16px;
+  background-color: transparent;
+}
+.rules1 button a {
   font-family: Gilroy;
   font-weight: 500;
   font-size: 16px;
@@ -1249,11 +1256,6 @@ nav button {
   letter-spacing: 0%;
   vertical-align: middle;
   color: white;
-  border: 2px solid #ffffff;
-  border-radius: 30px;
-  padding: 16px 50px;
-  margin-bottom: 16px;
-  background-color: transparent;
 }
 .rules1 h4 {
   font-family: Gilroy;
@@ -1586,7 +1588,7 @@ nav button {
   font-size: 16px;
   line-height: 19.34px;
   color: white;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
 }
 .contacts {
   display: flex;
@@ -1654,7 +1656,7 @@ nav button {
   letter-spacing: 0%;
   vertical-align: middle;
   color: #efdaed;
-  margin-left: 5%;
+  margin-left: 15%;
   margin-bottom: 7%;
   width: 80%;
 }
@@ -1678,6 +1680,14 @@ nav button {
   transition: margin-bottom 0.8s ease-out; /* Плавное изменение margin-bottom */
 }
 .faq-answer span {
+  font-family: Gilroy;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #8e8e8e;
+}
+.faq-answer span a {
   font-family: Gilroy;
   font-weight: 400;
   font-size: 22px;
@@ -1717,6 +1727,11 @@ nav button {
   position: absolute;
   top: -48px;
   left: -16%;
+}
+@media (max-width: 991px) {
+  .bigquestion {
+    display: none;
+  }
 }
 .for-offset {
   margin-left: 10.666667%;
