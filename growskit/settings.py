@@ -17,12 +17,13 @@ import os
 from logging import DEBUG
 from pathlib import Path
 from socket import socket
+
 from dotenv import load_dotenv
+
 load_dotenv()
 
-from django.http import HttpRequest
 from django.core.handlers.wsgi import WSGIRequest
-
+from django.http import HttpRequest
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +39,10 @@ SECRET_KEY = 'django-insecure-qgpu0x%gk4^30fj78e4r6!r7z*!udcva3_p_)2&a*(tx2a19zy
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '89.104.65.248', 'growskit.ru', 'growskit', 'www.growskit.ru']
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = False
+
 
 
 # Application definition
@@ -188,7 +192,7 @@ class LogModelHandler(logging.Handler):
         }
 
     def emit(self, record):
-        if 'LogModel' not in globals():
+        if 'Log' not in globals():
             from main.models import Log
 
         data = LogModelHandler.record_to_data_for_model(record)

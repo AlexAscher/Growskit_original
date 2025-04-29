@@ -1,13 +1,10 @@
 
-{% extends 'judge/base.html' %}
+{% extends 'admin/base_admin.html' %}
 {% load tags %}
 
 {% block title %}{{ championship }}{% endblock %}
 
 {% block content %}
-{% if request.user.is_superuser %}
-<a href="/participants_list/"><button class="btn btn-primary mb-3">Вернуться в админку</button></a>
-{% endif %}
 <h1 class="mb-4">Чемпионат {{ championship }}</h1>
 
 <div class="mb-4">
@@ -27,21 +24,13 @@
           {% for subblock in block.Подблоки %}
             {% with forloop.counter as subblockCounter %}
 
-              {% if subblock|get:"№" %}
+              {% include 'admin/mark_row.html' with championship=championship block=subblock criteriaCounter=criteriaCounter blockCounter=blockCounter subblockCounter=subblockCounter %}
 
-                {% include 'admin/mark_row.html' with block=block criteriaCounter=criteriaCounter blockCounter=blockCounter %}
-
-              {% else %}
-
-                {% with subblock as block %}
-                  {% include 'admin/mark_row.html' with block=block criteriaCounter=criteriaCounter blockCounter=blockCounter subblockCounter=subblockCounter %}
-                {% endwith %}
+              {% if not subblock|get:"№" %}
 
                 {% for subsubblock in subblock.Подблоки %}
                   {% with forloop.counter as subsubblockCounter %}
-                    {% with subsubblock as block %}
-                      {% include 'admin/mark_row.html' with block=block criteriaCounter=criteriaCounter blockCounter=blockCounter subblockCounter=subblockCounter subsubblockCounter=subsubblockCounter %}
-                    {% endwith %}
+                    {% include 'admin/mark_row.html' with championship=championship block=subsubblock criteriaCounter=criteriaCounter blockCounter=blockCounter subblockCounter=subblockCounter subsubblockCounter=subsubblockCounter %}
                   {% endwith %}
                 {% endfor %}
 

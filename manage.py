@@ -15,6 +15,9 @@ def setup_mysql():
     db_user = os.getenv('DB_USER')
     db_password = os.getenv('DB_PASSWORD')
 
+    db: MySQLdb.Connection = None
+    cursor: MySQLdb.cursors.BaseCursor = None
+
     try:
         db = MySQLdb.connect(host=db_host, user=db_user, passwd=db_password)
         cursor: MySQLdb.cursors.BaseCursor = db.cursor()

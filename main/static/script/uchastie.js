@@ -555,3 +555,48 @@ document.addEventListener("input", function (event) {
 document.addEventListener("DOMContentLoaded", calculateTotal);
 
 // Обработчик нажатия на кнопку "К оплате"
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   const questionIcons = document.querySelectorAll(".questionSvg");
+
+//   if (questionIcons.length === 0) {
+//     console.error("Элементы .questionSvg не найдены в DOM.");
+//     return;
+//   }
+
+//   questionIcons.forEach((icon) => {
+//     const tooltip = icon.nextElementSibling;
+
+//     if (!tooltip || !tooltip.classList.contains("tooltip-custom")) {
+//       console.error(
+//         "Соседний элемент .tooltip-custom не найден для иконки:",
+//         icon
+//       );
+//       return;
+//     }
+
+//     const isTouchDevice = () =>
+//       "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+//     if (isTouchDevice()) {
+//       icon.addEventListener("touchstart", function (e) {
+//         e.stopPropagation();
+//         tooltip.classList.toggle("show-tooltip");
+//       });
+
+//       document.addEventListener("touchstart", function (e) {
+//         if (!e.target.closest(".questionSvg")) {
+//           tooltip.classList.remove("show-tooltip");
+//         }
+//       });
+//     } else {
+//       icon.addEventListener("mouseenter", function () {
+//         tooltip.classList.add("show-tooltip");
+//       });
+
+//       icon.addEventListener("mouseleave", function () {
+//         tooltip.classList.remove("show-tooltip");
+//       });
+//     }
+//   });
+// });

@@ -73,74 +73,27 @@
               <h2>Юниоры</h2>
             </div>
             <div class="row forgap">
+              {% for participant in participants %}
+              {% if participant.category_participant == 'junior' %}
               <div class="col-xxl-4 col-md-6">
                 <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
+                  <img width="100%"
+                    src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                    alt="{{ participant.fio }}"
                     class="participantimg"
                   />
                   <div class="r-ugol">
                     <div class="fio">
-                      <h2>Грачёва Валентина</h2>
+                      <h2>{{ participant.fio }}</h2>
                     </div>
                     <div class="nominatsia">
-                      <h3>nails</h3>
+                      <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {% endif %}
+              {% endfor %}
             </div>
           </div>
           <div class="category-row-container">
@@ -148,57 +101,27 @@
               <h2 style="color: #ffaff2">Мастера</h2>
             </div>
             <div class="row forgap">
+              {% for participant in participants %}
+              {% if participant.category_participant == 'master' %}
               <div class="col-xxl-4 col-md-6">
                 <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
+                  <img width="100%"
+                    src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                    alt="{{ participant.fio }}"
                     class="participantimg"
                   />
                   <div class="r-ugol">
                     <div class="fio">
-                      <h2>Грачёва Валентина</h2>
+                      <h2>{{ participant.fio }}</h2>
                     </div>
                     <div class="nominatsia">
-                      <h3>nails</h3>
+                      <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {% endif %}
+              {% endfor %}
             </div>
           </div>
           <div class="category-row-container">
@@ -206,125 +129,27 @@
               <h2 style="color: #fd84dc">Топ-Мастера</h2>
             </div>
             <div class="row forgap">
+              {% for participant in participants %}
+              {% if participant.category_participant == 'top-master' %}
               <div class="col-xxl-4 col-md-6">
                 <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
+                  <img width="100%"
+                    src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                    alt="{{ participant.fio }}"
                     class="participantimg"
                   />
                   <div class="r-ugol">
                     <div class="fio">
-                      <h2>Грачёва Валентина</h2>
+                      <h2>{{ participant.fio }}</h2>
                     </div>
                     <div class="nominatsia">
-                      <h3>nails</h3>
+                      <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {% endif %}
+              {% endfor %}
             </div>
           </div>
           <div class="category-row-container">
@@ -332,57 +157,27 @@
               <h2 style="color: #cf8ece">Инструкторы</h2>
             </div>
             <div class="row forgap">
+              {% for participant in participants %}
+              {% if participant.category_participant == 'instructor' %}
               <div class="col-xxl-4 col-md-6">
                 <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
+                  <img width="100%"
+                    src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                    alt="{{ participant.fio }}"
                     class="participantimg"
                   />
                   <div class="r-ugol">
                     <div class="fio">
-                      <h2>Грачёва Валентина</h2>
+                      <h2>{{ participant.fio }}</h2>
                     </div>
                     <div class="nominatsia">
-                      <h3>nails</h3>
+                      <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {% endif %}
+              {% endfor %}
             </div>
           </div>
           <div class="category-row-container">
@@ -390,57 +185,28 @@
               <h2 style="color: white">Судьи</h2>
             </div>
             <div class="row forgap">
+              
+              {% for participant in participants %}
+              {% if participant.category_participant == 'premium' %}
               <div class="col-xxl-4 col-md-6">
                 <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
+                  <img width="100%"
+                    src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                    alt="{{ participant.fio }}"
                     class="participantimg"
                   />
                   <div class="r-ugol">
                     <div class="fio">
-                      <h2>Грачёва Валентина</h2>
+                      <h2>{{ participant.fio }}</h2>
                     </div>
                     <div class="nominatsia">
-                      <h3>nails</h3>
+                      <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {% endif %}
+              {% endfor %}
             </div>
           </div>
           <div class="category-row-container">
@@ -448,57 +214,25 @@
               <h2 style="color: white">Руководители команд</h2>
             </div>
             <div class="row forgap">
+              {% for leader in leaders %}
               <div class="col-xxl-4 col-md-6">
                 <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
+                  <img width="100%"
+                    src="{% if leader.processed_photo %}{{ leader.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                    alt="{{ leader.fio }}"
                     class="participantimg"
                   />
                   <div class="r-ugol">
                     <div class="fio">
-                      <h2>Грачёва Валентина</h2>
+                      <h2>{{ leader.fio }}</h2>
                     </div>
                     <div class="nominatsia">
-                      <h3>nails</h3>
+                      <h3>{{ leader.nominations.0.get_nomination_display }}</h3>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img
-                    src="/static/img/participant.png"
-                    alt=""
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>Грачёва Валентина</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>nails</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {% endfor %}
             </div>
           </div>
         </div>

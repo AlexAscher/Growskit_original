@@ -1,5 +1,7 @@
 import datetime
+import json
 import logging
+import os
 import uuid
 
 from django.contrib.auth.models import User
@@ -8,7 +10,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from main.support import get_random_string
+from .support import get_random_string, parse_criteries
 
 """
 БД:
@@ -26,7 +28,10 @@ from main.support import get_random_string
 
 
 class Log(models.Model):
-    STATUSES = [(key, key) for key in logging.getLevelNamesMapping() if key != logging.getLevelName(logging.NOTSET)]
+    try:
+        STATUSES = [(key, key) for key in logging.getLevelNamesMapping() if key != logging.getLevelName(logging.NOTSET)]
+    except AttributeError:
+        STATUSES = [(key, key) for key in ['CRITICAL', 'FATAL', 'ERROR', 'WARN', 'WARNING', 'INFO','DEBUG']]
 
     created = models.DateTimeField(default=datetime.datetime.now)
     status = models.CharField(max_length=20, choices=STATUSES)
@@ -45,7 +50,7 @@ def user_directory_path(instance, filename):
     if user is None:
         if not hasattr(instance, 'email'):
             raise ValueError("instance должен иметь атрибут user или иметь атрибут email")
-    
+
         email = instance.email
         user = User.objects.filter(email=email).first()
         if not user:
@@ -79,47 +84,31 @@ def championship_directory_path(instance, filename):
 
 # Фотографии/проекты пользоваталя. Django неявно создаст ManyToMany связь
 class PhotoList(models.Model):
-    CHAMPIONSHIP_NOMINATIONS = (
-        ("hand_painted_nails", "Художественная роспись. Типсы."),
-        ("salon_designs", "Салонные дизайны на типсах."),
-        ("pedicure_designs", "Дизайн на педикюрных типсах"),
-        ("object_designs", "дизайн на предмете"),
-        ("clothing_designs", "дизайн одежды/обуви/головных уборов"),
-        ("free_style", "свободный стиль"),
-        ("mannequin_hand", "манекен-рука"),
-        ("modeling", "моделирование"),
-        ("poster", "постер"),
-        ("arched_modeling_upper_forms", "Арочное моделирование на верхние формы")
-    )
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    championship = models.ForeignKey('Championship', on_delete=models.CASCADE, null=True)
-    photo = models.FileField(upload_to=user_directory_path_championship)  # фото или видео
-    nomination = models.CharField(max_length=150, choices=CHAMPIONSHIP_NOMINATIONS, null=True, blank=True)
     work_id = models.UUIDField()  # Уникальный идентификатор работы
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    photo = models.FileField(upload_to=user_directory_path_championship)  # фото или видео
+    nomination = models.CharField(max_length=150)
 
     def __str__(self):
-        return f'{self.user.username} ({self.championship}) {self.photo.name} - {self.nomination}'
+        return f'{self.user.username} {self.photo.name} - {self.nomination}'  # pylint: disable=no-member
 
     def get_nomination_display(self):
-        return dict(self.CHAMPIONSHIP_NOMINATIONS).get(self.nomination)
+        return self.nomination
+
+    @staticmethod
+    def get_work(work_id):
+        return PhotoList.objects.filter(work_id=work_id)
 
 
 class Sertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    championship = models.ForeignKey('Championship', on_delete=models.CASCADE)
     file = models.FileField(upload_to=user_directory_path_championship)
 
     def __str__(self):
-        return f'Sertificate {self.user.username} ({self.championship}) {self.file.name}'
+        return f'Sertificate {self.user.username} {self.file.name}'
 
 
-STATUS_APPROVED = (
-    ("approved", "Одобрено"),
-    ("refused", "Отказано"),
-    ("wait", "На рассмотрении"),
-    ("blocked", "Заблокировано"),
-)
+STATUS = (("approved", "Одобрено"), ("refused", "Отказано"), ("wait", "На рассмотрении"), ("blocked", "Заблокировано"))
 
 
 class ProfileAdmin(models.Model):
@@ -133,16 +122,21 @@ def create_admin_profile(sender, instance, created, **kwargs):
         ProfileAdmin.objects.get_or_create(user=instance)
 
 
-class ProfileParticipant(models.Model):
-    CATEGORY_PARTICIPANT = (
-        ("individual", "Индивидуальный участник"),
-        ("team-leader", "Руководитель команды"),
-        ("junior", "Юниор"),
-        ("professional", "Профессионал"),
-    )
+CATEGORY_PARTICIPANT = (
+    ("junior", "Юниор"),
+    ("master", "Мастер"),
+    ("top-master", "Топ-Мастер"),
+    ("instructor", "Инструктор"),
+    ("premium", "Премиум"),
+)
 
+class ProfileBase():
+    pass
+
+class ProfileParticipant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=user_directory_path)
+    processed_photo = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
 
     fio = models.CharField(max_length=150)
     city = models.CharField(max_length=150)
@@ -156,7 +150,7 @@ class ProfileParticipant(models.Model):
     address_sdek = models.CharField(max_length=150)
     bio = models.TextField()
     count_work = models.IntegerField()
-    approved = models.CharField(max_length=150, choices=STATUS_APPROVED, default='approved')
+    approved = models.CharField(max_length=150, choices=STATUS, default='approved')
 
     def __str__(self):
         return str(self.fio)
@@ -165,6 +159,7 @@ class ProfileParticipant(models.Model):
 class ProfileJudge(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=user_directory_path)
+    processed_photo = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
     is_leader = models.BooleanField(default=False)
 
     fio = models.CharField(max_length=150)
@@ -175,20 +170,17 @@ class ProfileJudge(models.Model):
     vk = models.URLField(null=True, blank=True)
     telegram = models.URLField(null=True, blank=True)
     bio = models.TextField()
-    approved = models.CharField(max_length=150, choices=STATUS_APPROVED, default='wait')
+    approved = models.CharField(max_length=150, choices=STATUS, default='wait')
 
     def __str__(self):
         return 'Судья ' + self.fio
 
 
 class ProfileSponsor(models.Model):
-    CATEGORY_PARTICIPANT = (("individual", "Индивидуальный участник"), ("team-leader", "Руководитель команды"))
-
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
 
     fio = models.CharField(max_length=150)
-    participant = models.CharField(max_length=150, choices=CATEGORY_PARTICIPANT)
     phone = models.CharField(max_length=150)
     email = models.EmailField()
     address = models.CharField(max_length=150)
@@ -197,7 +189,7 @@ class ProfileSponsor(models.Model):
     telegram = models.URLField(null=True, blank=True)
     bio = models.TextField()
     need_mark_and_dogovor = models.BooleanField(default=False)
-    approved = models.CharField(max_length=150, choices=STATUS_APPROVED, default='wait')
+    approved = models.CharField(max_length=150, choices=STATUS, default='wait')
 
     def __str__(self):
         return 'Спонсор ' + self.fio
@@ -207,6 +199,7 @@ class ProfileSponsor(models.Model):
 class ProfileLeader(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to=user_directory_path)
+    processed_photo = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
 
     fio = models.CharField(max_length=150)
     city = models.CharField(max_length=150)
@@ -235,7 +228,6 @@ class ProfileManager(models.Model):
 
 # Комманда
 class Team(models.Model):
-    championship = models.ForeignKey('Championship', on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
     leader = models.ForeignKey(ProfileLeader, on_delete=models.CASCADE)
     members = models.ManyToManyField(ProfileParticipant)
@@ -246,12 +238,11 @@ class Team(models.Model):
 
 # Оценка судьи
 class Mark(models.Model):
-    judge = models.ForeignKey(ProfileJudge, on_delete=models.CASCADE, related_name='mu_judge')
     work_id = models.UUIDField()
+    critery = models.CharField(max_length=150)
     mark = models.FloatField()
-    critery = models.CharField(max_length=150, null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
-    championship = models.ForeignKey('Championship', on_delete=models.CASCADE, related_name='cu_marks')
+    judge = models.ForeignKey(ProfileJudge, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'({self.mark:.2f}) {self.work_id} ({self.judge})'
@@ -259,13 +250,48 @@ class Mark(models.Model):
 
 # Чемпионат
 class Championship(models.Model):
+    STAGES = [
+        ('preparation', 'Подготовка'),
+        ('registration', 'Регистрация'),
+        ('judging', 'Судейство'),
+        ('finishing', 'Завершение'),
+        ('closed', 'Закрыт'),
+    ]
+
     name = models.CharField(max_length=100)
     date = models.DateField(null=False)
     last_date_registration = models.DateField(null=False)
-    participants = models.ManyToManyField(ProfileParticipant, blank=True)
-    judges = models.ManyToManyField(User, blank=True, related_name='cu_judges')
-    marks = models.ManyToManyField(Mark, blank=True, related_name='cu_marks')
+    current_stage = models.CharField(max_length=150, choices=STAGES, default='preparation')
     criteries = models.FileField(upload_to=championship_directory_path, null=True, blank=True)
+
+    works = models.ManyToManyField(PhotoList, blank=True)
+
+    teams = models.ManyToManyField(Team, blank=True)
+    participants = models.ManyToManyField(ProfileParticipant, blank=True)
+    judges = models.ManyToManyField(ProfileJudge, blank=True)
+    sponsors = models.ManyToManyField(ProfileSponsor, blank=True)
+    managers = models.ManyToManyField(ProfileManager, blank=True)
+    marks = models.ManyToManyField(Mark, blank=True)
+
+    sertificates = models.ManyToManyField(Sertificate, blank=True)
+    awards = models.ManyToManyField('AwardRequest', blank=True)
+    journals = models.ManyToManyField('JournalRequest', blank=True)
+
+    @property
+    def is_active(self):
+        return self.current_stage != 'closed'
+
+    @is_active.setter
+    def is_active(self, value: bool):
+        print(value)
+        if value:
+            self.current_stage = 'registration'
+        else:
+            self.current_stage = 'closed'
+
+    @staticmethod
+    def get_active():
+        return Championship.objects.filter(current_stage__ne='closed').first()
 
     def __str__(self):
         return self.name + ' ' + str(self.date)
@@ -275,13 +301,14 @@ class Championship(models.Model):
         self, work_id: str | uuid.UUID | None = None
     ) -> list[dict[str, uuid.UUID | float]]:  #  [{'work_id': work_id, 'average': average}]
         def average(work_id: uuid.UUID):
-            marks = Mark.objects.filter(work_id=work_id, championship=self)  # pylint: disable=no-member
+            marks = self.marks.filter(work_id=work_id)  # pylint: disable=no-member
+            print(self.marks)
             res = sum(mark.mark for mark in marks)
 
             if not marks.count():
                 return 0
 
-            return (res / marks.count()).__round__(2)
+            return round(res / marks.count(), 2)
 
         if work_id:
             if not isinstance(work_id, uuid.UUID):
@@ -295,32 +322,21 @@ class Championship(models.Model):
 
     def get_days_left(self):
         return (self.last_date_registration - datetime.date.today()).days
+    
+    def parse_criteries(self):
+        if not self.criteries:
+            return {}
+        
+        path_criteries = self.criteries.path + '.json' # pylint: disable=no-member
+        if not os.path.exists(path_criteries):
+            parse_criteries(self.criteries.path) # pylint: disable=no-member
+
+
+        with open(path_criteries, "r", encoding="utf-8") as f:
+            return json.load(f).get("Критерии") or {}
 
 
 class AwardRequest(models.Model):
-    AWARD_NOMINATIONS = (
-        ("best_company", "Лучшая компания"),
-        ("best_entrepreneur", "Лучший предприниматель"),
-        ("innovation_of_the_year", "Инновация года"),
-        ("startup_of_the_year", "Стартап года"),
-        ("leader_of_the_year", "Лидер года"),
-        ("best_brand", "Лучший бренд"),
-        ("best_beauty_product", "Лучший бьюти продукт"),
-        ("best_salon", "Лучший салон"),
-        ("best_eco_initiative", "Лучшая эко-инициатива"),
-        ("best_instructor", "Лучший инструктор"),
-        ("best_master", "Лучший мастер"),
-        ("best_beauty_blogger", "Лучший бьюти-блогер"),
-        ("legend_of_the_year", "Легенда года"),
-        ("best_speaker", "Лучший спикер"),
-        ("best_expert", "Лучший эксперт"),
-        ("best_trainer", "Лучший тренер"),
-        ("best_beauty_project", "Лучший бьюти проект"),
-        ("best_sponsor", "Лучший спонсор"),
-        ("best_online_offline_school", "Лучшая онлайн/оффлайн школа"),
-        ("growskit_growth_agility", "GROWSKIT ловкость роста"),
-        ("growing_business_awards", "GROWING BUSINESS AWARDS"),
-    )
     fio = models.CharField(max_length=150)
     email = models.EmailField()
     phone = models.CharField(max_length=150)
@@ -330,10 +346,10 @@ class AwardRequest(models.Model):
     telegram = models.URLField(null=True, blank=True)
     photo = models.ImageField(upload_to=user_directory_path)
     bio = models.TextField()
-    nomination = models.CharField(max_length=150, choices=AWARD_NOMINATIONS)
+    nomination = models.CharField(max_length=150)
 
     def get_nomination_display(self):
-        return dict(self.AWARD_NOMINATIONS)[self.nomination]
+        return self.nomination
 
     def __str__(self):
         return f'Award {self.fio} - {self.get_nomination_display()}'

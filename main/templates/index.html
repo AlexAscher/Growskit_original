@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Чемпионат GROWSKIT</title>
     
+    <title>Чемпионат GROWSKIT</title>
+
     <link rel="icon" href="/static/img/tablogo.png" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/static/css/style.css" />
@@ -109,7 +111,7 @@
               <h3>Онлайн бьюти чемпионат</h3>
               <div class="date">
                 <img src="/static/icons/calendar.png" alt="" />
-                <h4>07.06.2025</h4>
+                <h4>{{ championship.date|date:"d.m.Y" }}</h4>
               </div>
               <div>
                 <a href="/login/">
@@ -166,7 +168,7 @@
             <h3>Онлайн бьюти чемпионат</h3>
               <div class="date">
                 <img src="/static/icons/calendar.png" alt="" />
-                <h4>07.06.2025</h4>
+                <h4>{{ championship.date|date:"d.m.Y" }}</h4>
               </div>
 
           </div>
@@ -1503,6 +1505,8 @@
                 <div class="omitsa">
                   <a href="https://disk.yandex.ru/d/D8twOtFR29aXBg"><h3>Ознакомиться с регламентом</h3></a>
                   
+                  <a href="https://disk.yandex.ru/d/D8twOtFR29aXBg"><h3>Ознакомиться с регламентом</h3></a>
+                  
                 </div>
                 <div class="progress-bar1">
                   <div class="pink"></div>
@@ -1713,6 +1717,10 @@
                       <p>Регламент</p>
                     </a>
                     
+                    <a href="https://disk.yandex.ru/d/D8twOtFR29aXBg">
+                      <p>Регламент</p>
+                    </a>
+                    
                   </div>
                   <h4>
                     *Регламент недоступен к скачиванию, поскольку является
@@ -1735,7 +1743,7 @@
                 регламенте чемпионата. Там же вы найдёте исчерпывающую информацию
                 о всех предложенных номинациях.
               </h3>
-              <button><a href="https://disk.yandex.ru/d/D8twOtFR29aXBg">Регламент</a></button>
+              <button><a href="https://disk.yandex.ru/d/D8twOtFR29aXBg">Регламент</a></button>1
               <h4>*Регламент недоступен к скачиванию, поскольку является авторским произведением и защищен авторскими правами.</h4>
             </div>
           </div>
@@ -2208,6 +2216,7 @@
                   <a href="/magazine/"><h2>Журнал</h2></a>
                   <a href="/sponsorstvo/"><h2>Спонсорство</h2></a>
                   <a href="/sudeystvo/"><h2>Судьи</h2></a>
+                  <a href="/sudeystvo/"><h2>Судьи</h2></a>
                   <a href="/participants/"><h2>Участники</h2></a>
                 </div>
                 <div class="offset-xl-1 col-xl-5 col-sm-4 forcontacts">
@@ -2293,10 +2302,12 @@
               </div>
               <div class="rightfoot">
                 <a href="/static/img/politika_confidencialnosti.pdf"
+                <a href="/static/img/politika_confidencialnosti.pdf"
                   ><h6 style="text-decoration: underline">
                     Политика конфиденциальности
                   </h6></a
                 >
+                <a href="/static/img/oferta.pdf"><h6 style="text-decoration: underline">Оферта</h6></a>
                 <a href="/static/img/oferta.pdf"><h6 style="text-decoration: underline">Оферта</h6></a>
               </div>
             </div>
