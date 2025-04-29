@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Чемпионат GROWSKIT</title>
-    <link rel="icon" href="/static/img/tablogo.png" type="image/x-icon">
     
     <title>Чемпионат GROWSKIT</title>
+
     <link rel="icon" href="/static/img/tablogo.png" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/static/css/style.css" />
@@ -1215,6 +1215,7 @@
                 <img src="/static/img/tl26.png" alt="" class="tl26" />
                 <h4>Юниор</h4>
                 <h5>опыт менее 3 лет</h5>
+                <h5>имеющие до 3 наград на чемпионатах либо</h5>
                 <h5>впервые участвует в каком-либо чемпионате</h5>
                 <h5>не является инструктором</h5>
                 <a href="/login/">
@@ -1232,9 +1233,9 @@
               <div class="categ" style="position: relative">
                 <img src="/static/img/tl17.png" alt="" class="tl17" />
                 <h4 style="color: #ffaff2">Мастер</h4>
-                <h5>опыт от 3 до 5 лет</h5>
+                <h5>опыт от 3</h5>
+                <h5>имеющие до 5 наград на чемпионатах</h5>
                 <h5>не является инструктором</h5>
-
                 <button
                   class="etopromenya"
                   onclick="window.location.href='/login/'"
@@ -1299,9 +1300,7 @@
               <div class="topcateg">
                 <h4>Тренер</h4>
                 <h5>
-                  оценивается по наибольшему количеству призовых мест за
-                  подготовленные им работы с участниками команды (более 3
-                  участников)
+                  оценивается по наибольшему количеству призовых мест за подготовленные им работы с участниками команды (более 3 участников), награждается именным кубком и плакеткой
                 </h5>
                 <button
                   class="etopromenya1"
@@ -1316,9 +1315,7 @@
               <div class="topcateg">
                 <h4>Руководитель команды</h4>
                 <h5>
-                  оценивается по наибольшему количеству призовых мест за
-                  подготовленные им работы с участниками команды (более 3
-                  участников)
+                  оценивается по наибольшему количеству участников (более 5 участников), награждается именным кубком и плакеткой
                 </h5>
                 <button
                   class="etopromenya1"
@@ -1746,8 +1743,7 @@
                 регламенте чемпионата. Там же вы найдёте исчерпывающую информацию
                 о всех предложенных номинациях.
               </h3>
-              <button href="https://disk.yandex.ru/d/D8twOtFR29aXBg">Регламент</button>
-              <button href="https://disk.yandex.ru/d/D8twOtFR29aXBg">Регламент</button>
+              <button><a href="https://disk.yandex.ru/d/D8twOtFR29aXBg">Регламент</a></button>1
               <h4>*Регламент недоступен к скачиванию, поскольку является авторским произведением и защищен авторскими правами.</h4>
             </div>
           </div>
@@ -1766,7 +1762,7 @@
                 <h3>Вы можете помочь нашей команде и стать</h3>
                 <div class="verhniz">
                   <div class="manager" style="margin-bottom: 12px;cursor: pointer" onclick="window.location.href='#footer'">
-                    <h3 style="text-decoration: underline">менеджером</h3>
+                    <h3 style="text-decoration: underline">менеджером (свяжитесь через контакты)</h3>
                     <img src="/static/img/malarrow.svg" alt="" />
                   </div>
                   <div
@@ -1886,24 +1882,39 @@
           </div>
         </div>
         <div class="container mt-5 d-flex d-lg-none forh2Orgi">
-          <h2>Организаторы GROWSKIT</h2>
-          <div class="irina1">
+          <div class="irina1" id="block1">
             <h3>Сидорова Ирина</h3>
-              <img src="/static/img/irina2.avif" alt="" />
-            <ul>
+            <img src="/static/img/irina2.avif" alt="" />
+            <ul class="main-info">
               <li>инструктор по росписи и дизайну ногтей</li>
               <li>организатор чемпионата «GROWSKIT»</li>
               <li>
-                    организатор двух онлайн проектов: Best Nail Art и Golden
-                    Beauty Star, для мастеров маникюра-педикюра на площадке
-                    ВКонтакте
+                организатор двух онлайн проектов: Best Nail Art и Golden Beauty Star,
+                для мастеров маникюра-педикюра на площадке ВКонтакте
               </li>
               <li>
-                    номинант премии 2023года «Лучшие онлайн проекты на площадке
-                    ВКонтакте» 
+                номинант премии 2023 года «Лучшие онлайн проекты на площадке
+                ВКонтакте»
               </li>
             </ul>
-            <h4>Подробнее</h4>
+        
+            <!-- Дополнительная информация -->
+            <ul class="extra-info" style="display: none;">
+              <li>наставник мастеров и инструкторов</li>
+              <li>руководитель и тренер команды «Lakiris Nails Art»</li>
+              <li>
+                многократный победитель международных чемпионатов, чемпионата России,
+                Евразии и Китая в номинации «Художественная роспись»
+              </li>
+              <li>спикер оффлайн и онлайн проектов бьюти индустрии</li>
+              <li>судья международных чемпионатов</li>
+              <li>организатор премии «GROWING BUSINESS AWARDS»</li>
+              <li>издатель глянцевого журнала «SKITLUXE»</li>
+            </ul>
+        
+            <!-- Кнопка -->
+            <h4 id="toggleButton1">Подробнее</h4>
+        
             <div class="vk-orgi1">
               <h5 onclick="window.location.href='https://vk.com/sidorovanailsart'">ВК</h5>
             </div>
@@ -1915,20 +1926,32 @@
             </div>
           </div>
         </div>
+        
         <div class="container mt-5 d-flex d-lg-none forh2Orgi">
-          <div class="irina1">
+          <div class="irina1" id="block2">
             <h3>Касач Татьяна</h3>
-              <img src="/static/img/kasach2.avif" alt="" />
-            <ul>
-              <li>Организатор марафона «Best Nail Art» </li>
-                  <li>Организатор чемпионата «GROWSKIT»</li>
-                  <li>Организатор премии «GROWING BUSINESS AWARDS» </li>
-                  <li>
-                    Номинант премии года «FAVORITES OF THE YEAR 2024» с званием
-                    «Самый креативный Nail Art проект на площадке ВКонтакте»
-                  </li>
+            <img src="/static/img/kasach2.avif" alt="" />
+            <ul class="main-info">
+              <li>Организатор марафона «Best Nail Art»</li>
+              <li>Организатор чемпионата «GROWSKIT»</li>
+              <li>Организатор премии «GROWING BUSINESS AWARDS»</li>
+              <li>
+                Номинант премии года «FAVORITES OF THE YEAR 2024» с званием
+                «Самый креативный Nail Art проект на площадке ВКонтакте»
+              </li>
             </ul>
-            <h4>Подробнее</h4>
+        
+            <!-- Дополнительная информация -->
+            <ul class="extra-info" style="display: none;">
+              <li>
+                Эксперт по продвижению в ВКонтакте Пиар-менеджер проекта «Best Nail
+                Art»
+              </li>
+            </ul>
+        
+            <!-- Кнопка -->
+            <h4 id="toggleButton2">Подробнее</h4>
+        
             <div class="vk-orgi1">
               <h5 onclick="window.location.href='https://vk.com/bnags'">ВК</h5>
             </div>
@@ -1947,7 +1970,7 @@
                 <h3>Вы можете помочь нашей команде и стать</h3>
                 <div class="verhniz">
                   <div class="manager" style="cursor: pointer" onclick="window.location.href='#footer'">
-                    <h3 style="text-decoration: underline">менеджером</h3>
+                    <h3 style="text-decoration: underline">менеджером (свяжитесь через контакты)</h3>
                     <img src="/static/img/malarrow.svg" alt="" />
                   </div>
                   <div
@@ -1982,7 +2005,7 @@
           </div>
         </div>
       </section>
-      <section class="">
+      <section class="faq">
         <div class="container" style="position: relative">
           <img src="/static/img/bigquestion.png" alt="" class="bigquestion" />
           <div class="row">
@@ -2010,8 +2033,7 @@
                 </div>
                 <div class="faq-answer">
                   <span
-                    >Подача работ осуществляется через личный кабинет
-                    участника</span
+                    ><a href="https://disk.yandex.ru/d/D8twOtFR29aXBg">Нажмите на меня</a></span
                   >
                 </div>
               </div>
@@ -2023,8 +2045,15 @@
                 </div>
                 <div class="faq-answer">
                   <span
-                    >Подача работ осуществляется через личный кабинет
-                    участника</span
+                    >	В каждой номинации 5 призовых мест<br>
+                    	Участники занявшие 1/2/3 место награждаются кубком, дипломом, подарками от организаторов, спонсоров и партнёров чемпионата<br>
+                    	Участники занявшие 4/5 место награждаются медалью, дипломом, подарками от организаторов, спонсоров и партнёров чемпионата<br>
+                    	ГЛАВНЫЙ ПРИЗ ЧЕМПИОНАТА ГРАН-ПРИ. Участнику необходимо подать 10 работ (все работы идут в зачёт, и в случае победы награждаются призовым фондом согласно победному месту)<br> 
+                    Кубок ГРАН-ПРИ вручается в случае победы, при условии, что все 10 работ заняли призовые места (1/2/3/4/5 место)<br>
+                    	Участник не занявший призовое место (не вошедший в пятерку победителей)-не получает призовой фонд и документы<br>
+                    	Лучший руководитель чемпионата, оценивается по наибольшему количеству участников (более 3 участников), награждается именным кубком и плакеткой<br>
+                    	Лучший тренер чемпионата, оценивается по наибольшему количеству призовых мест за подготовленные им работы с участниками команды (более 3 участников), награждается именным кубком и плакеткой<br>
+                    Организаторы оставляют за собой право освещать работы участников чемпионата в средствах массовых информаций, сети интернет, публиковать работы на посадочных страничках чемпионата.</span
                   >
                 </div>
               </div>
@@ -2036,8 +2065,8 @@
                 </div>
                 <div class="faq-answer">
                   <span
-                    >Подача работ осуществляется через личный кабинет
-                    участника</span
+                    >Призовой фонд направляется за счет получателя. Руководители команд получают призовой фонд за свою команду на свое имя, за качество доставки ответственность несет транспортная компания. После объявления итогов и оглашения победителей, наградной фонд будет направлен посредством транспортной компании, по указанным при регистрации адресам в течении месяца. 
+                    В случае смены адреса у получателя, необходимо заблаговременно сообщить организаторам о смене адреса (за 7 дней до даты объявления победителей) в противном случае, ответственность организаторы не несут.</span
                   >
                 </div>
               </div>
@@ -2049,8 +2078,7 @@
                 </div>
                 <div class="faq-answer">
                   <span
-                    >Подача работ осуществляется через личный кабинет
-                    участника</span
+                    >Торжественное объявление победителей пройдет 07 июня 2025года на посадочных страницах чемпионата https://vk.com/growskit, @growskit (формат онлайн или в записи/ на усмотрение организаторов). Чтобы получить электронный диплом участника-вам необходимо его скачать из личного кабинета участника (дипломы будут подгружены в течении недели после объявления победителей).</span
                   >
                 </div>
               </div>
@@ -2149,7 +2177,7 @@
                     style="margin-bottom: 8px"
                   />
                   <h3>
-                    Лучший руководитель чемпионата награждается именным кубком и
+                    Лучший тренер чемпионата награждается именным кубком и
                     плакеткой
                   </h3>
                 </div>
@@ -2201,6 +2229,25 @@
                     <h4 style="margin-right: 8px">‪+7 (978) 757-41-55‬</h4>
                     <h4>Татьяна</h4>
                   </div>
+                  <div class="for-dannie d-none d-md-block">
+                    <h3>Данные организатора</h3>
+                  <div class="contacts">
+                    <h4 class="fio1">Сидорова Ирина Николаевна</h4>
+                  </div>
+                  <div class="contacts">
+                    <h4 style="margin-right: 8px">ИНН</h4>
+                    <h4>910523123600</h4>
+                  </div>
+                  <div class="contacts">
+                    <h4 style="margin-right: 8px">ИФНС</h4>
+                    <h4>79658056</h4>
+                  </div>
+                  <div class="contacts">
+                    <h4 style="margin-right: 8px">Дата постановки</h4>
+                    <h4>25.10.2022</h4>
+                  </div>
+                  </div>
+                  
                 </div>
                 <div class="col-xl-3 col-sm-4  forlinks">
                   <h3>Мы в соц.сетях</h3>
@@ -2224,6 +2271,24 @@
                   >
                     <img src="/static/img/whatsapp.svg" alt="" />
                     <h5>WhatsApp</h5>
+                  </div>
+                </div>
+                <div class="for-dannie1 d-block d-md-none" style="margin-top: 10px;">
+                  <h3 style="text-align: center;">Данные организатора</h3>
+                  <div class="contacts">
+                    <h4 class="fio1">Сидорова Ирина Николаевна</h4>
+                  </div>
+                  <div class="contacts">
+                    <h4 style="margin-right: 8px">ИНН</h4>
+                    <h4>910523123600</h4>
+                  </div>
+                  <div class="contacts">
+                    <h4 style="margin-right: 8px">ИФНС</h4>
+                    <h4>79658056</h4>
+                  </div>
+                  <div class="contacts">
+                    <h4 style="margin-right: 8px">Дата постановки</h4>
+                    <h4>25.10.2022</h4>
                   </div>
                 </div>
               </div>
