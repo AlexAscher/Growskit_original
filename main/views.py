@@ -225,6 +225,7 @@ def popup(request):
 
 
 def premiya(request: HttpRequest):
+    championship = get_active_championship()
     if request.method == 'POST':
         championship = get_active_championship(False)
 
@@ -284,7 +285,13 @@ def premiya(request: HttpRequest):
 
         notify_admin('Заявка на премию', f'{model}' + '\nПодробности в личном кабинете', 'ALL', tg=get_group_tg())
 
-    return render(request, 'premiya.html')
+    return render(
+        request,
+        'premiya.html',
+        {
+            'championship': championship,
+        },
+    )
 
 
 def sponsorstvo(request):
@@ -301,7 +308,9 @@ def sponsorstvo(request):
             )
         return redirect('index')  # TODO: redirect to profile sponsor
 
-    return render(request, 'sponsorstvo.html')
+    sponsors = ProfileSponsor.objects.all()
+
+    return render(request, 'sponsorstvo.html', {'sponsors': sponsors})
 
 
 def sudeystvo(request):
