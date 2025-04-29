@@ -17,6 +17,7 @@ from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.urls import reverse
+from .forms import ProcessedPhotoForm
 
 from .forms import (
     AddManagerForm,
@@ -519,6 +520,14 @@ def participants_list(request):
 
     participants = championship.participants.all() if championship else []
     works_by_participant = {}
+
+    if request.method == "POST" and "upload_processed_photo" in request.POST:
+        participant_id = request.POST.get("participant_id")
+        participant = get_object_or_404(ProfileParticipant, id=participant_id)
+        form = ProcessedPhotoForm(request.POST, request.FILES, instance=participant)
+        if form.is_valid():
+            form.save()
+            return redirect('participants_list')
 
     for participant in participants:
         works = championship.works.filter(user=participant.user).order_by('work_id')
