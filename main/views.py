@@ -565,6 +565,7 @@ def judges_list(request):
         if "status" in request.POST:
             judge: ProfileJudge = get_object_or_404(ProfileJudge, id=request.POST.get("id"))
             judge.approved = request.POST.get("status")
+            judge.is_coach = request.POST.get("is_coach") == "yes"
             judge.save()
         return redirect("judges_list")
 

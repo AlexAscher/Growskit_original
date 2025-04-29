@@ -125,6 +125,11 @@
                                     {% endfor %}
                                 </select>
                             </p>
+                            {% if participant.get_category_participant_display == 'team-leader' %}
+                            <p><strong>Тренер:</strong>
+
+                            </p>
+                            {% endif %}
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Сохранить</button>

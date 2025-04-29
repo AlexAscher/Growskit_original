@@ -63,6 +63,12 @@
                                 <option value="{{ status.0 }}" {% if status.0 == judge.approved %} selected {% endif %}>{{ status.1 }}</option>
                                 {% endfor %}
                             </select>
+
+                            <label for="is_coach{{ judge.id }}" class="mt-3">Тренер:</label>
+                            <select name="is_coach" id="is_coach{{ judge.id }}" class="form-select mt-2">
+                                <option value="yes" {% if judge.is_coach %} selected {% endif %}>Да</option>
+                                <option value="no" {% if not judge.is_coach %} selected {% endif %}>Нет</option>
+                            </select>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
