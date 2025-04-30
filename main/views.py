@@ -315,6 +315,8 @@ def sponsorstvo(request):
 
 
 def sudeystvo(request):
+    judges = ProfileJudge.objects.all()
+
     if request.method == 'POST':
         model, created = save_with_new_user(request, SudeystvoForm, 'judge', check_championship=True, need_notify=True)
 
@@ -322,7 +324,11 @@ def sudeystvo(request):
             notify_admin('Заявка на судью', f'{model}' + '\nПодробности в личном кабинете', 'ALL', tg=get_group_tg())
         return redirect('index')  # TODO: redirect to profile judge
 
-    return render(request, 'sudeystvo.html')
+    return render(
+        request,
+        "sudeystvo.html",
+        {"judges": judges},
+    )
 
 
 def uchastie(request: HttpRequest):

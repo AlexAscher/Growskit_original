@@ -34,7 +34,7 @@
             <td>{{ judge.phone }}</td>
             <td>{{ judge.email }}</td>
             <td>
-                <button class="btn btn-primary" onclick="sendAuth('{{ judge.email }}', this)">Выслать логин</button>
+                <button class="btn btn-sm btn-primary" onclick="sendAuth('{{ judge.email }}', this)">Выслать логин</button>
             </td>
             <td>
                 {{ judge.get_approved_display }}

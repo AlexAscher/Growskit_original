@@ -173,9 +173,11 @@
             </div>
           </div>
         </div>
+        {% for judge in judges %}
+        {% if judge.get_approved_display == 'Одобрено' and judge.processed_photo %}
         <div class="col-xxl-4 col-md-6 forcol">
           <div class="sudya-self">
-            <a href="https://vk.com/id459440938"><img src="/static/img/firstsudya.avif" alt="" class="self" /></a>
+            <a href=""><img src="{{ judge.processed_photo.url }}" alt="" class="self" /></a>
             <div class="category">
               <h2>nails</h2>
             </div>
@@ -194,93 +196,14 @@
                 </ul>
               </div>
               <div class="name">
-                <h3 class="glavh3">Иняхина Ирина</h3>
-                <h4 class="glavh4">г. Самара, Россия</h4>
+                <h3 class="glavh3">{{ judge.fio }}</h3>
+                <h4 class="glavh4">{{ judge.address }}</h4>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-xxl-4 col-md-6 forcol">
-          <div class="sudya-self">
-            <a href="https://vk.com/id459440938"><img src="/static/img/firstsudya.avif" alt="" class="self" /></a>
-            <div class="category">
-              <h2>nails</h2>
-            </div>
-            <div class="name-and-info">
-              <img src="/static/img/info.svg" alt="" class="info" />
-              <div class="tooltip-custom">
-                <ul>
-                  <li>🟣 Преподаватель</li>
-                  <li>🟣 Многократный призёр международных чемпионатов</li>
-                  <li>🟣 Лауреат международной премии в номинации «Прорыв года»</li>
-                  <li>🟣 Судья международной категории</li>
-                  <li>🟣 Спикер российских конгрессов, конференций и выставок</li>
-                  <li>🟣 Игропрактик, ведущий трансформационной игры «Кураж Продаж»</li>
-                  <li>🟣 Создатель проекта «Точка Б»</li>
-                  <li>🟣 Организатор Трансформационного конгресса</li>
-                </ul>
-              </div>
-              <div class="name">
-                <h3 class="glavh3">Иняхина Ирина</h3>
-                <h4 class="glavh4">г. Самара, Россия</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xxl-4 col-md-6 forcol">
-          <div class="sudya-self">
-            <a href="https://vk.com/id459440938"><img src="/static/img/firstsudya.avif" alt="" class="self" /></a>
-            <div class="category">
-              <h2>nails</h2>
-            </div>
-            <div class="name-and-info">
-              <img src="/static/img/info.svg" alt="" class="info" />
-              <div class="tooltip-custom">
-                <ul>
-                  <li>🟣 Преподаватель</li>
-                  <li>🟣 Многократный призёр международных чемпионатов</li>
-                  <li>🟣 Лауреат международной премии в номинации «Прорыв года»</li>
-                  <li>🟣 Судья международной категории</li>
-                  <li>🟣 Спикер российских конгрессов, конференций и выставок</li>
-                  <li>🟣 Игропрактик, ведущий трансформационной игры «Кураж Продаж»</li>
-                  <li>🟣 Создатель проекта «Точка Б»</li>
-                  <li>🟣 Организатор Трансформационного конгресса</li>
-                </ul>
-              </div>
-              <div class="name">
-                <h3 class="glavh3">Иняхина Ирина</h3>
-                <h4 class="glavh4">г. Самара, Россия</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xxl-4 col-md-6 forcol">
-          <div class="sudya-self">
-            <a href="https://vk.com/id459440938"><img src="/static/img/firstsudya.avif" alt="" class="self" /></a>
-            <div class="category">
-              <h2>nails</h2>
-            </div>
-            <div class="name-and-info">
-              <img src="/static/img/info.svg" alt="" class="info" />
-              <div class="tooltip-custom">
-                <ul>
-                  <li>🟣 Преподаватель</li>
-                  <li>🟣 Многократный призёр международных чемпионатов</li>
-                  <li>🟣 Лауреат международной премии в номинации «Прорыв года»</li>
-                  <li>🟣 Судья международной категории</li>
-                  <li>🟣 Спикер российских конгрессов, конференций и выставок</li>
-                  <li>🟣 Игропрактик, ведущий трансформационной игры «Кураж Продаж»</li>
-                  <li>🟣 Создатель проекта «Точка Б»</li>
-                  <li>🟣 Организатор Трансформационного конгресса</li>
-                </ul>
-              </div>
-              <div class="name">
-                <h3 class="glavh3">Иняхина Ирина</h3>
-                <h4 class="glavh4">г. Самара, Россия</h4>
-              </div>
-            </div>
-          </div>
-        </div>
+        {% endif %}
+        {% endfor %}
       </div>
     </div>
     </div>
