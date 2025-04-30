@@ -1,379 +1,367 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Участники GROWSKIT</title>
-    <link rel="icon" href="/static/img/tablogo.png" type="image/x-icon">
-    
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/static/css/header.css" />
-    <link rel="stylesheet" href="/static/css/footer.css" />
-    <link rel="stylesheet" href="/static/css/participants.css" />
-    <link rel="stylesheet" href="/static/css/reset.css" />
-  </head>
-  <body>
-    <header class="header d-none d-xxl-flex">
-      <div class="logo"><img src="/static/img/headerlogo.png" alt=""></div>
-      <nav class="nav">
-        <a href="/">Чемпионат</a>
-        <a href="/premiya/">Премия </a>
-        <a href="/magazine/">Журнал</a>
-        <a href="/sponsorstvo/">Спонсорство</a>
-        <a href="/sudeystvo/">Судьи</a>
-        <a href="/participants/"  style="color: #cf8ece; position: relative">Участники<img
-          src="/static/img/headertochka.png"
-          alt=""
-          style="
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Участники GROWSKIT</title>
+  <link rel="icon" href="/static/img/tablogo.png" type="image/x-icon">
+
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/header.css" />
+  <link rel="stylesheet" href="/static/css/footer.css" />
+  <link rel="stylesheet" href="/static/css/participants.css" />
+  <link rel="stylesheet" href="/static/css/reset.css" />
+</head>
+
+<body>
+  <header class="header d-none d-xxl-flex">
+    <div class="logo"><img src="/static/img/headerlogo.png" alt=""></div>
+    <nav class="nav">
+      <a href="/">Чемпионат</a>
+      <a href="/premiya/">Премия </a>
+      <a href="/magazine/">Журнал</a>
+      <a href="/sponsorstvo/">Спонсорство</a>
+      <a href="/sudeystvo/">Судьи</a>
+      <a href="/participants/" style="color: #cf8ece; position: relative">Участники<img
+          src="/static/img/headertochka.png" alt="" style="
             position: absolute;
             top: -10px;
             left: 50%;
             transform: translateX(-50%);
-          "
-      /></a>
-      </nav>
-      <div class="buttons">
-          <button class="header-first-btn" onclick="window.location.href='/premiya/' ">Номинироваться на премию</button>
-          <a href="/login/"><button class="header-second-btn">Принять участие</button></a>
-      </div>
+          " /></a>
+    </nav>
+    <div class="buttons">
+      <button class="header-first-btn" onclick="window.location.href='/premiya/' ">Номинироваться на премию</button>
+      <a href="/login/"><button class="header-second-btn">Принять участие</button></a>
+    </div>
 
   </header>
   <header class="d-block d-xxl-flex">
     <div class="hamburger-menu">
-      <div class="logo"><img src="/static/img/headerlogo.png" alt="" style="width: 70px;"/></div>
-          <input id="menu__toggle" type="checkbox"/>
-          <label class="menu__btn" for="menu__toggle">
-            <span></span>
-          </label>
+      <div class="logo"><img src="/static/img/headerlogo.png" alt="" style="width: 70px;" /></div>
+      <input id="menu__toggle" type="checkbox" />
+      <label class="menu__btn" for="menu__toggle">
+        <span></span>
+      </label>
 
-          <ul class="menu__box">
-              <li><a class="menu_item1" href="/" style="padding-right: 0px;">Чемпионат</a></li>
-              <li class="mt-2"><a class="menu_item1" href="/premiya/" style="padding-right: 0px;">Премия</a></li>
-              <li class="mt-2"><a class="menu_item1" href="/magazine/" style="padding-right: 0px;">Журнал</a></li>
-              <li class="mt-2"><a class="menu_item1" href="/sponsorstvo/" style="padding-right: 0px;">Спонсорство</a></li>
-              <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal" data-bs-target="#exampleModal" style="padding-right: 0px;">Судьи</a></li>
-              <li class="mt-2"><a class="menu_item1" href="/participants/" style="padding-right: 0px;">Участники</a></li>
-              <li class="mt-2"><a class="menu_item1" href="/login/" style="padding-right: 0px;">Принять участие</a></li>
-          </ul>
+      <ul class="menu__box">
+        <li><a class="menu_item1" href="/" style="padding-right: 0px;">Чемпионат</a></li>
+        <li class="mt-2"><a class="menu_item1" href="/premiya/" style="padding-right: 0px;">Премия</a></li>
+        <li class="mt-2"><a class="menu_item1" href="/magazine/" style="padding-right: 0px;">Журнал</a></li>
+        <li class="mt-2"><a class="menu_item1" href="/sponsorstvo/" style="padding-right: 0px;">Спонсорство</a></li>
+        <li class="mt-2"><a class="menu_item1" href="/sudeystvo/" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            style="padding-right: 0px;">Судьи</a></li>
+        <li class="mt-2"><a class="menu_item1" href="/participants/" style="padding-right: 0px;">Участники</a></li>
+        <li class="mt-2"><a class="menu_item1" href="/login/" style="padding-right: 0px;">Принять участие</a></li>
+      </ul>
 
     </div>
 
   </header>
-    <section class="firstmain">
+
+  <section class="firstmain">
+    <div class="container">
+      <h2>Участники чемпионата 2025</h2>
+      <h3>Категория</h3>
+    </div>
+  </section>
+  <div class="content">
+    <section class="secondmain">
       <div class="container">
-        <h2>Участники чемпионата 2025</h2>
-        <h3>Категория</h3>
+        <div class="category-row-container">
+          <div class="category">
+            <h2>Юниоры</h2>
+          </div>
+          <div class="row forgap">
+            {% for participant in participants %}
+            {% if participant.category_participant == 'junior' %}
+            <div class="col-xxl-4 col-md-6">
+              <div class="item">
+                <img width="100%"
+                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                  alt="{{ participant.fio }}" class="participantimg" />
+                <div class="r-ugol">
+                  <div class="fio">
+                    <h2>{{ participant.fio }}</h2>
+                  </div>
+                  <div class="nominatsia">
+                    <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="category-row-container">
+          <div class="category" style="border: 2.6px solid #ffaff2">
+            <h2 style="color: #ffaff2">Мастера</h2>
+          </div>
+          <div class="row forgap">
+            {% for participant in participants %}
+            {% if participant.category_participant == 'master' %}
+            <div class="col-xxl-4 col-md-6">
+              <div class="item">
+                <img width="100%"
+                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                  alt="{{ participant.fio }}" class="participantimg" />
+                <div class="r-ugol">
+                  <div class="fio">
+                    <h2>{{ participant.fio }}</h2>
+                  </div>
+                  <div class="nominatsia">
+                    <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="category-row-container">
+          <div class="category" style="border: 2.6px solid #fd84dc">
+            <h2 style="color: #fd84dc">Топ-Мастера</h2>
+          </div>
+          <div class="row forgap">
+            {% for participant in participants %}
+            {% if participant.category_participant == 'top-master' %}
+            <div class="col-xxl-4 col-md-6">
+              <div class="item">
+                <img width="100%"
+                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                  alt="{{ participant.fio }}" class="participantimg" />
+                <div class="r-ugol">
+                  <div class="fio">
+                    <h2>{{ participant.fio }}</h2>
+                  </div>
+                  <div class="nominatsia">
+                    <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="category-row-container">
+          <div class="category" style="border: 2.6px solid #cf8ece">
+            <h2 style="color: #cf8ece">Инструкторы</h2>
+          </div>
+          <div class="row forgap">
+            {% for participant in participants %}
+            {% if participant.category_participant == 'instructor' %}
+            <div class="col-xxl-4 col-md-6">
+              <div class="item">
+                <img width="100%"
+                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                  alt="{{ participant.fio }}" class="participantimg" />
+                <div class="r-ugol">
+                  <div class="fio">
+                    <h2>{{ participant.fio }}</h2>
+                  </div>
+                  <div class="nominatsia">
+                    <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="category-row-container">
+          <div class="category" style="border: 2.6px solid white">
+            <h2 style="color: white">Судьи</h2>
+          </div>
+          <div class="row forgap">
+
+            {% for participant in participants %}
+            {% if participant.category_participant == 'premium' %}
+            <div class="col-xxl-4 col-md-6">
+              <div class="item">
+                <img width="100%"
+                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                  alt="{{ participant.fio }}" class="participantimg" />
+                <div class="r-ugol">
+                  <div class="fio">
+                    <h2>{{ participant.fio }}</h2>
+                  </div>
+                  <div class="nominatsia">
+                    <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="category-row-container">
+          <div class="category" style="border: 2.6px solid white">
+            <h2 style="color: white">Руководители команд</h2>
+          </div>
+          <div class="row forgap">
+            {% for leader in leaders %}
+            <div class="col-xxl-4 col-md-6">
+              <div class="item">
+                <img width="100%"
+                  src="{% if leader.processed_photo %}{{ leader.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                  alt="{{ leader.fio }}" class="participantimg" />
+                <div class="r-ugol">
+                  <div class="fio">
+                    <h2>{{ leader.fio }}</h2>
+                  </div>
+                  <div class="nominatsia">
+                    <h3>{{ leader.nominations.0.get_nomination_display }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
     </section>
-    <div class="content">
-      <section class="secondmain">
-        <div class="container">
-          <div class="category-row-container">
-            <div class="category">
-              <h2>Юниоры</h2>
-            </div>
-            <div class="row forgap">
-              {% for participant in participants %}
-              {% if participant.category_participant == 'junior' %}
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img width="100%"
-                    src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
-                    alt="{{ participant.fio }}"
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>{{ participant.fio }}</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {% endif %}
-              {% endfor %}
-            </div>
+  </div>
+  <section class="ne-upusti">
+    <div class="glav-ne-upusti">
+      <h2>Не упустите шанс показать своё мастерство</h2>
+      <a href="/login/">
+        <button>
+          <h3>Принять участие</h3>
+          <img src="/static/img/participantsarrow.svg" alt="" />
+        </button>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="footer" id="footer">
+    <div class="container">
+      <div class="row footpad">
+        <div class="col-xl-6 col-sm-12 first-part-footer">
+          <img src="/static/img/footgrowskit.png" alt="" />
+          <div class="bottom-plashki">
+            <img src="/static/img/lotus.png" alt="" style="margin-top: 20px" />
+            <img src="/static/img/lunailbottom.png" alt="" style="margin-top: 20px" />
           </div>
-          <div class="category-row-container">
-            <div class="category" style="border: 2.6px solid #ffaff2">
-              <h2 style="color: #ffaff2">Мастера</h2>
+        </div>
+        <div class="col-xl-6 col-sm-12">
+          <div class="row">
+            <div class="col-xl-2 offset-xl-1 col-sm-4 links">
+              <a href="/">
+                <h2>Чемпионат</h2>
+              </a>
+              <a href="/premiya/">
+                <h2>Премия</h2>
+              </a>
+              <a href="/magazine/">
+                <h2>Журнал</h2>
+              </a>
+              <a href="/sponsorstvo/">
+                <h2>Спонсорство</h2>
+              </a>
+              <a href="/sudeystvo/">
+                <h2>Судьи</h2>
+              </a>
+              <a href="/participants/">
+                <h2>Участники</h2>
+              </a>
             </div>
-            <div class="row forgap">
-              {% for participant in participants %}
-              {% if participant.category_participant == 'master' %}
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img width="100%"
-                    src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
-                    alt="{{ participant.fio }}"
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>{{ participant.fio }}</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
-                    </div>
-                  </div>
+            <div class="offset-xl-1 col-xl-5 col-sm-4 forcontacts">
+              <h3>Контакты</h3>
+              <div class="contacts">
+                <h4 style="margin-right: 8px">+7 (978) 708-99-20</h4>
+                <h4>Ирина</h4>
+              </div>
+              <div class="contacts">
+                <h4 style="margin-right: 8px">‪+7 (978) 757-41-55‬</h4>
+                <h4>Татьяна</h4>
+              </div>
+              <div class="for-dannie d-none d-md-block">
+                <h3>Данные организатора</h3>
+                <div class="contacts">
+                  <h4 class="fio1">Сидорова Ирина Николаевна</h4>
+                </div>
+                <div class="contacts">
+                  <h4 style="margin-right: 8px">ИНН</h4>
+                  <h4>910523123600</h4>
+                </div>
+                <div class="contacts">
+                  <h4 style="margin-right: 8px">ИФНС</h4>
+                  <h4>79658056</h4>
+                </div>
+                <div class="contacts">
+                  <h4 style="margin-right: 8px">Дата постановки</h4>
+                  <h4>25.10.2022</h4>
                 </div>
               </div>
-              {% endif %}
-              {% endfor %}
+
             </div>
-          </div>
-          <div class="category-row-container">
-            <div class="category" style="border: 2.6px solid #fd84dc">
-              <h2 style="color: #fd84dc">Топ-Мастера</h2>
-            </div>
-            <div class="row forgap">
-              {% for participant in participants %}
-              {% if participant.category_participant == 'top-master' %}
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img width="100%"
-                    src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
-                    alt="{{ participant.fio }}"
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>{{ participant.fio }}</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
-                    </div>
-                  </div>
-                </div>
+            <div class="col-xl-3 col-sm-4  forlinks">
+              <h3>Мы в соц.сетях</h3>
+              <div class="telegram" onclick="window.location.href='https://t.me/sidorovanailsart'">
+                <img src="/static/img/telegram.svg" alt="" />
+                <h5>Telegram</h5>
               </div>
-              {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-          <div class="category-row-container">
-            <div class="category" style="border: 2.6px solid #cf8ece">
-              <h2 style="color: #cf8ece">Инструкторы</h2>
-            </div>
-            <div class="row forgap">
-              {% for participant in participants %}
-              {% if participant.category_participant == 'instructor' %}
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img width="100%"
-                    src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
-                    alt="{{ participant.fio }}"
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>{{ participant.fio }}</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
-                    </div>
-                  </div>
-                </div>
+              <div class="telegram" onclick="window.location.href='https://vk.com/sidorovanailsart'">
+                <img src="/static/img/vkontakte.svg" alt="" />
+                <h5>VK</h5>
               </div>
-              {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-          <div class="category-row-container">
-            <div class="category" style="border: 2.6px solid white">
-              <h2 style="color: white">Судьи</h2>
-            </div>
-            <div class="row forgap">
-              
-              {% for participant in participants %}
-              {% if participant.category_participant == 'premium' %}
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img width="100%"
-                    src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
-                    alt="{{ participant.fio }}"
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>{{ participant.fio }}</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>{{ participant.nominations.0.get_nomination_display }}</h3>
-                    </div>
-                  </div>
-                </div>
+              <div class="telegram" onclick="window.location.href='https://wa.me/79787089920'">
+                <img src="/static/img/whatsapp.svg" alt="" />
+                <h5>WhatsApp</h5>
               </div>
-              {% endif %}
-              {% endfor %}
             </div>
-          </div>
-          <div class="category-row-container">
-            <div class="category" style="border: 2.6px solid white">
-              <h2 style="color: white">Руководители команд</h2>
-            </div>
-            <div class="row forgap">
-              {% for leader in leaders %}
-              <div class="col-xxl-4 col-md-6">
-                <div class="item">
-                  <img width="100%"
-                    src="{% if leader.processed_photo %}{{ leader.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
-                    alt="{{ leader.fio }}"
-                    class="participantimg"
-                  />
-                  <div class="r-ugol">
-                    <div class="fio">
-                      <h2>{{ leader.fio }}</h2>
-                    </div>
-                    <div class="nominatsia">
-                      <h3>{{ leader.nominations.0.get_nomination_display }}</h3>
-                    </div>
-                  </div>
-                </div>
+            <div class="for-dannie1 d-block d-md-none" style="margin-top: 10px;">
+              <h3 style="text-align: center;">Данные организатора</h3>
+              <div class="contacts">
+                <h4 class="fio1">Сидорова Ирина Николаевна</h4>
               </div>
-              {% endfor %}
+              <div class="contacts">
+                <h4 style="margin-right: 8px">ИНН</h4>
+                <h4>910523123600</h4>
+              </div>
+              <div class="contacts">
+                <h4 style="margin-right: 8px">ИФНС</h4>
+                <h4>79658056</h4>
+              </div>
+              <div class="contacts">
+                <h4 style="margin-right: 8px">Дата постановки</h4>
+                <h4>25.10.2022</h4>
+              </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+      <div class="footlin"></div>
+      <div class="row">
+        <div class="forfootik">
+          <div class="grow2025">
+            <h6>© 2025 GROWSKIT</h6>
+          </div>
+          <div class="rightfoot">
+            <a href="/static/img/politika_confidencialnosti.pdf">
+              <h6 style="text-decoration: underline">
+                Политика конфиденциальности
+              </h6>
+            </a>
+            <a href="/static/img/oferta.pdf">
+              <h6 style="text-decoration: underline">Оферта</h6>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
 
-    <section class="ne-upusti">
-      <div class="glav-ne-upusti">
-        <h2>Не упустите шанс показать своё мастерство</h2>
-        <a href="/login/">
-          <button>
-            <h3>Принять участие</h3>
-            <img src="/static/img/participantsarrow.svg" alt="" />
-          </button>
-        </a>
-        
-      </div>
-    </section>
-    <section class="footer" id="footer">
-      <div class="container">
-        <div class="row footpad">
-          <div class="col-xl-6 col-sm-12 first-part-footer">
-            <img src="/static/img/footgrowskit.png" alt="" />
-            <div class="bottom-plashki">
-              <img
-                src="/static/img/lotus.png"
-                alt=""
-                style="margin-top: 20px"
-              />
-              <img
-                src="/static/img/lunailbottom.png"
-                alt=""
-                style="margin-top: 20px"
-              />
-            </div>
-          </div>
-          <div class="col-xl-6 col-sm-12">
-            <div class="row">
-              <div class="col-xl-2 offset-xl-1 col-sm-4 links">
-                <a href="/"><h2>Чемпионат</h2></a>
-                <a href="/premiya/"><h2>Премия</h2></a>
-                <a href="/magazine/"><h2>Журнал</h2></a>
-                <a href="/sponsorstvo/"><h2>Спонсорство</h2></a>
-                <a href="/sudeystvo/"><h2>Судьи</h2></a>
-                <a href="/participants/"><h2>Участники</h2></a>
-              </div>
-              <div class="offset-xl-1 col-xl-5 col-sm-4 forcontacts">
-                <h3>Контакты</h3>
-                <div class="contacts">
-                  <h4 style="margin-right: 8px">+7 (978) 708-99-20</h4>
-                  <h4>Ирина</h4>
-                </div>
-                <div class="contacts">
-                  <h4 style="margin-right: 8px">‪+7 (978) 757-41-55‬</h4>
-                  <h4>Татьяна</h4>
-                </div>
-                <div class="for-dannie d-none d-md-block">
-                  <h3>Данные организатора</h3>
-                <div class="contacts">
-                  <h4 class="fio1">Сидорова Ирина Николаевна</h4>
-                </div>
-                <div class="contacts">
-                  <h4 style="margin-right: 8px">ИНН</h4>
-                  <h4>910523123600</h4>
-                </div>
-                <div class="contacts">
-                  <h4 style="margin-right: 8px">ИФНС</h4>
-                  <h4>79658056</h4>
-                </div>
-                <div class="contacts">
-                  <h4 style="margin-right: 8px">Дата постановки</h4>
-                  <h4>25.10.2022</h4>
-                </div>
-                </div>
-                
-              </div>
-              <div class="col-xl-3 col-sm-4  forlinks">
-                <h3>Мы в соц.сетях</h3>
-                <div
-                  class="telegram"
-                  onclick="window.location.href='https://t.me/sidorovanailsart'"
-                >
-                  <img src="/static/img/telegram.svg" alt="" />
-                  <h5>Telegram</h5>
-                </div>
-                <div
-                  class="telegram"
-                  onclick="window.location.href='https://vk.com/sidorovanailsart'"
-                >
-                  <img src="/static/img/vkontakte.svg" alt="" />
-                  <h5>VK</h5>
-                </div>
-                <div
-                  class="telegram"
-                  onclick="window.location.href='https://wa.me/79787089920'"
-                >
-                  <img src="/static/img/whatsapp.svg" alt="" />
-                  <h5>WhatsApp</h5>
-                </div>
-              </div>
-              <div class="for-dannie1 d-block d-md-none" style="margin-top: 10px;">
-                <h3 style="text-align: center;">Данные организатора</h3>
-                <div class="contacts">
-                  <h4 class="fio1">Сидорова Ирина Николаевна</h4>
-                </div>
-                <div class="contacts">
-                  <h4 style="margin-right: 8px">ИНН</h4>
-                  <h4>910523123600</h4>
-                </div>
-                <div class="contacts">
-                  <h4 style="margin-right: 8px">ИФНС</h4>
-                  <h4>79658056</h4>
-                </div>
-                <div class="contacts">
-                  <h4 style="margin-right: 8px">Дата постановки</h4>
-                  <h4>25.10.2022</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="footlin"></div>
-        <div class="row">
-          <div class="forfootik">
-            <div class="grow2025">
-              <h6>© 2025 GROWSKIT</h6>
-            </div>
-            <div class="rightfoot">
-              <a href="/static/img/politika_confidencialnosti.pdf"
-                ><h6 style="text-decoration: underline">
-                  Политика конфиденциальности
-                </h6></a
-              >
-              <a href="/static/img/oferta.pdf"><h6 style="text-decoration: underline">Оферта</h6></a>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
-
   </section>
-    <script src="/static/script/participants.js"></script>
-  </body>
+  
+  <script src="/static/script/participants.js"></script>
+</body>
+
 </html>
