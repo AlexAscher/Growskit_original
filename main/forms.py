@@ -198,3 +198,14 @@ class ProcessedPhotoForm(forms.ModelForm):
         labels = {
             'processed_photo': 'Фото для сайта',
         }
+
+class ProcessedPhotoFormJudges(forms.ModelForm):
+    class Meta:
+        model = ProfileJudge
+        fields = ['processed_photo']
+        widgets = {
+            'processed_photo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'processed_photo': 'Фото для сайта',
+        }
