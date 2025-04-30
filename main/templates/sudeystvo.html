@@ -247,13 +247,15 @@
               </div>
             </div>
           </div>
+          {% for judge in judges %}
+          {% if judge.get_approved_display == 'Одобрено' and judge.processed_photo and judge.is_coach%}
           <div class="col-xxl-4 col-md-6">
             <div class="item">
-              <img src="/static/img/participant.png" alt="" class="participantimg" />
+              <img src="{{ judge.processed_photo.url }}" alt="" class="participantimg" />
               <div class="r-ugol">
                 <a href="" style="cursor: pointer;">
                   <div class="fio">
-                    <h2>Грачёва Валентина</h2>
+                    <h2>{{ judge.fio }}</h2>
                   </div>
                 </a>
 
@@ -263,6 +265,8 @@
               </div>
             </div>
           </div>
+          {% endif %}
+          {% endfor %}
         </div>
       </div>
     </div>
