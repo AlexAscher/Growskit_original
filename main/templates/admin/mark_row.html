@@ -18,6 +18,7 @@
         <!-- {% state div_rating True %} -->
         <tr>
           <td class="d-flex flex-wrap">
+            <p>Категория участника: {{ work.category_participant }}</p>
             {% for photo in work.photos %}
             <div class="me-2 mb-2">
                 <a href="{{ photo.photo.url }}" data-fancybox="gallery{{ photo.work_id }}" title="Фото">

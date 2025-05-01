@@ -42,7 +42,7 @@
             <option value="" disabled selected>Выберите номинацию</option>
             {% for criteria in criteries %}
                 {% for block in criteria.Блоки %}
-                    <option value="{{ block|get:"№" }}. {{ block.Блок }}">{{ block|get:"№" }}. {{ block.Блок }}</option>
+                    <option value="{{ block.Блок }}">{{ block|get:"№" }}. {{ block.Блок }}</option>
                 {% endfor %}
             {% endfor %}
         </select>
@@ -51,7 +51,7 @@
             {% for criteria in criteries %}
                 {% for block in criteria.Блоки %}
                     {% for subblock in block.Подблоки %}
-                        <option data-criteria="{{ block|get:"№" }}. {{ block.Блок }}" value="{{ subblock|get:"№" }}. {{ subblock.Блок }}">{{ subblock|get:"№" }}. {{ subblock.Блок }}</option>
+                        <option data-criteria="{{ block.Блок }}" value="{{ subblock.Блок }}">{{ subblock|get:"№" }}. {{ subblock.Блок }}</option>
                     {% endfor %}
                 {% endfor %}
             {% endfor %}

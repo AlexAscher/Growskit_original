@@ -1,4 +1,3 @@
-import datetime
 import json
 import logging
 import os
@@ -9,6 +8,7 @@ from django.core.exceptions import BadRequest
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 
 from .support import get_random_string, parse_criteries
 
@@ -33,7 +33,7 @@ class Log(models.Model):
     except AttributeError:
         STATUSES = [(key, key) for key in ['CRITICAL', 'FATAL', 'ERROR', 'WARN', 'WARNING', 'INFO','DEBUG']]
 
-    created = models.DateTimeField(default=datetime.datetime.now)
+    created = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=20, choices=STATUSES)
     message = models.TextField()
     description = models.TextField(null=True, blank=True)
@@ -65,12 +65,12 @@ def user_directory_path_championship(instance, filename):
 
     championship = Championship.objects.filter(
         participants=instance.user.profileparticipant,  # Используем связанный ProfileParticipant
-        last_date_registration__gte=datetime.date.today(),
+        last_date_registration__gte=timezone.now().date(),
     ).first()
 
     if not championship:
         championship = Championship.objects.filter(
-            judges=instance.user, last_date_registration__gte=datetime.date.today()
+            judges=instance.user, last_date_registration__gte=timezone.now().date()
         ).first()
         if not championship:
             raise BadRequest('User not in championship')
@@ -154,6 +154,10 @@ class ProfileParticipant(models.Model):
 
     def __str__(self):
         return str(self.fio)
+    
+    @property
+    def get_category_participant_display(self):
+        return dict(CATEGORY_PARTICIPANT)[self.category_participant]
 
 
 class ProfileJudge(models.Model):
@@ -323,7 +327,7 @@ class Championship(models.Model):
         ]
 
     def get_days_left(self):
-        return (self.last_date_registration - datetime.date.today()).days
+        return (self.last_date_registration - timezone.now().date()).days
     
     def parse_criteries(self):
         if not self.criteries:

@@ -15,6 +15,7 @@
 <div class="list-group">
   {% for work_id, work in grouped_works.items %}
   <div class="list-group-item">
+    <p>Категория участника: {{ work.category_participant }}</p>
     <h5>{{ work.nomination }}</h5> <!-- Уже человекочитаемое значение -->
     <div class="d-flex flex-wrap">
       {% for photo in work.photos %}

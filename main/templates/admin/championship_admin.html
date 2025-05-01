@@ -157,19 +157,16 @@ document.addEventListener("DOMContentLoaded", function () {
         if (originalDate && originalDate.includes("г.")) {
             // Разбиваем строку на части: день, месяц, год
             const parts = originalDate.split(" ");
-            const day = parseInt(parts[0], 10); // День
+            var day = parts[0]; // День
             const monthName = parts[1]; // Название месяца
-            const year = parseInt(parts[2].replace("г.", ""), 10); // Год
+            const year = parts[2].replace("г.", ""); // Год
 
             // Получаем числовой индекс месяца (0-11)
-            const month = getMonthNumber(monthName);
-
-            // Создаем объект Date и форматируем его в YYYY-MM-DD
-            if (!isNaN(day) && month !== -1 && !isNaN(year)) {
-                const dateObj = new Date(year, month, day);
-                const formattedDate = dateObj.toISOString().split("T")[0]; // Формат YYYY-MM-DD
-                input.value = formattedDate; // Устанавливаем новое значение
-            }
+            var month = getMonthNumber(monthName)+1;
+            if (day.length < 2) day = '0' + day 
+            if (`${month}`.length < 2) month = '0' + `${month}`
+            input.value = `${year}-${month}-${day}`
+            console.log(`${year}-${month}-${day}`)
         }
     });
 });

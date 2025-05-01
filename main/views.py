@@ -17,13 +17,15 @@ from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.urls import reverse
-from .forms import ProcessedPhotoForm, ProcessedPhotoFormJudges
+from django.utils import timezone
 
 from .forms import (
     AddManagerForm,
     AwardRequestForm,
     ChampionshipForm,
     JournaRequestForm,
+    ProcessedPhotoForm,
+    ProcessedPhotoFormJudges,
     SertificateForm,
     SponsorstvoForm,
     SudeystvoForm,
@@ -59,11 +61,11 @@ from .support import (
 
 def get_active_championship(fail_silently=True, period: Literal['registration', 'judging', ''] = ''):
     if period=='registration':
-        kwargs = {'last_date_registration__gte': datetime.date.today()}
+        kwargs = {'last_date_registration__gte': timezone.now().date()}
     elif period=='judging':
-        kwargs = {'last_date_registration__lte': datetime.date.today(), 'date__gte': datetime.date.today()}
+        kwargs = {'last_date_registration__lte': timezone.now().date(), 'date__gte': timezone.now().date()}
     else:
-        kwargs = {'date__gte': datetime.date.today()}
+        kwargs = {'date__gte': timezone.now().date()}
     championship = Championship.objects.filter(current_stage__ne='closed', **kwargs).first()
     if not championship and not fail_silently:
         raise Http404('Championship is not active')
@@ -316,6 +318,7 @@ def sponsorstvo(request):
 
 def sudeystvo(request):
     judges = ProfileJudge.objects.all()
+    leaders = ProfileLeader.objects.all()
 
     if request.method == 'POST':
         model, created = save_with_new_user(request, SudeystvoForm, 'judge', check_championship=True, need_notify=True)
@@ -327,7 +330,7 @@ def sudeystvo(request):
     return render(
         request,
         "sudeystvo.html",
-        {"judges": judges},
+        {"judges": judges, "leaders": leaders},
     )
 
 
@@ -413,16 +416,16 @@ def is_approved(user: User) -> bool:
         return True
 
     if hasattr(user, 'profileparticipant'):
-        return user.profileparticipant.is_approved
+        return user.profileparticipant.approved == 'approved'
 
     if hasattr(user, 'profilejudge'):
-        return user.profilejudge.is_approved
+        return user.profilejudge.approved == 'approved'
     
     if hasattr(user, 'profileleader'):
         return True
     
     if hasattr(user, 'profilesponsor'):
-        return user.profilesponsor.is_approved
+        return user.profilesponsor.approved == 'approved'
     
     return False
 
@@ -890,7 +893,7 @@ def judge_championship(request):
 
     championship = get_active_championship(False)
 
-    if datetime.date.today() <= championship.last_date_registration:
+    if timezone.now().date() <= championship.last_date_registration:
         messages.error(request, 'Регистрация в чемпионате еще не закончена.')
         return redirect('judge_welcome')
 
@@ -902,6 +905,12 @@ def judge_championship(request):
         if work.work_id not in grouped_works:
             grouped_works[work.work_id] = {'nomination': work.get_nomination_display(), 'photos': []}
         grouped_works[work.work_id]['photos'].append(work)
+        category = ""
+        try:
+            category = work.user.profileparticipant.get_category_participant_display
+        except AttributeError:
+            category = 'Участник'
+        grouped_works[work.work_id]['category_participant'] = category
         grouped_works[work.work_id]['marked'] = marks_to_form_value(
             Mark.objects.filter(work_id=work.work_id, judge=request.user.profilejudge)
         )
@@ -922,7 +931,7 @@ def api_judge_rate_work(request: HttpRequest):
 
     if request.method == 'POST':
         championship = get_active_championship(False)
-        if datetime.date.today() <= championship.last_date_registration:
+        if timezone.now().date() <= championship.last_date_registration:
             messages.error(request, 'Регистрация в чемпионате еще не закончена.')
             return redirect('judge_welcome')
 
@@ -983,7 +992,7 @@ def current_championship_admin(request):
         messages.error(request, 'Чемпионат не активен.')
         return redirect('championship_admin')
 
-    if datetime.date.today() <= championship.last_date_registration:
+    if timezone.now().date() <= championship.last_date_registration:
         messages.error(request, 'Регистрация в чемпионате еще не закончена.')
         return redirect('championship_admin')
 
@@ -996,6 +1005,12 @@ def current_championship_admin(request):
         if work.work_id not in grouped_works:
             grouped_works[work.work_id] = {'nomination': work.get_nomination_display(), 'photos': []}
         grouped_works[work.work_id]['photos'].append(work)
+        category = ""
+        try:
+            category = work.user.profileparticipant.get_category_participant_display
+        except AttributeError:
+            category = 'Участник'
+        grouped_works[work.work_id]['category_participant'] = category
         grouped_works[work.work_id]['marked'] = marks_to_form_value(
             Mark.objects.filter(work_id=work.work_id)
         )
