@@ -30,6 +30,7 @@ urlpatterns = [
     path('awards/', views.award_list, name='award_list'),
     path('judge/welcome/', views.judge_welcome, name='judge_welcome'),
     path('judge/championship/', views.judge_championship, name='judge_championship'),
+    path('admin_teams/', views.teams_list, name='teams_list'),
     path('current_championship/', views.current_championship_admin, name='current_championship_admin'),
     # API
     path(

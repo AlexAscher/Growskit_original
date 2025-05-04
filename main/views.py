@@ -558,6 +558,21 @@ def participants_list(request):
         },
     )
 
+@login_required
+@user_passes_test(is_admin)
+def teams_list(request):
+    championship = Championship.get_active()  # Получаем активный чемпионат
+    teams = championship.teams.all() if championship else []  # Получаем команды чемпионата
+
+    return render(
+        request,
+        'admin/teams_list.html',
+        {
+            'teams': teams,
+            'championship': championship,
+        },
+    )
+
 
 @login_required
 @user_passes_test(is_admin)
