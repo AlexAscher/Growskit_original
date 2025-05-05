@@ -863,7 +863,7 @@ def api_change_status(request):
         status = data.get('status')
         typ: str = data.get('type')
 
-        profileModel = globals()["Profile" + typ.title()]
+        profileModel = globals().get("Profile" + typ.title())
         if not profileModel:
             return HttpResponse('{"status": "incorrect profile type"}')
 
@@ -1068,4 +1068,37 @@ def api_change_stage_championship(request: HttpRequest):
         championship.save()
         return redirect('championship_admin')
 
+    raise BadRequest("Method not allowed")
+
+
+@login_required
+@user_passes_test(is_admin)
+def api_toggle_is_coach(request: HttpRequest):
+    if request.method == 'POST':
+        data = request.POST
+        if 'id' not in data: # maybe ajax request - force parse body
+            data = json.loads(request.body.decode('utf-8') or '{}')
+        
+        profile_id = data.get('id')
+        typ: str = data.get('type')
+
+        profileModel = globals().get("Profile" + typ.title())
+        if not profileModel:
+            print('not found profile type')
+            return HttpResponse('{"status": "incorrect profile type"}')
+
+        profile = profileModel.objects.get(id=profile_id)
+
+        if not hasattr(profile, 'is_coach'):
+            print('profile has no is_coach field')
+            return HttpResponse('{"status": "profile has no is_coach field"}')
+
+        profile.is_coach = not profile.is_coach
+        profile.user.save()
+        profile.save()
+
+        print("ok")
+
+        return HttpResponse('{"status": "ok"}')
+    
     raise BadRequest("Method not allowed")

@@ -4,60 +4,106 @@
 {% block content %}
 <h1>Список команд</h1>
 <table class="table">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Название команды</th>
-            <th>Лидер</th>
-            <th>Количество участников</th>
-            <th>Действия</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for team in teams %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ team.name }}</td>
-            <td>{{ team.leader.fio }}</td>
-            <td>{{ team.members.count }}</td>
-            <td>
-                <!-- Кнопка для открытия модального окна -->
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#teamModal{{ team.id }}">
-                    Просмотр
-                </button>
-            </td>
-        </tr>
-
-        <!-- Модальное окно для команды -->
-        <div class="modal fade" id="teamModal{{ team.id }}" tabindex="-1"
-            aria-labelledby="teamModalLabel{{ team.id }}" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="teamModalLabel{{ team.id }}">Информация о команде: {{ team.name }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p><strong>Лидер команды:</strong> {{ team.leader.fio }}</p>
-                        <p><strong>Город:</strong> {{ team.leader.city }}</p>
-                        <p><strong>Телефон:</strong> {{ team.leader.phone }}</p>
-                        <p><strong>Email:</strong> {{ team.leader.email }}</p>
-                        <hr>
-                        <h5>Участники команды:</h5>
-                        <ul>
-                            {% for member in team.members.all %}
-                            <li>{{ member.fio }} ({{ member.city }})</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                    </div>
-                </div>
-            </div>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Название команды</th>
+      <th>Лидер</th>
+      <th>Количество участников</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for team in teams %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ team.name }}</td>
+      <td>
+        <div>
+          {{ team.leader.fio }}
+          <button class="btn btn-primary" data-leaderId="{{ team.leader.id }}" onclick="toggleIsCoach('{{ team.leader.id }}')">{% if team.leader.is_coach %} Лишить статуса тренера {% else %} Сделать тренером {% endif %}</button>
         </div>
-        {% endfor %}
-    </tbody>
+      </td>
+      <td>{{ team.members.count }}</td>
+      <td>
+        <!-- Кнопка для открытия модального окна -->
+        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#teamModal{{ team.id }}">
+          Просмотр
+        </button>
+      </td>
+    </tr>
+
+    <!-- Модальное окно для команды -->
+    <div class="modal fade" id="teamModal{{ team.id }}" tabindex="-1" aria-labelledby="teamModalLabel{{ team.id }}"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="teamModalLabel{{ team.id }}">Информация о команде: {{ team.name }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Лидер команды:</strong> {{ team.leader.fio }}</p>
+            <p><strong>Город:</strong> {{ team.leader.city }}</p>
+            <p><strong>Телефон:</strong> {{ team.leader.phone }}</p>
+            <p><strong>Email:</strong> {{ team.leader.email }}</p>
+            <hr>
+            <h5>Участники команды:</h5>
+            <ul>
+              {% for member in team.members.all %}
+              <li>{{ member.fio }} ({{ member.city }})</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </tbody>
 </table>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  async function toggleIsCoach(leaderId) {
+    var btns = document.querySelectorAll(`[data-leaderid="${leaderId}"]`); 
+    for (var btn of btns) {
+      btn.setAttribute('disabled', true);
+    }
+    const response = await fetch("{% url 'api_toggle_is_coach' %}", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': '{{ csrf_token }}'
+      },
+      body: JSON.stringify({"id": leaderId, "type": "leader"})
+    })
+    if (!response.ok || response.status != 200) {
+      btn.innerText = btn.innerText + ". Не удалось обновить статус";
+      if (response.ok) {
+        console.log(await response.text());
+      } else {
+        console.log("Заброс не был выполнен");
+      }
+    } else {
+      for (var btn of btns) {
+        var cur = btn.innerText;
+        while (cur && cur[0] == " ") cur = cur.slice(1);
+        while (cur && cur[cur.length - 1] == " ") cur = cur.slice(0, cur.length - 1);
+        if (cur == "Лишить статуса тренера") {
+          btn.innerText = "Сделать тренером";
+        } else {
+          btn.innerText = "Лишить статуса тренера"
+        }
+      }
+    }
+
+    for (var btn of btns) {
+      btn.removeAttribute('disabled');
+    }
+  }
+</script>
 {% endblock %}

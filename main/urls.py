@@ -44,6 +44,7 @@ urlpatterns = [
     path('api/judge_rate_work/', views.api_judge_rate_work, name='api_judge_rate_work'),
     path('api/set_group_tg', views.api_set_group_tg, name='api_set_group_tg'),
     path('api/change_stage_championship/', views.api_change_stage_championship, name='api_change_stage_championship'),
+    path('api/toggle_is_coach/', views.api_toggle_is_coach, name='api_toggle_is_coach'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root='main/static')
