@@ -225,6 +225,7 @@ def premiya(request: HttpRequest):
     if request.method == 'POST':
         championship = get_active_championship(False)
 
+        request.POST.setdefault('need_cup_and_elite', True)
         form = AwardRequestForm(request.POST, request.FILES)
         packet = request.POST.get('packet')
         if not packet:
@@ -465,7 +466,7 @@ def send_notify_of_days_left_registration(request: HttpRequest):
 
 
 class CustomLoginView(LoginView):
-    template_name = 'login.html'
+    template_name = 'login.htmlфц'
     redirect_authenticated_user = True
 
     def get_success_url(self):
