@@ -22,11 +22,12 @@ def send_mail(
     message,
     from_email,
     recipient_list,
-    fail_silently=False,
     html_message=None,
+    fail_silently=False,
 ):
+    return core_send_mail(subject, message, from_email, recipient_list, html_message, fail_silently)
     try:
-        resp = requests.post('http://localhost:8443/send_email', data={
+        resp = requests.post('http://127.0.0.1:8443/send_email', data={
             'subject': subject,
             'message': message,
             'recipient': recipient_list,
@@ -34,7 +35,7 @@ def send_mail(
         }, timeout=30000)
         if resp.status_code != 200:
             raise TimeoutError(resp.text)
-        
+
         return len(recipient_list) if isinstance(recipient_list, list) else 1
     except Exception as e:
         if not fail_silently:

@@ -102,12 +102,12 @@ def send_email_view():
     if error_msg:
         return jsonify({'error': error_msg}), 400
 
-    #try:
-    send_email(**clean_data)
-    print(f"Time taken to send email: {time.time() - start}")
-    return jsonify({'message': 'OK'}), 200
-    #except Exception as e:
-    #    return jsonify({'error': str(e)}), 500
+    try:
+        send_email(**clean_data)
+        print(f"Time taken to send email: {time.time() - start}")
+        return jsonify({'message': 'OK'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':

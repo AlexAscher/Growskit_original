@@ -41,10 +41,9 @@ def automigrate(execute_from_command_line, AUTO_MIGRATE=False):
 
 
 def run_mail_system():
-    # run mail system as sub proccess
+    # run mail system as another process
     print('Mail system starting...')
-    import subprocess
-    subprocess.Popen(['python', 'mail_system/mail.py'])
+    #os.execl('python3', 'mail_system/mail.py')
 
 
 def main():
