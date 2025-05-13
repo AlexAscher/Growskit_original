@@ -34,8 +34,7 @@ def send_mail(
             'html_message': html_message,
         }, timeout=30000)
         if resp.status_code != 200:
-            print(f'{resp.status_code}: {resp.text}')
-            return 0
+            raise Exception(f'{resp.status_code}: {resp.text}')
 
         return len(recipient_list) if isinstance(recipient_list, list) else 1
     except Exception as e:
