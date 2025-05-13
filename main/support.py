@@ -7,14 +7,42 @@ from dataclasses import dataclass, field
 from typing import Literal
 
 import docx
+import requests
 from django.conf import settings
 from django.contrib.auth.models import Group, User
-from django.core.mail import send_mail
+from django.core.mail import send_mail as core_send_mail
 from django.db.models.query import QuerySet
 
 from main.bot import bot
 
 TYPE_USER = Literal['participant', 'judge', 'sponsor', 'manager', 'leader', 'admin']
+
+def send_mail(
+    subject,
+    message,
+    from_email,
+    recipient_list,
+    fail_silently=False,
+    html_message=None,
+):
+    try:
+        resp = requests.post('http://localhost:8443/send_email', data={
+            'subject': subject,
+            'message': message,
+            'recipient': recipient_list,
+            'html_message': html_message,
+        }, timeout=30000)
+        if resp.status_code != 200:
+            raise TimeoutError(resp.text)
+        
+        return len(recipient_list) if isinstance(recipient_list, list) else 1
+    except Exception as e:
+        if not fail_silently:
+            raise
+
+        args = f'{subject}, {message}, {from_email}, {recipient_list}, {fail_silently}, {html_message}'
+        print(f'${send_mail.__module__}.{send_mail.__name__} ({args}) Exception: {e}')
+        return 0
 
 
 def get_random_string(length):

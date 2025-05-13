@@ -40,6 +40,13 @@ def automigrate(execute_from_command_line, AUTO_MIGRATE=False):
     execute_from_command_line(['manage.py', 'migrate'])
 
 
+def run_mail_system():
+    # run mail system as sub proccess
+    print('Mail system starting...')
+    import subprocess
+    subprocess.Popen(['python', 'mail_system/mail.py'])
+
+
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'growskit.settings')
@@ -58,6 +65,8 @@ def main():
 
     setup_mysql()
     automigrate(execute_from_command_line, os.getenv('AUTO_MIGRATE') == 'True')
+
+    run_mail_system()
 
     execute_from_command_line(sys.argv)
 

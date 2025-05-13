@@ -1,127 +1,114 @@
-import cgi
-import json
 import os
 import smtplib
+import time
 from email.mime.application import MIMEApplication
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from dotenv import load_dotenv
+from flask import Flask, jsonify, request
+from werkzeug.datastructures import FileStorage, ImmutableMultiDict
 
 load_dotenv()
 
-# Configuration for the mail server
-MAIL_HOST = os.environ.get('MAIL_HOST')
-MAIL_PORT = os.environ.get('MAIL_PORT')
-MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS')
-MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL')
-MAIL_HOST_USERNAME = os.environ.get('MAIL_HOST_USERNAME')
-MAIL_HOST_PASSWORD = os.environ.get('MAIL_HOST_PASSWORD')
 
-def send_email(title: str, message: str, sender: str, receiver: str,
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+
+def send_email(subject: str, message: str, recipient: str,
                html_message: str = None,
-               attachments: list[cgi.FieldStorage] = None, images: list[cgi.FieldStorage] = None):
+               attachments: list = None, images: list = None):
     msg = MIMEMultipart()
-    msg['From'] = sender
-    msg['To'] = receiver
-    msg['Subject'] = title
+    msg['From'] = EMAIL_HOST_USER
+    msg['To'] = recipient
+    msg['Subject'] = subject
 
-    msg.attach(MIMEText(message, 'plain'))
+    msg.attach(MIMEText(message, 'plain', 'utf-8'))
     if html_message:
-        msg.attach(MIMEText(html_message, 'html'))
+        msg.attach(MIMEText(html_message, 'html', 'utf-8'))
 
     for attachment in attachments or []:
-        part = MIMEApplication(attachment.file.read(), Name=attachment.filename)
+        part = MIMEApplication(attachment.stream.read(), Name=attachment.filename)
         part['Content-Disposition'] = f'attachment; filename="{attachment.filename}"'
         msg.attach(part)
 
     for image in images or []:
-        part = MIMEImage(image.file.read())
+        part = MIMEImage(image.stream.read())
         part.add_header('Content-ID', f'<{image.filename}>')
         msg.attach(part)
 
-    print(msg.as_string())
-    return
-
-    if MAIL_USE_SSL:
-        server = smtplib.SMTP_SSL(MAIL_HOST, MAIL_PORT)
+    if EMAIL_USE_SSL:
+        server = smtplib.SMTP_SSL(EMAIL_HOST, EMAIL_PORT)
+        server.connect(EMAIL_HOST, EMAIL_PORT)
     else:
-        server = smtplib.SMTP(MAIL_HOST, MAIL_PORT)
+        server = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT)
+        server.connect(EMAIL_HOST, EMAIL_PORT)
         server.starttls()
 
-    server.login(MAIL_HOST_USERNAME, MAIL_HOST_PASSWORD)
+    server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
     text = msg.as_string()
-    server.sendmail(sender, receiver, text)
+    server.sendmail(EMAIL_HOST_USER, recipient, text)
     server.quit()
 
-
-class RequestHandler(BaseHTTPRequestHandler):
-    clean_data: dict
-
+def validate(form: dict, files: dict[str, FileStorage]):
+    clean_data = {}
+    required_fields = ['subject', 'message', 'recipient']
+    for field in required_fields:
+        if field not in form:
+            return {}, f'{field} is required'
     
-    def _get_files(self, form: cgi.FieldStorage, field_name: str):
-        files: list[cgi.FieldStorage] = []
-        for key in form.keys():
-            if key.startswith(field_name):
-                file = form[key]
-                if isinstance(file, cgi.FieldStorage):
-                    files.append(file)
-        return files
+    clean_data = {
+        'subject': form['subject'],
+        'message': form['message'],
+        'recipient': form['recipient']
+    }
 
-    def _do(self, status: int, headers: list[tuple[str, str]], body: bytes):
-        self.send_response(status)
-        for header in headers:
-            self.send_header(header[0], header[1])
-
-        self.end_headers()
-        self.wfile.write(body.encode('utf-8'))
+    if 'html_message' in form:
+        clean_data['html_message'] = form['html_message']
     
-    def _validate(self, form: cgi.FieldStorage) -> tuple[bool, str]:
-        for key in ['title', 'message', 'sender', 'receiver']:
-            if form.getvalue(key) is None:
-                return False, f'{key} is missing'
-        
-        self.clean_data = {
-            'title': form['title'],
-            'message': form['message'],
-            'sender': form['sender'],
-            'receiver': form['receiver'],
-        }
+    attachments = []
+    images = []
+    for key, file in files.items():
+        if key.startswith('attachments'):
+            attachments.append(file)
+        elif key.startswith('images'):
+            images.append(file)
 
-        html = form.getvalue('html_message')
-        if html is not None:
-            self.clean_data['html_message'] = html
+    if len(attachments) > 0:
+        clean_data['attachments'] = attachments
+    if len(images) > 0:
+        clean_data['images'] = images
 
-        for key in ['attachments', 'images']:
-            files = self._get_files(form, key)
-            self.clean_data[key] = files
-        
-        return True, ''
+    return clean_data, ''
 
-    def do_POST(self):
-        content_length = int(self.headers['Content-Length'])
-        body = self.rfile.read(content_length)
-        form = cgi.FieldStorage(fp=body, headers=self.headers, environ={'REQUEST_METHOD': 'POST'})
+app = Flask(__name__)
 
-        is_valid, message = self._validate(form)
-        if not is_valid:
-            self._do(400, [('Content-Type', 'application/json')], json.dumps({'error': message}))
-            return
+@app.route('/send_email', methods=['POST'])
+def send_email_view():
+    start = time.time()
+    if len(request.form.keys()) == 0:
+        data: dict = request.get_json()
+        request.form = request.form.copy()
+        for key, value in data.items():
+            request.form.setdefault(key, value)
 
-        try:
-            send_email(**self.clean_data)
-            self._do(200, [('Content-type', 'application/json')], json.dumps({'message': 'Email sent successfully'}))
-        except Exception as e:
-            self._do(500, [('Content-type', 'application/json')], json.dumps({'error': str(e)}))
+    clean_data, error_msg = validate(request.form, request.files)
+    if error_msg:
+        return jsonify({'error': error_msg}), 400
 
-def run_server():
-    server_address = ('', 8443)
-    httpd = HTTPServer(server_address, RequestHandler)
-    
-    print('Mail service running at http://localhost:8443/')
-    httpd.serve_forever()
+    #try:
+    send_email(**clean_data)
+    print(f"Time taken to send email: {time.time() - start}")
+    return jsonify({'message': 'OK'}), 200
+    #except Exception as e:
+    #    return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
-    run_server()
+    app.run(port=8443)
