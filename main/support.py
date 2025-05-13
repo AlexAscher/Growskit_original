@@ -25,16 +25,17 @@ def send_mail(
     html_message=None,
     fail_silently=False,
 ):
-    return core_send_mail(subject, message, from_email, recipient_list, html_message, fail_silently)
+    #return core_send_mail(subject, message, from_email, recipient_list, html_message, fail_silently)
     try:
-        resp = requests.post('http://127.0.0.1:8443/send_email', data={
+        resp = requests.post('http://127.0.0.1:8443/send_email', json={
             'subject': subject,
             'message': message,
             'recipient': recipient_list,
             'html_message': html_message,
         }, timeout=30000)
         if resp.status_code != 200:
-            raise TimeoutError(resp.text)
+            print(f'{resp.status_code}: {resp.text}')
+            return 0
 
         return len(recipient_list) if isinstance(recipient_list, list) else 1
     except Exception as e:
