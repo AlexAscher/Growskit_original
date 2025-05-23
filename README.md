@@ -26,6 +26,7 @@ setup growskit-daemon:
 
 ```bash
 # file /lib/systemd/system/growskit.service
+# (ex. nano, then after paste it (right click for paste) - ctrl+o (save), enter, ctrl+x (exit))
 
 [Unit]
 Description = growskit
