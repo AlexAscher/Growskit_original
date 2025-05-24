@@ -466,7 +466,7 @@ def send_notify_of_days_left_registration(request: HttpRequest):
 
 
 class CustomLoginView(LoginView):
-    template_name = 'login.htmlфц'
+    template_name = 'login.html'
     redirect_authenticated_user = True
 
     def get_success_url(self):
