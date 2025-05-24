@@ -225,9 +225,11 @@ def premiya(request: HttpRequest):
     if request.method == 'POST':
         championship = get_active_championship(False)
 
-        request.POST.setdefault('need_cup_and_elite', True)
-        form = AwardRequestForm(request.POST, request.FILES)
-        packet = request.POST.get('packet')
+        dataPOST = request.POST.copy()
+
+        dataPOST.setdefault('need_cup_and_elite', True)
+        form = AwardRequestForm(dataPOST, request.FILES)
+        packet = dataPOST.get('packet')
         if not packet:
             form.add_error('packet', ValidationError("Выберите пакет"))
 
@@ -237,7 +239,7 @@ def premiya(request: HttpRequest):
         model = form.save(commit=False)
 
         def save_business_awards():
-            data = request.POST.copy()
+            data = dataPOST.copy()
             data.setlist('nomination', ['growing_business_awards'])
             business = AwardRequestForm(data)
             if not business.is_valid():
@@ -249,7 +251,7 @@ def premiya(request: HttpRequest):
             championship.awards.add(business.instance)
 
         def save_journal(count_pages, need_journal, need_cover, need_cup_and_elite):
-            data = request.POST.copy()
+            data = dataPOST.copy()
             data.setdefault('count_pages', count_pages)
             data.setdefault('need_journal', need_journal)
             data.setdefault('need_cover', need_cover)
