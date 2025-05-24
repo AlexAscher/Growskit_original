@@ -10,7 +10,7 @@ cd growskit
 
 pip install -r requariments.txt --break-system-packages
 
-sudo ln -s $(pwd) /etc/nginx/sites-enabled
+sudo ln -s $(pwd)/growskit_nginx.conf /etc/nginx/sites-enabled
 
 sudo usermod -a -G ${USER} www-data
 
@@ -59,7 +59,7 @@ setup mysql:
 wget https://dev.mysql.com/get/mysql-apt-config_0.8.33-1_all.deb # or newer
 sudo dpkg -i mysql-apt-config_0.8.33-1_all.deb # use OK and continue
 sudo apt-get update
-sudo apt-get install mysql-server
+sudo apt-get install mysql-server-8.0
 # check daemon
 systemctl status mysql # (re)start if needed
 

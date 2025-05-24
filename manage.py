@@ -5,7 +5,6 @@ import sys
 
 
 def setup_mysql():
-    return
     if os.getenv('USE_LOCAL_DB') == 'True':
         return
 
