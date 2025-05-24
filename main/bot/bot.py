@@ -53,7 +53,7 @@ elif not bot:
     print('Bot is not defined. Exiting...')
 else:
     print('Bot running...')
-    print(os.path.join(os.path.dirname(__file__), 'bot.py'))
+    print([sys.executable, os.path.join(os.path.dirname(__file__), 'bot.py')])
     proc = subprocess.Popen(
         [sys.executable, os.path.join(os.path.dirname(__file__), 'bot.py')],
         shell=True,
