@@ -14,8 +14,8 @@ sudo ln -s $(pwd) /etc/nginx/sites-enabled
 
 sudo usermod -a -G ${USER} www-data
 
-\<setup growskit-daemon\>
 \<setup mysql\>
+\<setup growskit-daemon\>
 
 # (re)start app
 sudo /etc/init.d/nginx restart
@@ -42,7 +42,7 @@ RestartSec       = 5s
 StandardOutput   = append:/root/growskit/std.log
 StandardError    = append:/root/growskit/std.log
 WorkingDirectory = /root/growskit
-ExecStart        = /usr/bin/python3 /root/growskit/manage.py runserver 0.0.0.0
+ExecStart        = /usr/bin/python3 /root/growskit/manage.py runserver 0.0.0.0:8001
 
 [Install]
 WantedBy = multi-user.target
