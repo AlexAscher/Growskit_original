@@ -25,7 +25,7 @@ def send_mail(
     html_message=None,
     fail_silently=False,
 ):
-    return core_send_mail(subject, message, from_email, recipient_list, html_message, fail_silently)
+    return core_send_mail(subject, message, from_email, recipient_list, html_message=html_message, fail_silently=fail_silently)
     try:
         resp = requests.post('http://127.0.0.1:8443/send_email', json={
             'subject': subject,
