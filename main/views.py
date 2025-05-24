@@ -922,7 +922,7 @@ def judge_championship(request):
 @login_required
 @user_passes_test(is_approved)
 def api_judge_rate_work(request: HttpRequest):
-    if not hasattr(request.user, 'profilejudge'):
+    if not hasattr(request.user, 'profilejudge') and not request.user.is_superuser:
         messages.error(request, 'Вы не являетесь судьей.')
         return redirect('/')  # Перенаправляем на главную страницу, если пользователь не судья
 
@@ -950,7 +950,6 @@ def api_judge_rate_work(request: HttpRequest):
                 marks[block_id + ". " + id + ". " + name]['comment'] = value
 
         for critery, mark in marks.items():
-            print(critery, mark)
             markM = Mark.objects.filter(work_id=work, judge=mark['judge'], critery=critery).first()
 
             if request.POST.get('only_edit') and not markM:
@@ -975,7 +974,6 @@ def api_judge_rate_work(request: HttpRequest):
             markM.save()
 
             championship.marks.add(markM)
-            print("updated", markM)
             championship.save()
 
         if request.user.is_superuser:
