@@ -51,6 +51,7 @@ if __name__ == '__main__' and bot:
     bot.infinity_polling()
 else:
     print('Bot running...')
+    print(os.path.join(os.path.dirname(__file__), 'bot.py'))
     proc = subprocess.Popen(
         [sys.executable, os.path.join(os.path.dirname(__file__), 'bot.py')],
         shell=True,
