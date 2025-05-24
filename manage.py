@@ -8,19 +8,20 @@ def setup_mysql():
     if os.getenv('USE_LOCAL_DB') == 'True':
         return
 
-    import MySQLdb
+    from MySQLdb.connections import Connection
+    from MySQLdb.cursors import BaseCursor
 
     db_host = os.getenv('DB_HOST')
     db_name = os.getenv('DB_NAME')
     db_user = os.getenv('DB_USER')
     db_password = os.getenv('DB_PASSWORD')
 
-    db: MySQLdb.Connection = None
-    cursor: MySQLdb.cursors.BaseCursor = None
+    db: Connection = None
+    cursor: BaseCursor = None
 
     try:
-        db = MySQLdb.connect(host=db_host, user=db_user, passwd=db_password)
-        cursor: MySQLdb.cursors.BaseCursor = db.cursor()
+        db = Connection(host=db_host, user=db_user, passwd=db_password)
+        cursor: BaseCursor = db.cursor()
         cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name}")
     finally:
         if cursor:

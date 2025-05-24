@@ -4,10 +4,11 @@ setup server:
 sudo apt install python3 python3-pip git nginx
 sudo /etc/init.d/nginx start
 
-git clone 
+ssh-keygen -t rsa # if needed, and add key to github
+git clone git@github.com:PoulIgorson/growskit.git
 cd growskit
 
-pip install -r requirements.txt --break-system-packages
+pip install -r requariments.txt --break-system-packages
 
 sudo ln -s $(pwd) /etc/nginx/sites-enabled
 
@@ -40,8 +41,8 @@ Restart          = always
 RestartSec       = 5s
 StandardOutput   = append:/root/growskit/std.log
 StandardError    = append:/root/growskit/std.log
-WorkingDirectory = /growskit
-ExecStart        = /usr/bin/python3 /growskit/manage.py runserver 0.0.0.0
+WorkingDirectory = /root/growskit
+ExecStart        = /usr/bin/python3 /root/growskit/manage.py runserver 0.0.0.0
 
 [Install]
 WantedBy = multi-user.target
