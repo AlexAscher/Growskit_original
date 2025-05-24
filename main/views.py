@@ -966,7 +966,6 @@ def api_judge_rate_work(request: HttpRequest):
                 )
                 championship.marks.add(markM)
                 championship.save()
-                print("saved", markM)
                 continue
 
             markM.mark = mark['mark']
@@ -976,6 +975,7 @@ def api_judge_rate_work(request: HttpRequest):
             championship.marks.add(markM)
             championship.save()
 
+        championship.marks.all()
         if request.user.is_superuser:
             return redirect('current_championship_admin')
 

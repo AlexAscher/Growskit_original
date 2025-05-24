@@ -42,7 +42,7 @@ def callfunc(func, *args, fail_silently=False, **kwargs):
 
 
 if __name__ == '__main__' and bot:
-
+    print('Bot running... __main__')
     @bot.message_handler(commands=['start'])
     def start(message: telebot.types.Message):
         print(message.chat.id)
@@ -50,6 +50,7 @@ if __name__ == '__main__' and bot:
 
     bot.infinity_polling()
 else:
+    print('Bot running...')
     proc = subprocess.Popen(
         [sys.executable, os.path.join(os.path.dirname(__file__), 'bot.py')],
         shell=True,
