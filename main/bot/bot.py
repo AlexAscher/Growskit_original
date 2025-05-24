@@ -62,5 +62,5 @@ else:
         stderr=None,
         close_fds=True,
     )
-    print(f'{proc=}')
-    print(proc.returncode)
+    print(proc.stdout)
+    print(proc.stderr)
