@@ -950,6 +950,7 @@ def api_judge_rate_work(request: HttpRequest):
                 marks[block_id + ". " + id + ". " + name]['comment'] = value
 
         for critery, mark in marks.items():
+            print(critery, mark)
             markM = Mark.objects.filter(work_id=work, judge=mark['judge'], critery=critery).first()
 
             if request.POST.get('only_edit') and not markM:

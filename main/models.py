@@ -157,7 +157,10 @@ class ProfileParticipant(models.Model):
     
     @property
     def get_category_participant_display(self):
-        return dict(CATEGORY_PARTICIPANT)[self.category_participant]
+        try:
+            return dict(CATEGORY_PARTICIPANT)[self.category_participant]
+        except KeyError:
+            return self.category_participant
 
 
 class ProfileJudge(models.Model):
