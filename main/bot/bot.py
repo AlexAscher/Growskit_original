@@ -57,10 +57,8 @@ else:
     proc = subprocess.Popen(
         [sys.executable, os.path.join(os.path.dirname(__file__), 'bot.py')],
         shell=True,
-        stdin=None,
-        stdout=None,
-        stderr=None,
+        stdin=sys.stdin,
+        stdout=sys.stdout,
+        stderr=sys.stderr,
         close_fds=True,
     )
-    print(proc.stdout)
-    print(proc.stderr)
