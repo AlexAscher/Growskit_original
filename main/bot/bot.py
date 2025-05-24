@@ -62,3 +62,4 @@ else:
         stderr=None,
         close_fds=True,
     )
+    print(f'{proc=}')
