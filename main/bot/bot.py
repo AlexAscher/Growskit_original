@@ -63,3 +63,4 @@ else:
         close_fds=True,
     )
     print(f'{proc=}')
+    print(proc.returncode)
