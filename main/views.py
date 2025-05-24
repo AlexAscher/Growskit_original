@@ -966,6 +966,7 @@ def api_judge_rate_work(request: HttpRequest):
                 )
                 championship.marks.add(markM)
                 championship.save()
+                print("saved", markM)
                 continue
 
             markM.mark = mark['mark']
@@ -973,11 +974,11 @@ def api_judge_rate_work(request: HttpRequest):
             markM.save()
 
             championship.marks.add(markM)
+            print("updated", markM)
             championship.save()
 
-        from_path = request.META.get('HTTP_REFERER')
-        if from_path:
-            return redirect(from_path)
+        if request.user.is_superuser:
+            return redirect('current_championship_admin')
 
         return redirect('judge_championship')
 
