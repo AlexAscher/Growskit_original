@@ -3,6 +3,8 @@
 import os
 import sys
 
+import main.bot as bot
+
 
 def setup_mysql():
     if os.getenv('USE_LOCAL_DB') == 'True':
