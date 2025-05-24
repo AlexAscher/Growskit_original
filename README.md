@@ -65,7 +65,8 @@ systemctl status mysql # (re)start if needed
 
 # create database
 mysql -u root -p # password in .env
-CREATE DATABASE growskit; # for exit - type "exit"
+CREATE DATABASE growskit;
+# for exit - type "exit"
 
 # check for more actions: https://app-generator.dev/docs/technologies/mysql/index.html
 # ready
