@@ -11,6 +11,34 @@
     <link rel="stylesheet" href="/static/css/sponsorship.css" />
     <link rel="stylesheet" href="/static/css/header.css" />
     <link rel="stylesheet" href="/static/css/reset.css" />
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        function setEqualHeight() {
+          let sponsors = document.querySelectorAll(".sponsors, .sponsors1");
+          let maxHeight = 0;
+
+          // Определяем максимальную высоту
+          sponsors.forEach((sponsor) => {
+            sponsor.style.height = "auto"; // Сбрасываем высоту перед пересчётом
+            let height = sponsor.offsetHeight;
+            if (height > maxHeight) {
+              maxHeight = height;
+            }
+          });
+
+          // Применяем максимальную высоту ко всем элементам
+          sponsors.forEach((sponsor) => {
+            sponsor.style.height = maxHeight + "px";
+          });
+        }
+
+        setEqualHeight(); // Вызываем при загрузке страницы
+
+        // Повторяем при изменении размеров окна
+        window.addEventListener("resize", setEqualHeight);
+      });
+    </script>
   </head>
   <body>
     <header class="header d-none d-xxl-flex">
@@ -332,33 +360,7 @@
 
   </section>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        function setEqualHeight() {
-          let sponsors = document.querySelectorAll(".sponsors, .sponsors1");
-          let maxHeight = 0;
-
-          // Определяем максимальную высоту
-          sponsors.forEach((sponsor) => {
-            sponsor.style.height = "auto"; // Сбрасываем высоту перед пересчётом
-            let height = sponsor.offsetHeight;
-            if (height > maxHeight) {
-              maxHeight = height;
-            }
-          });
-
-          // Применяем максимальную высоту ко всем элементам
-          sponsors.forEach((sponsor) => {
-            sponsor.style.height = maxHeight + "px";
-          });
-        }
-
-        setEqualHeight(); // Вызываем при загрузке страницы
-
-        // Повторяем при изменении размеров окна
-        window.addEventListener("resize", setEqualHeight);
-      });
-    </script>
+    
     <script src="/static/script/validation.js"></script>
   </body>
 </html>
