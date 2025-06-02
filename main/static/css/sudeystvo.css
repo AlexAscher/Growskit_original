@@ -488,6 +488,14 @@ textarea {
   margin-bottom: 32px;
   border-radius: 20px;
 }
+.item1 {
+  background: url(/static/img/fon_person.png) center/cover no-repeat;
+  padding: 12px 10px;
+  height: 445.62762451171875px;
+  position: relative;
+  margin-bottom: 32px;
+  border-radius: 20px;
+}
 .participantimg {
   position: absolute;
   bottom: 0;
