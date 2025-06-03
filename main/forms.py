@@ -187,3 +187,25 @@ class ChampionshipForm(forms.ModelForm):
             ),
         }
         labels = {'name': 'Название', 'date': 'Дата начала', 'last_date_registration': 'Дата окончания регистрации'}
+
+class ProcessedPhotoForm(forms.ModelForm):
+    class Meta:
+        model = ProfileParticipant
+        fields = ['processed_photo']
+        widgets = {
+            'processed_photo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'processed_photo': 'Фото для сайта',
+        }
+
+class ProcessedPhotoFormJudges(forms.ModelForm):
+    class Meta:
+        model = ProfileJudge
+        fields = ['processed_photo']
+        widgets = {
+            'processed_photo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'processed_photo': 'Фото для сайта',
+        }

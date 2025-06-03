@@ -39,10 +39,9 @@ SECRET_KEY = 'django-insecure-qgpu0x%gk4^30fj78e4r6!r7z*!udcva3_p_)2&a*(tx2a19zy
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '89.104.65.248', 'growskit.ru', 'growskit', 'www.growskit.ru']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '194.67.88.39', 'growskit.ru', 'growskit', 'www.growskit.ru']
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = False
-
 
 
 # Application definition
@@ -80,9 +79,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+            ]
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = 'growskit.wsgi.application'
@@ -92,17 +91,18 @@ WSGI_APPLICATION = 'growskit.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE'  : os.getenv('DB_ENGINE'),
-        'NAME'    : os.getenv('DB_NAME'),
-        'USER'    : os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST'    : os.getenv('DB_HOST'),
-        'PORT'    : os.getenv('DB_PORT'),
-    } if not (os.getenv('USE_LOCAL_DB') == 'True') else {
-        'ENGINE'  : 'django.db.backends.sqlite3',
-        'NAME'    : BASE_DIR / 'db.sqlite3',
-    }
+    'default': (
+        {
+            'ENGINE': os.getenv('DB_ENGINE'),
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST'),
+            'PORT': os.getenv('DB_PORT'),
+        }
+        if not (os.getenv('USE_LOCAL_DB') == 'True')
+        else {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'}
+    )
 }
 
 
@@ -110,24 +110,16 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'ru' # 'en-us'
+LANGUAGE_CODE = 'ru'  # 'en-us'
 
 TIME_ZONE = 'Europe/Moscow'
 
@@ -163,6 +155,7 @@ EMAIL_LOGGING = True
 # Logging
 # https://docs.djangoproject.com/en/4.2/topics/logging/
 
+
 class LogModelHandler(logging.Handler):
     @staticmethod
     def strip_dirs(pathname: str):
@@ -171,7 +164,7 @@ class LogModelHandler(logging.Handler):
 
         while pathname.startswith('/') or pathname.startswith('\\'):
             pathname = pathname[1:]
-        
+
         return pathname
 
     @staticmethod
@@ -188,12 +181,11 @@ class LogModelHandler(logging.Handler):
             'message': record.getMessage(),
             'description': record.description,
             'src': f'{LogModelHandler.strip_dirs(record.pathname)}:{record.lineno} ({record.funcName})',
-            'context': dict
+            'context': dict,
         }
 
     def emit(self, record):
-        if 'Log' not in globals():
-            from main.models import Log
+        from main.models import Log
 
         data = LogModelHandler.record_to_data_for_model(record)
         try:
@@ -203,22 +195,40 @@ class LogModelHandler(logging.Handler):
             del data['context']
             Log.objects.create(context=f'{"raw": "{str(record.__dict__)}"}', **data)
 
+
 class JsonEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if type(obj) is object: return str(obj)
+    def default(self, o):
+        obj = o
+        if type(obj) is object:
+            return str(obj)
         if isinstance(obj, dict) or issubclass(type(obj), dict):
             return obj
-        if isinstance(obj, str) or isinstance(obj, int) or isinstance(obj, float) or isinstance(obj, bool) or\
-                issubclass(type(obj), str) or issubclass(type(obj), int) or issubclass(type(obj), float) or\
-                issubclass(type(obj), bool) or obj is None:
+        if (
+            isinstance(obj, str)
+            or isinstance(obj, int)
+            or isinstance(obj, float)
+            or isinstance(obj, bool)
+            or issubclass(type(obj), str)
+            or issubclass(type(obj), int)
+            or issubclass(type(obj), float)
+            or issubclass(type(obj), bool)
+            or obj is None
+        ):
             return obj
         if isinstance(obj, BaseException) or issubclass(type(obj), BaseException):
             return str(obj)
-        if isinstance(obj, datetime.datetime) or isinstance(obj, datetime.date) or isinstance(obj, datetime.time) or\
-                issubclass(type(obj), datetime.datetime) or issubclass(type(obj), datetime.date) or issubclass(type(obj), datetime.time):
+        if (
+            isinstance(obj, datetime.datetime)
+            or isinstance(obj, datetime.date)
+            or isinstance(obj, datetime.time)
+            or issubclass(type(obj), datetime.datetime)
+            or issubclass(type(obj), datetime.date)
+            or issubclass(type(obj), datetime.time)
+        ):
             return obj.isoformat()
-        
+
         return repr(obj)
+
 
 class JsonFormatter(logging.Formatter):
     def format(self, record):
@@ -229,45 +239,19 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'json': {
-            '()': 'growskit.settings.JsonFormatter',
-        },
-        'simple': {
-            'format': '{asctime} - {levelname} {message}',
-            'style': '{',
-        },
+        'json': {'()': 'growskit.settings.JsonFormatter'},
+        'simple': {'format': '{asctime} - {levelname} {message}', 'style': '{'},
     },
     'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-            'level': 'DEBUG',
-        },
-        'file': {
-            'class': 'logging.FileHandler',
-            'filename': 'growskit.log',
-            'formatter': 'json',
-            'level': 'INFO',
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-        },
-        'main.database': {
-            'level': 'WARNING',
-            'class': 'growskit.settings.LogModelHandler',
-        },
+        'console': {'class': 'logging.StreamHandler', 'formatter': 'simple', 'level': 'DEBUG'},
+        'file': {'class': 'logging.FileHandler', 'filename': 'growskit.log', 'formatter': 'json', 'level': 'INFO'},
+        'mail_admins': {'level': 'ERROR', 'class': 'django.utils.log.AdminEmailHandler'},
+        'main.database': {'level': 'WARNING', 'class': 'growskit.settings.LogModelHandler'},
     },
     'loggers': {
-        'django': {
-            'handlers': ['console', 'file', 'mail_admins', 'main.database'],
-            'level': 'INFO',
-        },
-        'main': {
-            'handlers': ['console', 'file', 'mail_admins', 'main.database'],
-            'level': 'DEBUG',
-        }
-    }
+        'django': {'handlers': ['console', 'file', 'mail_admins', 'main.database'], 'level': 'INFO'},
+        'main': {'handlers': ['console', 'file', 'mail_admins', 'main.database'], 'level': 'DEBUG'},
+    },
 }
 
 

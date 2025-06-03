@@ -7,14 +7,43 @@ from dataclasses import dataclass, field
 from typing import Literal
 
 import docx
+import requests
 from django.conf import settings
 from django.contrib.auth.models import Group, User
-from django.core.mail import send_mail
+from django.core.mail import send_mail as core_send_mail
 from django.db.models.query import QuerySet
 
 from main.bot import bot
 
 TYPE_USER = Literal['participant', 'judge', 'sponsor', 'manager', 'leader', 'admin']
+
+def send_mail(
+    subject,
+    message,
+    from_email,
+    recipient_list,
+    html_message=None,
+    fail_silently=False,
+):
+    return core_send_mail(subject, message, from_email, recipient_list, html_message=html_message, fail_silently=fail_silently)
+    try:
+        resp = requests.post('http://127.0.0.1:8443/send_email', json={
+            'subject': subject,
+            'message': message,
+            'recipient': recipient_list,
+            'html_message': html_message,
+        }, timeout=30000)
+        if resp.status_code != 200:
+            raise Exception(f'{resp.status_code}: {resp.text}')
+
+        return len(recipient_list) if isinstance(recipient_list, list) else 1
+    except Exception as e:
+        if not fail_silently:
+            raise
+
+        args = f'{subject}, {message}, {from_email}, {recipient_list}, {fail_silently}, {html_message}'
+        print(f'${send_mail.__module__}.{send_mail.__name__} ({args}) Exception: {e}')
+        return 0
 
 
 def get_random_string(length):
@@ -56,7 +85,6 @@ def get_group_tg():
 
 def notify_user(subject: str, message: str, recipient: list[str] | str, fail_silently=False, tg: list[str] | str = ""):
     if len(recipient) > 0:
-        print(1, datetime.datetime.now())
         send_mail(
             subject,
             message,
@@ -64,7 +92,6 @@ def notify_user(subject: str, message: str, recipient: list[str] | str, fail_sil
             (list(set(recipient)) if isinstance(recipient, list) else [recipient]),
             fail_silently=fail_silently,
         )
-        print(2, datetime.datetime.now())
     if tg:
         notify_user_tg(subject, message, tg, fail_silently=fail_silently)
 

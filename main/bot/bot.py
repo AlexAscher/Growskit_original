@@ -42,19 +42,23 @@ def callfunc(func, *args, fail_silently=False, **kwargs):
 
 
 if __name__ == '__main__' and bot:
-
+    print('Bot running... __main__')
     @bot.message_handler(commands=['start'])
     def start(message: telebot.types.Message):
         print(message.chat.id)
         bot.send_message(message.chat.id, 'Hello!')
 
     bot.infinity_polling()
+elif not bot:
+    print('Bot is not defined. Exiting...')
 else:
+    print('Bot running...')
+    print([sys.executable, os.path.join(os.path.dirname(__file__), 'bot.py')])
     proc = subprocess.Popen(
         [sys.executable, os.path.join(os.path.dirname(__file__), 'bot.py')],
         shell=True,
-        stdin=None,
-        stdout=None,
-        stderr=None,
+        stdin=sys.stdin,
+        stdout=sys.stdout,
+        stderr=sys.stderr,
         close_fds=True,
     )

@@ -30,6 +30,7 @@ urlpatterns = [
     path('awards/', views.award_list, name='award_list'),
     path('judge/welcome/', views.judge_welcome, name='judge_welcome'),
     path('judge/championship/', views.judge_championship, name='judge_championship'),
+    path('admin_teams/', views.teams_list, name='teams_list'),
     path('current_championship/', views.current_championship_admin, name='current_championship_admin'),
     # API
     path(
@@ -43,6 +44,7 @@ urlpatterns = [
     path('api/judge_rate_work/', views.api_judge_rate_work, name='api_judge_rate_work'),
     path('api/set_group_tg', views.api_set_group_tg, name='api_set_group_tg'),
     path('api/change_stage_championship/', views.api_change_stage_championship, name='api_change_stage_championship'),
+    path('api/toggle_is_coach/', views.api_toggle_is_coach, name='api_toggle_is_coach'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root='main/static')

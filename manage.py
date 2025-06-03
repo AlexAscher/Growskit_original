@@ -3,24 +3,27 @@
 import os
 import sys
 
+import main.bot as bot
+
 
 def setup_mysql():
     if os.getenv('USE_LOCAL_DB') == 'True':
         return
 
-    import MySQLdb
+    from MySQLdb.connections import Connection
+    from MySQLdb.cursors import BaseCursor
 
     db_host = os.getenv('DB_HOST')
     db_name = os.getenv('DB_NAME')
     db_user = os.getenv('DB_USER')
     db_password = os.getenv('DB_PASSWORD')
 
-    db: MySQLdb.Connection = None
-    cursor: MySQLdb.cursors.BaseCursor = None
+    db: Connection = None
+    cursor: BaseCursor = None
 
     try:
-        db = MySQLdb.connect(host=db_host, user=db_user, passwd=db_password)
-        cursor: MySQLdb.cursors.BaseCursor = db.cursor()
+        db = Connection(host=db_host, user=db_user, passwd=db_password)
+        cursor: BaseCursor = db.cursor()
         cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name}")
     finally:
         if cursor:
@@ -38,6 +41,12 @@ def automigrate(execute_from_command_line, AUTO_MIGRATE=False):
 
     execute_from_command_line(['manage.py', 'makemigrations'])
     execute_from_command_line(['manage.py', 'migrate'])
+
+
+def run_mail_system():
+    # run mail system as another process
+    print('Mail system starting...')
+    #os.execl('python3', 'mail_system/mail.py')
 
 
 def main():
@@ -58,6 +67,8 @@ def main():
 
     setup_mysql()
     automigrate(execute_from_command_line, os.getenv('AUTO_MIGRATE') == 'True')
+
+    run_mail_system()
 
     execute_from_command_line(sys.argv)
 

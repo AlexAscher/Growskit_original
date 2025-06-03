@@ -17,12 +17,15 @@ from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.urls import reverse
+from django.utils import timezone
 
 from .forms import (
     AddManagerForm,
     AwardRequestForm,
     ChampionshipForm,
     JournaRequestForm,
+    ProcessedPhotoForm,
+    ProcessedPhotoFormJudges,
     SertificateForm,
     SponsorstvoForm,
     SudeystvoForm,
@@ -57,12 +60,12 @@ from .support import (
 
 
 def get_active_championship(fail_silently=True, period: Literal['registration', 'judging', ''] = ''):
-    if period=='registration':
-        kwargs = {'last_date_registration__gte': datetime.date.today()}
-    elif period=='judging':
-        kwargs = {'last_date_registration__lte': datetime.date.today(), 'date__gte': datetime.date.today()}
+    if period == 'registration':
+        kwargs = {'last_date_registration__gte': timezone.now().date()}
+    elif period == 'judging':
+        kwargs = {'last_date_registration__lte': timezone.now().date(), 'date__gte': timezone.now().date()}
     else:
-        kwargs = {'date__gte': datetime.date.today()}
+        kwargs = {'date__gte': timezone.now().date()}
     championship = Championship.objects.filter(current_stage__ne='closed', **kwargs).first()
     if not championship and not fail_silently:
         raise Http404('Championship is not active')
@@ -89,7 +92,9 @@ def add_profile_to_championship(championship: Championship, profile, type_user: 
 
 
 # def save_with_new_user[T](request: HttpRequest, cls: type[T] | forms.ModelForm, type_user: TYPE_USER, check_championship=False, need_notify=False) -> tuple[T, bool]:
-def save_with_new_user(request: HttpRequest, cls: type | forms.ModelForm, type_user: TYPE_USER, check_championship=False, need_notify=False):
+def save_with_new_user(
+    request: HttpRequest, cls: type | forms.ModelForm, type_user: TYPE_USER, check_championship=False, need_notify=False
+):
     championship: Championship = None
     if check_championship:
         championship = get_active_championship(False, ['', 'registration'][type_user in ['participant', 'leader']])
@@ -118,13 +123,7 @@ def save_with_new_user(request: HttpRequest, cls: type | forms.ModelForm, type_u
 
 def index(request):
     championship = get_active_championship()
-    return render(
-        request,
-        'index.html',
-        {
-            'championship': championship,
-        },
-    )
+    return render(request, 'index.html', {'championship': championship})
 
 
 def magazine(request: HttpRequest):
@@ -157,15 +156,15 @@ def magazine(request: HttpRequest):
             request.POST.setdefault('need_cover', True)
 
         form = JournaRequestForm(request.POST, request.FILES)
-        
+
         if not packet:
             form.add_error('packet', ValidationError("Выберите пакет"))
 
         if not form.is_valid():
             raise BadRequest(form.errors.as_text())
-        
+
         model = form.save(commit=False)
-        
+
         def save_business_awards():
             data = request.POST.copy()
             data.setdefault('bio', '<Создано автоматически>')
@@ -179,13 +178,12 @@ def magazine(request: HttpRequest):
             business.save()
             championship.awards.add(business.instance)
 
-
         if packet == 'minimagazine':
             save_business_awards()
         elif packet == 'platinummagazine':
-            save_business_awards()  
+            save_business_awards()
         elif packet == 'goldmagazine':
-            save_business_awards()       
+            save_business_awards()
 
         form.save()
 
@@ -207,17 +205,15 @@ def participants(request):
 
         for participant in participants:
             participant.nominations = championship.works.filter(user=participant.user).order_by('work_id')
-        
+
         teams = championship.teams.all()
         for team in teams:
             leaders.append(team.leader)
         leaders = list(set(leaders))
-    
-    return render(request, 'participants.html', {
-        'championship': championship,
-        'participants': participants,
-        'leaders': leaders
-    })
+
+    return render(
+        request, 'participants.html', {'championship': championship, 'participants': participants, 'leaders': leaders}
+    )
 
 
 def popup(request):
@@ -229,19 +225,21 @@ def premiya(request: HttpRequest):
     if request.method == 'POST':
         championship = get_active_championship(False)
 
-        form = AwardRequestForm(request.POST, request.FILES)
-        packet = request.POST.get('packet')
+        dataPOST = request.POST.copy()
+
+        dataPOST.setdefault('need_cup_and_elite', True)
+        form = AwardRequestForm(dataPOST, request.FILES)
+        packet = dataPOST.get('packet')
         if not packet:
             form.add_error('packet', ValidationError("Выберите пакет"))
-        
+
         if not form.is_valid():
             raise BadRequest(form.errors.as_text())
-        
-        
+
         model = form.save(commit=False)
-        
+
         def save_business_awards():
-            data = request.POST.copy()
+            data = dataPOST.copy()
             data.setlist('nomination', ['growing_business_awards'])
             business = AwardRequestForm(data)
             if not business.is_valid():
@@ -251,9 +249,9 @@ def premiya(request: HttpRequest):
             business.instance.photo = model.photo
             business.save()
             championship.awards.add(business.instance)
-        
+
         def save_journal(count_pages, need_journal, need_cover, need_cup_and_elite):
-            data = request.POST.copy()
+            data = dataPOST.copy()
             data.setdefault('count_pages', count_pages)
             data.setdefault('need_journal', need_journal)
             data.setdefault('need_cover', need_cover)
@@ -267,7 +265,6 @@ def premiya(request: HttpRequest):
             journal.save()
             championship.journals.add(journal.instance)
 
-
         if packet == 'default':
             save_business_awards()
         elif packet == 'mini':
@@ -275,23 +272,17 @@ def premiya(request: HttpRequest):
             save_journal(1, True, False, True)
         elif packet == 'platinum':
             save_business_awards()
-            save_journal(2, True, False, True)  
+            save_journal(2, True, False, True)
         elif packet == 'gold':
             save_business_awards()
-            save_journal(2, True, True, True)       
+            save_journal(2, True, True, True)
 
         form.save()
         championship.awards.add(model)
 
         notify_admin('Заявка на премию', f'{model}' + '\nПодробности в личном кабинете', 'ALL', tg=get_group_tg())
 
-    return render(
-        request,
-        'premiya.html',
-        {
-            'championship': championship,
-        },
-    )
+    return render(request, 'premiya.html', {'championship': championship})
 
 
 def sponsorstvo(request):
@@ -314,6 +305,9 @@ def sponsorstvo(request):
 
 
 def sudeystvo(request):
+    judges = ProfileJudge.objects.all()
+    leaders = ProfileLeader.objects.all()
+
     if request.method == 'POST':
         model, created = save_with_new_user(request, SudeystvoForm, 'judge', check_championship=True, need_notify=True)
 
@@ -321,7 +315,7 @@ def sudeystvo(request):
             notify_admin('Заявка на судью', f'{model}' + '\nПодробности в личном кабинете', 'ALL', tg=get_group_tg())
         return redirect('index')  # TODO: redirect to profile judge
 
-    return render(request, 'sudeystvo.html')
+    return render(request, "sudeystvo.html", {"judges": judges, "leaders": leaders})
 
 
 def uchastie(request: HttpRequest):
@@ -359,12 +353,14 @@ def uchastie(request: HttpRequest):
             raise BadRequest('Команда с таким названием уже зарегистрирована')
         if not team:
             team = Team.objects.create(name=form.cleaned_data['team_name'], leader=leader, championship=championship)
-        
+
         new_users = []
         real_new = []
         for participant_data in form.cleaned_data['participants']:
             user, password, _ = create_user(participant_data['email'], 'participant')
-            new_users.append([participant_data['email'], password, participant_data.get('tg') or participant_data.get('telegram')])
+            new_users.append(
+                [participant_data['email'], password, participant_data.get('tg') or participant_data.get('telegram')]
+            )
             participant, created = get_or_create_by_user(ProfileParticipant, user, **participant_data)
             team.members.add(participant)
             if created:
@@ -406,18 +402,19 @@ def is_approved(user: User) -> bool:
         return True
 
     if hasattr(user, 'profileparticipant'):
-        return user.profileparticipant.is_approved
+        return user.profileparticipant.approved == 'approved'
 
     if hasattr(user, 'profilejudge'):
-        return user.profilejudge.is_approved
-    
+        return user.profilejudge.approved == 'approved'
+
     if hasattr(user, 'profileleader'):
         return True
-    
+
     if hasattr(user, 'profilesponsor'):
-        return user.profilesponsor.is_approved
-    
+        return user.profilesponsor.approved == 'approved'
+
     return False
+
 
 @login_required
 @user_passes_test(is_admin)
@@ -447,7 +444,7 @@ def send_notify_of_days_left_registration(request: HttpRequest):
         data = request.POST
         if not data.get('championship_id'):
             data = json.loads(request.body.decode('utf-8') or '{}')
-        
+
         championship = get_object_or_404(Championship, id=data.get('championship_id'))
 
         days = championship.get_days_left()
@@ -463,9 +460,7 @@ def send_notify_of_days_left_registration(request: HttpRequest):
             subject = 'Чемпионат ' + championship.name
             notify_user(subject, message, member.email)  # , tg=member.tg)
 
-        notify_admin(
-            'Чемпионат ' + championship.name, message, 'ALL', tg=get_group_tg()
-        )
+        notify_admin('Чемпионат ' + championship.name, message, 'ALL', tg=get_group_tg())
 
         return JsonResponse({'status': 'OK', 'notified': members.count()})
 
@@ -520,6 +515,14 @@ def participants_list(request):
     participants = championship.participants.all() if championship else []
     works_by_participant = {}
 
+    if request.method == "POST" and "upload_processed_photo" in request.POST:
+        participant_id = request.POST.get("participant_id")
+        participant = get_object_or_404(ProfileParticipant, id=participant_id)
+        form = ProcessedPhotoForm(request.POST, request.FILES, instance=participant)
+        if form.is_valid():
+            form.save()
+            return redirect('participants_list')
+
     for participant in participants:
         works = championship.works.filter(user=participant.user).order_by('work_id')
         grouped_works = {}
@@ -543,9 +546,26 @@ def participants_list(request):
 
 @login_required
 @user_passes_test(is_admin)
+def teams_list(request):
+    championship = Championship.get_active()  # Получаем активный чемпионат
+    teams = championship.teams.all() if championship else []  # Получаем команды чемпионата
+
+    return render(request, 'admin/teams_list.html', {'teams': teams, 'championship': championship})
+
+
+@login_required
+@user_passes_test(is_admin)
 def judges_list(request):
     judges = ProfileJudge.objects.all()
     championship = get_active_championship(True)
+
+    if request.method == "POST" and "upload_processed_photo" in request.POST:
+        judge_id = request.POST.get("judge_id")
+        judge = get_object_or_404(ProfileJudge, id=judge_id)
+        form = ProcessedPhotoFormJudges(request.POST, request.FILES, instance=judge)
+        if form.is_valid():
+            form.save()
+            return redirect('judges_list')
 
     if request.method == "POST":
         if championship and "criteries" in request.FILES:
@@ -556,13 +576,12 @@ def judges_list(request):
         if "status" in request.POST:
             judge: ProfileJudge = get_object_or_404(ProfileJudge, id=request.POST.get("id"))
             judge.approved = request.POST.get("status")
+            judge.is_coach = request.POST.get("is_coach") == "yes"
             judge.save()
         return redirect("judges_list")
 
     return render(
-        request,
-        "admin/judges_list.html",
-        {"judges": judges, "latest_championship": championship, "statuses": STATUS},
+        request, "admin/judges_list.html", {"judges": judges, "latest_championship": championship, "statuses": STATUS}
     )
 
 
@@ -648,7 +667,11 @@ def championship_admin(request):
     else:
         form = ChampionshipForm()
 
-    return render(request, "admin/championship_admin.html", {"championships": championships, "form": form, "stages": Championship.STAGES})
+    return render(
+        request,
+        "admin/championship_admin.html",
+        {"championships": championships, "form": form, "stages": Championship.STAGES},
+    )
 
 
 @login_required
@@ -672,7 +695,7 @@ def participant_dashboard(request):
         participant = ProfileParticipant.objects.filter(user=request.user).first()
     else:
         participant = ProfileParticipant.objects.filter(id=request.COOKIES.get('participant_id')).first()
-    
+
     if not participant:
         messages.error(request, 'Вы не являетесь участником.')
         return redirect('/')
@@ -699,7 +722,7 @@ def upload_work(request):
         participant = ProfileParticipant.objects.filter(user=request.user).first()
     else:
         participant = ProfileParticipant.objects.filter(id=request.COOKIES.get('participant_id')).first()
-    
+
     if not participant:
         messages.error(request, 'Вы не являетесь участником.')
         return redirect('participant_dashboard')
@@ -710,7 +733,7 @@ def upload_work(request):
     if not championship:
         messages.error(request, 'Чемпионат не активен.')
         return redirect('participant_dashboard')
-    
+
     if request.method == 'POST':
         nomination = request.POST.get('nomination')
         subnomination = request.POST.get('subnomination')
@@ -725,9 +748,11 @@ def upload_work(request):
         if participant.count_work > uploaded_works_count:
             work_id = uuid.uuid4()
             for file in files:
-                championship.works.add(PhotoList.objects.create(
-                    user=user, championship=championship, photo=file, nomination=nomination, work_id=work_id
-                ))
+                championship.works.add(
+                    PhotoList.objects.create(
+                        user=user, championship=championship, photo=file, nomination=nomination, work_id=work_id
+                    )
+                )
             messages.success(request, 'Файлы успешно загружены.')
         else:
             messages.error(request, 'Превышен лимит работ. Вы не можете загрузить больше работ, чем оплачено.')
@@ -821,7 +846,7 @@ def api_change_status(request):
         status = data.get('status')
         typ: str = data.get('type')
 
-        profileModel = globals()["Profile" + typ.title()]
+        profileModel = globals().get("Profile" + typ.title())
         if not profileModel:
             return HttpResponse('{"status": "incorrect profile type"}')
 
@@ -850,7 +875,6 @@ def sertificate_upload(request):
             championship.sertificates.add(sert)
             championship.save()
             return redirect('participants_list')
-    
 
         raise BadRequest(form.errors.as_text())
 
@@ -866,7 +890,7 @@ def judge_championship(request):
 
     championship = get_active_championship(False)
 
-    if datetime.date.today() <= championship.last_date_registration:
+    if timezone.now().date() <= championship.last_date_registration:
         messages.error(request, 'Регистрация в чемпионате еще не закончена.')
         return redirect('judge_welcome')
 
@@ -878,6 +902,12 @@ def judge_championship(request):
         if work.work_id not in grouped_works:
             grouped_works[work.work_id] = {'nomination': work.get_nomination_display(), 'photos': []}
         grouped_works[work.work_id]['photos'].append(work)
+        category = ""
+        try:
+            category = work.user.profileparticipant.get_category_participant_display
+        except AttributeError:
+            category = 'Участник'
+        grouped_works[work.work_id]['category_participant'] = category
         grouped_works[work.work_id]['marked'] = marks_to_form_value(
             Mark.objects.filter(work_id=work.work_id, judge=request.user.profilejudge)
         )
@@ -892,13 +922,13 @@ def judge_championship(request):
 @login_required
 @user_passes_test(is_approved)
 def api_judge_rate_work(request: HttpRequest):
-    if not hasattr(request.user, 'profilejudge'):
+    if not hasattr(request.user, 'profilejudge') and not request.user.is_superuser:
         messages.error(request, 'Вы не являетесь судьей.')
         return redirect('/')  # Перенаправляем на главную страницу, если пользователь не судья
 
     if request.method == 'POST':
         championship = get_active_championship(False)
-        if datetime.date.today() <= championship.last_date_registration:
+        if timezone.now().date() <= championship.last_date_registration:
             messages.error(request, 'Регистрация в чемпионате еще не закончена.')
             return redirect('judge_welcome')
 
@@ -921,12 +951,19 @@ def api_judge_rate_work(request: HttpRequest):
 
         for critery, mark in marks.items():
             markM = Mark.objects.filter(work_id=work, judge=mark['judge'], critery=critery).first()
-            
+
             if request.POST.get('only_edit') and not markM:
                 continue
 
             if not markM:
-                Mark.objects.create(work_id=work, judge=mark['judge'], critery=critery, championship=championship, mark=mark['mark'], comment=mark.get('comment'))
+                Mark.objects.create(
+                    work_id=work,
+                    judge=mark['judge'],
+                    critery=critery,
+                    championship=championship,
+                    mark=mark['mark'],
+                    comment=mark.get('comment'),
+                )
                 championship.marks.add(markM)
                 championship.save()
                 continue
@@ -938,10 +975,9 @@ def api_judge_rate_work(request: HttpRequest):
             championship.marks.add(markM)
             championship.save()
 
-
-        from_path = request.META.get('HTTP_REFERER')
-        if from_path:
-            return redirect(from_path)
+        championship.marks.all()
+        if request.user.is_superuser:
+            return redirect('current_championship_admin')
 
         return redirect('judge_championship')
 
@@ -951,6 +987,7 @@ def api_judge_rate_work(request: HttpRequest):
 def is_leader_judge(user):
     return hasattr(user, 'profilejudge') and user.profilejudge.is_leader
 
+
 @login_required
 @user_passes_test(lambda user: is_admin(user) or is_leader_judge(user))
 def current_championship_admin(request):
@@ -959,7 +996,7 @@ def current_championship_admin(request):
         messages.error(request, 'Чемпионат не активен.')
         return redirect('championship_admin')
 
-    if datetime.date.today() <= championship.last_date_registration:
+    if timezone.now().date() <= championship.last_date_registration:
         messages.error(request, 'Регистрация в чемпионате еще не закончена.')
         return redirect('championship_admin')
 
@@ -972,9 +1009,13 @@ def current_championship_admin(request):
         if work.work_id not in grouped_works:
             grouped_works[work.work_id] = {'nomination': work.get_nomination_display(), 'photos': []}
         grouped_works[work.work_id]['photos'].append(work)
-        grouped_works[work.work_id]['marked'] = marks_to_form_value(
-            Mark.objects.filter(work_id=work.work_id)
-        )
+        category = ""
+        try:
+            category = work.user.profileparticipant.get_category_participant_display
+        except AttributeError:
+            category = 'Участник'
+        grouped_works[work.work_id]['category_participant'] = category
+        grouped_works[work.work_id]['marked'] = marks_to_form_value(Mark.objects.filter(work_id=work.work_id))
         grouped_works[work.work_id]['judges'] = set(championship.judges.filter(mark__work_id=work.work_id).all())
 
     return render(
@@ -1001,17 +1042,50 @@ def api_set_group_tg(request: HttpRequest):
 def api_change_stage_championship(request: HttpRequest):
     if request.method == 'POST':
         data = request.POST
-        if 'championship_id' not in data: # maybe ajax request - force parse body
+        if 'championship_id' not in data:  # maybe ajax request - force parse body
             data = json.loads(request.body.decode('utf-8') or '{}')
 
         if 'championship_id' not in data or 'stage' not in data:
             return BadRequest('{"status": "incorrect data"}')
-        
+
         championship_id = data.get('championship_id')
         championship = get_object_or_404(Championship, id=championship_id)
 
         championship.current_stage = data.get('stage')
         championship.save()
         return redirect('championship_admin')
+
+    raise BadRequest("Method not allowed")
+
+
+@login_required
+@user_passes_test(is_admin)
+def api_toggle_is_coach(request: HttpRequest):
+    if request.method == 'POST':
+        data = request.POST
+        if 'id' not in data:  # maybe ajax request - force parse body
+            data = json.loads(request.body.decode('utf-8') or '{}')
+
+        profile_id = data.get('id')
+        typ: str = data.get('type')
+
+        profileModel = globals().get("Profile" + typ.title())
+        if not profileModel:
+            print('not found profile type')
+            return HttpResponse('{"status": "incorrect profile type"}')
+
+        profile = profileModel.objects.get(id=profile_id)
+
+        if not hasattr(profile, 'is_coach'):
+            print('profile has no is_coach field')
+            return HttpResponse('{"status": "profile has no is_coach field"}')
+
+        profile.is_coach = not profile.is_coach
+        profile.user.save()
+        profile.save()
+
+        print("ok")
+
+        return HttpResponse('{"status": "ok"}')
 
     raise BadRequest("Method not allowed")

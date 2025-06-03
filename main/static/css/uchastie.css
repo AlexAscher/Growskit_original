@@ -434,3 +434,33 @@ body {
     left: -97px;
   }
 }
+.forcheckbox{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.forcheckbox p{
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+.forcheckbox p a{
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 14px;
+  color: #fe82db;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+@media(max-width:992px){
+  .custom-checkbox{
+    transform: scale(2);
+    margin-right: 10px;
+  }
+  .forcheckbox1{
+    margin-bottom: 20px;
+  }
+}

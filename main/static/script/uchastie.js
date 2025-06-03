@@ -399,26 +399,20 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   const payButton = document.querySelector(".oplata-button");
 
-  // Добавляем обработчик события на кнопку "К оплате"
   payButton.addEventListener("click", function (e) {
-    e.preventDefault(); // Предотвращаем стандартное поведение кнопки
+    e.preventDefault();
 
-    // Находим все формы участников
+    // Проверка количества участников
     const participantForms = document.querySelectorAll(
       ".big-forma .form-content"
     );
-
-    // Счетчик заполненных форм
     let validParticipantsCount = 0;
 
-    // Проверяем каждую форму на заполненность
     participantForms.forEach((form) => {
       const nameInput = form.querySelector(
         'input[placeholder="Фамилия Имя Отчество"]'
       );
       const workCountInput = form.querySelector(".raboti");
-
-      // Проверяем, что ФИО и количество работ заполнены
       if (
         nameInput &&
         nameInput.value.trim() !== "" &&
@@ -429,14 +423,21 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Проверяем минимальное количество участников
     if (validParticipantsCount < 3) {
       alert("Для продолжения необходимо добавить минимум 3 участников.");
-    } else {
-      // Если условие выполнено, можно продолжить (например, отправить форму или перейти к следующему шагу)
-      alert("Условие выполнено! Переход к оплате...");
-      // Здесь можно добавить код для перехода к следующему шагу или отправки формы
+      return;
     }
+
+    // Проверка чекбокса
+    const checkbox = document.querySelector('.forcheckbox1 .custom-checkbox');
+    if (!checkbox || !checkbox.checked) {
+      alert("Поставьте галочку о согласии на обработку персональных данных и получение рассылки.");
+      return;
+    }
+
+    // Если все условия выполнены
+    alert("Условие выполнено! Переход к оплате...");
+    // Здесь можно добавить код для перехода к следующему шагу или отправки формы
   });
 });
 
@@ -554,49 +555,4 @@ document.addEventListener("input", function (event) {
 
 document.addEventListener("DOMContentLoaded", calculateTotal);
 
-// Обработчик нажатия на кнопку "К оплате"
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   const questionIcons = document.querySelectorAll(".questionSvg");
-
-//   if (questionIcons.length === 0) {
-//     console.error("Элементы .questionSvg не найдены в DOM.");
-//     return;
-//   }
-
-//   questionIcons.forEach((icon) => {
-//     const tooltip = icon.nextElementSibling;
-
-//     if (!tooltip || !tooltip.classList.contains("tooltip-custom")) {
-//       console.error(
-//         "Соседний элемент .tooltip-custom не найден для иконки:",
-//         icon
-//       );
-//       return;
-//     }
-
-//     const isTouchDevice = () =>
-//       "ontouchstart" in window || navigator.maxTouchPoints > 0;
-
-//     if (isTouchDevice()) {
-//       icon.addEventListener("touchstart", function (e) {
-//         e.stopPropagation();
-//         tooltip.classList.toggle("show-tooltip");
-//       });
-
-//       document.addEventListener("touchstart", function (e) {
-//         if (!e.target.closest(".questionSvg")) {
-//           tooltip.classList.remove("show-tooltip");
-//         }
-//       });
-//     } else {
-//       icon.addEventListener("mouseenter", function () {
-//         tooltip.classList.add("show-tooltip");
-//       });
-
-//       icon.addEventListener("mouseleave", function () {
-//         tooltip.classList.remove("show-tooltip");
-//       });
-//     }
-//   });
-// });
