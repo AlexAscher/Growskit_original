@@ -27,8 +27,10 @@ list_django_static = []
 if os.path.exists('/usr/local/lib/python3.12/dist-packages/django/contrib/admin/static/admin/'):
     list_django_static = static('static/admin/', document_root='/usr/local/lib/python3.12/dist-packages/django/contrib/admin/static/admin/')
 
+serve_media = lambda request, path, document_root=None, show_indexes=False: serve(request, path[6:], document_root=document_root, show_indexes=show_indexes)
+
 urlpatterns = [
-    re_path(r"^%s(?P<path>.*)$" % re.escape(settings.MEDIA_URL.lstrip("/")), serve, kwargs={"document_root": 'media'}),
+    re_path(r"^%s(?P<path>.*)$" % re.escape(settings.MEDIA_URL.lstrip("/")), serve_media, kwargs={"document_root": 'media'}),
     path('admin/', admin.site.urls),
     *list_django_static,
     path('', include('main.urls')),

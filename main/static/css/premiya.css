@@ -170,6 +170,17 @@ body {
   color: #efdaed;
   margin-top: 63px;
 }
+.nominations1 {
+  font-family: Kreadon;
+  font-size: 35px;
+  font-weight: 500;
+  line-height: 45.5px;
+  color: #efdaed;
+  margin-top: 63px;
+}
+.nominations1 h2 {
+  margin-bottom: 30px;
+}
 .one {
   border: 1px solid #efdaed;
   padding: 16px 16px 16px 89px;
@@ -746,6 +757,11 @@ body {
 .input-row {
   display: flex;
   gap: 16px;
+}
+@media (max-width: 767px) {
+  .input-row {
+    flex-direction: column; /* Изменяем направление на вертикальное */
+  }
 }
 .input-row .input-box {
   flex: 1;
