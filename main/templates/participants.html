@@ -75,11 +75,11 @@
           </div>
           <div class="row forgap">
             {% for participant in participants %}
-            {% if participant.category_participant == 'junior' %}
+            {% if participant.category_participant == 'junior' and participant.processed_photo  %}
             <div class="col-xxl-4 col-md-6">
               <div class="item">
                 <img width="100%"
-                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% endif %}"
                   alt="{{ participant.fio }}" class="participantimg" />
                 <div class="r-ugol">
                   <div class="fio">
@@ -101,11 +101,11 @@
           </div>
           <div class="row forgap">
             {% for participant in participants %}
-            {% if participant.category_participant == 'master' %}
+            {% if participant.category_participant == 'master' and participant.processed_photo %}
             <div class="col-xxl-4 col-md-6">
               <div class="item">
                 <img width="100%"
-                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% endif %}"
                   alt="{{ participant.fio }}" class="participantimg" />
                 <div class="r-ugol">
                   <div class="fio">
@@ -127,11 +127,11 @@
           </div>
           <div class="row forgap">
             {% for participant in participants %}
-            {% if participant.category_participant == 'top-master' %}
+            {% if participant.category_participant == 'top-master' and participant.processed_photo %}
             <div class="col-xxl-4 col-md-6">
               <div class="item">
                 <img width="100%"
-                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% endif %}"
                   alt="{{ participant.fio }}" class="participantimg" />
                 <div class="r-ugol">
                   <div class="fio">
@@ -153,11 +153,11 @@
           </div>
           <div class="row forgap">
             {% for participant in participants %}
-            {% if participant.category_participant == 'instructor' %}
+            {% if participant.category_participant == 'instructor' and participant.processed_photo %}
             <div class="col-xxl-4 col-md-6">
               <div class="item">
                 <img width="100%"
-                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }} {% endif %}"
                   alt="{{ participant.fio }}" class="participantimg" />
                 <div class="r-ugol">
                   <div class="fio">
@@ -180,11 +180,11 @@
           <div class="row forgap">
 
             {% for participant in participants %}
-            {% if participant.category_participant == 'premium' %}
+            {% if participant.category_participant == 'premium' and participant.processed_photo  %}
             <div class="col-xxl-4 col-md-6">
               <div class="item">
                 <img width="100%"
-                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                  src="{% if participant.processed_photo %}{{ participant.processed_photo.url }} {% endif %}"
                   alt="{{ participant.fio }}" class="participantimg" />
                 <div class="r-ugol">
                   <div class="fio">
@@ -206,10 +206,11 @@
           </div>
           <div class="row forgap">
             {% for leader in leaders %}
+            {% if leader.processed_photo %}
             <div class="col-xxl-4 col-md-6">
               <div class="item">
                 <img width="100%"
-                  src="{% if leader.processed_photo %}{{ leader.processed_photo.url }}{% else %} {{ participant.photo.url }} {% endif %}"
+                  src="{% if leader.processed_photo %}{{ leader.processed_photo.url }} {% endif %}"
                   alt="{{ leader.fio }}" class="participantimg" />
                 <div class="r-ugol">
                   <div class="fio">
@@ -221,6 +222,7 @@
                 </div>
               </div>
             </div>
+            {% endif %}
             {% endfor %}
           </div>
         </div>

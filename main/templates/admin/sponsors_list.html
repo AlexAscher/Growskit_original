@@ -32,8 +32,44 @@
                 <td>
                     <!-- Кнопка для открытия модального окна -->
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editSponsorModal{{ sponsor.id }}">Изменить</button>
+                    <button class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#SponsorModal{{ sponsor.id }}">Подробнее</button>
                 </td>
             </tr>
+
+            <div class="modal fade" id="SponsorModal{{ sponsor.id }}" tabindex="-1" aria-labelledby="participantModalLabel{{ sponsor.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="participantModalLabel{{ sponsor.id }}">Информация о спонсоре
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                        <input type="hidden" name="type" value="participant">
+                        <div class="modal-body">
+                            <div class="text-center mb-3">
+                                <img src="{{ sponsor.photo.url }}" alt="Фото участника" class="img-thumbnail"
+                                    style="max-width: 200px;">
+                            </div>
+                            <p><strong>ФИО:</strong> {{ sponsor.fio }}</p>
+                            <p><strong>Город:</strong> {{ sponsor.city }}</p>
+                            <p><strong>Телефон:</strong> {{ sponsor.phone }}</p>
+                            <p><strong>Email:</strong> {{ sponsor.email }}</p>
+                            <p><strong>Адрес:</strong> {{ sponsor.address }}</p>
+                            <p><strong>Адрес СДЭК:</strong> {{ sponsor.address_sdek }}</p>
+                            <p><strong>VK:</strong> <a href="{{ sponsor.vk }}" target="_blank">{{ sponsor.vk }}</a></p>
+                            <p><strong>Telegram:</strong> <a href="{{ sponsor.telegram }}" target="_blank">{{ sponsor.telegram }}</a></p>
+                            <p><strong>Биография:</strong> {{ sponsor.bio }}</p>
+                            <p><strong>Необходима маркировка :</strong> {{ sponsor.need_mark_and_dogovor }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+
             <div class="modal fade" id="editSponsorModal{{ sponsor.id }}" tabindex="-1" aria-labelledby="editJudgeModalLabel{{ sponsor.id }}" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

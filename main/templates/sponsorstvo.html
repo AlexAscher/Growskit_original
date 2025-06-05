@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/sponsorship.css" />
     <link rel="stylesheet" href="/static/css/header.css" />
     <link rel="stylesheet" href="/static/css/reset.css" />
-    
+
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         function setEqualHeight() {
@@ -41,6 +41,39 @@
     </script>
   </head>
   <body>
+  <style>
+  .forcheckbox{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.forcheckbox p{
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  display: inline;
+}
+.forcheckbox p a{
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 14px;
+  color: #fe82db;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+@media(max-width:992px){
+  .custom-checkbox{
+    transform: scale(2);
+    margin-right: 10px;
+  }
+  .forcheckbox1{
+    margin-bottom: 20px;
+  }
+}
+</style>
     <header class="header d-none d-xxl-flex">
       <div class="logo"><img src="/static/img/headerlogo.png" alt=""></div>
       <nav class="nav">
@@ -227,9 +260,14 @@
                   </div>
                 </div>
               </div>
+                            <div class="forcheckbox forcheckbox1 mt-3">
+              <input type="checkbox" class="custom-checkbox" required style="width: auto">
+              <p>Я даю согласие на <a href="/static/img/pers.pdf">обработку персональных данных</a> и на <a href="/static/img/rassilka.pdf">получение рассылки</a></p>
+            </div>
               <div class="forsendbutton">
+
                 <button type="submit" class="submit-btn">Отправить</button>
-              
+
               </div>
             </form>
           </div>

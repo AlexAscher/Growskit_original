@@ -15,6 +15,39 @@
 </head>
 
 <body>
+  <style>
+  .forcheckbox{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.forcheckbox p{
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  display: inline;
+}
+.forcheckbox p a{
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 14px;
+  color: #fe82db;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+@media(max-width:992px){
+  .custom-checkbox{
+    transform: scale(2);
+    margin-right: 10px;
+  }
+  .forcheckbox1{
+    margin-bottom: 20px;
+  }
+}
+</style>
   <div class="back">
     <header class="header d-none d-xxl-flex">
       <div class="logo"><img src="/static/img/headerlogo.png" alt=""></div>
@@ -736,6 +769,10 @@ transform: translateX(-50%);
                 данные
                 в безопасности</p>
               <textarea name="bio" id="" placeholder="Расскажите о своих достижениях и регалиях"></textarea>
+                                          <div class="forcheckbox forcheckbox1 mt-3">
+              <input type="checkbox" class="custom-checkbox" required style="width: auto">
+              <p>Я даю согласие на <a href="/static/img/pers.pdf">обработку персональных данных</a> и на <a href="/static/img/rassilka.pdf">получение рассылки</a></p>
+            </div>
               <div class="form-buttons">
                 <button type="button" class="backButton">Назад</button>
                 <button type="button" class="next">К выбору пакета</button>
