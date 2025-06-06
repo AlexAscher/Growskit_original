@@ -227,7 +227,7 @@ def premiya(request: HttpRequest):
 
         dataPOST = request.POST.copy()
 
-        dataPOST.setdefault('need_cup_and_elite', True)
+        # dataPOST.setdefault('need_cup_and_elite', True)
         form = AwardRequestForm(dataPOST, request.FILES)
         packet = dataPOST.get('packet')
         if not packet:
