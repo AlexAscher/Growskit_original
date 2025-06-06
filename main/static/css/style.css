@@ -2720,3 +2720,13 @@ nav button {
     width: 260px;
   }
 }
+@media(max-width:576px){
+  .faq{
+    margin-top: 41%;
+  }
+}
+@media(max-width:356px){
+  .faq{
+    margin-top: 61%;
+  }
+}
