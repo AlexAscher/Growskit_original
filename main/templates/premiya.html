@@ -95,7 +95,7 @@ transform: translateX(-50%);
       </div>
 
     </header>
-    <section class="growing">
+    <section class="growing d-none d-sm-block">
       <div class="container">
         <div class="row">
           <div class="col-12">
@@ -153,6 +153,43 @@ transform: translateX(-50%);
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+    <section class="growing d-block d-sm-none">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <img src="/static/img/growing.png" alt="" />
+          </div>
+          <div class="col-12">
+            <img src="/static/img/business.png" alt="" />
+          </div>
+          <div class="col-12">
+            <img src="/static/img/awards.png" alt="" class="awards" />
+          </div>
+          <div class="col-12">
+            <img src="/static/img/kruzhki.svg" alt="" />
+                <h3 class="forwidth100" style="width: 60%">
+                  Мы отмечаем талант, достижения, вклад в развитие бизнеса и индустрии красоты
+                </h3>
+          </div>
+          <div class="col-12">
+            <h3 style="text-align: end">объявление победителей</h3>
+                <div class="date justify-content-end">
+                  <img src="/static/icons/calendar.png" alt="" />
+                  <h4>{{ championship.date|date:"d.m.Y" }}</h4>
+                </div>
+          </div>
+          
+        <div class="col-12">
+          <h3 style="margin-top: 5px">
+                  Получите признание, станьте лидером!
+                </h3>
+                <button class="participate-btn" onclick="window.location.href='#premiyaForma' ">
+                  Номинироваться
+                  <img src="/static/img/Arrow 1.svg" alt="" class="arrowgrow" />
+                </button>
         </div>
       </div>
     </section>
@@ -727,7 +764,7 @@ transform: translateX(-50%);
               </ul>
               <div class="form-buttons">
                 <button type="button" class="backButton">Назад</button>
-                <button type="button" class="next">Выбрать номинацию</button>
+                <button type="button" class="next">Далее</button>
               </div>
             </div>
             <div class="form-container">
